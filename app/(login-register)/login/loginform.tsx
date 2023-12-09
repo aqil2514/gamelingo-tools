@@ -28,8 +28,8 @@ export default function LoginForm() {
   return (
     <div className="sm:w-1/3 w-4/5 mx-auto my-4 rounded-lg bg-[rgba(0,0,0,0.4)] p-4">
       <div onClick={() => signIn("google", { callbackUrl: "/" })} className="bg-white cursor-pointer rounded-[32px] justify-center w-full flex flex-row ps-4 py-4">
-        <Google className="text-lg sm:text-2xl mx-2 my-auto"></Google>
-        <p className="font-poppins font-bold mx-2 my-auto text-lg sm:text-2xl">Masuk dengan Google</p>
+        <Google className="text-base sm:text-2xl mx-2 my-auto"></Google>
+        <p className="font-poppins font-bold mx-2 my-auto text-base sm:text-2xl">Masuk dengan Google</p>
       </div>
       <h2 className="text-center text-xl font-mclaren text-white font-bold my-4">Punya Akun?</h2>
       <form onSubmit={(e) => handlerSubmit(e)}>
