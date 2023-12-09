@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 
 export default async function Login() {
   const session = await getServerSession();
-  console.log(session);
   if (session) {
     redirect("/");
   }

@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { checkUser } from "@/lib/prisma/users";
 
 const authOptions = {
   providers: [
@@ -14,6 +16,19 @@ const authOptions = {
         },
       },
     }),
+    CredentialsProvider({
+      name: "credentials",
+      async authorize(credentials, request) {
+        const user = await checkUser(credentials.username);
+
+        if (user.length === 0) {
+          alert("User tidak terdaftar");
+          return;
+        }
+
+        return user[0];
+      },
+    }),
   ],
   callbacks: {
     async signIn({ account, profile }) {
@@ -21,6 +36,18 @@ const authOptions = {
         return profile.email_verified;
       }
       return true;
+    },
+    async jwt({ token, account, profile }) {
+      if (account) {
+        token.role = "General Admin";
+        token.id = profile.id;
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      session.user.role = token.role;
+      session.user.id = token.id;
+      return session;
     },
   },
 };

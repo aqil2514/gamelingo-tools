@@ -1,29 +1,38 @@
 "use client";
 import axios from "axios";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Google } from "react-bootstrap-icons";
 
 export default function LoginForm() {
+  const session = useSession();
+  console.log(session);
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const { data } = await axios.post("/api/users", {
-      username: (document.getElementById("username") as HTMLInputElement)?.value,
-      password: (document.getElementById("password") as HTMLInputElement)?.value,
-    });
+    try {
+      const { data } = await axios.post("/api/users", {
+        username: (document.getElementById("username") as HTMLInputElement)?.value,
+        password: (document.getElementById("password") as HTMLInputElement)?.value,
+      });
 
-    if (data.status === "404") {
-      alert(data.msg);
-      return;
-    } else if (data.status === "403") {
-      alert(data.msg);
-      return;
-    } else if (data.status === "402") {
-      alert(data.msg);
-      return;
+      if (data.status === 404) {
+        alert(data.msg);
+        return;
+      } else if (data.status === 403) {
+        alert(data.msg);
+        return;
+      } else if (data.status === 402) {
+        alert(data.msg);
+        return;
+      }
+
+      const username = (document.getElementById("username") as HTMLInputElement)?.value;
+      const password = (document.getElementById("password") as HTMLInputElement)?.value;
+
+      signIn("credentials", { username, password });
+    } catch (error) {
+      console.error(error);
     }
-    console.log(data);
-    alert(data.msg);
   }
   return (
     <div className="sm:w-1/3 w-4/5 mx-auto my-4 rounded-lg bg-[rgba(0,0,0,0.4)] p-4">
