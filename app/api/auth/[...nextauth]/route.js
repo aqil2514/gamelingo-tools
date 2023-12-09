@@ -18,7 +18,7 @@ const authOptions = {
   callbacks: {
     async signIn({ account, profile }) {
       if (account.provider === "google") {
-        return profile.email_verified && profile.email.startsWith("muhamadaqil383@gmail.com");
+        return profile.email_verified;
       }
       return true;
     },
