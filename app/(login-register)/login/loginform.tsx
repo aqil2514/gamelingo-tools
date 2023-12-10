@@ -5,7 +5,6 @@ import { Google } from "react-bootstrap-icons";
 
 export default function LoginForm() {
   const session = useSession();
-  console.log(session);
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 

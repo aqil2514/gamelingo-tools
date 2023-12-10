@@ -26,6 +26,8 @@ const authOptions = {
           return;
         }
 
+        user[0].name = user[0].username;
+
         return user[0];
       },
     }),
@@ -40,13 +42,11 @@ const authOptions = {
     async jwt({ token, account, profile }) {
       if (account) {
         token.role = "General Admin";
-        token.id = profile.id;
       }
       return token;
     },
     async session({ session, token, user }) {
       session.user.role = token.role;
-      session.user.id = token.id;
       return session;
     },
   },

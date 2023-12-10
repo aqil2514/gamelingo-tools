@@ -10,7 +10,6 @@ export default function Headers() {
   const router = useRouter();
   const pathName = usePathname();
   const session = useSession();
-  console.log(session);
   const user = session?.data?.user;
 
   if (!user) {
@@ -55,7 +54,6 @@ function SessionNav({ user }: { user: any }) {
 
   function clickHandler() {
     setIsActive(!isActive);
-    console.log(menu.current);
   }
   return (
     <>
