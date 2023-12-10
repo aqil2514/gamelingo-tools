@@ -27,6 +27,7 @@ const authOptions = {
         }
 
         user[0].name = user[0].username;
+        // user[0].image = user[0].image || "/public/no-profile.png";
 
         return user[0];
       },

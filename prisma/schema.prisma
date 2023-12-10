@@ -10,7 +10,9 @@ datasource db {
 
 model UsersLogin{
   id Int @id @default(autoincrement())
-  email String @unique
+  name String
   username String @unique
   password String
+  email String @unique
+  createdAt DateTime @default(now())
 }
