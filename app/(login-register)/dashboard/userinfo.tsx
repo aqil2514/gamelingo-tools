@@ -18,7 +18,9 @@ export default function UserInfo() {
       setLoading(true);
       const { data } = await axios.get("/api/users");
 
-      const user = data.users.users.find((u: React.ComponentState) => u.username ?? "" === username);
+      console.log(username);
+
+      const user = data.users.users.find((u: React.ComponentState) => u.username === username);
       setInfo(user);
       setInfoInit(user);
       console.log(user);
