@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { checkUser } from "@/lib/prisma/users";
+import { checkUser, checkEmail } from "@/lib/prisma/users";
 
 const authOptions = {
   providers: [
@@ -27,7 +27,7 @@ const authOptions = {
         }
 
         user[0].name = user[0].username;
-        // user[0].image = user[0].image || "/public/no-profile.png";
+        user[0].fullName = user[0].name;
 
         return user[0];
       },
@@ -40,14 +40,27 @@ const authOptions = {
       }
       return true;
     },
-    async jwt({ token, account, profile }) {
+    async jwt({ token, account, profile, user }) {
+      //   token.id = profile.id;
       if (account) {
-        token.role = "General Admin";
+        token.accessToken = account.access_token;
       }
+
+      const email = await checkEmail(profile?.email || user?.email);
+
+      if (profile && email) {
+        token.username = email[0]?.username;
+      }
+
       return token;
     },
     async session({ session, token, user }) {
-      session.user.role = token.role;
+      session.accessToken = token.accessToken;
+      session.user.username = token.username;
+
+      // console.log(token);
+      // console.log(session);
+      // console.log(user);
       return session;
     },
   },

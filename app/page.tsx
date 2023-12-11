@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { useSession } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Home - GameLingo Tools",

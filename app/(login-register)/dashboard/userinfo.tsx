@@ -1,13 +1,13 @@
 "use client";
 
-import Data from "@/app/components/Data";
 import axios from "axios";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export default function UserInfo() {
-  const session = useSession();
-  const username = session?.data?.user?.name;
+  // const session = useSession();
+  // const username = session?.data?.user?.username;
+  // const email = session?.data?.user?.email;
   const [infoInit, setInfoInit] = useState<React.ComponentState>();
   const [info, setInfo] = useState<React.ComponentState>();
   const [isReadMode, setIsReadMode] = useState<false | true>(true);
@@ -16,14 +16,15 @@ export default function UserInfo() {
   async function getInfo() {
     try {
       setLoading(true);
+
+      const session = await getSession();
+      const username = (session?.user as any)?.username;
+
       const { data } = await axios.get("/api/users");
 
-      console.log(username);
-
-      const user = data.users.users.find((u: React.ComponentState) => u.username === username);
+      const user = await data.users.users.find((u: React.ComponentState) => u.username === username);
       setInfo(user);
       setInfoInit(user);
-      console.log(user);
     } catch (error) {
       console.error(error);
     } finally {
