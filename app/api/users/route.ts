@@ -1,14 +1,21 @@
-import { getUsers, checkUser, addUser } from "@/lib/prisma/users";
+import { checkUser, addUser } from "@/lib/prisma/users";
+import { getUsers } from "@/lib/mongodb/users";
+import { mongoAddUsers } from "@/lib/mongodb/users";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 
-export async function GET(request: Request) {
-  try {
-    const users = await getUsers();
-    return NextResponse.json({ users }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
-  }
+export async function GET(req: Request) {
+  const users = await getUsers();
+  return NextResponse.json({ users, status: 200, msg: "Ok" });
+
+  // if (typeAction === "getAccountInfo") {
+  //   return NextResponse.json({ typeAction }, { status: 200 });
+  // }
+  // try {
+  //   return NextResponse.json({ users }, { status: 200 });
+  // } catch (error) {
+  //   return NextResponse.json({ error }, { status: 500 });
+  // }
 }
 
 export async function POST(req: Request) {
@@ -56,14 +63,21 @@ export async function POST(req: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const data = {
+    const dataUser = {
       name,
       username,
       password: hashedPassword,
       email,
     };
 
-    await addUser(data);
+    const infoUser = {
+      name,
+      username,
+      email,
+    };
+
+    await addUser(dataUser);
+    await mongoAddUsers(infoUser);
 
     return NextResponse.json({ msg: "Akun berhasil ditambah. Silahkan login" });
   }
