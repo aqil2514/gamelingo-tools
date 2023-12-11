@@ -37,6 +37,9 @@ export default function RegisterForm() {
       } else if (data.status === "found-user") {
         alert(data.msg);
         return;
+      } else if (data.status === "email-found") {
+        alert(data.msg);
+        return;
       }
 
       alert(data.msg);

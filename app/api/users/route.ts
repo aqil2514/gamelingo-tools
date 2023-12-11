@@ -1,8 +1,8 @@
-import { checkUser, addUser } from "@/lib/prisma/users";
-import { getUsers } from "@/lib/mongodb/users";
-import { mongoAddUsers } from "@/lib/mongodb/users";
+import { checkUser, addUser, checkEmail, getUsers } from "@/lib/prisma/users";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+//@ts-ignore
+import prisma from "@/lib/prisma/prisma";
 
 export async function GET(req: Request) {
   const users = await getUsers();
@@ -19,7 +19,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const { name, username, password, confirmPassword, email, typeAction } = await req.json();
+  const { name, username, password, confirmPassword, email, typeAction, id } = await req.json();
   if (typeAction === "login") {
     try {
       if (!password) {
@@ -56,12 +56,38 @@ export async function POST(req: Request) {
     }
 
     const isUser = await checkUser(username);
+    const isEmail = await checkEmail(email);
 
     if (isUser.length === 1) {
-      return NextResponse.json({ status: "found-user", msg: "User telah terdaftar. Gunakan username lain atau login" });
+      return NextResponse.json({ isUser, status: "found-user", msg: "User telah terdaftar. Gunakan data yang lain atau login" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    if (isEmail.length === 1) {
+      //@ts-ignore
+      const secondCheck = await prisma.usersLogin.findMany({
+        where: {
+          email,
+          username: null,
+        },
+      });
+
+      if (secondCheck.length === 0) {
+        return NextResponse.json({ secondCheck, status: "email-found", msg: "Email telah terdaftar. Gunakan data yang lain atau login" });
+      }
+      // @ts-ignore
+      await prisma.usersLogin.update({
+        where: {
+          email,
+        },
+        data: {
+          username,
+          password: hashedPassword,
+        },
+      });
+      return NextResponse.json({ secondCheck, status: 200, msg: "Akun Berhasil ditambah. Silahkan login!" });
+    }
 
     const dataUser = {
       name,
@@ -70,15 +96,21 @@ export async function POST(req: Request) {
       email,
     };
 
-    const infoUser = {
-      name,
-      username,
-      email,
-    };
-
     await addUser(dataUser);
-    await mongoAddUsers(infoUser);
 
-    return NextResponse.json({ msg: "Akun berhasil ditambah. Silahkan login" });
+    return NextResponse.json({ status: 200, msg: "Akun berhasil ditambah. Silahkan login" });
+  } else if (typeAction === "update-info") {
+    //@ts-ignore
+    await prisma.usersLogin.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        username,
+        email,
+      },
+    });
+    return NextResponse.json({ status: 200, msg: "Data berhasil diubah" });
   }
 }

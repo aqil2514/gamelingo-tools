@@ -1,0 +1,60 @@
+Email Login
+{
+  name: 'K Alice',
+  email: 'k.alicee17@gmail.com',
+  picture: 'https://lh3.googleusercontent.com/a/ACg8ocLUl6ataxV6hzc564d-mPZMLJ4wU8a2nfHzPaKF0-L8qA=s96-c',
+  sub: '109164501350780427856',
+  username: 'k.alicee17@gmail.com',
+  iat: 1702272612,
+  exp: 1704864612,
+  jti: '1de86d48-1d20-4e59-b6b9-a88c03e41985'
+}
+
+
+Kredensial Login
+user[0]:
+{
+  id: 10,
+  name: 'K Alice',
+  username: 'k.alicee17',
+  password: '$2b$10$saCOzAKjR955pa8Os.WbzOSZ2.uxytnP79Cwwsl2nAkR5.kPO/som',
+  email: 'k.alicee17@gmail.com',
+  createdAt: 2023-12-11T05:51:14.798Z
+}
+
+token section:
+user:{
+  
+}
+token:
+{
+  name: 'K Alice',
+  email: 'k.alicee17@gmail.com',
+  sub: '10',
+  iat: 1702291390,
+  exp: 1704883390,
+  jti: '6795d67b-8e7b-4ac9-8fb3-5010335324cf'
+}
+
+session section
+token:
+{
+  name: 'K Alice',
+  email: 'k.alicee17@gmail.com',
+  sub: '10',
+  iat: 1702291654,
+  exp: 1704883654,
+  jti: '9a9ef849-3600-4c3f-ba74-8acc9305b177'
+}
+
+session: {
+  user: {
+    name: 'K Alice',
+    email: 'k.alicee17@gmail.com',
+    image: undefined,
+    username: undefined
+  },
+  expires: '2024-01-10T10:44:10.152Z',
+  accessToken: undefined
+}
+
