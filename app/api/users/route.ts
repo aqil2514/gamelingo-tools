@@ -20,6 +20,7 @@ export async function GET(req: Request) {
 }
 
 const transporter = createTransport({
+  pool: true,
   host: process.env.SMTP_SERVER,
   port: Number(process.env.SMTP_PORT),
   secure: true,
