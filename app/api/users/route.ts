@@ -26,7 +26,7 @@ const transporter = createTransport({
     user: process.env.SMTP_USERNAME,
     pass: process.env.SMTP_PASSWORD,
   },
-  secure: true,
+  // secure: true,
 });
 
 export async function POST(req: Request) {
