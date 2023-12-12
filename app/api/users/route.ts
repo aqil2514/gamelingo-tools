@@ -121,14 +121,14 @@ export async function POST(req: Request) {
             console.error(err);
           }
           //@ts-ignore
-          await prisma.verificationCode.create({
-            data: {
-              email,
-              code: verificationCode,
-            },
-          });
+          // await prisma.verificationCode.create({
+          //   data: {
+          //     email,
+          //     code: verificationCode,
+          //   },
+          // });
 
-          console.log(info);
+          return NextResponse.json({ info });
         }
       );
 
