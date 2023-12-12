@@ -20,20 +20,12 @@ export async function GET(req: Request) {
 }
 
 const transporter = createTransport({
-  pool: true,
   host: process.env.SMTP_SERVER,
   port: Number(process.env.SMTP_PORT),
-  secure: true,
   auth: {
     user: process.env.SMTP_USERNAME,
     pass: process.env.SMTP_PASSWORD,
   },
-  tls: {
-    // Set to false to allow self-signed certificates (not recommended for production)
-    rejectUnauthorized: false,
-    servername: process.env.SMTP_SERVER,
-  },
-  debug: true,
 });
 
 export async function POST(req: Request) {
@@ -116,22 +108,21 @@ export async function POST(req: Request) {
           text: "",
           html: `<p>Your Verification Code: ${verificationCode}</p>`,
         },
-        async (err, info) => {
+        (err, info) => {
           if (err) {
             console.error(err);
           }
-          //@ts-ignore
-          // await prisma.verificationCode.create({
-          //   data: {
-          //     email,
-          //     code: verificationCode,
-          //   },
-          // });
-
-          return NextResponse.json({ info });
+          console.log(info);
         }
       );
 
+      //@ts-ignore
+      await prisma.verificationCode.create({
+        data: {
+          email,
+          code: verificationCode,
+        },
+      });
       return NextResponse.json({ secondCheck, status: 200, msg: "Sedikit lagi. Masukkan kode verifikasi dari email!" });
     }
 
@@ -150,25 +141,25 @@ export async function POST(req: Request) {
         text: "",
         html: `<p>Your Verification Code: ${verificationCode}</p>`,
       },
-      async (err, info) => {
+      (err, info) => {
         if (err) {
           console.error(err);
         }
-        //@ts-ignore
-        // await prisma.verificationCode.create({
-        //   data: {
-        //     email,
-        //     code: verificationCode,
-        //   },
-        // });
-
-        // await addUser(dataUser);
-
-        return NextResponse.json({ info, status: 200, msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi" });
+        console.log(info);
       }
     );
 
-    // return NextResponse.json({ status: 200, msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi" });
+    //@ts-ignore
+    await prisma.verificationCode.create({
+      data: {
+        email,
+        code: verificationCode,
+      },
+    });
+
+    await addUser(dataUser);
+
+    return NextResponse.json({ status: 200, msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi" });
   } else if (typeAction === "code") {
     //@ts-ignore
     const verifyCode = await prisma.verificationCode.findMany({
