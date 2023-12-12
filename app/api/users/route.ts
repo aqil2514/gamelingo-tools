@@ -28,6 +28,12 @@ const transporter = createTransport({
     user: process.env.SMTP_USERNAME,
     pass: process.env.SMTP_PASSWORD,
   },
+  tls: {
+    // Set to false to allow self-signed certificates (not recommended for production)
+    rejectUnauthorized: false,
+    servername: process.env.SMTP_SERVER,
+  },
+  debug: true,
 });
 
 export async function POST(req: Request) {
