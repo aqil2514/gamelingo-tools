@@ -155,16 +155,16 @@ export async function POST(req: Request) {
           console.error(err);
         }
         //@ts-ignore
-        await prisma.verificationCode.create({
-          data: {
-            email,
-            code: verificationCode,
-          },
-        });
+        // await prisma.verificationCode.create({
+        //   data: {
+        //     email,
+        //     code: verificationCode,
+        //   },
+        // });
 
-        await addUser(dataUser);
+        // await addUser(dataUser);
 
-        console.log(info);
+        return NextResponse.json({ info, status: 200, msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi" });
       }
     );
 
