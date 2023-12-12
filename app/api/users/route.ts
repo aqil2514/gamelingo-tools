@@ -108,21 +108,22 @@ export async function POST(req: Request) {
           text: "",
           html: `<p>Your Verification Code: ${verificationCode}</p>`,
         },
-        (err, info) => {
+        async (err, info) => {
           if (err) {
             console.error(err);
           }
+          //@ts-ignore
+          await prisma.verificationCode.create({
+            data: {
+              email,
+              code: verificationCode,
+            },
+          });
+
           console.log(info);
         }
       );
 
-      //@ts-ignore
-      await prisma.verificationCode.create({
-        data: {
-          email,
-          code: verificationCode,
-        },
-      });
       return NextResponse.json({ secondCheck, status: 200, msg: "Sedikit lagi. Masukkan kode verifikasi dari email!" });
     }
 
@@ -141,23 +142,23 @@ export async function POST(req: Request) {
         text: "",
         html: `<p>Your Verification Code: ${verificationCode}</p>`,
       },
-      (err, info) => {
+      async (err, info) => {
         if (err) {
           console.error(err);
         }
+        //@ts-ignore
+        await prisma.verificationCode.create({
+          data: {
+            email,
+            code: verificationCode,
+          },
+        });
+
+        await addUser(dataUser);
+
         console.log(info);
       }
     );
-
-    //@ts-ignore
-    await prisma.verificationCode.create({
-      data: {
-        email,
-        code: verificationCode,
-      },
-    });
-
-    await addUser(dataUser);
 
     return NextResponse.json({ status: 200, msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi" });
   } else if (typeAction === "code") {
