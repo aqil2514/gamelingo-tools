@@ -168,7 +168,7 @@ export async function POST(req: Request) {
       }
     );
 
-    return NextResponse.json({ status: 200, msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi" });
+    // return NextResponse.json({ status: 200, msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi" });
   } else if (typeAction === "code") {
     //@ts-ignore
     const verifyCode = await prisma.verificationCode.findMany({
