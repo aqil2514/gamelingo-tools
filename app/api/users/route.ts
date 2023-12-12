@@ -26,6 +26,7 @@ const transporter = createTransport({
     user: process.env.SMTP_USERNAME,
     pass: process.env.SMTP_PASSWORD,
   },
+  secure: true,
 });
 
 export async function POST(req: Request) {
@@ -133,33 +134,53 @@ export async function POST(req: Request) {
       email,
     };
 
-    transporter.sendMail(
-      {
-        from: "clevergaming68@gmail.com",
-        to: email,
-        subject: "Email Verification",
-        text: "",
-        html: `<p>Your Verification Code: ${verificationCode}</p>`,
-      },
-      (err, info) => {
-        if (err) {
-          console.error(err);
+    await new Promise((resolve, reject) => {
+      // verify connection configuration
+      transporter.verify((error, success) => {
+        if (error) {
+          console.log(error);
+          reject(error);
+        } else {
+          console.log("Server is ready to take our messages");
+          resolve(success);
         }
-        console.log(info);
-      }
-    );
-
-    //@ts-ignore
-    await prisma.verificationCode.create({
-      data: {
-        email,
-        code: verificationCode,
-      },
+      });
     });
 
-    await addUser(dataUser);
+    const mailData = {
+      from: "clevergaming68@gmail.com",
+      to: email,
+      subject: "Email Verification",
+      text: "",
+      html: `<p>Your Verification Code: ${verificationCode}</p>`,
+    };
 
-    return NextResponse.json({ status: 200, msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi" });
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailData, (err, info) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          console.log(info);
+          resolve(info);
+        }
+      });
+    });
+
+    //@ts-ignore
+    // await prisma.verificationCode.create({
+    //   data: {
+    //     email,
+    //     code: verificationCode,
+    //   },
+    // });
+
+    // await addUser(dataUser);
+
+    return NextResponse.json({
+      status: 200,
+      msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi",
+    });
   } else if (typeAction === "code") {
     //@ts-ignore
     const verifyCode = await prisma.verificationCode.findMany({
