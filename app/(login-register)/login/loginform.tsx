@@ -4,8 +4,10 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { Google } from "react-bootstrap-icons";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [loading, setLoading] = useState<false | true>(false);
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -18,18 +20,23 @@ export default function LoginForm() {
         typeAction: "login",
       });
 
-      if (data.status === 404) {
+      if (data.status === "n-username") {
         alert(data.msg);
         return;
-      } else if (data.status === 403) {
+      } else if (data.status === "n-password") {
         alert(data.msg);
         return;
-      } else if (data.status === 402) {
+      } else if (data.status === "n-user") {
         alert(data.msg);
+        return;
+      } else if (data.status === "w-password") {
+        alert(data.msg);
+        return;
+      } else if (data.status === "av") {
+        alert(data.msg);
+        router.push(`/verification/${data.email}`);
         return;
       }
-
-      console.log(data);
 
       const username = (document.getElementById("username") as HTMLInputElement)?.value;
       const password = (document.getElementById("password") as HTMLInputElement)?.value;

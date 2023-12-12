@@ -1,5 +1,6 @@
 import { checkUser, addUser, checkEmail, getUsers } from "@/lib/prisma/users";
 import { NextResponse } from "next/server";
+import { createTransport } from "nodemailer";
 import bcrypt from "bcrypt";
 //@ts-ignore
 import prisma from "@/lib/prisma/prisma";
@@ -18,29 +19,38 @@ export async function GET(req: Request) {
   // }
 }
 
+const transporter = createTransport({
+  host: process.env.SMTP_SERVER,
+  port: Number(process.env.SMTP_PORT),
+  auth: {
+    user: process.env.SMTP_USERNAME,
+    pass: process.env.SMTP_PASSWORD,
+  },
+});
+
 export async function POST(req: Request) {
-  const { name, username, password, confirmPassword, email, typeAction, id } = await req.json();
+  const { name, username, password, confirmPassword, email, typeAction, id, code } = await req.json();
   if (typeAction === "login") {
     try {
-      if (!password) {
-        return NextResponse.json({ status: 403, msg: `Password belum diisi` });
+      if (!username) {
+        return NextResponse.json({ status: "n-username", msg: `Username belum diisi` });
+      } else if (!password) {
+        return NextResponse.json({ status: "n-password", msg: `Password belum diisi` });
       }
       const user = await checkUser(username);
 
-      const compare = await bcrypt.compare(password, user[0].password);
-      if (!compare) {
-        return NextResponse.json({ status: 403, msg: "Password Salah" });
+      if (user.length === 0) {
+        return NextResponse.json({ status: "n-user", msg: "Akun tidak ditemukan" });
       }
 
-      return NextResponse.json({ status: 200, msg: "Login Berhasil" });
+      const compare = await bcrypt.compare(password, user[0].password);
+      if (!compare) {
+        return NextResponse.json({ status: "w-password", msg: "Password Salah" });
+      } else if (user[0].account_verified === false) {
+        return NextResponse.json({ status: "av", msg: "Akun belum diverifikasi", email: user[0].email });
+      }
 
-      // if (user.length > 0 && user[0].password === password) {
-      //   return NextResponse.json({ status: 200, msg: `Login Berhasil` });
-      // } else if (user.length <= 0) {
-      //   return NextResponse.json({ status: 404, msg: `Akun tidak terdaftar` });
-      // } else if (user[0].password !== password) {
-      //   return NextResponse.json({ status: 402, msg: `Password Salah` });
-      // }
+      return NextResponse.json({ status: "ok", msg: "Login Berhasil" });
     } catch (error) {
       return NextResponse.json({ error }, { status: 500 });
     }
@@ -63,6 +73,9 @@ export async function POST(req: Request) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const number: number[] = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
+
+    const verificationCode = parseInt(number.join(""));
 
     if (isEmail.length === 1) {
       //@ts-ignore
@@ -86,7 +99,31 @@ export async function POST(req: Request) {
           password: hashedPassword,
         },
       });
-      return NextResponse.json({ secondCheck, status: 200, msg: "Akun Berhasil ditambah. Silahkan login!" });
+
+      transporter.sendMail(
+        {
+          from: "clevergaming68@gmail.com",
+          to: email,
+          subject: "Email Verification",
+          text: "",
+          html: `<p>Your Verification Code: ${verificationCode}</p>`,
+        },
+        (err, info) => {
+          if (err) {
+            console.error(err);
+          }
+          console.log(info);
+        }
+      );
+
+      //@ts-ignore
+      await prisma.verificationCode.create({
+        data: {
+          email,
+          code: verificationCode,
+        },
+      });
+      return NextResponse.json({ secondCheck, status: 200, msg: "Sedikit lagi. Masukkan kode verifikasi dari email!" });
     }
 
     const dataUser = {
@@ -96,9 +133,65 @@ export async function POST(req: Request) {
       email,
     };
 
+    transporter.sendMail(
+      {
+        from: "clevergaming68@gmail.com",
+        to: email,
+        subject: "Email Verification",
+        text: "",
+        html: `<p>Your Verification Code: ${verificationCode}</p>`,
+      },
+      (err, info) => {
+        if (err) {
+          console.error(err);
+        }
+        console.log(info);
+      }
+    );
+
+    //@ts-ignore
+    await prisma.verificationCode.create({
+      data: {
+        email,
+        code: verificationCode,
+      },
+    });
+
     await addUser(dataUser);
 
-    return NextResponse.json({ status: 200, msg: "Akun berhasil ditambah. Silahkan login" });
+    return NextResponse.json({ status: 200, msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi" });
+  } else if (typeAction === "code") {
+    //@ts-ignore
+    const verifyCode = await prisma.verificationCode.findMany({
+      where: {
+        email,
+        code: parseInt(code),
+      },
+    });
+
+    if (verifyCode.length === 0) {
+      return NextResponse.json({ msg: "Kode salah atau Kadaluarsa" });
+    }
+
+    //@ts-ignore
+    await prisma.usersLogin.update({
+      where: {
+        email,
+      },
+      data: {
+        account_verified: true,
+      },
+    });
+
+    //@ts-ignore
+    await prisma.verificationCode.deleteMany({
+      where: {
+        email,
+        code: parseInt(code),
+      },
+    });
+
+    return NextResponse.json({ status: "ok", msg: "Akun telah diverifikasi! Silahkan login" });
   } else if (typeAction === "update-info") {
     //@ts-ignore
     await prisma.usersLogin.update({

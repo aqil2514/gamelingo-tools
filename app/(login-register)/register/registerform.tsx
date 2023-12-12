@@ -43,7 +43,8 @@ export default function RegisterForm() {
       }
 
       alert(data.msg);
-      router.push("/login");
+      console.log(data);
+      router.push(`/verification/${(document.getElementById("email") as HTMLInputElement)?.value}`);
     } catch (error) {
       console.error();
     } finally {

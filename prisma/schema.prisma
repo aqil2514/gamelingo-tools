@@ -16,5 +16,14 @@ model UsersLogin{
   image String?
   OAuthId String?
   email String @unique
+  role String @default("Pengguna")
+  account_verified Boolean @default(false)
+  createdAt DateTime @default(now())
+}
+
+model VerificationCode{
+  id Int @id @default(autoincrement())
+  email String @unique 
+  code Int @unique 
   createdAt DateTime @default(now())
 }
