@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
 
   const data = {
     email,
-    UID: uniqueLink,
+    UID,
   };
 
   await addResetLink(data);
