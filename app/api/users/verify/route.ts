@@ -1,15 +1,9 @@
 //@ts-ignore
 import prisma from "@/lib/prisma/prisma";
-import { getSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { createTransport } from "nodemailer";
 
 export async function GET() {
-  const session = await getSession();
-  if (!session) {
-    redirect("/");
-  }
   //@ts-ignore
   const verify = await prisma.verificationCode.findMany();
 

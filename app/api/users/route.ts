@@ -4,17 +4,18 @@ import { createTransport } from "nodemailer";
 import bcrypt from "bcrypt";
 //@ts-ignore
 import prisma from "@/lib/prisma/prisma";
-import { getSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 export async function GET(req: Request) {
-  const session = await getSession();
+  const serverSession: any = await getServerSession();
 
-  if (!session) {
+  if (!serverSession) {
     redirect("/");
   }
-  const users = await getUsers();
-  return NextResponse.json({ session, users, status: 200, msg: "Ok" });
+  const user = await checkEmail(serverSession.user?.email);
+  const { name, username, email, role } = user[0];
+  return NextResponse.json({ user: { name, username, email, role }, status: 200, msg: "Ok" });
 }
 
 const transporter = createTransport({

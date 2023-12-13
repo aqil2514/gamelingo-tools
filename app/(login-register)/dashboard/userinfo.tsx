@@ -22,10 +22,8 @@ export default function UserInfo() {
 
       const { data } = await axios.get("/api/users");
 
-      const user = await data.users.find((u: React.ComponentState) => u.email === email);
-      console.log(data.users);
-      setInfo(user);
-      setInfoInit(user);
+      setInfo(data.user);
+      setInfoInit(data.user);
     } catch (error) {
       console.error(error);
     } finally {

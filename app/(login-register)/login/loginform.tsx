@@ -55,7 +55,9 @@ export default function LoginForm() {
           Password:
           <input disabled={loading} type="password" name="password" id="password" placeholder="Password..." className="block w-full py-2 rounded-lg px-2 text-zinc-950" />
         </label>
-        <p className="text-xs sm:text-base text-white font-poppins underline my-2 inline cursor-pointer me-2">Lupa Password?</p>
+        <Link href="/reset-password" className="text-xs sm:text-base text-white font-poppins underline my-2 inline cursor-pointer me-2">
+          Lupa Password?
+        </Link>
         <Link href="/register" className="text-xs sm:text-base text-white font-poppins underline my-2 inline cursor-pointer ms-2">
           Belum punya akun?
         </Link>
