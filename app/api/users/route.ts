@@ -26,35 +26,36 @@ const transporter = createTransport({
     user: process.env.SMTP_USERNAME,
     pass: process.env.SMTP_PASSWORD,
   },
-  // secure: true,
 });
 
 export async function POST(req: Request) {
-  const { name, username, password, confirmPassword, email, typeAction, id, code } = await req.json();
+  const { name, username, password, confirmPassword, email, typeAction, id, code, UID } = await req.json();
   if (typeAction === "login") {
-    try {
-      if (!username) {
-        return NextResponse.json({ status: "n-username", msg: `Username belum diisi` });
-      } else if (!password) {
-        return NextResponse.json({ status: "n-password", msg: `Password belum diisi` });
-      }
-      const user = await checkUser(username);
-
-      if (user.length === 0) {
-        return NextResponse.json({ status: "n-user", msg: "Akun tidak ditemukan" });
-      }
-
-      const compare = await bcrypt.compare(password, user[0].password);
-      if (!compare) {
-        return NextResponse.json({ status: "w-password", msg: "Password Salah" });
-      } else if (user[0].account_verified === false) {
-        return NextResponse.json({ status: "av", msg: "Akun belum diverifikasi", email: user[0].email });
-      }
-
-      return NextResponse.json({ status: "ok", msg: "Login Berhasil" });
-    } catch (error) {
-      return NextResponse.json({ error }, { status: 500 });
+    if (!username) {
+      return NextResponse.json({ status: "n-username", msg: `Username belum diisi` });
+    } else if (!password) {
+      return NextResponse.json({ status: "n-password", msg: `Password belum diisi` });
     }
+    const user = await checkUser(username);
+
+    if (user.length === 0) {
+      return NextResponse.json({ status: "n-user", msg: "Akun tidak ditemukan" });
+    }
+
+    const compare = await bcrypt.compare(password, user[0].password);
+    //@ts-ignore
+    const verify = await prisma.verificationCode.findMany({});
+    const serializedVerify = verify.map((item: any) => ({
+      ...item,
+      UID: item.UID.toString(),
+    }));
+    if (!compare) {
+      return NextResponse.json({ status: "w-password", msg: "Password Salah" });
+    } else if (user[0].account_verified === false) {
+      return NextResponse.json({ status: "av", msg: "Akun belum diverifikasi", UID: serializedVerify[0].UID });
+    }
+
+    return NextResponse.json({ status: "ok", msg: "Login Berhasil" });
   } else if (typeAction === "register") {
     if (name.length <= 0 || username.length <= 0 || password.length <= 0 || confirmPassword.length <= 0 || email.length <= 0) {
       return NextResponse.json({ status: "no-data", msg: "Ada data yang belum diisi" });
@@ -167,25 +168,28 @@ export async function POST(req: Request) {
       });
     });
 
-    //@ts-ignore
-    // await prisma.verificationCode.create({
-    //   data: {
-    //     email,
-    //     code: verificationCode,
-    //   },
-    // });
+    const UID = Math.floor(Math.random() * 1000000000000000);
 
-    // await addUser(dataUser);
+    //@ts-ignore
+    await prisma.verificationCode.create({
+      data: {
+        email,
+        code: verificationCode,
+        UID,
+      },
+    });
+
+    await addUser(dataUser);
 
     return NextResponse.json({
       status: 200,
+      UID,
       msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi",
     });
   } else if (typeAction === "code") {
     //@ts-ignore
     const verifyCode = await prisma.verificationCode.findMany({
       where: {
-        email,
         code: parseInt(code),
       },
     });
@@ -207,7 +211,7 @@ export async function POST(req: Request) {
     //@ts-ignore
     await prisma.verificationCode.deleteMany({
       where: {
-        email,
+        UID: BigInt(UID),
         code: parseInt(code),
       },
     });

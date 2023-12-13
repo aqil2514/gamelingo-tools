@@ -24,6 +24,7 @@ model UsersLogin{
 model VerificationCode{
   id Int @id @default(autoincrement())
   email String @unique 
+  UID BigInt @unique
   code Int @unique 
   createdAt DateTime @default(now())
 }

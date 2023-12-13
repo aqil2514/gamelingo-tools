@@ -20,21 +20,12 @@ export default function LoginForm() {
         typeAction: "login",
       });
 
-      if (data.status === "n-username") {
-        alert(data.msg);
-        return;
-      } else if (data.status === "n-password") {
-        alert(data.msg);
-        return;
-      } else if (data.status === "n-user") {
-        alert(data.msg);
-        return;
-      } else if (data.status === "w-password") {
+      if (data.status !== "ok" && data.status !== "av") {
         alert(data.msg);
         return;
       } else if (data.status === "av") {
         alert(data.msg);
-        router.push(`/verification/${data.email}`);
+        router.push(`/verification/${data.UID}`);
         return;
       }
 

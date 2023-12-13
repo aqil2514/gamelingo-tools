@@ -44,7 +44,7 @@ export default function RegisterForm() {
 
       alert(data.msg);
       console.log(data);
-      // router.push(`/verification/${(document.getElementById("email") as HTMLInputElement)?.value}`);
+      router.push(`/verification/${data.UID}`);
     } catch (error) {
       console.error();
     } finally {
