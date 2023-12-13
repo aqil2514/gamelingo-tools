@@ -4,19 +4,17 @@ import { createTransport } from "nodemailer";
 import bcrypt from "bcrypt";
 //@ts-ignore
 import prisma from "@/lib/prisma/prisma";
+import { getSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export async function GET(req: Request) {
-  const users = await getUsers();
-  return NextResponse.json({ users, status: 200, msg: "Ok" });
+  const session = await getSession();
 
-  // if (typeAction === "getAccountInfo") {
-  //   return NextResponse.json({ typeAction }, { status: 200 });
-  // }
-  // try {
-  //   return NextResponse.json({ users }, { status: 200 });
-  // } catch (error) {
-  //   return NextResponse.json({ error }, { status: 500 });
-  // }
+  if (!session) {
+    redirect("/");
+  }
+  const users = await getUsers();
+  return NextResponse.json({ session, users, status: 200, msg: "Ok" });
 }
 
 const transporter = createTransport({
