@@ -1,4 +1,4 @@
-import { checkUser, addUser, checkEmail, getUsers } from "@/lib/prisma/users";
+import { checkUser, addUser, checkEmail, getUsers, updateUser } from "@/lib/prisma/users";
 import { NextResponse } from "next/server";
 import { createTransport } from "nodemailer";
 import bcrypt from "bcrypt";
@@ -184,7 +184,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       status: 200,
       UID,
-      msg: "Kode verifikasi telah dikirim ke email! Silahkan masukkan kode verifikasi",
+      msg: "Kode verifikasi telah dikirim ke email! Periksa juga folder spam. Silahkan masukkan kode verifikasi",
     });
   } else if (typeAction === "code") {
     //@ts-ignore
@@ -230,5 +230,46 @@ export async function POST(req: Request) {
       },
     });
     return NextResponse.json({ status: 200, msg: "Data berhasil diubah" });
+  }
+}
+
+export async function PUT(req: Request) {
+  const { username, password, putType } = await req.json();
+
+  if (putType === "changePassword") {
+    const { oldPassword, newPassword, confirmNewPassword } = password;
+
+    if (!oldPassword || !newPassword || !confirmNewPassword) {
+      return NextResponse.json({ status: "nd", msg: "Data masih ada yang kosong" });
+    }
+
+    const user = await checkUser(username);
+    const compare = await bcrypt.compare(oldPassword, user[0].password);
+
+    if (!compare) {
+      return NextResponse.json({ status: "wp", msg: "Kata sandi lama salah" });
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return NextResponse.json({ status: "wp2", msg: "Konfirmasi kata sandi baru tidak sama" });
+    }
+
+    if (newPassword === oldPassword) {
+      return NextResponse.json({ status: "sp", msg: "Kata sandi baru tidak boleh sama dengan kata sandi lama" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const where = {
+      username,
+    };
+
+    const data = {
+      password: hashedPassword,
+    };
+
+    await updateUser(where, data);
+
+    return NextResponse.json({ user, status: "ok", msg: "Password berhasil diganti" });
   }
 }
