@@ -1,4 +1,4 @@
-import { addResetLink, checkEmail } from "@/lib/prisma/users";
+import { addResetLink, checkEmail, checkResetLink, deleteResetLink, updateResetLink, updateUser } from "@/lib/prisma/users";
 import { NextRequest, NextResponse } from "next/server";
 import { createTransport } from "nodemailer";
 
@@ -6,7 +6,18 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const UID = url.searchParams.get("UID");
 
-  return NextResponse.json({ UID });
+  const where = {
+    UID,
+  };
+
+  const link = await checkResetLink({ where });
+  if (link.length === 0) {
+    return NextResponse.json({ status: 404, msg: "URL tidak tersedia" });
+  }
+
+  const { email } = link[0];
+
+  return NextResponse.json({ email });
 }
 
 const transporter = createTransport({
@@ -74,12 +85,41 @@ export async function POST(req: NextRequest) {
     });
   });
 
+  const where = {
+    email,
+  };
+
   const data = {
     email,
     UID,
   };
 
+  const isLink = await checkResetLink({ where });
+  if (isLink.length === 1) {
+    await updateResetLink(where, data);
+    return NextResponse.json({ status: 200, msg: "Link telah dikirim ke email. Cek juga folder spam" });
+  }
+
   await addResetLink(data);
 
   return NextResponse.json({ status: 200, msg: "Link Pemulihan sudah dikirim ke email! Periksa juga folder spam" });
+}
+
+export async function PUT(req: NextRequest) {
+  const { email, password } = await req.json();
+  if (password.new !== password.confirmNew) {
+    return NextResponse.json({ status: 400, msg: "Password tidak sama" });
+  }
+
+  const where = {
+    email,
+  };
+  const data = {
+    password: password.new,
+  };
+
+  await updateUser(where, data);
+  await deleteResetLink(where);
+
+  return NextResponse.json({ status: 200, msg: "Data berhasil diubah! Silahkan login!" });
 }

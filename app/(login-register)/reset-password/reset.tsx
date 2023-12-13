@@ -19,7 +19,7 @@ export default function ResetForm() {
         return;
       }
 
-      console.log(data);
+      alert(data.msg);
     } catch (error) {
       console.error(error);
     } finally {
