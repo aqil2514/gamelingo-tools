@@ -1,8 +1,8 @@
 "use client";
 
 import axios from "axios";
-import { getSession, useSession } from "next-auth/react";
-import { useEffect, useState, createContext, useContext } from "react";
+import { getSession, signOut, useSession } from "next-auth/react";
+import React, { useEffect, useState, createContext, useContext } from "react";
 
 const UserInfoContext = createContext<React.ComponentState | boolean>(null);
 
@@ -25,7 +25,8 @@ export default function UserInfo() {
       setInfo(data.user);
       setInfoInit(data.user);
     } catch (error) {
-      console.error(error);
+      alert("Silahkan login kembali");
+      signOut({ callbackUrl: "/login" });
     } finally {
       setLoading(false);
     }
@@ -52,6 +53,8 @@ export default function UserInfo() {
 
 function Info() {
   const { info, setInfo, infoInit, editLoading, setEditLoading, isReadMode, setIsReadMode, passwordMode, setPasswordMode } = useContext(UserInfoContext);
+  const [code, setCode] = useState<string>();
+  const [isCode, setIsCode] = useState<Boolean>();
 
   async function changeHandler() {
     try {
@@ -62,18 +65,36 @@ function Info() {
 
       setEditLoading(true);
 
-      const { data } = await axios.post("/api/users", {
-        username: (document.getElementById("username") as HTMLInputElement)?.value,
-        name: (document.getElementById("name") as HTMLInputElement)?.value,
-        email: (document.getElementById("email") as HTMLInputElement)?.value,
-        id: infoInit?.id,
-        typeAction: "update-info",
+      const { data } = await axios.put("/api/users/dashboard", {
+        info,
+        infoInit,
+        code,
       });
 
-      if (data.status === 200) {
+      if (data.status !== 200) {
         alert(data.msg);
-        location.reload();
+        return;
       }
+      alert(data.msg);
+      location.reload();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setEditLoading(false);
+    }
+  }
+
+  async function codeHandler() {
+    try {
+      setEditLoading(true);
+      const { data } = await axios.get(`/api/users/dashboard/?email=${info?.email}`);
+
+      if (data.status !== 200) {
+        alert(data.msg);
+        return;
+      }
+
+      alert(data.msg);
     } catch (error) {
       console.error(error);
     } finally {
@@ -83,7 +104,7 @@ function Info() {
 
   return (
     <>
-      <label htmlFor="username" className="text-white text-base font-bold font-poppins my-8 py-10">
+      <label htmlFor="username" className="text-white text-base font-bold font-poppins my-8">
         Username :
         <input
           type="text"
@@ -97,7 +118,7 @@ function Info() {
           required
         />
       </label>
-      <label htmlFor="name" className="text-white text-base font-bold font-poppins my-8 py-10">
+      <label htmlFor="name" className="text-white text-base font-bold font-poppins my-8">
         Nama Pemilik Akun :
         <input
           type="text"
@@ -111,26 +132,58 @@ function Info() {
           required
         />
       </label>
-      <label htmlFor="email" className="text-white text-base font-bold font-poppins my-8 py-10">
+      <label htmlFor="email" className="text-white text-base font-bold font-poppins my-8">
         Email :
         <input
           type="text"
           name="email"
           id="email"
           value={info?.email}
-          onChange={(e) => setInfo({ ...info, email: e.target.value })}
+          onChange={(e) => {
+            setInfo((prevInfo: React.ComponentState) => {
+              const updatedInfo = { ...prevInfo, email: e.target.value };
+              setIsCode(true);
+              if (updatedInfo.email === infoInit?.email) {
+                setIsCode(false);
+              }
+              return updatedInfo;
+            });
+          }}
           placeholder="Masukkan Email Anda..."
           className="block w-full py-2 rounded-lg px-2 text-zinc-950 my-2"
           disabled={isReadMode || editLoading}
           required
         />
       </label>
-      <label htmlFor="role" className="text-white text-base font-bold font-poppins my-8 py-10">
+      {isCode && !isReadMode && (
+        <button onClick={codeHandler} disabled={editLoading} className="text-slate-950 px-2 py-1 font-bold font-poppins text-xs rounded-xl block bg-white">
+          Kirim Kode
+        </button>
+      )}
+      {isCode && !isReadMode && (
+        <label htmlFor="code" className="text-white text-base relative font-bold font-poppins my-8">
+          Kode Verifikasi :
+          <input
+            type="number"
+            name="code"
+            id="code"
+            value={code}
+            onChange={(e) => {
+              setCode(e.target.value);
+            }}
+            disabled={editLoading}
+            placeholder="Masukkan Kode Verifikasi..."
+            className="block w-full py-2 rounded-lg px-2 text-zinc-950 my-2"
+            required
+          />
+        </label>
+      )}
+      <label htmlFor="role" className="text-white text-base font-bold font-poppins my-8">
         Role :
         {isReadMode ? (
           <input type="text" name="role" id="role" value="Pengguna" placeholder="Masukkan Nama Anda..." className="block w-full py-2 rounded-lg px-2 text-zinc-950 my-2" disabled={isReadMode || editLoading} required />
         ) : (
-          <select name="set-role" id="set-role" className="block w-full py-2 rounded-lg px-2 text-zinc-950 my-2">
+          <select name="set-role" id="set-role" disabled={isReadMode || editLoading} className="block w-full py-2 rounded-lg px-2 text-zinc-950 my-2">
             <option value="Pengguna">Pengguna</option>
             <option value="null" disabled>
               General Admin (Belum Tersedia)
@@ -149,6 +202,7 @@ function Info() {
         onClick={() => {
           setIsReadMode(!isReadMode);
           setInfo(infoInit);
+          setIsCode(false);
         }}
         disabled={editLoading}
         className="bg-white px-6 py-2 block mx-auto font-poppins my-4 font-bold text-black text-xl rounded-xl"

@@ -1,6 +1,7 @@
 import { addResetLink, checkEmail, checkResetLink, deleteResetLink, updateResetLink, updateUser } from "@/lib/prisma/users";
 import { NextRequest, NextResponse } from "next/server";
 import { createTransport } from "nodemailer";
+import bcrypt from "bcrypt";
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
@@ -111,11 +112,13 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ status: 400, msg: "Password tidak sama" });
   }
 
+  const hashedPassword = await bcrypt.hash(password.new, 10);
+
   const where = {
     email,
   };
   const data = {
-    password: password.new,
+    password: hashedPassword,
   };
 
   await updateUser(where, data);

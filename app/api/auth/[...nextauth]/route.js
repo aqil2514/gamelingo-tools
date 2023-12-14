@@ -4,24 +4,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { checkUser, checkEmail } from "@/lib/prisma/users";
 import prisma from "@/lib/prisma/prisma";
 
-async function OAuthHandler(profile) {
-  const user = "Kamu siapa?";
-
-  return console.log(user);
-}
-
-async function credentialsHandler(user) {
-  return user;
-}
-
-async function syncHandler(user, profile) {
-  if (user) {
-    return await credentialsHandler(user);
-  } else if (profile) {
-    return await OAuthHandler(profile);
-  }
-}
-
 const authOptions = {
   providers: [
     GoogleProvider({
@@ -37,7 +19,7 @@ const authOptions = {
     }),
     CredentialsProvider({
       name: "credentials",
-      async authorize(credentials, request) {
+      async authorize(credentials) {
         const user = await checkUser(credentials.username);
 
         if (user.length === 0) {
@@ -51,7 +33,6 @@ const authOptions = {
   ],
   callbacks: {
     async signIn({ account, profile, user }) {
-      console.log(profile);
       if (account.provider === "google") {
         const check = await checkEmail(profile.email);
 
@@ -80,17 +61,27 @@ const authOptions = {
       }
       return true;
     },
-    async jwt({ token, account }) {
-      if (account) {
-        token.accessToken = account.access_token;
+    async jwt({ token, user }) {
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+        };
       }
+
+      console.log("Jwt Callback", token);
+
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
-
-      return session;
+      session.user.id = token.id;
+      console.log("Session callback", session);
+      return { ...session, user: { ...session.user, id: token.id } };
     },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
   },
 };
 

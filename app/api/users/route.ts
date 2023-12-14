@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import prisma from "@/lib/prisma/prisma";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
+//@ts-ignore
 
 export async function GET(req: Request) {
   const serverSession: any = await getServerSession();
@@ -39,6 +40,7 @@ export async function POST(req: Request) {
 
     if (user.length === 0) {
       return NextResponse.json({ status: "n-user", msg: "Akun tidak ditemukan" });
+      // throw new Error("Akun tidak ditemukan");
     }
 
     const compare = await bcrypt.compare(password, user[0].password);
@@ -216,19 +218,6 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ status: "ok", msg: "Akun telah diverifikasi! Silahkan login" });
-  } else if (typeAction === "update-info") {
-    //@ts-ignore
-    await prisma.usersLogin.update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-        username,
-        email,
-      },
-    });
-    return NextResponse.json({ status: 200, msg: "Data berhasil diubah" });
   }
 }
 
