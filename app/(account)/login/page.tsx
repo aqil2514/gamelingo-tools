@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Login - GameLingo Tools",
+  title: "Login",
 };
 
 export default async function Login() {

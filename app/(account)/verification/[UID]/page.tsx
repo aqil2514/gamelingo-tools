@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Account Verification | Gamelingo Tools",
+  title: "Account Verification",
 };
 
 export default async function Verify() {

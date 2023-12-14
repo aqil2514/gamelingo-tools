@@ -7,6 +7,14 @@ import { getServerSession } from "next-auth";
 import SessionProvider from "./components/SessionProvider";
 import Headers from "./components/Headers";
 
+export const metadata: Metadata = {
+  title: {
+    template: "%s | GameLingo Tools",
+    default: "GameLingo Tools",
+  },
+  description: "A Tools for GameLingo Blog",
+};
+
 const novaSquare = Nova_Square({
   weight: ["400"],
   subsets: ["latin"],
@@ -36,11 +44,6 @@ const merienda = Merienda({
   subsets: ["latin"],
   variable: "--font-merienda",
 });
-
-export const metadata: Metadata = {
-  title: "GameLingo Tools",
-  description: "A Tools for GameLingo Blog",
-};
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession();

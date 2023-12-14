@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Home - GameLingo Tools",
+  title: "Home | GameLingo Tools",
 };
 
 const LINK_STYLE = "bg-sky-700 h-3/5 sm:my-none my-4 px-4 rounded-[32px] text-center text-white sm:text-2xl text-lg font-poppins";

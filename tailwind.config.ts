@@ -13,6 +13,7 @@ const config: Config = {
       },
       backgroundImage: {
         "hero-pattern": 'linear-gradient(to bottom, rgba(0,0,0, 0.5), rgba(0,0,0, 0.8)), url("../public/hero-wallpaper.webp")',
+        "evertale-hero-pattern": 'linear-gradient(to bottom, rgba(0,0,0, 0.5), rgba(0,0,0, 0.8)), url("../public/evertale-home-page.webp")',
       },
     },
   },

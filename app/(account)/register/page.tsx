@@ -5,7 +5,7 @@ import RegisterForm from "./registerform";
 RegisterForm;
 
 export const metadata: Metadata = {
-  title: "Register - GameLingo Tools",
+  title: "Register",
 };
 
 export default async function Login() {

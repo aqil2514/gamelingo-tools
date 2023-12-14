@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import ResetForm from "./reset";
 
 export const metadata: Metadata = {
-  title: "Reset Password | GameLingo Tools",
+  title: "Reset Password",
 };
 
 export default function ResetPassword() {
