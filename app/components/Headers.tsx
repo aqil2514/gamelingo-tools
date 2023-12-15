@@ -14,7 +14,7 @@ export default function Headers() {
 
   if (!user) {
     return (
-      <nav className="w-full flex flex-row justify-between fixed top-0 h-[60px] bg-emerald-700">
+      <nav className="w-full flex flex-row justify-between z-50 fixed top-0 h-[60px] bg-emerald-700">
         <div className="mx-2 sm:mx-6 my-auto ">
           <h1 className="text-white text-xl sm:text-2xl font-merriweather cursor-pointer" onClick={() => router.push("/")}>
             GameLingo Tools

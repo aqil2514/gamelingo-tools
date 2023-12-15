@@ -1,4 +1,6 @@
 import { getChars, getConjures, getGenerals, getLeaderSkills, getWeapons, getPassiveSkills, updateConjures, addConjures, addChars, deleteConjures, deleteCharacters, updateCharacters, addLeaderSkill } from "@/lib/mongodb/evertale.js";
+import { Document } from "mongodb";
+import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { ComponentState } from "react";
 
@@ -7,7 +9,16 @@ export async function GET(req: NextRequest) {
   const category = url.searchParams.get("category");
   const UID = url.searchParams.get("UID");
   const maxResult = Number(url.searchParams.get("maxResult")) || 0;
-  if (category === "chars") {
+  if (category === "chars" && UID) {
+    const characters = await getChars();
+    const character = characters.chars.find((character: Document) => character._id === UID);
+
+    if (!character) {
+      return NextResponse.json({ status: 404, msg: "Character not found" });
+    }
+
+    return NextResponse.json({ status: 200, character });
+  } else if (category === "chars") {
     const chars = await getChars();
     const data = chars.chars.map((d: any) => ({
       id: d._id,
@@ -20,9 +31,10 @@ export async function GET(req: NextRequest) {
       characters.push(data[i]);
     }
 
-    return NextResponse.json({ characters });
+    return NextResponse.json({ status: 200, characters });
+  } else if (!category && !UID) {
+    redirect("/evertale");
   }
-  return NextResponse.json({ category, UID });
 
   // const conjures = await getConjures();
   // const generals = await getGenerals();
