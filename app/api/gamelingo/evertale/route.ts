@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const category = url.searchParams.get("category");
   const UID = url.searchParams.get("UID");
+  const element = url.searchParams.get("element");
   const maxResult = Number(url.searchParams.get("maxResult")) || 0;
   if (category === "chars" && UID) {
     const characters = await getChars();
@@ -18,7 +19,68 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({ status: 200, character });
-  } else if (category === "chars") {
+  }
+  if (category === "chars" && element) {
+    const data = await getChars();
+
+    const fire = data.chars
+      .filter((char: any) => char.charStatus.statusElement === "Fire")
+      .map((d: any) => ({
+        id: d._id,
+        image: d.charImage.f1Img,
+        charName: d.charStatus.charName,
+      }));
+    const water = data.chars
+      .filter((char: any) => char.charStatus.statusElement === "Water")
+      .map((d: any) => ({
+        id: d._id,
+        image: d.charImage.f1Img,
+        charName: d.charStatus.charName,
+      }));
+    const dark = data.chars
+      .filter((char: any) => char.charStatus.statusElement === "Dark")
+      .map((d: any) => ({
+        id: d._id,
+        image: d.charImage.f1Img,
+        charName: d.charStatus.charName,
+      }));
+    const light = data.chars
+      .filter((char: any) => char.charStatus.statusElement === "Light")
+      .map((d: any) => ({
+        id: d._id,
+        image: d.charImage.f1Img,
+        charName: d.charStatus.charName,
+      }));
+    const storm = data.chars
+      .filter((char: any) => char.charStatus.statusElement === "Storm")
+      .map((d: any) => ({
+        id: d._id,
+        image: d.charImage.f1Img,
+        charName: d.charStatus.charName,
+      }));
+    const earth = data.chars
+      .filter((char: any) => char.charStatus.statusElement === "Earth")
+      .map((d: any) => ({
+        id: d._id,
+        image: d.charImage.f1Img,
+        charName: d.charStatus.charName,
+      }));
+
+    if (element === "all") {
+      const elementChar = {
+        fire,
+        water,
+        dark,
+        light,
+        storm,
+        earth,
+      };
+      return NextResponse.json({ status: 200, elementChar });
+    }
+    const elementChar = data.chars.filter((e: any) => e.charStatus.statusElement === element);
+    return NextResponse.json({ status: 200, elementChar });
+  }
+  if (category === "chars") {
     const chars = await getChars();
     const data = chars.chars.map((d: any) => ({
       id: d._id,
@@ -32,7 +94,8 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({ status: 200, characters });
-  } else if (!category && !UID) {
+  }
+  if (!category && !UID) {
     redirect("/evertale");
   }
 

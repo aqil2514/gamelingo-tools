@@ -5,6 +5,7 @@ const nextConfig = {
       { protocol: "https", hostname: "blogger.googleusercontent.com", port: "" },
       { protocol: "https", hostname: "i.imgur.com", port: "" },
       { protocol: "https", hostname: "lh3.googleusercontent.com", port: "" },
+      { protocol: "https", hostname: "evertaletoolbox.azurewebsites.net", port: "" },
     ],
   },
 };
