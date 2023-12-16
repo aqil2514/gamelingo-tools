@@ -28,7 +28,7 @@ type PassiveSkillState = {
   descID: string;
 };
 
-export default function ({ data }: { data: any }) {
+export default function Data({ data }: { data: any }) {
   const part1 = useRef(null);
   const part2 = useRef(null);
   const part3 = useRef(null);
