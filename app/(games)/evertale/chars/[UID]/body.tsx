@@ -1,34 +1,20 @@
 "use client";
 
-import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { SWRError, SWRLoading } from "@/app/components/SWR";
+import { useParams } from "next/navigation";
+import useSWR from "swr";
+import Data from "./data";
+
+const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
 export default function CharBody() {
   const { UID } = useParams();
-  const router = useRouter();
 
-  async function getInfo() {
-    try {
-      const { data } = await axios.get(`/api/gamelingo/evertale?category=chars&UID=${UID}`);
+  const URL = `/api/gamelingo/evertale?category=chars&UID=${UID}`;
+  const { data, isLoading, error } = useSWR(URL, fetcher);
 
-      if (data.status !== 200) {
-        alert(data.msg);
-        router.replace("/evertale");
-      }
-
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  useEffect(() => {
-    getInfo();
-  }, []);
-  return (
-    <div>
-      <h1>ok</h1>
-    </div>
-  );
+  console.log(data);
+  if (error) return <SWRError />;
+  if (!data || isLoading) return <SWRLoading />;
+  if (data) return <Data data={data.character} />;
 }

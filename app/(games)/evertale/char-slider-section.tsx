@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigation, Autoplay, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";

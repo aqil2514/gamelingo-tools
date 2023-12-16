@@ -24,6 +24,7 @@
     "react-bootstrap-icons": "^1.10.3",
     "react-dom": "^18",
     "swiper": "^11.0.5",
+    "swr": "^2.2.4",
     "zod-form-data": "^2.0.2"
   },
   "devDependencies": {

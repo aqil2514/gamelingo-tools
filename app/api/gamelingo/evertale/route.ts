@@ -4,6 +4,13 @@ import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { ComponentState } from "react";
 
+type leaderSkillDataState = {
+  _id: string;
+  name: string;
+  descEN: string;
+  descID: string;
+};
+
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const category = url.searchParams.get("category");
@@ -11,6 +18,8 @@ export async function GET(req: NextRequest) {
   const element = url.searchParams.get("element");
   const name = url.searchParams.get("name");
   const maxResult = Number(url.searchParams.get("maxResult")) || 0;
+
+  // Character Category
   if (category === "chars" && UID) {
     const characters = await getChars();
     const character = characters.chars.find((character: Document) => character._id === UID);
@@ -111,9 +120,15 @@ export async function GET(req: NextRequest) {
     redirect("/evertale");
   }
 
+  // LeaderSkillData
+  if (category === "leaderSkill") {
+    const leaderskills = await getLeaderSkills();
+    const data = leaderskills.leaderskills.find((ls: leaderSkillDataState) => ls.name === name);
+    return NextResponse.json({ leaderSkill: data });
+  }
+
   // const conjures = await getConjures();
   // const generals = await getGenerals();
-  // const leaderskills = await getLeaderSkills();
   // const passiveskills = await getPassiveSkills();
   // const weapons = await getWeapons();
 

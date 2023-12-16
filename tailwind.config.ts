@@ -4,6 +4,12 @@ const config: Config = {
   content: ["./pages/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}", "./app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      fontSize: {
+        caption: "10px",
+      },
+      lineHeight: {
+        caption: "0",
+      },
       fontFamily: {
         "nova-square": ["var(--font-nova-square)"],
         merriweather: ["var(--font-merriweather)"],
