@@ -13,11 +13,11 @@ export default function Result({ data, s, loading }: { data: DataState[]; s: str
   ) : data?.length !== 0 ? (
     <div className="mx-10 my-8">
       <h1 className="font-poppins font-semibold text-base lg:text-2xl text-center text-white">
-        Ditemukan {data?.length} data dengan keyword pencarian "{s}"{" "}
+        Ditemukan {data?.length} data dengan keyword pencarian &quot;{s}&quot;{" "}
       </h1>
       <div className="my-8 flex flex-row justify-center flex-wrap w-full">
         {data?.map((d: DataState) => (
-          <Link href={`/evertale/chars/${d?.id}`}>
+          <Link href={`/evertale/chars/${d?.id}`} key={d?.id}>
             <figure className="mx-4 my-4 flex flex-col justify-between content-between bg-slate-800 min-w-[240px] max-w-[240px] min-h-[350px] px-4 py-4 rounded-xl">
               <Image src={d?.image} width={240} height={240} alt={d?.name} className="rounded-xl h-[312px] object-cover" />
               <figcaption className="text-white font-poppins text-sm lg:text-base mt-4">{d?.name}</figcaption>
