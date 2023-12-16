@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
   const category = url.searchParams.get("category");
   const UID = url.searchParams.get("UID");
   const element = url.searchParams.get("element");
+  const name = url.searchParams.get("name");
   const maxResult = Number(url.searchParams.get("maxResult")) || 0;
   if (category === "chars" && UID) {
     const characters = await getChars();
@@ -79,6 +80,17 @@ export async function GET(req: NextRequest) {
     }
     const elementChar = data.chars.filter((e: any) => e.charStatus.statusElement === element);
     return NextResponse.json({ status: 200, elementChar });
+  }
+  if (category === "chars" && name) {
+    const chars = await getChars();
+    const data = chars.chars
+      .filter((char: any) => char.charStatus.charName.toLowerCase().includes(name.toLowerCase()))
+      .map((d: any) => ({
+        id: d._id,
+        image: d.charImage.f1Img,
+        name: d.charStatus.charName,
+      }));
+    return NextResponse.json({ status: 200, data });
   }
   if (category === "chars") {
     const chars = await getChars();

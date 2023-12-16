@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import Search from "./Search";
 
 export default function Headers() {
   const router = useRouter();
@@ -14,12 +15,14 @@ export default function Headers() {
 
   if (!user) {
     return (
-      <nav className="w-full flex flex-row justify-between z-50 fixed top-0 h-[60px] bg-emerald-700">
+      <nav className="w-full flex flex-row justify-between z-50 fixed top-0 h-[60px] bg-zinc-800 ">
         <div className="mx-2 sm:mx-6 my-auto ">
           <h1 className="text-white text-xl sm:text-2xl font-merriweather cursor-pointer" onClick={() => router.push("/")}>
             GameLingo Tools
           </h1>
         </div>
+        {pathName === "/evertale/chars" && <Search />}
+
         {pathName !== "/login" && pathName !== "/register" && !pathName.includes("/verification") && (
           <div className="mx-2 sm:mx-6 my-auto">
             <Link href="/login" className="cursor-pointer">
@@ -34,12 +37,14 @@ export default function Headers() {
     );
   }
   return (
-    <nav className="w-full flex flex-row justify-between fixed top-0 h-[60px] bg-emerald-700">
+    <nav className="w-full flex flex-row justify-between fixed top-0 h-[60px] bg-zinc-800 ">
       <div className="mx-2 sm:mx-6 my-auto ">
         <h1 className="text-white text-xl sm:text-2xl font-merriweather cursor-pointer" onClick={() => router.push("/")}>
           GameLingo Tools
         </h1>
       </div>
+
+      {pathName === "/evertale/chars" && <Search />}
 
       <div className="mx-2 sm:mx-6 my-auto">
         <SessionNav user={user} />
