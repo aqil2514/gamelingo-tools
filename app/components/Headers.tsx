@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import Search from "./Search";
 
 export default function Headers() {
   const router = useRouter();
@@ -21,7 +20,6 @@ export default function Headers() {
             GameLingo Tools
           </h1>
         </div>
-        {pathName === "/evertale/chars" && <Search />}
 
         {pathName !== "/login" && pathName !== "/register" && !pathName.includes("/verification") && (
           <div className="mx-2 sm:mx-6 my-auto">
@@ -43,8 +41,6 @@ export default function Headers() {
           GameLingo Tools
         </h1>
       </div>
-
-      {pathName === "/evertale/chars" && <Search />}
 
       <div className="mx-2 sm:mx-6 my-auto">
         <SessionNav user={user} />

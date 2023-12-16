@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Search() {
   return (
-    <div className={DIV_MAIN_STYLE + " py-20"}>
+    <div className={DIV_MAIN_STYLE + " py-20 px-8"}>
       <Main />
     </div>
   );

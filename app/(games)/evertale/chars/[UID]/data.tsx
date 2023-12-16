@@ -12,6 +12,7 @@ import "swiper/css/pagination";
 import Image from "next/image";
 import { useRef } from "react";
 import useSWR from "swr";
+import { SWRError } from "@/app/components/SWR";
 
 type ActiveSkillState = {
   skillName: string;
@@ -289,8 +290,24 @@ function CharStatus({ genData }: { genData: any }) {
 
   const { data, isLoading, error } = useSWR(URL, fetcherLeaderSkill);
 
-  if (error) console.log(error);
-  if (!data || isLoading) console.log("loading");
+  if (error) return <SWRError />;
+  if (!data || isLoading)
+    return (
+      <>
+        {genData.charStatus.leaderSkill && (
+          <p className="font-poppins text-base text-white">
+            <strong>Engish Description : </strong>
+            Loading...
+          </p>
+        )}
+        {genData.charStatus.leaderSkill && (
+          <p className="font-poppins text-base text-white">
+            <strong>Deskripsi Indonesia : </strong>
+            Loading...
+          </p>
+        )}
+      </>
+    );
 
   return (
     <div className="block my-8 mx-auto w-full md:w-1/2 bg-slate-800 px-8 py-4 rounded-xl">
@@ -323,13 +340,13 @@ function CharStatus({ genData }: { genData: any }) {
         {genData.charStatus.leaderSkill && (
           <p className="font-poppins text-base text-white">
             <strong>Engish Description : </strong>
-            {data?.leaderSkill.descEN}
+            {data?.leaderSkill?.descEN}
           </p>
         )}
         {genData.charStatus.leaderSkill && (
           <p className="font-poppins text-base text-white">
             <strong>Deskripsi Indonesia : </strong>
-            {data?.leaderSkill.descID}
+            {data?.leaderSkill?.descID}
           </p>
         )}
       </article>
