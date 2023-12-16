@@ -223,7 +223,6 @@ export default function Data({ data }: { data: any }) {
         )}
       </div>
 
-      <p className="mt-4 text-white font-bold text text-xs h-0 font-merriweather underline">Klik atau sentuh bagan untuk memunculkan / menghilangkan navigasi</p>
       <p className="mt-4 text-white font-bold text text-xs h-0 font-merriweather">Click or touch the div to visible or hide the navigation</p>
       <div className="flex mb-4 flex-col md:flex-row justify-between content-center">
         <div className="w-full md:w1/2 mt-8 ml-2 px-4 py-4 rounded-xl bg-slate-800 h-[460px] overflow-y-scroll scrollbar-style">
