@@ -1,10 +1,8 @@
-import { getChars, getConjures, getGenerals, getLeaderSkills, getWeapons, getPassiveSkills, updateConjures, addConjures, addChars, deleteConjures, deleteCharacters, updateCharacters, addLeaderSkill } from "@/lib/mongodb/evertale.js";
 import connectMongoDB from "@/lib/mongoose";
 import Character from "@/models/Evertale/Characters";
-import { Document } from "mongodb";
+import LeaderSkill from "@/models/Evertale/LeaderSkill";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
-import { ComponentState } from "react";
 
 type leaderSkillDataState = {
   _id: string;
@@ -34,47 +32,47 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ character }, { status: 200 });
   }
   if (category === "chars" && element) {
-    const data = await getChars();
+    const chars = await Character.find();
 
-    const fire = data.chars
+    const fire = chars
       .filter((char: any) => char.charStatus.statusElement === "Fire")
       .map((d: any) => ({
-        id: d._id,
+        id: d.char_id,
         image: d.charImage.f1Img,
         charName: d.charStatus.charName,
       }));
-    const water = data.chars
+    const water = chars
       .filter((char: any) => char.charStatus.statusElement === "Water")
       .map((d: any) => ({
-        id: d._id,
+        id: d.char_id,
         image: d.charImage.f1Img,
         charName: d.charStatus.charName,
       }));
-    const dark = data.chars
+    const dark = chars
       .filter((char: any) => char.charStatus.statusElement === "Dark")
       .map((d: any) => ({
-        id: d._id,
+        id: d.char_id,
         image: d.charImage.f1Img,
         charName: d.charStatus.charName,
       }));
-    const light = data.chars
+    const light = chars
       .filter((char: any) => char.charStatus.statusElement === "Light")
       .map((d: any) => ({
-        id: d._id,
+        id: d.char_id,
         image: d.charImage.f1Img,
         charName: d.charStatus.charName,
       }));
-    const storm = data.chars
+    const storm = chars
       .filter((char: any) => char.charStatus.statusElement === "Storm")
       .map((d: any) => ({
-        id: d._id,
+        id: d.char_id,
         image: d.charImage.f1Img,
         charName: d.charStatus.charName,
       }));
-    const earth = data.chars
+    const earth = chars
       .filter((char: any) => char.charStatus.statusElement === "Earth")
       .map((d: any) => ({
-        id: d._id,
+        id: d.char_id,
         image: d.charImage.f1Img,
         charName: d.charStatus.charName,
       }));
@@ -90,24 +88,24 @@ export async function GET(req: NextRequest) {
       };
       return NextResponse.json({ status: 200, elementChar });
     }
-    const elementChar = data.chars.filter((e: any) => e.charStatus.statusElement === element);
+    const elementChar = chars.filter((e: any) => e.charStatus.statusElement === element);
     return NextResponse.json({ status: 200, elementChar });
   }
   if (category === "chars" && name) {
-    const chars = await getChars();
-    const data = chars.chars
+    const chars = await Character.find();
+    const data = chars
       .filter((char: any) => char.charStatus.charName.toLowerCase().includes(name.toLowerCase()))
       .map((d: any) => ({
-        id: d._id,
+        id: d.char_id,
         image: d.charImage.f1Img,
         name: d.charStatus.charName,
       }));
     return NextResponse.json({ status: 200, data });
   }
   if (category === "chars") {
-    const chars = await getChars();
-    const data = chars.chars.map((d: any) => ({
-      id: d._id,
+    const chars = await Character.find();
+    const data = chars.map((d: any) => ({
+      id: d.char_id,
       image: d.charImage.f1Img,
       charName: d.charStatus.charName,
     }));
@@ -125,17 +123,10 @@ export async function GET(req: NextRequest) {
 
   // LeaderSkillData
   if (category === "leaderSkill") {
-    const leaderskills = await getLeaderSkills();
-    const data = leaderskills.leaderskills.find((ls: leaderSkillDataState) => ls.name === name);
+    const leaderskills = await LeaderSkill.find();
+    const data = leaderskills.find((ls: leaderSkillDataState) => ls.name === name);
     return NextResponse.json({ leaderSkill: data });
   }
-
-  // const conjures = await getConjures();
-  // const generals = await getGenerals();
-  // const passiveskills = await getPassiveSkills();
-  // const weapons = await getWeapons();
-
-  // return Response.json({ chars, conjures, generals, leaderskills, weapons, passiveskills });
 }
 
 export async function POST(req: NextRequest) {
@@ -203,7 +194,7 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: Request) {
   const { id, target } = await req.json();
 
-  await deleteCharacters(id);
+  await Character.findByIdAndDelete(id);
 
   return new Response(
     JSON.stringify({
@@ -216,7 +207,7 @@ export async function PUT(req: any) {
   const { submitData, typeData } = await req.json();
 
   if (typeData === "character") {
-    const result = await updateCharacters(submitData);
+    const result = await Character.findOneAndUpdate(submitData);
 
     return Response.json({ msg: "Data berhasil diubah", result });
   }

@@ -37,11 +37,11 @@ export default function Data({ data }: { data: any }) {
   console.log(data);
 
   return (
-    <div className={DIV_MAIN_STYLE + " px-8"}>
-      <h1 className="font-semibold text-base font-merriweather text-center lg:text-2xl text-white mx-8 mt-4">{data.charStatus.charName}</h1>
+    <div className={DIV_MAIN_STYLE + " px-2 lg:px-8"}>
+      <h1 className="font-semibold text-lg font-merriweather text-center lg:text-2xl text-white mx-8 mt-4">{data.charStatus.charName}</h1>
 
       <div className="flex my-4 flex-col md:flex-row justify-between content-center">
-        <div className="w-full md:w-1/2 mt-8 mr-2">
+        <div className="w-full md:w-1/2 mt-8 lg:mr-2">
           <Swiper
             modules={[Navigation, Pagination]}
             slidesPerView={1}
@@ -110,7 +110,7 @@ export default function Data({ data }: { data: any }) {
             )}
           </Swiper>
         </div>
-        <div className="w-full md:w1/2 mt-8 ml-2 px-4 py-4 rounded-xl bg-slate-800 h-[460px] overflow-y-scroll scrollbar-style">
+        <div className="w-full md:w1/2 mt-8 lg:ml-2 px-4 py-4 rounded-xl bg-slate-800 h-[460px] overflow-y-scroll scrollbar-style">
           <article key="part1" ref={part1}>
             <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Part 1</h3>
             <p className="text-white italic font-poppins">{data.charProfile.part1En}</p>
@@ -138,7 +138,7 @@ export default function Data({ data }: { data: any }) {
 
       <CharStatus genData={data} />
 
-      <div className="block my-8 w-full bg-slate-800 px-8 py-4 rounded-xl">
+      <div className="block my-8 w-full bg-slate-800 px-4 md:px-8 py-4 rounded-xl">
         <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Character Intro</h3>
         {data.charIntro.gachaIntroEn && (
           <article key="gacha-intro">
@@ -311,7 +311,7 @@ function CharStatus({ genData }: { genData: any }) {
       </>
     );
   return (
-    <div className="block my-8 mx-auto w-full md:w-1/2 bg-slate-800 px-8 py-4 rounded-xl">
+    <div className="block my-8 mx-auto w-full md:w-1/2 bg-slate-800 px-4 md:px-8 py-4 rounded-xl">
       <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Character Status</h3>
       <article>
         <p className="font-poppins text-base text-white">

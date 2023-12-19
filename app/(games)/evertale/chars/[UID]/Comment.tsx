@@ -7,17 +7,15 @@ import { FormEvent, useState } from "react";
 
 const Commentar = () => {
   return (
-    <div className="flex flex-row w-full my-8">
-      <div className="w-[180px] h-[48px] relative">
-        <Image src="/no-profile.png" fill alt="Account" className="rounded-full w-auto h-auto object-cover" />
+    <div className="flex flex-col w-full my-8">
+      <div className="flex flex-row ">
+        <Image src="/no-profile.png" width={64} height={64} alt="Account" className="rounded-full mr-2 md:mr-4 w-[32px] h-[32px] md:w-[64px] md:h-[64px] object-cover" />
+        <h4 className="font-mclaren font-semibold my-auto ml-2 md:ml-4 text-base md:text-lg text-white">Nama akun yang komentar</h4>
       </div>
-      <div className="flex flex-col ml-4">
-        <h4 className="font-mclaren font-semibold text-lg text-white">Nama akun yang komentar</h4>
-        <p className="font-poppins text-base text-white text-justify">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam voluptates quis nobis aspernatur, in nulla ipsa excepturi dolorum tempora laudantium reiciendis accusantium vero ratione beatae dolor pariatur atque incidunt autem rem
-          ex vel molestias ea totam voluptate. Praesentium cum odio nemo corporis modi qui veniam velit culpa, libero architecto accusamus!
-        </p>
-      </div>
+      <p className="font-poppins mt-4 text-sm md:text-base text-white text-justify">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam voluptates quis nobis aspernatur, in nulla ipsa excepturi dolorum tempora laudantium reiciendis accusantium vero ratione beatae dolor pariatur atque incidunt autem rem ex
+        vel molestias ea totam voluptate. Praesentium cum odio nemo corporis modi qui veniam velit culpa, libero architecto accusamus!
+      </p>
     </div>
   );
 };
@@ -49,7 +47,7 @@ const CommentBox = () => {
           <h3 className="font-mclaren text-white font-bold">Comment Box : </h3>
           <textarea name="comment" value={comment} placeholder="Kolom Komentar..." onChange={(e) => setComment(e.target.value)} id="text-area-comment" disabled={loading} className="w-full min-h-[100px] rounded-xl mt-2 p-2 font-poppins" />
         </label>
-        <Button variant={"secondary"} disabled={loading} className="py-2">
+        <Button variant={"secondary"} disabled={loading} className="py-2 my-2">
           {loading ? "Menambah komentar..." : "Tambah Komentar"}
         </Button>
       </form>
@@ -59,10 +57,10 @@ const CommentBox = () => {
 
 export default function Comment() {
   return (
-    <div className="w-2/3 min-h-[100px] bg-[rgba(0,0,0,0.5)] px-8 py-4 rounded-xl mx-8">
+    <div className="w-full lg:w-2/3 min-h-[100px] bg-[rgba(0,0,0,0.5)] px-8 py-4 rounded-xl md:mx-8">
       <h3 className="text-center text-white font-bold font-merriweather">Komentar</h3>
-      <Commentar />
       <CommentBox />
+      <Commentar />
     </div>
   );
 }

@@ -17,6 +17,8 @@ export default function ElementChar() {
       setLoading(true);
       const { data } = await axios.get("/api/gamelingo/evertale?category=chars&element=all");
 
+      console.log(data);
+
       if (data.status !== 200) {
         alert(data.msg);
         return;
