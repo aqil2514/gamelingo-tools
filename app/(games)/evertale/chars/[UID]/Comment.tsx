@@ -57,7 +57,7 @@ const CommentBox = () => {
 
 export default function Comment() {
   return (
-    <div className="w-full lg:w-2/3 min-h-[100px] bg-[rgba(0,0,0,0.5)] px-8 py-4 rounded-xl md:mx-8">
+    <div className="w-full lg:w-2/3 min-h-[100px] bg-[rgba(0,0,0,0.5)] px-8 py-4 md:rounded-xl md:mx-8">
       <h3 className="text-center text-white font-bold font-merriweather">Komentar</h3>
       <CommentBox />
       <Commentar />

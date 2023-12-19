@@ -319,6 +319,10 @@ function CharStatus({ genData }: { genData: any }) {
           {genData.charStatus.charName}
         </p>
         <p className="font-poppins text-base text-white">
+          <strong>Character Rank : </strong>
+          {genData.charStatus.charRank}
+        </p>
+        <p className="font-poppins text-base text-white">
           <strong>Element : </strong>
           {genData.charStatus.statusElement}
         </p>
