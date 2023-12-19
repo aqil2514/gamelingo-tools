@@ -22,5 +22,5 @@ export default function Character() {
   }, []);
 
   console.log("ok");
-  return <div className={DIV_MAIN_STYLE}>"ok"</div>;
+  return <div className={DIV_MAIN_STYLE}>ok</div>;
 }
