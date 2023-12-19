@@ -1,4 +1,5 @@
 import { getChars, getConjures, getGenerals, getLeaderSkills, getWeapons, getPassiveSkills, updateConjures, addConjures, addChars, deleteConjures, deleteCharacters, updateCharacters, addLeaderSkill } from "@/lib/mongodb/evertale.js";
+import connectMongoDB from "@/lib/mongoose";
 import Character from "@/models/Evertale/Characters";
 import { Document } from "mongodb";
 import { redirect } from "next/navigation";
@@ -19,6 +20,8 @@ export async function GET(req: NextRequest) {
   const element = url.searchParams.get("element");
   const name = url.searchParams.get("name");
   const maxResult = Number(url.searchParams.get("maxResult")) || 0;
+
+  await connectMongoDB();
 
   // Character Category
   if (category === "chars" && UID) {
