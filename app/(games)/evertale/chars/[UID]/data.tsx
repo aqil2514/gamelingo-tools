@@ -25,8 +25,8 @@ type ActiveSkillState = {
 
 type PassiveSkillState = {
   name: string;
-  descEN: string;
-  descID: string;
+  descEn: string;
+  descId: string;
 };
 
 export default function Data({ data }: { data: any }) {
@@ -34,8 +34,10 @@ export default function Data({ data }: { data: any }) {
   const part2 = useRef(null);
   const part3 = useRef(null);
 
+  console.log(data);
+
   return (
-    <div className={DIV_MAIN_STYLE + " py-20 px-8"}>
+    <div className={DIV_MAIN_STYLE + " px-8"}>
       <h1 className="font-semibold text-base font-merriweather text-center lg:text-2xl text-white mx-8 mt-4">{data.charStatus.charName}</h1>
 
       <div className="flex my-4 flex-col md:flex-row justify-between content-center">
@@ -228,7 +230,7 @@ export default function Data({ data }: { data: any }) {
       <div className="flex mb-4 flex-col md:flex-row justify-between content-center">
         <div className="w-full md:w1/2 mt-8 ml-2 px-4 py-4 rounded-xl bg-slate-800 h-[460px] overflow-y-scroll scrollbar-style">
           <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="navigation-config">
-            {data.nASkill.map((nas: ActiveSkillState, i: number) => (
+            {data.charActiveSkill.map((nas: ActiveSkillState, i: number) => (
               <SwiperSlide key={`active-skill-${i++}`}>
                 <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Active Skill {i + 1}</h3>
                 <p className="text-white font-poppins">
@@ -258,7 +260,7 @@ export default function Data({ data }: { data: any }) {
         </div>
         <div className="w-full md:w1/2 mt-8 ml-2 px-4 py-4 rounded-xl bg-slate-800 h-[460px] overflow-y-scroll scrollbar-style">
           <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="navigation-config">
-            {data.nPSkill.map((nps: PassiveSkillState, i: number) => (
+            {data.charPassiveSkill.map((nps: PassiveSkillState, i: number) => (
               <SwiperSlide key={`active-skill-${i++}`}>
                 <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Passive Skill {i + 1}</h3>
                 <p className="text-white font-poppins">
@@ -267,12 +269,12 @@ export default function Data({ data }: { data: any }) {
 
                 <article className="text-white font-poppins">
                   <strong>Description : </strong>
-                  <p>{nps.descEN}</p>
+                  <p>{nps.descEn}</p>
                 </article>
                 <article className="text-white font-poppins">
                   <strong>Deskripsi : </strong>
                   <p></p>
-                  {nps.descID}
+                  {nps.descId}
                 </article>
               </SwiperSlide>
             ))}
@@ -308,7 +310,6 @@ function CharStatus({ genData }: { genData: any }) {
         )}
       </>
     );
-
   return (
     <div className="block my-8 mx-auto w-full md:w-1/2 bg-slate-800 px-8 py-4 rounded-xl">
       <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Character Status</h3>
@@ -340,13 +341,13 @@ function CharStatus({ genData }: { genData: any }) {
         {genData.charStatus.leaderSkill && (
           <p className="font-poppins text-base text-white">
             <strong>Engish Description : </strong>
-            {data?.leaderSkill?.descEN}
+            {data?.leaderSkill?.descEn}
           </p>
         )}
         {genData.charStatus.leaderSkill && (
           <p className="font-poppins text-base text-white">
             <strong>Deskripsi Indonesia : </strong>
-            {data?.leaderSkill?.descID}
+            {data?.leaderSkill?.descId}
           </p>
         )}
       </article>

@@ -8,6 +8,9 @@
 
 # testing
 /coverage
+/models/testing
+/app/api/testing
+/app/testing
 
 #environment
 .env

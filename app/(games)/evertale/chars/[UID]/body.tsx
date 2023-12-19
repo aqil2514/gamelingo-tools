@@ -4,6 +4,7 @@ import { SWRError, SWRLoading } from "@/app/components/SWR";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import Data from "./data";
+import Comment from "./Comment";
 
 const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
@@ -15,5 +16,12 @@ export default function CharBody() {
 
   if (error) return <SWRError />;
   if (!data || isLoading) return <SWRLoading />;
-  if (data) return <Data data={data.character} />;
+  console.log(data);
+  if (data)
+    return (
+      <>
+        <Data data={data.character} />
+        <Comment />
+      </>
+    );
 }

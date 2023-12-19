@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 export default function Character() {
   return (
-    <div className={DIV_MAIN_STYLE}>
+    <div className={DIV_MAIN_STYLE + " py-20"}>
       <CharBody />
     </div>
   );
