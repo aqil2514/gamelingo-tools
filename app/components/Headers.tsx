@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { useOnClickOutside } from "@/hooks/use-on-click-outside";
 
 export default function Headers() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function Headers() {
 
   if (!user) {
     return (
-      <nav className="w-full flex flex-row justify-between z-50 fixed top-0 h-[60px] bg-zinc-800 ">
+      <nav style={{ zIndex: "999" }} className="w-full flex flex-row justify-between fixed top-0 h-[60px] bg-zinc-800 ">
         <div className="mx-2 sm:mx-6 my-auto ">
           <h1 className="text-white text-xl sm:text-2xl font-merriweather cursor-pointer" onClick={() => router.push("/")}>
             GameLingo Tools
@@ -35,7 +36,7 @@ export default function Headers() {
     );
   }
   return (
-    <nav className="w-full flex flex-row justify-between fixed top-0 h-[60px] bg-zinc-800 ">
+    <nav style={{ zIndex: "999" }} className="w-full flex flex-row justify-between fixed top-0 h-[60px] bg-zinc-800 ">
       <div className="mx-2 sm:mx-6 my-auto ">
         <h1 className="text-white text-xl sm:text-2xl font-merriweather cursor-pointer" onClick={() => router.push("/")}>
           GameLingo Tools
@@ -51,7 +52,8 @@ export default function Headers() {
 
 function SessionNav({ user }: { user: any }) {
   const [isActive, setIsActive] = useState<true | false>(false);
-  const menu = useRef<HTMLDivElement>(null);
+  const menu = useRef<HTMLDivElement | null>(null);
+  useOnClickOutside(menu, () => setIsActive(false));
 
   function clickHandler() {
     setIsActive(!isActive);
@@ -67,7 +69,7 @@ function SessionNav({ user }: { user: any }) {
 }
 
 const NONACTIVE = "hidden";
-const ACTIVE = "block absolute text-right top-14 right-0 bg-emerald-700 min-h-screen py-8 px-4";
+const ACTIVE = "block absolute text-right top-14 right-0 bg-zinc-800 min-h-screen py-8 px-4";
 
 function MenuProfile({ isActive, menu, user }: { isActive: true | false; menu: React.Ref<HTMLDivElement>; user: any }) {
   return (

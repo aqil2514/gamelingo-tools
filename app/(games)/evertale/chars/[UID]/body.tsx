@@ -16,12 +16,10 @@ export default function CharBody() {
 
   if (error) return <SWRError />;
   if (!data || isLoading) return <SWRLoading />;
-  console.log(data);
-  if (data)
-    return (
-      <>
-        <Data data={data.character} />
-        <Comment />
-      </>
-    );
+  return (
+    <>
+      <Data data={data.character} />
+      <Comment data={data.post} />
+    </>
+  );
 }

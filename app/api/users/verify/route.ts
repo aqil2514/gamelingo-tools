@@ -1,5 +1,7 @@
+import connectMongoDB from "@/lib/mongoose";
 //@ts-ignore
 import prisma from "@/lib/prisma/prisma";
+import User from "@/models/Evertale/Users";
 import { NextResponse } from "next/server";
 import { createTransport } from "nodemailer";
 
@@ -85,6 +87,8 @@ export async function PUT(req: Request) {
       },
     });
 
+    await connectMongoDB();
+
     //@ts-ignore
     await prisma.usersLogin.update({
       where: {
@@ -94,6 +98,8 @@ export async function PUT(req: Request) {
         email,
       },
     });
+
+    await User.findOneAndUpdate({ email: oldEmail }, { email });
 
     return NextResponse.json({ msg: `Email telah diganti dari ${oldEmail} menjadi ${email}. Silahkan kirim ulang kode` });
   }

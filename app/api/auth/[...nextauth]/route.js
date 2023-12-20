@@ -3,6 +3,8 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkUser, checkEmail } from "@/lib/prisma/users";
 import prisma from "@/lib/prisma/prisma";
+import User from "@/models/Evertale/Users";
+import connectMongoDB from "@/lib/mongoose";
 
 const authOptions = {
   providers: [
@@ -34,8 +36,20 @@ const authOptions = {
   callbacks: {
     async signIn({ account, profile, user }) {
       if (account.provider === "google") {
+        await connectMongoDB();
         const check = await checkEmail(profile.email);
+        const mongoCheck = await User.findOne({ email: profile.email });
 
+        if (!mongoCheck) {
+          await User.create({
+            name: profile.name,
+            email: profile.email,
+            avatar: profile.picture,
+            username: "Unsetting",
+          });
+        } else if (mongoCheck) {
+          await User.findOneAndUpdate({ email: profile.email }, { avatar: profile.image });
+        }
         if (check.length === 0) {
           await prisma.usersLogin.create({
             data: {

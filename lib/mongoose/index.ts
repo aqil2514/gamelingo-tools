@@ -9,4 +9,13 @@ const connectMongoDB = async (): Promise<void> => {
   }
 };
 
+export const destroyMainDB = async (): Promise<void> => {
+  try {
+    await mongoose.connection.close();
+    console.log("MongoDB Main Disconnected");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+  }
+};
+
 export default connectMongoDB;

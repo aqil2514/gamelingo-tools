@@ -15,7 +15,7 @@ import useSWR from "swr";
 import { SWRError } from "@/app/components/SWR";
 
 type ActiveSkillState = {
-  skillName: string;
+  name: string;
   spirit: string | number;
   target: string | number;
   TU: string | number;
@@ -33,8 +33,6 @@ export default function Data({ data }: { data: any }) {
   const part1 = useRef(null);
   const part2 = useRef(null);
   const part3 = useRef(null);
-
-  console.log(data);
 
   return (
     <div className={DIV_MAIN_STYLE + " px-2 lg:px-8"}>
@@ -138,93 +136,95 @@ export default function Data({ data }: { data: any }) {
 
       <CharStatus genData={data} />
 
-      <div className="block my-8 w-full bg-slate-800 px-4 md:px-8 py-4 rounded-xl">
-        <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Character Intro</h3>
-        {data.charIntro.gachaIntroEn && (
-          <article key="gacha-intro">
-            <p className="font-poppins text-base italic text-white">
-              <strong>Gacha Intro EN : </strong>
-              {data.charIntro.gachaIntroEn}
-            </p>
-            <p className="font-poppins text-base text-white">
-              <strong>Gacha Intro ID : </strong>
-              {data.charIntro.gachaIntroId}
-            </p>
-          </article>
-        )}
-        {data.charIntro.gachaTextEn && (
-          <article key="gacha-text" className="my-2">
-            <p className="font-poppins text-base italic text-white">
-              <strong>Gacha Text EN : </strong>
-              {data.charIntro.gachaTextEn}
-            </p>
-            <p className="font-poppins text-base text-white">
-              <strong>Gacha Text ID : </strong>
-              {data.charIntro.gachaTextId}
-            </p>
-          </article>
-        )}
-        {data.charIntro.loginTextEn && (
-          <article key="login-text" className="my-2">
-            <p className="font-poppins text-base italic text-white">
-              <strong>Login Text EN : </strong>
-              {data.charIntro.loginTextEn}
-            </p>
-            <p className="font-poppins text-base text-white">
-              <strong>Login Text ID : </strong>
-              {data.charIntro.loginTextId}
-            </p>
-          </article>
-        )}
-        {data.charIntro.text1En && (
-          <article key="text-1" className="my-2">
-            <p className="font-poppins text-base italic text-white">
-              <strong>Text 1 EN : </strong>
-              {data.charIntro.text1En}
-            </p>
-            <p className="font-poppins text-base text-white">
-              <strong>Text 1 ID : </strong>
-              {data.charIntro.text1Id}
-            </p>
-          </article>
-        )}
-        {data.charIntro.text2En && (
-          <article key="text-2" className="my-2">
-            <p className="font-poppins text-base italic text-white">
-              <strong>Text 2 EN : </strong>
-              {data.charIntro.text2En}
-            </p>
-            <p className="font-poppins text-base text-white">
-              <strong>Text 2 ID : </strong>
-              {data.charIntro.text2Id}
-            </p>
-          </article>
-        )}
-        {data.charIntro.text3En && (
-          <article key="text-3" className="my-2">
-            <p className="font-poppins text-base italic text-white">
-              <strong>Text 3 EN : </strong>
-              {data.charIntro.text3En}
-            </p>
-            <p className="font-poppins text-base text-white">
-              <strong>Text 3 ID : </strong>
-              {data.charIntro.text3Id}
-            </p>
-          </article>
-        )}
-        {data.charIntro.text4En && (
-          <article key="text-4" className="my-2">
-            <p className="font-poppins text-base italic text-white">
-              <strong>Text 4 EN : </strong>
-              {data.charIntro.text4En}
-            </p>
-            <p className="font-poppins text-base text-white">
-              <strong>Text 4 ID : </strong>
-              {data.charIntro.text4Id}
-            </p>
-          </article>
-        )}
-      </div>
+      {Object.keys(data.charIntro).length >= 2 && (
+        <div className="block my-8 w-full bg-slate-800 px-4 md:px-8 py-4 rounded-xl">
+          <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Character Intro</h3>
+          {data.charIntro.gachaIntroEn && (
+            <article key="gacha-intro">
+              <p className="font-poppins text-base italic text-white">
+                <strong>Gacha Intro EN : </strong>
+                {data.charIntro.gachaIntroEn}
+              </p>
+              <p className="font-poppins text-base text-white">
+                <strong>Gacha Intro ID : </strong>
+                {data.charIntro.gachaIntroId}
+              </p>
+            </article>
+          )}
+          {data.charIntro.gachaTextEn && (
+            <article key="gacha-text" className="my-2">
+              <p className="font-poppins text-base italic text-white">
+                <strong>Gacha Text EN : </strong>
+                {data.charIntro.gachaTextEn}
+              </p>
+              <p className="font-poppins text-base text-white">
+                <strong>Gacha Text ID : </strong>
+                {data.charIntro.gachaTextId}
+              </p>
+            </article>
+          )}
+          {data.charIntro.loginTextEn && (
+            <article key="login-text" className="my-2">
+              <p className="font-poppins text-base italic text-white">
+                <strong>Login Text EN : </strong>
+                {data.charIntro.loginTextEn}
+              </p>
+              <p className="font-poppins text-base text-white">
+                <strong>Login Text ID : </strong>
+                {data.charIntro.loginTextId}
+              </p>
+            </article>
+          )}
+          {data.charIntro.text1En && (
+            <article key="text-1" className="my-2">
+              <p className="font-poppins text-base italic text-white">
+                <strong>Text 1 EN : </strong>
+                {data.charIntro.text1En}
+              </p>
+              <p className="font-poppins text-base text-white">
+                <strong>Text 1 ID : </strong>
+                {data.charIntro.text1Id}
+              </p>
+            </article>
+          )}
+          {data.charIntro.text2En && (
+            <article key="text-2" className="my-2">
+              <p className="font-poppins text-base italic text-white">
+                <strong>Text 2 EN : </strong>
+                {data.charIntro.text2En}
+              </p>
+              <p className="font-poppins text-base text-white">
+                <strong>Text 2 ID : </strong>
+                {data.charIntro.text2Id}
+              </p>
+            </article>
+          )}
+          {data.charIntro.text3En && (
+            <article key="text-3" className="my-2">
+              <p className="font-poppins text-base italic text-white">
+                <strong>Text 3 EN : </strong>
+                {data.charIntro.text3En}
+              </p>
+              <p className="font-poppins text-base text-white">
+                <strong>Text 3 ID : </strong>
+                {data.charIntro.text3Id}
+              </p>
+            </article>
+          )}
+          {data.charIntro.text4En && (
+            <article key="text-4" className="my-2">
+              <p className="font-poppins text-base italic text-white">
+                <strong>Text 4 EN : </strong>
+                {data.charIntro.text4En}
+              </p>
+              <p className="font-poppins text-base text-white">
+                <strong>Text 4 ID : </strong>
+                {data.charIntro.text4Id}
+              </p>
+            </article>
+          )}
+        </div>
+      )}
 
       <p className="mt-4 text-white font-bold text text-xs h-0 font-merriweather">Click or touch the div to visible or hide the navigation</p>
       <div className="flex mb-4 flex-col md:flex-row justify-between content-center">
@@ -234,7 +234,7 @@ export default function Data({ data }: { data: any }) {
               <SwiperSlide key={`active-skill-${i++}`}>
                 <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Active Skill {i + 1}</h3>
                 <p className="text-white font-poppins">
-                  <strong>Skill Name : </strong> {nas.skillName}
+                  <strong>Skill Name : </strong> {nas.name}
                 </p>
                 <p className="text-white font-poppins">
                   <strong>Spirit : </strong> {nas.spirit}
@@ -288,7 +288,8 @@ export default function Data({ data }: { data: any }) {
 const fetcherLeaderSkill = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
 function CharStatus({ genData }: { genData: any }) {
-  const URL = `/api/gamelingo/evertale?category=leaderSkill&name=${genData.charStatus.leaderSkill}`;
+  const encodedLeaderSkill = encodeURIComponent(genData.charStatus.leaderSkill);
+  const URL = `/api/gamelingo/evertale?category=leaderSkill&name=${encodedLeaderSkill}`;
 
   const { data, isLoading, error } = useSWR(URL, fetcherLeaderSkill);
 
@@ -330,28 +331,34 @@ function CharStatus({ genData }: { genData: any }) {
           <strong>First Weapon : </strong>
           {genData.charStatus.firstWeapon}
         </p>
-        {genData.charStatus.secondWeapon && (
+        {genData.charStatus.secondWeapon && genData.charStatus.secondWeapon !== "Select Second Weapon" && (
           <p className="font-poppins text-base text-white">
             <strong>Full Awakening Weapon : </strong>
             {genData.charStatus.secondWeapon}
           </p>
         )}
-        {genData.charStatus.leaderSkill && (
+        {genData.charStatus.conjures && genData.charStatus.conjures !== "null" && (
+          <p className="font-poppins text-base text-white">
+            <strong>Conjures : </strong>
+            {genData.charStatus.conjures}
+          </p>
+        )}
+        {genData.charStatus.leaderSkill && genData.charStatus.leaderSkill !== "null" && (
           <p className="font-poppins text-base text-white">
             <strong>Leader Skill Name : </strong>
             {genData.charStatus.leaderSkill}
           </p>
         )}
-        {genData.charStatus.leaderSkill && (
+        {genData.charStatus.leaderSkill && genData.charStatus.leaderSkill !== "null" && (
           <p className="font-poppins text-base text-white">
             <strong>Engish Description : </strong>
-            {data?.leaderSkill?.descEn}
+            {data?.leaderskills?.descEn}
           </p>
         )}
-        {genData.charStatus.leaderSkill && (
+        {genData.charStatus.leaderSkill && genData.charStatus.leaderSkill !== "null" && (
           <p className="font-poppins text-base text-white">
             <strong>Deskripsi Indonesia : </strong>
-            {data?.leaderSkill?.descId}
+            {data?.leaderskills?.descId}
           </p>
         )}
       </article>

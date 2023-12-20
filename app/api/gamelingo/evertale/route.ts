@@ -1,6 +1,9 @@
 import connectMongoDB from "@/lib/mongoose";
+import { destroyTestDB } from "@/lib/mongoose-testing";
 import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
+import Post from "@/models/Evertale/Post";
+import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -29,12 +32,30 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ status: 404, msg: "Character not found" });
     }
 
-    return NextResponse.json({ character }, { status: 200 });
+    const post = await Post.findOne({ charId: new ObjectId(character.char_id) });
+    if (!post) {
+      await Post.create({
+        title: character.charStatus.charName,
+        charId: character.char_id,
+        author: "Admin Gamelingo",
+        tags: ["Evertale", "Evertale Character"],
+        comment: [],
+      });
+      redirect(`/evertale/chars/${character.char_id}`);
+    }
+
+    return NextResponse.json({ character, post }, { status: 200 });
   }
   if (category === "chars" && element) {
     const chars = await Character.find();
 
-    const fire = chars
+    interface elementChar {
+      id: String;
+      charName: String;
+      image: String;
+    }
+
+    const fire: elementChar[] = chars
       .filter((char: any) => char.charStatus.statusElement === "Fire")
       .map((d: any) => ({
         id: d.char_id,
@@ -123,9 +144,8 @@ export async function GET(req: NextRequest) {
 
   // LeaderSkillData
   if (category === "leaderSkill") {
-    const leaderskills = await LeaderSkill.find();
-    const data = leaderskills.find((ls: leaderSkillDataState) => ls.name === name);
-    return NextResponse.json({ leaderSkill: data });
+    const leaderskills = await LeaderSkill.findOne({ name });
+    return NextResponse.json({ leaderskills });
   }
 }
 
