@@ -14,7 +14,7 @@ export default function CharBody() {
   const URL = `/api/gamelingo/evertale?category=chars&UID=${UID}`;
   const { data, isLoading, error } = useSWR(URL, fetcher);
 
-  if (error) return <SWRError />;
+  if (error) location.reload();
   if (!data || isLoading) return <SWRLoading />;
   return (
     <>
