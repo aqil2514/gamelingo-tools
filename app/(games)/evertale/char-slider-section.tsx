@@ -13,6 +13,7 @@ import "swiper/css/autoplay";
 import "swiper/css/parallax";
 import "swiper/css/thumbs";
 import "./scrollbar.css";
+import { imageLoader } from "@/lib/utils";
 
 export default function CharSliderSection({ buttonLink }: { buttonLink: boolean }) {
   const [characters, setCharacters] = useState<React.ComponentState>();
@@ -47,7 +48,7 @@ export default function CharSliderSection({ buttonLink }: { buttonLink: boolean 
               <SwiperSlide key={char.id}>
                 <Link href={`/evertale/chars/${char.id}`}>
                   <figure>
-                    <Image src={char?.image} width={849} height={460} alt={char?.charName} data-image-index={i++} className="md:w-full h-[460px] object-cover object-top rounded-xl" />
+                    <Image loader={imageLoader} src={char?.image} width={849} height={460} alt={char?.charName} data-image-index={i++} className="md:w-full h-[460px] object-cover object-top rounded-xl" />
                     <figcaption className="text-center text-white font-bold font-mclaren text-sm md:text-lg lg:text-xl">{char?.charName}</figcaption>
                   </figure>
                 </Link>
@@ -59,7 +60,7 @@ export default function CharSliderSection({ buttonLink }: { buttonLink: boolean 
           {characters?.map((char: React.ComponentState, i: number) => (
             <Link href={`/evertale/chars/${char?.id}`} key={char?.id}>
               <figure className="flex flex-row my-4 items-center">
-                <Image src={char?.image} width={849} height={460} alt={char?.charName} data-image-index={i++} className="w-[64px] h-[64px] object-cover mr-2 object-top rounded-xl" />
+                <Image loader={imageLoader} src={char?.image} width={849} height={460} alt={char?.charName} data-image-index={i++} className="w-[64px] h-[64px] object-cover mr-2 object-top rounded-xl" />
                 <figcaption className="text-center mx-auto  text-white font-mclaren text-base">{char?.charName}</figcaption>
               </figure>
             </Link>

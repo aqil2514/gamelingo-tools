@@ -6,6 +6,7 @@ import Link from "next/link";
 import "./scrollbar.css";
 import useSWR from "swr";
 import { SWRError, SWRLoading } from "@/app/components/SWR";
+import { imageLoader } from "@/lib/utils";
 
 const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
@@ -13,7 +14,7 @@ export default function ElementChar() {
   const URL = "/api/gamelingo/evertale/chars?category=element";
   const { data, isLoading, error } = useSWR(URL, fetcher);
 
-  if (!data || isLoading) return <SWRLoading />;
+  if (!data || isLoading) return <></>;
   if (error) return <SWRError />;
 
   return (
@@ -49,7 +50,7 @@ function FireElement({ element }: { element: ElementState[] }) {
       <div className={INNER_CONTAINER_STYLE + " scrollbar-style"}>
         {element.map((char: ElementState) => (
           <figure key={char?.id} className={FIGURE_STYLE}>
-            <Image src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
+            <Image loader={imageLoader} src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
             <figcaption className={FIGCAPTION_STYLE}>{char?.charName}</figcaption>
             <Link href={`/evertale/chars/${char?.id}`} className="my-4">
               <button className={BUTTON_STYLE}>Lihat Character</button>
@@ -68,7 +69,7 @@ function WaterElement({ element }: { element: ElementState[] }) {
       <div className={INNER_CONTAINER_STYLE + " scrollbar-style"}>
         {element.map((char: ElementState) => (
           <figure key={char?.id} className={FIGURE_STYLE}>
-            <Image src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
+            <Image loader={imageLoader} src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
             <figcaption className={FIGCAPTION_STYLE}>{char?.charName}</figcaption>
             <Link href={`/evertale/chars/${char?.id}`} className="my-4">
               <button className={BUTTON_STYLE}>Lihat Character</button>
@@ -87,7 +88,7 @@ function DarkElement({ element }: { element: ElementState[] }) {
       <div className={INNER_CONTAINER_STYLE + " scrollbar-style"}>
         {element.map((char: ElementState) => (
           <figure key={char?.id} className={FIGURE_STYLE}>
-            <Image src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
+            <Image loader={imageLoader} src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
             <figcaption className={FIGCAPTION_STYLE}>{char?.charName}</figcaption>
             <Link href={`/evertale/chars/${char?.id}`} className="my-4">
               <button className={BUTTON_STYLE}>Lihat Character</button>
@@ -106,7 +107,7 @@ function LightElement({ element }: { element: ElementState[] }) {
       <div className={INNER_CONTAINER_STYLE + " scrollbar-style"}>
         {element.map((char: ElementState) => (
           <figure key={char?.id} className={FIGURE_STYLE}>
-            <Image src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
+            <Image loader={imageLoader} src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
             <figcaption className={FIGCAPTION_STYLE}>{char?.charName}</figcaption>
             <Link href={`/evertale/chars/${char?.id}`} className="my-4">
               <button className={BUTTON_STYLE}>Lihat Character</button>
@@ -125,7 +126,7 @@ function EarthElement({ element }: { element: ElementState[] }) {
       <div className={INNER_CONTAINER_STYLE + " scrollbar-style"}>
         {element.map((char: ElementState) => (
           <figure key={char?.id} className={FIGURE_STYLE}>
-            <Image src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
+            <Image loader={imageLoader} src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
             <figcaption className={FIGCAPTION_STYLE}>{char?.charName}</figcaption>
             <Link href={`/evertale/chars/${char?.id}`} className="my-4">
               <button className={BUTTON_STYLE}>Lihat Character</button>
@@ -144,7 +145,7 @@ function StormElement({ element }: { element: ElementState[] }) {
       <div className={INNER_CONTAINER_STYLE + " scrollbar-style"}>
         {element.map((char: ElementState) => (
           <figure key={char?.id} className={FIGURE_STYLE}>
-            <Image src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
+            <Image loader={imageLoader} src={char?.image} width={240} height={240} alt={char?.charName} className={IMAGE_STYLE} />
             <figcaption className={FIGCAPTION_STYLE}>{char?.charName}</figcaption>
             <Link href={`/evertale/chars/${char?.id}`} className="my-4">
               <button className={BUTTON_STYLE}>Lihat Character</button>

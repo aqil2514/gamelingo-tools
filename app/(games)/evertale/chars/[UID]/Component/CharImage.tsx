@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image, { ImageLoaderProps } from "next/image";
 import { RefObject, useState } from "react";
+import { imageLoader } from "@/lib/utils";
 
 const NORMAL_DIV = "transition duration-500 w-full md:w-1/2 mt-8 lg:mr-2";
 const FULLSCREEN_DIV = "transition duration-500 w-screen h-screen fixed top-0 left-0 z-[999] bg-[rgba(0,0,0,0.9)]";
@@ -21,10 +22,6 @@ export default function CharImage({ charImage, charName, part1, part2, part3 }: 
   const [isFullScreen, setIsFullScreen] = useState<Boolean>(false);
   const fullScreenHandler = () => {
     setIsFullScreen(!isFullScreen);
-  };
-
-  const imageLoader = ({ src, width, quality }: ImageLoaderProps) => {
-    return `${src}?w=${width}&q=${quality || 20}`;
   };
 
   return (
