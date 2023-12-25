@@ -1,5 +1,4 @@
 import connectMongoDB from "@/lib/mongoose";
-import { destroyTestDB } from "@/lib/mongoose-testing";
 import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
 import Post from "@/models/Evertale/Post";
