@@ -1,3 +1,4 @@
+import connectMongoDB from "@/lib/mongoose";
 import Character from "@/models/Evertale/Characters";
 import Post from "@/models/Evertale/Post";
 import { NextRequest, NextResponse } from "next/server";
@@ -7,6 +8,7 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get("category");
   const maxResult = Number(searchParams.get("maxResult")) || 0;
   const UID = searchParams.get("UID");
+  await connectMongoDB();
 
   if (category === "element") {
     const chars = await Character.find();
