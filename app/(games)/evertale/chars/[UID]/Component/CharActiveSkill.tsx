@@ -7,7 +7,7 @@ import "./swiper-config.css";
 import "swiper/css";
 import "swiper/css/navigation";
 
-export default function ({ charActiveSkill }: { charActiveSkill: CharacterActiveSkill[] }) {
+export default function CharActiveSkill({ charActiveSkill }: { charActiveSkill: CharacterActiveSkill[] }) {
   return (
     <div className="w-full md:w1/2 mt-8 ml-2 px-4 py-4 rounded-xl bg-slate-800 h-[460px] overflow-y-scroll scrollbar-style">
       <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="navigation-config">
