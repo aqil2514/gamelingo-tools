@@ -19,7 +19,6 @@ export default function CharBody() {
     return <SWRError />;
   }
   if (!data || isLoading) return <SWRLoading />;
-  console.log(data);
   return (
     <>
       <Data char={data.character} />
