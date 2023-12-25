@@ -9,3 +9,5 @@ GameLingo Tools Source Code
 - Option Language CharIntro
 - Option Language CharActiveSkill
 - Option Language CharPassiveSkill
+- Adjusment UI CharStatus
+- Search Feature Fixed

@@ -5,45 +5,22 @@ import Result from "./Result";
 import SearchInput from "./SearchInput";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import useSWR from "swr";
+
+const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
 export default function Main() {
-  const [loading, setLoading] = useState<Boolean>(false);
-  const [data, setData] = useState<React.ComponentState>();
-  const params = useSearchParams();
-  const s = params.get("s");
-
-  async function getSearch() {
-    try {
-      setLoading(true);
-
-      const { data } = await axios.get(`/api/gamelingo/evertale?category=chars&name=${s}`);
-
-      if (data.status !== 200) {
-        alert(data.msg);
-        return;
-      }
-
-      setData(data.data);
-      console.log(data.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    getSearch();
-  }, []);
-
+  const [keyword, setKeyword] = React.useState("");
+  const URL = `/api/gamelingo/evertale/search?s=${keyword}`;
+  const { data, isLoading } = useSWR(URL, fetcher, { keepPreviousData: true });
   return (
     <>
-      <SearchInput />
-      {loading ? (
-        <p className="font-poppins font-semibold text-base lg:text-2xl text-white mx-8 mt-4">Mencari Data...</p>
+      <SearchInput keyword={keyword} setKeyword={setKeyword} />
+      {isLoading ? (
+        <p className="font-poppins font-semibold text-base lg:text-2xl text-white mx-8 mt-4">Mencari Data tentang &quot;{keyword}&quot;...</p>
       ) : (
         <>
-          <Result data={data} s={s} loading={loading} />
+          <Result data={data.char} s={keyword} />
         </>
       )}
     </>
