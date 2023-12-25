@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const category = url.searchParams.get("category");
   const UID = url.searchParams.get("UID");
-  const element = url.searchParams.get("element");
   const name = url.searchParams.get("name");
   const maxResult = Number(url.searchParams.get("maxResult")) || 0;
 
@@ -46,72 +45,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ character, post }, { status: 200 });
   }
-  if (category === "chars" && element) {
-    const chars = await Character.find();
 
-    interface elementChar {
-      id: String;
-      charName: String;
-      image: String;
-    }
-
-    const fire: elementChar[] = chars
-      .filter((char: any) => char.charStatus.statusElement === "Fire")
-      .map((d: any) => ({
-        id: d.char_id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-    const water = chars
-      .filter((char: any) => char.charStatus.statusElement === "Water")
-      .map((d: any) => ({
-        id: d.char_id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-    const dark = chars
-      .filter((char: any) => char.charStatus.statusElement === "Dark")
-      .map((d: any) => ({
-        id: d.char_id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-    const light = chars
-      .filter((char: any) => char.charStatus.statusElement === "Light")
-      .map((d: any) => ({
-        id: d.char_id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-    const storm = chars
-      .filter((char: any) => char.charStatus.statusElement === "Storm")
-      .map((d: any) => ({
-        id: d.char_id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-    const earth = chars
-      .filter((char: any) => char.charStatus.statusElement === "Earth")
-      .map((d: any) => ({
-        id: d.char_id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-
-    if (element === "all") {
-      const elementChar = {
-        fire,
-        water,
-        dark,
-        light,
-        storm,
-        earth,
-      };
-      return NextResponse.json({ status: 200, elementChar });
-    }
-    const elementChar = chars.filter((e: any) => e.charStatus.statusElement === element);
-    return NextResponse.json({ status: 200, elementChar });
-  }
   if (category === "chars" && name) {
     const chars = await Character.find();
     const data = chars
@@ -123,21 +57,7 @@ export async function GET(req: NextRequest) {
       }));
     return NextResponse.json({ status: 200, data });
   }
-  if (category === "chars") {
-    const chars = await Character.find();
-    const data = chars.map((d: any) => ({
-      id: d.char_id,
-      image: d.charImage.f1Img,
-      charName: d.charStatus.charName,
-    }));
-    let characters: any = [];
 
-    for (let i = 0; i < maxResult; i++) {
-      characters.push(data[i]);
-    }
-
-    return NextResponse.json({ status: 200, characters });
-  }
   if (!category && !UID) {
     redirect("/evertale");
   }

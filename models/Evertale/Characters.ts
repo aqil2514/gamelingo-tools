@@ -1,12 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 
-interface CharacterImage {
+export interface CharacterImage {
   f1Img: String;
   f2Img: String;
   f3Img: String;
 }
 
-interface CharacterIntro {
+export interface CharacterIntro {
   gachaIntroEn: String;
   gachaIntroId: String;
   gachaTextEn: String;
@@ -18,40 +18,46 @@ interface CharacterIntro {
   text2En: String;
   text2Id: String;
   text3En: String;
+  text3Id: String;
   text4En: String;
   text4Id: String;
 }
-interface CharacterStatus {
+
+export interface CharacterStatus {
   charName: String;
   charRank: "SSR" | "SR" | "R" | "N";
-  statusElement: "Dark" | "Light" | "Earth" | "Fire" | "Storm" | "Water";
-  firstWeapon: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
-  secondWeapon: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
-  leaderSkill: String | null;
-  conjures: String | null;
+  charElement: "Dark" | "Light" | "Earth" | "Fire" | "Storm" | "Water";
+  charTeam: String[];
+  charWeapon1: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
+  charWeapon2: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
+  charLeaderSkill: String | undefined;
+  isConjured: Boolean;
+  charConjure: String | undefined;
 }
-interface CharacterProfile {
+
+export interface CharacterProfile {
   part1En: String;
   part1Id: String;
-  part2En: String;
-  part2Id: String;
-  part3En: String;
-  part3Id: String;
+  part2En: String | undefined;
+  part2Id: String | undefined;
+  part3En: String | undefined;
+  part3Id: String | undefined;
 }
-interface CharacterActiveSkill {
-  name: String;
-  typeSkill: String;
-  spirit: Number;
-  target: String | Number;
-  TU: Number;
-  descEn: String;
-  descId: String;
+
+export interface CharacterActiveSkill {
+  skillName: String;
+  typeSkill: String[];
+  skillSpirit: Number;
+  skillTarget: String | Number;
+  skillTu: Number;
+  skillDescEn: String;
+  skillDescId: String;
 }
-interface CharacterPassiveSkill {
-  name: String;
-  typeSkill: String;
-  descEn: String;
-  descId: String;
+export interface CharacterPassiveSkill {
+  skillName: String;
+  typeSkill: String[];
+  skillDescEn: String;
+  skillDescId: String;
 }
 
 const CharImageSchema = new Schema<CharacterImage>({
@@ -72,6 +78,7 @@ const CharacterIntroSchema = new Schema<CharacterIntro>({
   text2En: { type: String, required: false },
   text2Id: { type: String, required: false },
   text3En: { type: String, required: false },
+  text3Id: { type: String, required: false },
   text4En: { type: String, required: false },
   text4Id: { type: String, required: false },
 });
@@ -79,42 +86,44 @@ const CharacterIntroSchema = new Schema<CharacterIntro>({
 const CharacterStatusSchema = new Schema<CharacterStatus>({
   charName: { type: String, required: true },
   charRank: { type: String, required: true },
-  statusElement: { type: String, required: true },
-  firstWeapon: { type: String, required: true },
-  secondWeapon: { type: String, required: false },
-  leaderSkill: { type: String, required: false },
-  conjures: { type: String, required: false },
+  charTeam: { type: [String], required: true },
+  charElement: { type: String, required: true },
+  charWeapon1: { type: String, required: true },
+  charWeapon2: { type: String, required: false },
+  charLeaderSkill: { type: String || undefined, required: false },
+  charConjure: { type: String || undefined, required: false },
+  isConjured: { type: Boolean, required: true },
 });
 
 const CharacterProfileSchema = new Schema<CharacterProfile>({
   part1En: { type: String, required: true },
   part1Id: { type: String, required: true },
-  part2En: { type: String, required: false },
-  part2Id: { type: String, required: false },
-  part3En: { type: String, required: false },
-  part3Id: { type: String, required: false },
+  part2En: { type: String || undefined, required: false },
+  part2Id: { type: String || undefined, required: false },
+  part3En: { type: String || undefined, required: false },
+  part3Id: { type: String || undefined, required: false },
 });
 
 const CharacterActiveSkillSchema = new Schema<CharacterActiveSkill>({
-  name: { type: String, required: true },
-  typeSkill: { type: String, required: true },
-  spirit: { type: Number || String, required: true },
-  target: { type: String || Number, required: true },
-  TU: { type: String, required: true },
-  descEn: { type: String, required: true },
-  descId: { type: String, required: true },
+  skillName: { type: String, required: true },
+  typeSkill: { type: [String], required: true },
+  skillSpirit: { type: Number || String, required: true },
+  skillTarget: { type: String || Number, required: true },
+  skillTu: { type: String, required: true },
+  skillDescEn: { type: String, required: true },
+  skillDescId: { type: String, required: true },
 });
 
 const CharacterPassiveSkillSchema = new Schema<CharacterPassiveSkill>({
-  name: { type: String, required: true },
-  typeSkill: { type: String, required: true },
-  descEn: { type: String, required: true },
-  descId: { type: String, required: true },
+  skillName: { type: String, required: true },
+  typeSkill: { type: [String], required: true },
+  skillDescEn: { type: String, required: true },
+  skillDescId: { type: String, required: true },
 });
 
 export const CharacterSchema = new Schema(
   {
-    char_id: { type: mongoose.Types.ObjectId },
+    charId: { type: mongoose.Types.ObjectId },
     charImage: CharImageSchema,
     charIntro: CharacterIntroSchema,
     charStatus: CharacterStatusSchema,
@@ -125,5 +134,5 @@ export const CharacterSchema = new Schema(
   { timestamps: true }
 );
 
-const Character = mongoose.models.newchars || mongoose.model("newchars", CharacterSchema);
+const Character = mongoose.models.chars || mongoose.model("chars", CharacterSchema);
 export default Character;

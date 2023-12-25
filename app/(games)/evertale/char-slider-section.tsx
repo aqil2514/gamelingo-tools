@@ -20,7 +20,7 @@ export default function CharSliderSection({ buttonLink }: { buttonLink: boolean 
   async function getCharacter() {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/gamelingo/evertale?category=chars&maxResult=15");
+      const { data } = await axios.get("/api/gamelingo/evertale/chars?maxResult=15");
 
       setCharacters(data.characters);
     } catch (error) {
