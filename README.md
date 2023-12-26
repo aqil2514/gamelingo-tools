@@ -16,3 +16,5 @@ GameLingo Tools Source Code
 
 - Search Bug Fixed
 - Element Storm Icon Bug Fixed
+- About Page
+- What is new Page

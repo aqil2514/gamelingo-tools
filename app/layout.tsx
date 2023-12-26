@@ -55,9 +55,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <SessionProvider session={session}>
           <Headers />
           <main className="flex flex-row">{children}</main>
-          {/* <Footer /> */}
           <Analytics />
         </SessionProvider>
+        <Footer />
       </body>
     </html>
   );
