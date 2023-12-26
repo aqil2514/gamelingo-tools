@@ -11,3 +11,8 @@ GameLingo Tools Source Code
 - Option Language CharPassiveSkill
 - Adjusment UI CharStatus
 - Search Feature Fixed
+
+26/12/2023
+
+- Search Bug Fixed
+- Element Storm Icon Bug Fixed

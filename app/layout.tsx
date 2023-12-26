@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import SessionProvider from "./components/SessionProvider";
 import Headers from "./components/Headers";
 import { Analytics } from "@vercel/analytics/react";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   title: {
@@ -54,6 +55,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <SessionProvider session={session}>
           <Headers />
           <main className="flex flex-row">{children}</main>
+          {/* <Footer /> */}
           <Analytics />
         </SessionProvider>
       </body>

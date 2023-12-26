@@ -40,7 +40,7 @@ export const charElement = [
   },
   {
     element: "Storm",
-    image: "/evertale/element/Storm.png",
+    image: "/Evertale/Element/Storm.png",
   },
 ];
 
