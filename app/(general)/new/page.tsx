@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Evertale() {
   return (
-    <div className={DIV_MAIN_STYLE + " py-20 px-20"}>
+    <div className={DIV_MAIN_STYLE + " py-20 px-0 md:px-20"}>
       <Data />
     </div>
   );

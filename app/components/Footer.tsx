@@ -24,7 +24,7 @@ export default function Footer() {
           About
         </Link>
         <Link className="text-white font-bold font-merienda my-auto mx-4" href={"/new"}>
-          What is New?
+          Update
         </Link>
       </div>
     </footer>

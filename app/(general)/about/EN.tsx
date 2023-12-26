@@ -5,7 +5,7 @@ export default function EnglishSection() {
     <>
       <h1 className="text-center text-white font-merienda font-bold text-lg md:text-xl">About the Site</h1>
       <div className="my-4 flex flex-col justify-between content-between bg-slate-800 w-full min-h-[350px] px-4 py-4 rounded-xl">
-        <article className="font-poppins text-white text-justify my-4 px-8 text-base">
+        <article className="font-poppins text-white text-justify my-4 px-2 md:px-8 text-base">
           <p>
             <strong>Released On: Sunday, December 17, 2023</strong>
           </p>

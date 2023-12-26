@@ -3,7 +3,7 @@ export default function IndonesianSection() {
     <>
       <h1 className="text-center text-white font-merienda font-bold text-lg md:text-xl">Tentang Situs</h1>
       <div className="my-4 flex flex-col justify-between content-between bg-slate-800 w-full min-h-[350px] px-4 py-4 rounded-xl">
-        <article className="font-poppins text-white text-justify my-4 px-8 text-base">
+        <article className="font-poppins text-white text-justify my-4 px-2 md:px-8 text-base">
           <h2 className="font-semibold text-lg font-merienda my-4">25 Desember 2023</h2>
           <ol>
             <li className="list-disc">Penyesuaian Data Karakter</li>
