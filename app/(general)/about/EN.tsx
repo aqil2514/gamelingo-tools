@@ -26,7 +26,7 @@ export default function EnglishSection() {
             </Link>
           </p>
           <h1 className="font-semibold text-lg font-merienda my-4">What Games are Available?</h1>
-          <p>Since it's still new, there are only a few games available. Currently (26/12/2023), the only available game is Evertale. After completing Evertale, the next games will be Genshin Impact and Mobile Legends.</p>
+          <p>Since it&quot;s still new, there are only a few games available. Currently (26/12/2023), the only available game is Evertale. After completing Evertale, the next games will be Genshin Impact and Mobile Legends.</p>
           <h1 className="font-semibold text-lg font-merienda my-4">Want to Contribute?</h1>
           <p>If you want to contribute, please contact the admin via email at clevergaming68@gmail.com</p>
           <h1 className="font-semibold text-lg font-merienda my-4 text-center">Thank you for reading ^_^. Enjoy exploring the site.</h1>
