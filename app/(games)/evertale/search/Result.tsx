@@ -1,59 +1,29 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
-type DataState = {
-  id: string;
-  name: string;
-  image: string;
-};
+import { DIV_MAIN_STYLE } from "@/app/components/Styles";
+import Error from "@/components/general/Error";
+import Loading from "@/components/general/Loading";
+import SearchInput from "@/components/general/Search/Input";
+import SearchResult from "@/components/general/Search/Result";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import useSWR from "swr";
 
-export default function Result({ data, s }: { data: DataState[]; s: string | null }) {
-  if (data?.length === 0)
-    return (
-      <div className="mx-10 my-8">
-        <h1 className="font-poppins font-semibold text-base lg:text-2xl text-white">Tidak ada data tentang &quot;{s}&quot;</h1>
-      </div>
-    );
+const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
+
+export default function Result() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("s");
+  const [keyword, setKeyword] = useState<string>(search as string);
+  const URL = `/api/gamelingo/evertale/search?s=${keyword}`;
+  const { data, isLoading, error } = useSWR(URL, fetcher);
+
+  console.log(data);
   return (
-    <div className="my-8">
-      <h1 className="font-poppins font-semibold text-base lg:text-2xl text-center text-white">
-        Ditemukan {data?.length} data dengan keyword pencarian &quot;{s}&quot;{" "}
-      </h1>
-      <div className="my-8 flex flex-row justify-center flex-wrap w-full">
-        {data?.map((d: DataState) => (
-          <Link href={`/evertale/chars/${d?.id}`} key={d?.id}>
-            <figure className="md:mx-4 my-4 flex flex-col justify-between content-between bg-slate-800 min-w-[240px] max-w-[240px] min-h-[350px] px-4 py-4 rounded-xl">
-              <Image src={d?.image} width={240} height={240} alt={d?.name} className="rounded-xl h-[312px] object-cover" />
-              <figcaption className="text-white font-poppins text-sm lg:text-base mt-4">{d?.name}</figcaption>
-            </figure>
-          </Link>
-        ))}
-      </div>
-    </div>
+    <>
+      <SearchInput field="evertale" isInPage={true} keyword={keyword} setKeyword={setKeyword} />
+      {isLoading && <p className="font-poppins font-semibold text-base lg:text-2xl text-white mx-8 mt-4">Mencari Data tentang {keyword}...</p>}
+      {data && <SearchResult game="evertale" category="character" data={data.char} />}
+    </>
   );
-  // return <h1>ok</h1>;
-
-  // return loading ? (
-  //   <></>
-  // ) : data?.length !== 0 ? (
-  //   <div className="my-8">
-  //     <h1 className="font-poppins font-semibold text-base lg:text-2xl text-center text-white">
-  //       Ditemukan {data?.length} data dengan keyword pencarian &quot;{s}&quot;{" "}
-  //     </h1>
-  //     <div className="my-8 flex flex-row justify-center flex-wrap w-full">
-  //       {data?.map((d: DataState) => (
-  //         <Link href={`/evertale/chars/${d?.id}`} key={d?.id}>
-  //           <figure className="md:mx-4 my-4 flex flex-col justify-between content-between bg-slate-800 min-w-[240px] max-w-[240px] min-h-[350px] px-4 py-4 rounded-xl">
-  //             <Image src={d?.image} width={240} height={240} alt={d?.name} className="rounded-xl h-[312px] object-cover" />
-  //             <figcaption className="text-white font-poppins text-sm lg:text-base mt-4">{d?.name}</figcaption>
-  //           </figure>
-  //         </Link>
-  //       ))}
-  //     </div>
-  //   </div>
-  // ) : (
-  //   <div className="mx-10 my-8">
-  //     <h1 className="font-poppins font-semibold text-base lg:text-2xl text-white">Data tidak ditemukan</h1>
-  //   </div>
-  // );
 }

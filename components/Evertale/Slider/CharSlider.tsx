@@ -1,46 +1,30 @@
-"use client";
-
-import axios from "axios";
-import React, { useEffect, useState } from "react";
 import { Navigation, Autoplay, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import { imageLoader } from "@/lib/utils";
+import useSWR from "swr";
+import Loading from "@/components/general/Loading";
+import Error from "@/components/general/Error";
 
+import "./scrollbar.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
-import "swiper/css/parallax";
-import "swiper/css/thumbs";
-import "./scrollbar.css";
-import { imageLoader } from "@/lib/utils";
 
-export default function CharSliderSection({ buttonLink }: { buttonLink: boolean }) {
-  const [characters, setCharacters] = useState<React.ComponentState>();
-  const [loading, setLoading] = useState<Boolean>(false);
-  async function getCharacter() {
-    try {
-      setLoading(true);
-      const { data } = await axios.get("/api/gamelingo/evertale/chars?maxResult=15");
+const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
-      setCharacters(data.characters);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
+const CharSlider = () => {
+  const URL = "/api/gamelingo/evertale/chars?maxResult=15";
+  const { data, isLoading, error } = useSWR(URL, fetcher);
 
-  useEffect(() => {
-    getCharacter();
-  }, []);
+  if (!data || isLoading) return <Loading />;
+  if (error) return <Error />;
 
-  return loading ? (
-    <p className="text-white font-bold font-nova-square text-base lg:text-3xl">Loading...</p>
-  ) : (
-    <>
+  const { characters } = data;
+  return (
+    <div>
       <h1 className="font-bold font-mclaren my-8 text-center text-white text-base lg:text-2xl">Evertale Character</h1>
-
       <div className="flex flex-row my-12 w-full px-2 md:px-12">
         <section className="w-full lg:w-2/3 mr-2">
           <Swiper modules={[Navigation, Autoplay, Thumbs]} slidesPerView={1} parallax={{ enabled: true }} autoplay={{ delay: 3000 }} navigation={{ enabled: true }}>
@@ -67,15 +51,8 @@ export default function CharSliderSection({ buttonLink }: { buttonLink: boolean 
           ))}
         </section>
       </div>
-      {buttonLink && <ButtonLink />}
-    </>
+    </div>
   );
-}
+};
 
-function ButtonLink() {
-  return (
-    <Link href="/evertale/chars">
-      <button className="block mx-auto text-center font-mclaren text-slate-200 bg-yellow-600 px-4 py-2">Lihat lebih banyak &rarr;</button>
-    </Link>
-  );
-}
+export default CharSlider;

@@ -1,7 +1,8 @@
 import { DIV_MAIN_STYLE } from "@/app/components/Styles";
 import { Metadata } from "next";
-import HeroSection from "./hero-section";
-import CharSliderSection from "./char-slider-section";
+import Slider from "@/components/Evertale/Slider";
+import GameDescription from "@/components/general/GameDescription";
+import DownloadButton from "@/components/general/Download";
 
 export const metadata: Metadata = {
   title: "Evertale",
@@ -11,8 +12,14 @@ export const metadata: Metadata = {
 export default function Evertale() {
   return (
     <div className={DIV_MAIN_STYLE + " pb-10"}>
-      <HeroSection />
-      <CharSliderSection buttonLink={true} />
+      <div className="mt-14 px-4 w-full h-[50vh] bg-no-repeat bg-cover bg-fixed bg-bottom sm:bg-top bg-evertale-hero-pattern flex flex-col content-center justify-center">
+        <GameDescription game="Evertale" />
+        <div className="flex justify-center">
+          <DownloadButton game="Evertale" downloadFrom="Playstore" />
+          <DownloadButton game="Evertale" downloadFrom="AppStore" />
+        </div>
+      </div>
+      <Slider type="character" buttonLink={true} />
     </div>
   );
 }

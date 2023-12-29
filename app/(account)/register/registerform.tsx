@@ -10,46 +10,47 @@ export default function RegisterForm() {
 
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    alert("sedang dalam pengembangan");
+    return;
+    // try {
+    //   setLoading(true);
+    //   const { data } = await axios.post("/api/users", {
+    //     name: (document.getElementById("name") as HTMLInputElement)?.value,
+    //     username: (document.getElementById("username") as HTMLInputElement)?.value,
+    //     password: (document.getElementById("password") as HTMLInputElement)?.value,
+    //     confirmPassword: (document.getElementById("confirm-password") as HTMLInputElement)?.value,
+    //     email: (document.getElementById("email") as HTMLInputElement)?.value,
+    //     typeAction: "register",
+    //   });
 
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/api/users", {
-        name: (document.getElementById("name") as HTMLInputElement)?.value,
-        username: (document.getElementById("username") as HTMLInputElement)?.value,
-        password: (document.getElementById("password") as HTMLInputElement)?.value,
-        confirmPassword: (document.getElementById("confirm-password") as HTMLInputElement)?.value,
-        email: (document.getElementById("email") as HTMLInputElement)?.value,
-        typeAction: "register",
-      });
+    //   if (data.status === "no-data") {
+    //     alert(data.msg);
+    //     return;
+    //   } else if (data.status === "less-username") {
+    //     alert(data.msg);
+    //     return;
+    //   } else if (data.status === "less-password") {
+    //     alert(data.msg);
+    //     return;
+    //   } else if (data.status === "incorrect-password") {
+    //     alert(data.msg);
+    //     return;
+    //   } else if (data.status === "found-user") {
+    //     alert(data.msg);
+    //     return;
+    //   } else if (data.status === "email-found") {
+    //     alert(data.msg);
+    //     return;
+    //   }
 
-      if (data.status === "no-data") {
-        alert(data.msg);
-        return;
-      } else if (data.status === "less-username") {
-        alert(data.msg);
-        return;
-      } else if (data.status === "less-password") {
-        alert(data.msg);
-        return;
-      } else if (data.status === "incorrect-password") {
-        alert(data.msg);
-        return;
-      } else if (data.status === "found-user") {
-        alert(data.msg);
-        return;
-      } else if (data.status === "email-found") {
-        alert(data.msg);
-        return;
-      }
-
-      alert(data.msg);
-      console.log(data);
-      router.push(`/verification/${data.UID}`);
-    } catch (error) {
-      console.error();
-    } finally {
-      setLoading(false);
-    }
+    //   alert(data.msg);
+    //   console.log(data);
+    //   router.push(`/verification/${data.UID}`);
+    // } catch (error) {
+    //   console.error();
+    // } finally {
+    //   setLoading(false);
+    // }
   }
 
   return (

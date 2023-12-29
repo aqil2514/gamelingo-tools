@@ -11,33 +11,35 @@ export default function LoginForm() {
   const [loading, setLoading] = useState<false | true>(false);
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    alert("Sedang dalam pengembangan");
+    return;
 
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/api/users", {
-        username: (document.getElementById("username") as HTMLInputElement)?.value,
-        password: (document.getElementById("password") as HTMLInputElement)?.value,
-        typeAction: "login",
-      });
+    // try {
+    //   setLoading(true);
+    //   const { data } = await axios.post("/api/users", {
+    //     username: (document.getElementById("username") as HTMLInputElement)?.value,
+    //     password: (document.getElementById("password") as HTMLInputElement)?.value,
+    //     typeAction: "login",
+    //   });
 
-      if (data.status !== "ok" && data.status !== "av") {
-        alert(data.msg);
-        return;
-      } else if (data.status === "av") {
-        alert(data.msg);
-        router.push(`/verification/${data.UID}`);
-        return;
-      }
+    //   if (data.status !== "ok" && data.status !== "av") {
+    //     alert(data.msg);
+    //     return;
+    //   } else if (data.status === "av") {
+    //     alert(data.msg);
+    //     router.push(`/verification/${data.UID}`);
+    //     return;
+    //   }
 
-      const username = (document.getElementById("username") as HTMLInputElement)?.value;
-      const password = (document.getElementById("password") as HTMLInputElement)?.value;
+    //   const username = (document.getElementById("username") as HTMLInputElement)?.value;
+    //   const password = (document.getElementById("password") as HTMLInputElement)?.value;
 
-      signIn("credentials", { username, password });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    //   signIn("credentials", { username, password });
+    // } catch (error) {
+    //   console.error(error);
+    // } finally {
+    //   setLoading(false);
+    // }
   }
   return (
     <div className="sm:w-1/3 w-4/5 mx-auto my-4 rounded-lg bg-[rgba(0,0,0,0.4)] p-4">

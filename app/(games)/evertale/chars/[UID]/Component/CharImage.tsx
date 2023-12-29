@@ -2,7 +2,7 @@ import { CharacterImage } from "@/models/Evertale/Characters";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
-import "../../scrollbar.css";
+import "@/components/general/scrollbar.css";
 import "./swiper-config.css";
 import "swiper/css";
 import "swiper/css/navigation";
