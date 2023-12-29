@@ -1,6 +1,6 @@
 "use client";
 
-const SearchInput = ({ field, isInPage, ...args }: { field: "evertale" | "genshinImpact" | "mlbb"; isInPage: boolean; keyword: string; setKeyword: any }) => {
+const SearchInput = ({ field, isInPage, ...args }: { field: "evertale" | "genshinImpact" | "mlbb"; isInPage: boolean; keyword?: string; setKeyword?: any }) => {
   let url;
   if (!isInPage) {
     if (field === "evertale") url = "/evertale/search";
