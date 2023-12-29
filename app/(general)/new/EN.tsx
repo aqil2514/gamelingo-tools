@@ -36,7 +36,7 @@ export default function EnglishSection() {
             <li className="list-disc">Jinglemori</li>
             <li className="list-disc">Endless Rizette - Maid of Midwinter</li>
             <li className="list-disc">Rizette - Lightbearing Leader</li>
-            <li className="list-disc">Rizette - Spring's First Blossom</li>
+            <li className="list-disc">Rizette - Spring&quot;s First Blossom</li>
             <li className="list-disc">Endless Rizette - Angel of Ruin</li>
             <li className="list-disc">Rizette - The Cerulean Crestbearer</li>
             <li className="list-disc">Ludmilla - Red Dragon Race Queen</li>
