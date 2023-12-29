@@ -24,6 +24,26 @@ export default function IndonesianSection() {
             <li className="list-disc">Halaman Tentang</li>
             <li className="list-disc">Halaman Apa yang Baru</li>
           </ol>
+
+          <h2 className="font-semibold text-lg font-merienda my-4">28 Desember 2023</h2>
+          <strong>Karakter Baru</strong>
+          <ol>
+            <li className="list-disc">Rizette - Bashful Bunnygirl</li>
+            <li className="list-disc">Cleopatra - The Last Pharaoh</li>
+            <li className="list-disc">Sakura - Thoroughbred Idol</li>
+            <li className="list-disc">Mirai - Halloween Idol</li>
+            <li className="list-disc">Young Rizette - Pure Blue</li>
+            <li className="list-disc">Jinglemori</li>
+            <li className="list-disc">Endless Rizette - Maid of Midwinter</li>
+            <li className="list-disc">Rizette - Lightbearing Leader</li>
+            <li className="list-disc">Rizette - Spring's First Blossom</li>
+            <li className="list-disc">Endless Rizette - Angel of Ruin</li>
+            <li className="list-disc">Rizette - The Cerulean Crestbearer</li>
+            <li className="list-disc">Ludmilla - Red Dragon Race Queen</li>
+            <li className="list-disc">Himori</li>
+            <li className="list-disc">Endless Ludmilla - Savior of the Living City</li>
+            <li className="list-disc">Ludmilla - Summertime Valkyrie</li>
+          </ol>
         </article>
       </div>
     </>
