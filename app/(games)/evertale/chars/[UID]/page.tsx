@@ -13,7 +13,7 @@ type props = {
 export async function generateMetadata({ params }: props): Promise<Metadata> {
   try {
     const { UID } = params;
-    const URL = `http://localhost:3000/api/gamelingo/evertale/chars?UID=${UID}` || `https://gamelingo-tools.vercel.app/api/gamelingo/evertale/chars?UID=${UID}`;
+    const URL = `https://gamelingo-tools.vercel.app/api/gamelingo/evertale/chars?UID=${UID}` || `http://localhost:3000/api/gamelingo/evertale/chars?UID=${UID}`;
 
     const response = await axios.get(URL);
     const data = response.data;
