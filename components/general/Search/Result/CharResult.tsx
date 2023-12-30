@@ -9,6 +9,7 @@ type CharState = {
 };
 
 const CharResult = ({ data }: any) => {
+  if (data.length === 0) return <p className="font-poppins font-semibold text-base lg:text-2xl text-white text-center mt-4">Tidak ada data tentang yang dimaksud</p>;
   return (
     <div className="flex flex-col md:flex-row flex-wrap justify-center my-4 items-center">
       {data.map((char: CharState) => (

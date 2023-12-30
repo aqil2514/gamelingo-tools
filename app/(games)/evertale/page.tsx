@@ -19,7 +19,7 @@ export default function Evertale() {
           <DownloadButton game="Evertale" downloadFrom="AppStore" />
         </div>
       </div>
-      <Slider type="character" buttonLink={true} />
+      <Slider type="chars" buttonLink={true} loadingAnimation={true} textOn={true} text="Mohon tunggu..." length={15} />
     </div>
   );
 }

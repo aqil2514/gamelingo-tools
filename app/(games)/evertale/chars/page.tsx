@@ -12,13 +12,13 @@ export default function Characters() {
   return (
     <div className={DIV_MAIN_STYLE + " py-20 px-8"}>
       <SearchInput field="evertale" isInPage={false} />
-      <Slider type="character" buttonLink={false} />
-      <CharList listBy="element" subListBy="fire" />
-      <CharList listBy="element" subListBy="water" />
-      <CharList listBy="element" subListBy="light" />
-      <CharList listBy="element" subListBy="dark" />
-      <CharList listBy="element" subListBy="storm" />
-      <CharList listBy="element" subListBy="earth" />
+      <Slider type="chars" buttonLink={false} loadingAnimation={true} length={15} textOn={false} />
+      <CharList listBy="element" loadingAnimation={false} subListBy="fire" />
+      <CharList listBy="element" loadingAnimation={false} subListBy="water" />
+      <CharList listBy="element" loadingAnimation={false} subListBy="light" />
+      <CharList listBy="element" loadingAnimation={false} subListBy="dark" />
+      <CharList listBy="element" loadingAnimation={false} subListBy="storm" />
+      <CharList listBy="element" loadingAnimation={false} subListBy="earth" />
     </div>
   );
 }

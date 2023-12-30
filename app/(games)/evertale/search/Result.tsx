@@ -18,11 +18,18 @@ export default function Result() {
   const URL = `/api/gamelingo/evertale/search?s=${keyword}`;
   const { data, isLoading, error } = useSWR(URL, fetcher);
 
-  console.log(data);
+  if (!keyword)
+    return (
+      <>
+        <SearchInput field="evertale" isInPage={true} keyword={keyword} setKeyword={setKeyword} />
+        <p className="font-poppins font-semibold text-base lg:text-2xl text-white">Masukkan Keyword</p>
+      </>
+    );
+
   return (
     <>
       <SearchInput field="evertale" isInPage={true} keyword={keyword} setKeyword={setKeyword} />
-      {isLoading && <p className="font-poppins font-semibold text-base lg:text-2xl text-white mx-8 mt-4">Mencari Data tentang {keyword}...</p>}
+      {isLoading && <Loading loading={2} textOn={true} text={`Mencari data tentang ${keyword}...`} />}
       {data && <SearchResult game="evertale" category="character" data={data.char} />}
     </>
   );

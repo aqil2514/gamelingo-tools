@@ -19,7 +19,7 @@ GameLingo Tools Source Code
 - About Page
 - What is new Page
 
-28/12/2320
+28/12/2023
 New Data :
 
 - Rizette - Bashful Bunnygirl
@@ -37,3 +37,7 @@ New Data :
 - Himori
 - Endless Ludmilla - Savior of the Living City
 - Ludmilla - Summertime Valkyrie
+
+30/12/2023
+
+- Loading Animation

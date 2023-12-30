@@ -11,7 +11,7 @@ const Post = ({ type, UID }: { type: "chars" | "weapon"; UID: string }) => {
   const URL = `/api/gamelingo/evertale/${type}?UID=${UID}`;
   const { data, isLoading, error } = useSWR(URL, fetcher);
 
-  if (!data || isLoading) return <Loading />;
+  if (!data || isLoading) return <Loading loading={1} textOn={true} text="Mengambil Data..." />;
   if (error) return <Error />;
 
   if (type === "chars") return <CharPost data={data.character} />;

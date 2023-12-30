@@ -3,25 +3,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
 import { imageLoader } from "@/lib/utils";
-import useSWR from "swr";
-import Loading from "@/components/general/Loading";
-import Error from "@/components/general/Error";
 
 import "./scrollbar.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 
-const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
-
-const CharSlider = () => {
-  const URL = "/api/gamelingo/evertale/chars?maxResult=15";
-  const { data, isLoading, error } = useSWR(URL, fetcher);
-
-  if (!data || isLoading) return <Loading />;
-  if (error) return <Error />;
-
-  const { characters } = data;
+const CharSlider = ({ characters }: any) => {
   return (
     <div>
       <h1 className="font-bold font-mclaren my-8 text-center text-white text-base lg:text-2xl">Evertale Character</h1>
