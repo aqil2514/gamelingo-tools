@@ -1,6 +1,7 @@
 import connectMongoDB from "@/lib/mongoose";
 import Character from "@/models/Evertale/Characters";
 import Post from "@/models/Evertale/Post";
+import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -19,59 +20,48 @@ export async function GET(req: NextRequest) {
       image: String;
     }
 
-    const fire: elementChar[] = chars
-      .filter((char: any) => char.charStatus.charElement === "Fire")
-      .map((d: any) => ({
-        id: d._id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-    const water = chars
-      .filter((char: any) => char.charStatus.charElement === "Water")
-      .map((d: any) => ({
-        id: d._id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-    const dark = chars
-      .filter((char: any) => char.charStatus.charElement === "Dark")
-      .map((d: any) => ({
-        id: d._id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-    const light = chars
-      .filter((char: any) => char.charStatus.charElement === "Light")
-      .map((d: any) => ({
-        id: d._id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-    const storm = chars
-      .filter((char: any) => char.charStatus.charElement === "Storm")
-      .map((d: any) => ({
-        id: d._id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
-    const earth = chars
-      .filter((char: any) => char.charStatus.charElement === "Earth")
-      .map((d: any) => ({
-        id: d._id,
-        image: d.charImage.f1Img,
-        charName: d.charStatus.charName,
-      }));
+    const elements = ["Fire", "Water", "Dark", "Light", "Storm", "Earth"];
 
-    const elementChar = {
-      fire,
-      water,
-      dark,
-      light,
-      storm,
-      earth,
-    };
-    return NextResponse.json({ status: 200, elementChar });
+    const elementChar = elements.reduce(
+      (result, element) => {
+        result[element.toLowerCase()] = chars
+          .filter((char: any) => char.charStatus.charElement === element)
+          .map((d: any) => ({
+            id: d._id,
+            image: d.charImage.f1Img,
+            charName: d.charStatus.charName,
+          }));
+        return result;
+      },
+      {} as Record<string, elementChar[]>
+    );
+
+    return NextResponse.json({ elementChar }, { status: 200 });
+  } else if (category === "team") {
+    interface CharTeam {
+      id: string;
+      charName: string;
+      image: string;
+    }
+
+    const chars = await Character.find();
+    const types = await TypeSkill.find();
+    const charTeamTypes = types[0].typeCharTeam;
+
+    const charTeam: Record<string, CharTeam[]> = charTeamTypes.reduce((result: any, team: any) => {
+      result[team] = chars
+        .filter((char: any) => char.charStatus.charTeam.includes(team))
+        .map((d: any) => ({
+          id: d._id,
+          image: d.charImage.f1Img,
+          charName: d.charStatus.charName,
+        }));
+      return result;
+    }, {});
+
+    return NextResponse.json({ charTeam }, { status: 200 });
   }
+
   if (UID) {
     const character = await Character.findById(UID);
 
@@ -82,7 +72,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ character }, { status: 200 });
   }
 
-  const chars = await Character.find();
+  const chars = await Character.find().sort({ createdAt: -1 });
   const data = chars.map((d: any) => ({
     id: d._id,
     image: d.charImage.f1Img,
@@ -94,5 +84,5 @@ export async function GET(req: NextRequest) {
     characters.push(data[i]);
   }
 
-  return NextResponse.json({ status: 200, characters });
+  return NextResponse.json({ characters }, { status: 200 });
 }

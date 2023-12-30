@@ -41,3 +41,6 @@ New Data :
 30/12/2023
 
 - Loading Animation
+- Sort list CharTeam
+- Dynamic Metadata [UID]
+- Newest Data Slider Character
