@@ -21,7 +21,17 @@ export async function generateMetadata({ params }: props): Promise<Metadata> {
       title: data.character.charStatus.charName,
       metadataBase: new URL(baseURL),
       openGraph: {
-        images: data.character.charImage.f1Img,
+        title: data.character.charStatus.charName,
+        description: "Character evertale",
+        siteName: "GameLingo Tools",
+        images: [
+          {
+            url: data.character.charImage.f1Img,
+            width: 800,
+            height: 600,
+          },
+        ],
+        type: "website",
       },
     };
   } catch (error) {
