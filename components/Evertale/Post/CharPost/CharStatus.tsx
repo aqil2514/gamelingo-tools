@@ -1,6 +1,7 @@
 import { charElement, charRank, charWeapon } from "@/lib/evertale/data";
 import { CharacterStatus } from "@/models/Evertale/Characters";
 import Image from "next/image";
+import Link from "next/link";
 import useSWR from "swr";
 
 const Icon = ({ charStatus }: { charStatus: CharacterStatus }) => {
@@ -30,7 +31,7 @@ export default function CharStatus({ charStatus }: { charStatus: CharacterStatus
     <div className="block my-8 mx-auto w-full md:w-1/2 bg-slate-800 px-4 md:px-8 py-4 rounded-xl">
       <Icon charStatus={charStatus} />
       <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">{charStatus.charName}</h3>
-      <article>
+      <article className="text-center">
         {charStatus.charLeaderSkill && (
           <fieldset className="border-2 px-4 py-2 mb-4 rounded-xl">
             <legend className="font-poppins text-center text-base text-white">
@@ -41,17 +42,31 @@ export default function CharStatus({ charStatus }: { charStatus: CharacterStatus
             {charStatus.charLeaderSkill && <p className="font-poppins text-center text-base mt-2 text-white">{isLoading || !data ? "Mengambil Data..." : data.leaderskills.descId}</p>}
           </fieldset>
         )}
+        {charStatus.charConjure && <Conjure charStatus={charStatus} />}
         <p className="font-poppins text-base text-white">
           <strong>Character Team : </strong>
           {charStatus.charTeam.join(", ")}
         </p>
-        {charStatus.charConjure && (
-          <p className="font-poppins text-base text-white">
-            <strong>Conjures : </strong>
-            {charStatus.charConjure}
-          </p>
-        )}
       </article>
     </div>
   );
 }
+
+const Conjure = ({ charStatus }: any) => {
+  const URL = `/api/gamelingo/evertale/chars?conjureName=${charStatus.charConjure}`;
+  const { data, isLoading } = useSWR(URL, fetcher);
+  if (!data || isLoading) return <p className="font-poppins text-base text-white">Memuat Data...</p>;
+
+  const conjure = data.conjure;
+  return (
+    <>
+      <strong className="font-poppins text-base text-white">Conjures : </strong>
+      <figure className="w-[64px] h-[64px] block mx-auto mb-4">
+        <Link href={`/evertale/chars/${conjure.id}`}>
+          <Image src={conjure.image} width={64} height={64} alt={conjure.charName} className="rounded-xl max-h-[64px] object-cover" />
+        </Link>
+        {/* <figcaption className="font-poppins text-base text-white">{charStatus.charConjure}</figcaption> */}
+      </figure>
+    </>
+  );
+};

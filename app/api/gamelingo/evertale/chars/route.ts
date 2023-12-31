@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get("category");
   const maxResult = Number(searchParams.get("maxResult")) || 0;
   const UID = searchParams.get("UID");
+  const conjureName = searchParams.get("conjureName");
   await connectMongoDB();
 
   if (category === "element") {
@@ -70,6 +71,21 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({ character }, { status: 200 });
+  } else if (conjureName) {
+    interface CharConjure {
+      id: string;
+      charName: string;
+      image: string;
+    }
+
+    const data = await Character.find({ "charStatus.charName": conjureName });
+    const conjure = data.map((con: any) => ({
+      id: con._id,
+      image: con.charImage.f1Img,
+      charName: con.charStatus.charName,
+    }));
+
+    return NextResponse.json({ conjure: conjure[0] }, { status: 200 });
   }
 
   const chars = await Character.find().sort({ createdAt: -1 });

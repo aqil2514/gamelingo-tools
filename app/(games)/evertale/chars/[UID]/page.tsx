@@ -2,9 +2,6 @@ import { DIV_MAIN_STYLE } from "@/app/components/Styles";
 import Post from "@/components/Evertale/Post";
 import axios from "axios";
 import { Metadata } from "next";
-// export const metadata: Metadata = {
-//   title: "Info Character",
-// };
 
 type props = {
   params: { UID: string };
@@ -13,13 +10,19 @@ type props = {
 export async function generateMetadata({ params }: props): Promise<Metadata> {
   try {
     const { UID } = params;
-    const URL = `https://gamelingo-tools.vercel.app/api/gamelingo/evertale/chars?UID=${UID}` || `http://localhost:3000/api/gamelingo/evertale/chars?UID=${UID}`;
+    const isLocal = process.env.NODE_ENV === "development";
+    const baseURL = isLocal ? "http://localhost:3000" : "https://gamelingo-tools.vercel.app";
+    const ApiURL = `${baseURL}/api/gamelingo/evertale/chars?UID=${UID}`;
 
-    const response = await axios.get(URL);
+    const response = await axios.get(ApiURL);
     const data = response.data;
 
     return {
       title: data.character.charStatus.charName,
+      metadataBase: new URL(baseURL),
+      openGraph: {
+        images: data.character.charImage.f1Img,
+      },
     };
   } catch (error) {
     console.error("Error fetching data:", error);
