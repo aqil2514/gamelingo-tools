@@ -14,7 +14,8 @@ export const metadata: Metadata = {
     template: "%s | GameLingo Tools",
     default: "GameLingo Tools",
   },
-  description: "A Tools for GameLingo Blog",
+  description: "A Tools for Gamers",
+  metadataBase: new URL("https://gamelingo-tools.vercel.app"),
 };
 
 const novaSquare = Nova_Square({
