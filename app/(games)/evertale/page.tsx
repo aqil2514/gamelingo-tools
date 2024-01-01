@@ -7,6 +7,7 @@ import DownloadButton from "@/components/general/Download";
 export const metadata: Metadata = {
   title: "Evertale",
   description: "Explore sprawling landscapes, bustling cities, and mythical dungeons in this expansive open-world RPG!",
+  metadataBase: new URL("https://gamelingo-tools.vercel.app"),
 };
 
 export default function Evertale() {

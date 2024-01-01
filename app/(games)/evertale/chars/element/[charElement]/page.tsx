@@ -16,6 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description: `Evertale ${title}`,
+    metadataBase: new URL("https://gamelingo-tools.vercel.app"),
   };
 }
 

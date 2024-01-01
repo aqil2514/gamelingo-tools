@@ -4,6 +4,8 @@ import Data from "./Data";
 
 export const metadata: Metadata = {
   title: "About",
+  description: "About GameLingo Tools Page",
+  metadataBase: new URL("https://gamelingo-tools.vercel.app"),
 };
 
 export default function Evertale() {

@@ -5,6 +5,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Character Element",
   description: "Evertale Character Element List",
+  metadataBase: new URL("https://gamelingo-tools.vercel.app"),
 };
 
 export default function CharElement() {
