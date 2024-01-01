@@ -1,7 +1,5 @@
 "use client";
 
-import { DIV_MAIN_STYLE } from "@/app/components/Styles";
-import Error from "@/components/general/Error";
 import Loading from "@/components/general/Loading";
 import SearchInput from "@/components/general/Search/Input";
 import SearchResult from "@/components/general/Search/Result";

@@ -3,7 +3,7 @@
 import CharList from "@/components/Evertale/CharList";
 import { useState } from "react";
 
-type ListByState = "element" | "team";
+type ListByState = "element" | "team" | "weapon";
 
 export default function CharactersList() {
   const [listBy, setListBy] = useState<ListByState>("element");
@@ -13,6 +13,7 @@ export default function CharactersList() {
       <OptionSort setListBy={setListBy} />
       {listBy === "element" && <CharElement listBy="element" />}
       {listBy === "team" && <CharTeam listBy="team" />}
+      {listBy === "weapon" && <CharWeapon listBy="weapon" />}
     </div>
   );
 }
@@ -23,7 +24,24 @@ const OptionSort = ({ setListBy }: React.ComponentState) => {
       <h1 className="text-xl md:text-2xl text-white font-bold font-merienda">Sort Char By :</h1>
       <Option value="element" checked={true} setListBy={setListBy} />
       <Option value="team" checked={false} setListBy={setListBy} />
+      <Option value="weapon" checked={false} setListBy={setListBy} />
     </div>
+  );
+};
+
+const CharWeapon = ({ listBy }: { listBy: ListByState }) => {
+  return (
+    <>
+      <CharList listBy={listBy} loadingAnimation={true} subListBy="Axe" />
+      <CharList listBy={listBy} loadingAnimation={false} subListBy="GreatAxe" />
+      <CharList listBy={listBy} loadingAnimation={false} subListBy="GreatSword" />
+      <CharList listBy={listBy} loadingAnimation={false} subListBy="Hammer" />
+      <CharList listBy={listBy} loadingAnimation={false} subListBy="Katana" />
+      <CharList listBy={listBy} loadingAnimation={false} subListBy="Mace" />
+      <CharList listBy={listBy} loadingAnimation={false} subListBy="Spear" />
+      <CharList listBy={listBy} loadingAnimation={false} subListBy="Staff" />
+      <CharList listBy={listBy} loadingAnimation={false} subListBy="Sword" />
+    </>
   );
 };
 

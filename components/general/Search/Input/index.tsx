@@ -15,7 +15,7 @@ const SearchInput = ({ field, isInPage, ...args }: { field: "evertale" | "genshi
 
   return (
     <>
-      <input type="text" name="s" id="s" value={args.keyword} onChange={(e) => args.setKeyword(e.target.value)} placeholder="Cari..." className="w-1/2 mx-auto block font-poppins font-bold px-4 rounded-xl" />
+      <input type="text" name="s" id="s" value={args.keyword} onChange={(e) => args.setKeyword(e.target.value)} placeholder="Cari..." className="w-full md:w-1/2 mx-auto block font-poppins font-bold px-4 rounded-xl" />
     </>
   );
 };

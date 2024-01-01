@@ -12,13 +12,13 @@ type CharState = {
 const SCROLL_STYLE = "flex flex-row justify-start overflow-x-scroll flex-nowrap w-full scrollbar-style";
 const GRID_STYLE = "grid grid-cols-1 mx-auto md:grid-cols-3 lg:grid-cols-4";
 
-const CharTeam = ({ data, title, isGrid = false }: { data: any; title: string; isGrid?: boolean }) => {
+const CharWeapon = ({ data, title, isGrid }: any) => {
   return (
     <div className="px-0">
       <h1 className="text-base lg:text-2xl text-start font-bold font-merienda text-white mt-4">
-        <span className="capitalize">
-          <Link href={`/evertale/chars/team/${title.toLocaleLowerCase().replace(/ /g, "-")}`}>{title}</Link>
-        </span>
+        <Link href={`/evertale/chars/weapon/${title.toLowerCase()}`}>
+          <span className="capitalize">{title}</span> Weapon
+        </Link>
       </h1>
       <div className={isGrid ? GRID_STYLE : SCROLL_STYLE}>
         {data.map((char: CharState) => (
@@ -35,4 +35,4 @@ const CharTeam = ({ data, title, isGrid = false }: { data: any; title: string; i
   );
 };
 
-export default CharTeam;
+export default CharWeapon;

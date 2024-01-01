@@ -12,9 +12,17 @@ const Icon = ({ charStatus }: { charStatus: CharacterStatus }) => {
   return (
     <div className="flex flex-row w-full gap-4 mb-2 justify-center">
       <Image src={rank?.image as string} width={32} height={32} title={`Rank ${rank?.rank}`} alt={rank?.rank as string} />
-      <Image src={element?.image as string} width={32} height={32} title={`Element ${element?.element}`} alt={element?.element as string} />
-      <Image src={weapon1?.image as string} width={32} height={32} title={`Weapon 1 ${weapon1?.name}`} alt={weapon1?.name as string} />
-      {charStatus.charWeapon2 && <Image src={weapon2?.image as string} width={32} height={32} title={`Weapon 2 ${weapon2?.name}`} alt={weapon2?.name as string} />}
+      <Link href={`/evertale/chars/element/${element?.element.toLowerCase()}`}>
+        <Image src={element?.image as string} width={32} height={32} title={`Element ${element?.element}`} alt={element?.element as string} />
+      </Link>
+      <Link href={`/evertale/chars/weapon/${weapon1?.name.toLowerCase()}`}>
+        <Image src={weapon1?.image as string} width={32} height={32} title={`Weapon 1 ${weapon1?.name}`} alt={weapon1?.name as string} />
+      </Link>
+      {charStatus.charWeapon2 && (
+        <Link href={`/evertale/chars/weapon/${weapon2?.name.toLowerCase()}`}>
+          <Image src={weapon2?.image as string} width={32} height={32} title={`Weapon 2 ${weapon2?.name}`} alt={weapon2?.name as string} />
+        </Link>
+      )}
     </div>
   );
 };
@@ -45,7 +53,19 @@ export default function CharStatus({ charStatus }: { charStatus: CharacterStatus
         {charStatus.charConjure && <Conjure charStatus={charStatus} />}
         <p className="font-poppins text-base text-white">
           <strong>Character Team : </strong>
-          {charStatus.charTeam.join(", ")}
+          {charStatus.charTeam.map((team: String, i: number) => {
+            const linkTeam = team.toLocaleLowerCase().replace(/ /g, "-");
+            const separator = i === charStatus.charTeam.length - 1 ? "" : ", ";
+
+            return (
+              <span key={i++}>
+                <Link href={`/evertale/chars/team/${linkTeam}`} title={`See more char from ${team}`}>
+                  {team}
+                </Link>
+                {separator}
+              </span>
+            );
+          })}
         </p>
       </article>
     </div>
@@ -65,7 +85,6 @@ const Conjure = ({ charStatus }: any) => {
         <Link href={`/evertale/chars/${conjure.id}`}>
           <Image src={conjure.image} width={64} height={64} alt={conjure.charName} className="rounded-xl max-h-[64px] object-cover" />
         </Link>
-        {/* <figcaption className="font-poppins text-base text-white">{charStatus.charConjure}</figcaption> */}
       </figure>
     </>
   );

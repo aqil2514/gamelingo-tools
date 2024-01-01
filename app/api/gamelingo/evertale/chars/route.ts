@@ -61,6 +61,27 @@ export async function GET(req: NextRequest) {
     }, {});
 
     return NextResponse.json({ charTeam }, { status: 200 });
+  } else if (category === "weapon") {
+    interface CharWeapon {
+      id: string;
+      charName: string;
+      image: string;
+    }
+
+    const chars = await Character.find();
+    const weapons = ["Sword", "Axe", "Staff", "Mace", "GreatSword", "GreatAxe", "Spear", "Hammer", "Katana"];
+    const charWeapon: Record<string, CharWeapon[]> = weapons.reduce<Record<string, CharWeapon[]>>((result, weapon) => {
+      result[weapon] = chars
+        .filter((char: any) => char.charStatus.charWeapon1 === weapon || char.charStatus.charWeapon2 === weapon)
+        .map((char: any) => ({
+          id: char._id,
+          image: char.charImage.f1Img,
+          charName: char.charStatus.charName,
+        }));
+      return result;
+    }, {});
+
+    return NextResponse.json({ charWeapon }, { status: 200 });
   }
 
   if (UID) {

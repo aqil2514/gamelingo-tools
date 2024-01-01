@@ -9,13 +9,18 @@ type CharState = {
   image: string;
 };
 
-const CharElement = ({ elementData, elementTitle }: any) => {
+const SCROLL_STYLE = "flex flex-row justify-start overflow-x-scroll flex-nowrap w-full scrollbar-style";
+const GRID_STYLE = "grid grid-cols-1 mx-auto md:grid-cols-3 lg:grid-cols-4";
+
+const CharElement = ({ elementData, elementTitle, isGrid }: any) => {
   return (
     <div className="px-0">
       <h1 className="text-base lg:text-2xl text-start font-bold font-merienda text-white mt-4">
-        <span className="capitalize">{elementTitle}</span> Element
+        <Link href={`/evertale/chars/element/${elementTitle}`}>
+          <span className="capitalize">{elementTitle}</span> Element
+        </Link>
       </h1>
-      <div className="flex flex-row justify-start overflow-x-scroll flex-nowrap w-full scrollbar-style">
+      <div className={isGrid ? GRID_STYLE : SCROLL_STYLE}>
         {elementData.map((char: CharState) => (
           <figure key={char?.id} className="mx-4 my-4 flex flex-col justify-between content-between bg-slate-800 min-w-[240px] max-w-[240px] min-h-[350px] px-4 py-4 rounded-xl">
             <Image loader={imageLoader} src={char?.image} width={240} height={240} alt={char?.charName} className="rounded-xl h-[312px] object-cover" />
