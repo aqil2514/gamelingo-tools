@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: props): Promise<Metadata> {
       metadataBase: new URL(baseURL),
       openGraph: {
         title: data.character.charStatus.charName,
-        description: "Character evertale",
+        description: data.character.charIntro.gachaIntroEn || `Information about ${data.character.charStatus.charName}`,
         siteName: "GameLingo Tools",
         images: [
           {
