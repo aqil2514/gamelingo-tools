@@ -44,6 +44,33 @@ export default function EnglishSection() {
             <li className="list-disc">Endless Ludmilla - Savior of the Living City</li>
             <li className="list-disc">Ludmilla - Summertime Valkyrie</li>
           </ol>
+
+          <h2 className="font-semibold text-lg font-merienda my-4">December 31, 2023</h2>
+          <strong>New Updates</strong>
+          <ol>
+            <li className="list-disc">Loading Animation</li>
+            <li className="list-disc">Character Slider based on the latest data update</li>
+            <li className="list-disc">Sort characters by character team & character element</li>
+            <li className="list-disc">Adjust post title to dynamically change according to the character name being viewed</li>
+          </ol>
+
+          <h2 className="font-semibold text-lg font-merienda my-4">January 1, 2024</h2>
+          <strong>New Updates</strong>
+          <ol>
+            <li className="list-disc">Fixed search display on Mobile view</li>
+            <li className="list-disc">Fixed Character Status display on Mobile view</li>
+            <li className="list-disc">Clickable icons for element and weapon that lead to pages containing characters from that category</li>
+            <li className="list-disc">Text on Character Team is also clickable and leads to a page containing characters from that character team</li>
+            <li className="list-disc">Option to sort characters by weapon</li>
+          </ol>
+
+          <strong className="my-4">New Character Data</strong>
+          <ol>
+            <li className="list-disc">Endless Astrid - Twilight Bride</li>
+            <li className="list-disc">Endless Astrid - Voice of Defiance</li>
+            <li className="list-disc">Astrid - Hero of Rigland (On Break)</li>
+            <li className="list-disc">Astrid - Hero of the West</li>
+          </ol>
         </article>
       </div>
     </>

@@ -44,6 +44,33 @@ export default function IndonesianSection() {
             <li className="list-disc">Endless Ludmilla - Savior of the Living City</li>
             <li className="list-disc">Ludmilla - Summertime Valkyrie</li>
           </ol>
+
+          <h2 className="font-semibold text-lg font-merienda my-4">31 Desember 2023</h2>
+          <strong>Update Baru</strong>
+          <ol>
+            <li className="list-disc">Animasi Loading</li>
+            <li className="list-disc">Slider character berdasarkan update data terbaru</li>
+            <li className="list-disc">Urutkan karakter berdasarkan character team & character element</li>
+            <li className="list-disc">Penyesuaian judul postingan agar berubah menyesuaikan nama character yang sedang dilihat</li>
+          </ol>
+
+          <h2 className="font-semibold text-lg font-merienda my-4">1 Januari 2024</h2>
+          <strong>Update Baru</strong>
+          <ol>
+            <li className="list-disc">Fiksasi tampilan pencarian di tampilan Mobile</li>
+            <li className="list-disc">Fiksasi tampilan Character Status di tampilan Mobile</li>
+            <li className="list-disc">Icon element dan weapon bisa diklik yang mengarah ke halaman berisi karakter dari kategori tersebut</li>
+            <li className="list-disc">Teks pada Character Team juga dapat diklik dan mengarah ke halaman berisi karakter dari character team tersebut</li>
+            <li className="list-disc">Ada opsi urutkan karakter berdasarkan weapon</li>
+          </ol>
+
+          <strong className="my-4">Data Karakter Baru</strong>
+          <ol>
+            <li className="list-disc">Endless Astrid - Twilight Bride </li>
+            <li className="list-disc">Endless Astrid - Voice of Defiance </li>
+            <li className="list-disc">Astrid - Hero of Rigland (On Break) </li>
+            <li className="list-disc">Astrid - Hero of the West </li>
+          </ol>
         </article>
       </div>
     </>

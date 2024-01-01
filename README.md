@@ -44,3 +44,17 @@ New Data :
 - Sort list CharTeam
 - Dynamic Metadata [UID]
 - Newest Data Slider Character
+
+January 1, 2024
+
+- New Updates
+- Fixed search display on Mobile view
+- Fixed Character Status display on Mobile view
+- Clickable icons for element and weapon that lead to pages containing characters from that category
+- Text on Character Team is also clickable and leads to a page containing characters from that character team
+- Option to sort characters by weapon
+- New Character Data
+- Endless Astrid - Twilight Bride
+- Endless Astrid - Voice of Defiance
+- Astrid - Hero of Rigland (On Break)
+- Astrid - Hero of the West
