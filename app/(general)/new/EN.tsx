@@ -73,7 +73,7 @@ export default function EnglishSection() {
             <li className="list-disc">Dark Mikaela - Fallen Angel </li>
             <li className="list-disc">Dark Jeanne - Maiden of Darkness </li>
             <li className="list-disc">Mikaela </li>
-            <li className="list-disc">Jeanne d'Arc - Maiden of Radiance </li>
+            <li className="list-disc">Jeanne d&quot;Arc - Maiden of Radiance </li>
             <li className="list-disc">Elmina - Sunkissed Mirage </li>
             <li className="list-disc">Elmina - Yuletide Rogue </li>
             <li className="list-disc">Shadow Elmina </li>
