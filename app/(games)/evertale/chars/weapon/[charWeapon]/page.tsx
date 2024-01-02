@@ -29,7 +29,7 @@ export default async function CharWeapon({ params }: any) {
     query = "GreatSword";
   } else if (charWeapon === "greataxe") {
     query = "GreatAxe";
-  } else if (charWeapon !== "greatswird" && charWeapon !== "greateaxe") {
+  } else if (charWeapon !== "greatsword" && charWeapon !== "greateaxe") {
     query = firsLetter + resLetter;
   }
 
