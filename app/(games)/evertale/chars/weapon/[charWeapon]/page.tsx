@@ -24,7 +24,14 @@ export default async function CharWeapon({ params }: any) {
   const firsLetter = charWeapon.charAt(0).toUpperCase();
   const resLetter = charWeapon.slice(1);
 
-  const query = firsLetter + resLetter;
+  let query;
+  if (charWeapon === "greatsword") {
+    query = "GreatSword";
+  } else if (charWeapon === "greataxe") {
+    query = "GreatAxe";
+  } else if (charWeapon !== "greatswird" && charWeapon !== "greateaxe") {
+    query = firsLetter + resLetter;
+  }
 
   return (
     <div className={DIV_MAIN_STYLE + " py-20 px-8"}>
