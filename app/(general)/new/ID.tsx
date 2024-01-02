@@ -70,6 +70,14 @@ export default function IndonesianSection() {
             <li className="list-disc">Endless Astrid - Voice of Defiance </li>
             <li className="list-disc">Astrid - Hero of Rigland (On Break) </li>
             <li className="list-disc">Astrid - Hero of the West </li>
+            <li className="list-disc">Dark Mikaela - Fallen Angel </li>
+            <li className="list-disc">Dark Jeanne - Maiden of Darkness </li>
+            <li className="list-disc">Mikaela </li>
+            <li className="list-disc">Jeanne d'Arc - Maiden of Radiance </li>
+            <li className="list-disc">Elmina - Sunkissed Mirage </li>
+            <li className="list-disc">Elmina - Yuletide Rogue </li>
+            <li className="list-disc">Shadow Elmina </li>
+            <li className="list-disc">Elmina - Void Renegade </li>
           </ol>
         </article>
       </div>
