@@ -79,6 +79,26 @@ export default function EnglishSection() {
             <li className="list-disc">Shadow Elmina </li>
             <li className="list-disc">Elmina - Void Renegade </li>
           </ol>
+
+          <h2 className="font-semibold text-lg font-merienda my-4">4 January 2024</h2>
+          <strong className="my-4">New Data Characters</strong>
+          <ol>
+            <li className="list-disc">Ossia - The Hollow Heart</li>
+            <li className="list-disc">Antares - Thunderhearted Heroine</li>
+            <li className="list-disc">Antares - Knight of the Sacred Fire</li>
+            <li className="list-disc">Suimori</li>
+            <li className="list-disc">Tiamat - Creator of the Primordial Sea</li>
+            <li className="list-disc">Rin - Canine Blademaster</li>
+            <li className="list-disc">Merlin - Sorceress of Prophecy</li>
+            <li className="list-disc">Reina - Crimson-Eyed Vampire</li>
+            <li className="list-disc">Gilgamesh - Lion Queen of the Desert</li>
+            <li className="list-disc">Theo - Cerulean Sorcerer</li>
+            <li className="list-disc">Rei - Sakura Bride</li>
+            <li className="list-disc">Callen - Dragon Bride</li>
+            <li className="list-disc">Momoka - Mysterious Shrine Maiden</li>
+            <li className="list-disc">Infernal Mysha - Nine-Tailed Calamity</li>
+            <li className="list-disc">Gaia - Goddess of the Earth</li>
+          </ol>
         </article>
       </div>
     </>

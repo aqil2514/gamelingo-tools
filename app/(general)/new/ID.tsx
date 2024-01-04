@@ -73,11 +73,31 @@ export default function IndonesianSection() {
             <li className="list-disc">Dark Mikaela - Fallen Angel </li>
             <li className="list-disc">Dark Jeanne - Maiden of Darkness </li>
             <li className="list-disc">Mikaela </li>
-            <li className="list-disc">Jeanne d&quot;Arc - Maiden of Radiance </li>
+            <li className="list-disc">Jeanne d&apos;Arc - Maiden of Radiance </li>
             <li className="list-disc">Elmina - Sunkissed Mirage </li>
             <li className="list-disc">Elmina - Yuletide Rogue </li>
             <li className="list-disc">Shadow Elmina </li>
             <li className="list-disc">Elmina - Void Renegade </li>
+          </ol>
+
+          <h2 className="font-semibold text-lg font-merienda my-4">4 Januari 2024</h2>
+          <strong className="my-4">Data Karakter Baru</strong>
+          <ol>
+            <li className="list-disc">Ossia - The Hollow Heart</li>
+            <li className="list-disc">Antares - Thunderhearted Heroine</li>
+            <li className="list-disc">Antares - Knight of the Sacred Fire</li>
+            <li className="list-disc">Suimori</li>
+            <li className="list-disc">Tiamat - Creator of the Primordial Sea</li>
+            <li className="list-disc">Rin - Canine Blademaster</li>
+            <li className="list-disc">Merlin - Sorceress of Prophecy</li>
+            <li className="list-disc">Reina - Crimson-Eyed Vampire</li>
+            <li className="list-disc">Gilgamesh - Lion Queen of the Desert</li>
+            <li className="list-disc">Theo - Cerulean Sorcerer</li>
+            <li className="list-disc">Rei - Sakura Bride</li>
+            <li className="list-disc">Callen - Dragon Bride</li>
+            <li className="list-disc">Momoka - Mysterious Shrine Maiden</li>
+            <li className="list-disc">Infernal Mysha - Nine-Tailed Calamity</li>
+            <li className="list-disc">Gaia - Goddess of the Earth</li>
           </ol>
         </article>
       </div>
