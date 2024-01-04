@@ -121,7 +121,7 @@ const CiMode1 = ({ charIntro }: { charIntro: CharacterIntro }) => {
           </article>
         )}
       </div>
-      <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="block lg:hidden navigation-config">
+      <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="block lg:!hidden navigation-config">
         {charIntro.gachaIntroEn && (
           <SwiperSlide>
             <article key="gacha-intro">
@@ -266,7 +266,7 @@ const CiMode2 = ({ charIntro }: { charIntro: CharacterIntro }) => {
           </article>
         )}
       </div>
-      <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="block lg:hidden navigation-config">
+      <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="block lg:!hidden navigation-config">
         {charIntro.gachaIntroEn && (
           <SwiperSlide>
             <article key="gacha-intro">
@@ -391,7 +391,7 @@ const CiMode3 = ({ charIntro }: { charIntro: CharacterIntro }) => {
         )}
       </div>
 
-      <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="block lg:hidden navigation-config">
+      <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="block lg:!hidden navigation-config">
         {charIntro.gachaIntroEn && (
           <SwiperSlide>
             <article key="gacha-intro">
