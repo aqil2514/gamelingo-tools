@@ -50,23 +50,24 @@ export default function CharStatus({ charStatus }: { charStatus: CharacterStatus
             {charStatus.charLeaderSkill && <p className="font-poppins text-center text-base mt-2 text-white">{isLoading || !data ? "Mengambil Data..." : data.leaderskills.descId}</p>}
           </fieldset>
         )}
+
         {charStatus.charConjure && <Conjure charStatus={charStatus} />}
-        <p className="font-poppins text-base text-white">
-          <strong>Character Team : </strong>
+
+        <div>
           {charStatus.charTeam.map((team: String, i: number) => {
             const linkTeam = team.toLocaleLowerCase().replace(/ /g, "-");
             const separator = i === charStatus.charTeam.length - 1 ? "" : ", ";
 
             return (
               <span key={i++}>
-                <Link href={`/evertale/chars/team/${linkTeam}`} title={`See more char from ${team}`}>
+                <Link href={`/evertale/chars/team/${linkTeam}`} title={`See more char from ${team}`} className="bg-white !text-slate-800 mx-1 my-1 first:ml-0 rounded-xl px-2 font-bold">
                   {team}
                 </Link>
                 {separator}
               </span>
             );
           })}
-        </p>
+        </div>
       </article>
     </div>
   );

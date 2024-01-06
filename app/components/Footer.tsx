@@ -17,7 +17,7 @@ export default function Footer() {
         <ChevronRight title="Next" onClick={() => router.forward()} className="text-white mx-1 text-5xl cursor-pointer" />
       </div>
       <div className="hidden md:flex justify-center content-center w-1/3">
-        <p className="text-center my-auto text-white font-poppins font-semibold">@GameLingo Tools 2023</p>
+        <p className="text-center my-auto text-white font-poppins font-semibold">@GameLingo Tools 2024</p>
       </div>
       <div className="w-1/2 md:1/3 px-4 flex flex-row justify-end content-center">
         <Link className="text-white font-bold font-merienda my-auto mx-4" href={"/about"}>

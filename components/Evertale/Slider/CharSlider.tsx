@@ -19,8 +19,8 @@ const CharSlider = ({ characters }: any) => {
             {characters?.map((char: React.ComponentState, i: number) => (
               <SwiperSlide key={char.id}>
                 <Link href={`/evertale/chars/${char.id}`}>
-                  <figure>
-                    <Image loader={imageLoader} src={char?.image} width={849} height={460} alt={char?.charName} data-image-index={i++} className="md:w-full h-[460px] object-cover object-top rounded-xl" />
+                  <figure className="h-[460px] relative">
+                    <Image loader={imageLoader} src={char?.image} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" alt={char?.charName} data-image-index={i++} className=" object-cover object-top rounded-xl" />
                     <figcaption className="text-center text-white font-bold font-mclaren text-sm md:text-lg lg:text-xl">{char?.charName}</figcaption>
                   </figure>
                 </Link>

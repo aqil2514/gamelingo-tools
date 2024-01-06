@@ -40,12 +40,13 @@ interface CharListState {
   textOn?: boolean;
   text?: string;
   isGrid?: boolean;
+  limit?: number;
 }
 
 const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
-const CharList = ({ listBy, subListBy, loadingAnimation = false, textOn, text, isGrid = false }: CharListState) => {
-  const URL = `/api/gamelingo/evertale/chars?category=${listBy}`;
+const CharList = ({ listBy, subListBy, loadingAnimation = false, textOn, text, isGrid = false, limit = 100 }: CharListState) => {
+  const URL = `/api/gamelingo/evertale/chars?category=${listBy}&limit=${limit}`;
   const { data, isLoading, error } = useSWR(URL, fetcher);
   let subData;
 

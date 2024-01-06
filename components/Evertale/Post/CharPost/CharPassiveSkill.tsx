@@ -34,7 +34,37 @@ export default function CharPassiveSkill({ charPassiveSkill }: { charPassiveSkil
     <div className="w-full md:w1/2 mt-8 ml-2 px-4 py-4 rounded-xl bg-slate-800 h-[460px] overflow-y-scroll scrollbar-style">
       <OptionLanguage activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
 
-      <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="navigation-config">
+      {charPassiveSkill.map((nps: CharacterPassiveSkill, i: number) => (
+        <div key={`passive-skill-${i++}`} className="border-b-2 last-of-type:border-none my-4 border-white text-white font-poppins">
+          <div className="flex flex-row justify-start content-center cursor-default">
+            <p className="text-base md:text-lg font-bold my-auto">{nps.skillName}</p>
+          </div>
+          <div className="my-2 cursor-default">
+            {nps.typeSkill.map((type: any) => (
+              <span key={type} className="bg-white !text-slate-800 mx-1 my-1 first:ml-0 rounded-xl px-2 font-bold flex-wrap">
+                {type}{" "}
+              </span>
+            ))}
+          </div>
+          {activeIndex === 1 && (
+            <div className="flex flex-row">
+              <article className="text-justify mr-1">{nps.skillDescEn}</article>
+              <article className="text-justify ml-1">{nps.skillDescId}</article>
+            </div>
+          )}
+          {activeIndex === 2 && (
+            <div>
+              <article className="text-justify my-1">{nps.skillDescEn}</article>
+            </div>
+          )}
+          {activeIndex === 3 && (
+            <div>
+              <article className="text-justify my-1">{nps.skillDescId}</article>
+            </div>
+          )}
+        </div>
+      ))}
+      {/* <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="navigation-config">
         {charPassiveSkill.map((nps: CharacterPassiveSkill, i: number) => (
           <SwiperSlide key={`passive-skill-${i++}`}>
             <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Passive Skill {i + 1}</h3>
@@ -71,7 +101,7 @@ export default function CharPassiveSkill({ charPassiveSkill }: { charPassiveSkil
             )}
           </SwiperSlide>
         ))}
-      </Swiper>
+      </Swiper> */}
     </div>
   );
 }

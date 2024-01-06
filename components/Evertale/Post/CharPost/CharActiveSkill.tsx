@@ -7,6 +7,8 @@ import "./swiper-config.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import { useState } from "react";
+import Image from "next/image";
+import { Bullseye } from "react-bootstrap-icons";
 
 const OptionLanguage = ({ activeIndex, setActiveIndex }: { activeIndex: number; setActiveIndex: React.ComponentState }) => {
   return (
@@ -33,53 +35,94 @@ export default function CharActiveSkill({ charActiveSkill }: { charActiveSkill: 
   return (
     <div className="w-full md:w1/2 mt-8 ml-2 px-4 py-4 rounded-xl bg-slate-800 h-[460px] overflow-y-scroll scrollbar-style">
       <OptionLanguage activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-      <Swiper modules={[Navigation]} slidesPerView={1} navigation={{ enabled: true, hideOnClick: true }} className="navigation-config">
-        {charActiveSkill.map((nas: CharacterActiveSkill, i: number) => (
-          <SwiperSlide key={`active-skill-${i++}`}>
-            <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Active Skill {i + 1}</h3>
-            <p className="text-white font-poppins">
-              <strong>Skill Name : </strong> {nas.skillName}
-            </p>
-            <p className="text-white font-poppins">
-              <strong>Skill Type : </strong> {nas.typeSkill.join(", ")}
-            </p>
-            <p className="text-white font-poppins">
-              <strong>Spirit : </strong> {nas.skillSpirit as number}
-            </p>
-            <p className="text-white font-poppins">
-              <strong>TU : </strong> {nas.skillTu as number}
-            </p>
-            <p className="text-white font-poppins">
-              <strong>Target : </strong> {nas.skillTarget as number}
-            </p>
-            {activeIndex === 1 && (
-              <>
-                <article className="text-white font-poppins">
-                  <strong>Description : </strong>
-                  <p>{nas.skillDescEn}</p>
-                </article>
-                <article className="text-white font-poppins">
-                  <strong>Deskripsi : </strong>
-                  <p></p>
-                  {nas.skillDescId}
-                </article>
-              </>
-            )}
-            {activeIndex === 2 && (
-              <article className="text-white font-poppins">
-                <strong>Description : </strong>
-                <p>{nas.skillDescEn}</p>
-              </article>
-            )}
-            {activeIndex === 3 && (
-              <article className="text-white font-poppins">
-                <strong>Deskripsi : </strong>
-                <p>{nas.skillDescId}</p>
-              </article>
-            )}
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {charActiveSkill.map((nas: CharacterActiveSkill, i: number) => (
+        <div key={`nas-${i++}`} className="border-b-2 last-of-type:border-none my-4 border-white text-white font-poppins">
+          <div className="flex flex-row justify-start content-center cursor-default">
+            <p className="text-base md:text-lg font-bold my-auto">{nas.skillName}</p>
+            <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
+              <Image src="/Evertale/Icon/Spirit.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
+              {(nas.skillSpirit as number) > 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-green-700">+{nas.skillSpirit as number}</span>}
+              {(nas.skillSpirit as number) < 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-red-700">{nas.skillSpirit as number}</span>}
+              {(nas.skillSpirit as number) === 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-slate-800">{nas.skillSpirit as number}</span>}
+            </div>
+            <div className="flex flex-row justify-start content-center px-1 ">
+              <Image src="/Evertale/Icon/TU.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
+              <span className="my-auto ml-1 font-bold">{nas.skillTu as number}</span>
+            </div>
+            <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
+              <Bullseye className="my-auto mr-1 w-[25px] h-[25px]" />
+              <span className="my-auto ml-1 font-bold">{nas.skillTarget as number}</span>
+            </div>
+          </div>
+          <div className="my-2 cursor-default">
+            {nas.typeSkill.map((type: any) => (
+              <span key={type} className="bg-white !text-slate-800 mx-1 my-1 first:ml-0 rounded-xl px-2 font-bold flex-wrap">
+                {type}{" "}
+              </span>
+            ))}
+          </div>
+          {activeIndex === 1 && (
+            <div className="flex flex-row">
+              <article className="text-justify mr-1">{nas.skillDescEn}</article>
+              <article className="text-justify ml-1">{nas.skillDescId}</article>
+            </div>
+          )}
+          {activeIndex === 2 && (
+            <div>
+              <article className="text-justify my-1">{nas.skillDescEn}</article>
+            </div>
+          )}
+          {activeIndex === 3 && (
+            <div>
+              <article className="text-justify my-1">{nas.skillDescId}</article>
+            </div>
+          )}
+        </div>
+
+        // <SwiperSlide key={`active-skill-${i++}`}>
+        //   <h3 className="text-white text-lg md:text-xl text-center mb-4 font-merienda font-bold">Active Skill {i + 1}</h3>
+        //   <p className="text-white font-poppins">
+        //     <strong>Skill Name : </strong> {nas.skillName}
+        //   </p>
+        //   <p className="text-white font-poppins">
+        //     <strong>Skill Type : </strong> {nas.typeSkill.join(", ")}
+        //   </p>
+        //   <p className="text-white font-poppins">
+        //     <strong>Spirit : </strong> {nas.skillSpirit as number}
+        //   </p>
+        //   <p className="text-white font-poppins">
+        //     <strong>TU : </strong> {nas.skillTu as number}
+        //   </p>
+        //   <p className="text-white font-poppins">
+        //     <strong>Target : </strong> {nas.skillTarget as number}
+        //   </p>
+        //   {activeIndex === 1 && (
+        //     <>
+        //       <article className="text-white font-poppins">
+        //         <strong>Description : </strong>
+        //         <p>{nas.skillDescEn}</p>
+        //       </article>
+        //       <article className="text-white font-poppins">
+        //         <strong>Deskripsi : </strong>
+        //         <p></p>
+        //         {nas.skillDescId}
+        //       </article>
+        //     </>
+        //   )}
+        //   {activeIndex === 2 && (
+        //     <article className="text-white font-poppins">
+        //       <strong>Description : </strong>
+        //       <p>{nas.skillDescEn}</p>
+        //     </article>
+        //   )}
+        //   {activeIndex === 3 && (
+        //     <article className="text-white font-poppins">
+        //       <strong>Deskripsi : </strong>
+        //       <p>{nas.skillDescId}</p>
+        //     </article>
+        //   )}
+        // </SwiperSlide>
+      ))}
     </div>
   );
 }

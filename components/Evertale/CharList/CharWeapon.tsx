@@ -2,6 +2,7 @@ import { imageLoader } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import "./scrollbar.css";
+import { ChevronDoubleRight } from "react-bootstrap-icons";
 
 type CharState = {
   id: string;
@@ -30,6 +31,16 @@ const CharWeapon = ({ data, title, isGrid }: any) => {
             </Link>
           </figure>
         ))}
+        {!isGrid && data.length > 8 && (
+          <div className="min-h-[350px] flex flex-col flex-wrap justify-center content-center text-white font-merienda font-bold pr-2 text-base md:text-lg">
+            <Link href={`/evertale/chars/weapon/${title.toLowerCase()}`}>
+              <div>
+                <ChevronDoubleRight className="block mx-auto" />
+                <span>More</span>
+              </div>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

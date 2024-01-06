@@ -1,7 +1,7 @@
 import connectMongoDB from "@/lib/mongoose";
 import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
-import Post from "@/models/Evertale/Post";
+import Post from "@/models/General/Post";
 import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";

@@ -32,15 +32,15 @@ const OptionSort = ({ setListBy }: React.ComponentState) => {
 const CharWeapon = ({ listBy }: { listBy: ListByState }) => {
   return (
     <>
-      <CharList listBy={listBy} loadingAnimation={true} subListBy="Axe" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="GreatAxe" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="GreatSword" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Hammer" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Katana" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Mace" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Spear" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Staff" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Sword" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={true} subListBy="Axe" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="GreatAxe" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="GreatSword" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Hammer" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Katana" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Mace" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Spear" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Staff" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Sword" />
     </>
   );
 };
@@ -48,12 +48,12 @@ const CharWeapon = ({ listBy }: { listBy: ListByState }) => {
 const CharElement = ({ listBy }: { listBy: ListByState }) => {
   return (
     <>
-      <CharList listBy={listBy} loadingAnimation={true} subListBy="fire" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="water" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="light" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="dark" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="storm" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="earth" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={true} subListBy="fire" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="water" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="light" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="dark" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="storm" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="earth" />
     </>
   );
 };
@@ -61,17 +61,17 @@ const CharElement = ({ listBy }: { listBy: ListByState }) => {
 const CharTeam = ({ listBy }: { listBy: ListByState }) => {
   return (
     <>
-      <CharList listBy={listBy} loadingAnimation={true} subListBy="Blood Team" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Burn Team" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Combo Team" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Cursed Sleep Team" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="General Team" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Other Team" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Poison Team" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Sleep Team" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Stealth Team" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Stun Team" />
-      <CharList listBy={listBy} loadingAnimation={false} subListBy="Survivor Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={true} subListBy="Blood Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Burn Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Combo Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Cursed Sleep Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="General Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Other Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Poison Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Sleep Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Stealth Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Stun Team" />
+      <CharList limit={9} listBy={listBy} loadingAnimation={false} subListBy="Survivor Team" />
     </>
   );
 };

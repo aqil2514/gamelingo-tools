@@ -58,3 +58,8 @@ January 1, 2024
 - Endless Astrid - Voice of Defiance
 - Astrid - Hero of Rigland (On Break)
 - Astrid - Hero of the West
+
+January 5, 2024
+
+- Limit Character to 9
+- Fix Character UI

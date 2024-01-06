@@ -1,6 +1,5 @@
 import connectMongoDB from "@/lib/mongoose";
 import Character from "@/models/Evertale/Characters";
-import Post from "@/models/Evertale/Post";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,12 +7,12 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category");
   const maxResult = Number(searchParams.get("maxResult")) || 0;
-  const UID = searchParams.get("UID");
+  const limit = Number(searchParams.get("limit")) || 0;
   const conjureName = searchParams.get("conjureName");
   await connectMongoDB();
 
   if (category === "element") {
-    const chars = await Character.find();
+    const chars = await Character.find().sort({ createdAt: -1 });
 
     interface elementChar {
       id: String;
@@ -27,6 +26,7 @@ export async function GET(req: NextRequest) {
       (result, element) => {
         result[element.toLowerCase()] = chars
           .filter((char: any) => char.charStatus.charElement === element)
+          .slice(0, limit)
           .map((d: any) => ({
             id: d._id,
             image: d.charImage.f1Img,
@@ -45,13 +45,14 @@ export async function GET(req: NextRequest) {
       image: string;
     }
 
-    const chars = await Character.find();
+    const chars = await Character.find().sort({ createdAt: -1 });
     const types = await TypeSkill.find();
     const charTeamTypes = types[0].typeCharTeam;
 
     const charTeam: Record<string, CharTeam[]> = charTeamTypes.reduce((result: any, team: any) => {
       result[team] = chars
         .filter((char: any) => char.charStatus.charTeam.includes(team))
+        .slice(0, limit)
         .map((d: any) => ({
           id: d._id,
           image: d.charImage.f1Img,
@@ -68,11 +69,12 @@ export async function GET(req: NextRequest) {
       image: string;
     }
 
-    const chars = await Character.find();
+    const chars = await Character.find().sort({ createdAt: -1 });
     const weapons = ["Sword", "Axe", "Staff", "Mace", "GreatSword", "GreatAxe", "Spear", "Hammer", "Katana"];
     const charWeapon: Record<string, CharWeapon[]> = weapons.reduce<Record<string, CharWeapon[]>>((result, weapon) => {
       result[weapon] = chars
         .filter((char: any) => char.charStatus.charWeapon1 === weapon || char.charStatus.charWeapon2 === weapon)
+        .slice(0, limit)
         .map((char: any) => ({
           id: char._id,
           image: char.charImage.f1Img,
@@ -84,21 +86,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ charWeapon }, { status: 200 });
   }
 
-  if (UID) {
-    const character = await Character.findById(UID);
-
-    if (!character) {
-      return NextResponse.json({ msg: "Character not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ character }, { status: 200 });
-  } else if (conjureName) {
-    interface CharConjure {
-      id: string;
-      charName: string;
-      image: string;
-    }
-
+  if (conjureName) {
     const data = await Character.find({ "charStatus.charName": conjureName });
     const conjure = data.map((con: any) => ({
       id: con._id,

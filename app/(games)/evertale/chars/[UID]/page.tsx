@@ -12,21 +12,21 @@ export async function generateMetadata({ params }: props): Promise<Metadata> {
     const { UID } = params;
     const isLocal = process.env.NODE_ENV === "development";
     const baseURL = isLocal ? "http://localhost:3000" : "https://gamelingo-tools.vercel.app";
-    const ApiURL = `${baseURL}/api/gamelingo/evertale/chars?UID=${UID}`;
+    const ApiURL = `${baseURL}/api/post?UID=${UID}`;
 
     const response = await axios.get(ApiURL);
-    const data = response.data;
+    const data = response.data.post.content;
 
     return {
-      title: data.character.charStatus.charName,
+      title: data.charStatus.charName,
       metadataBase: new URL(baseURL),
       openGraph: {
-        title: data.character.charStatus.charName,
-        description: data.character.charIntro.gachaIntroEn || `Information about ${data.character.charStatus.charName}`,
+        title: data.charStatus.charName,
+        description: `Information about ${data.charStatus.charName}`,
         siteName: "GameLingo Tools",
         images: [
           {
-            url: data.character.charImage.f1Img,
+            url: data.charImage.f1Img,
             width: 800,
             height: 600,
           },
