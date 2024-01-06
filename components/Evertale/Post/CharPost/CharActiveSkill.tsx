@@ -37,21 +37,23 @@ export default function CharActiveSkill({ charActiveSkill }: { charActiveSkill: 
       <OptionLanguage activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
       {charActiveSkill.map((nas: CharacterActiveSkill, i: number) => (
         <div key={`nas-${i++}`} className="border-b-2 last-of-type:border-none my-4 border-white text-white font-poppins">
-          <div className="flex flex-row justify-start content-center cursor-default">
+          <div className="flex flex-col md:flex-row justify-start content-center cursor-default">
             <p className="text-base md:text-lg font-bold my-auto">{nas.skillName}</p>
-            <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
-              <Image src="/Evertale/Icon/Spirit.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
-              {(nas.skillSpirit as number) > 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-green-700">+{nas.skillSpirit as number}</span>}
-              {(nas.skillSpirit as number) < 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-red-700">{nas.skillSpirit as number}</span>}
-              {(nas.skillSpirit as number) === 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-slate-800">{nas.skillSpirit as number}</span>}
-            </div>
-            <div className="flex flex-row justify-start content-center px-1 ">
-              <Image src="/Evertale/Icon/TU.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
-              <span className="my-auto ml-1 font-bold">{nas.skillTu as number}</span>
-            </div>
-            <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
-              <Bullseye className="my-auto mr-1 w-[25px] h-[25px]" />
-              <span className="my-auto ml-1 font-bold">{nas.skillTarget as number}</span>
+            <div className="flex flex-row justify-start content-center">
+              <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
+                <Image src="/Evertale/Icon/Spirit.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
+                {(nas.skillSpirit as number) > 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-green-700">+{nas.skillSpirit as number}</span>}
+                {(nas.skillSpirit as number) < 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-red-700">{nas.skillSpirit as number}</span>}
+                {(nas.skillSpirit as number) === 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-slate-800">{nas.skillSpirit as number}</span>}
+              </div>
+              <div className="flex flex-row justify-start content-center px-1 ">
+                <Image src="/Evertale/Icon/TU.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
+                <span className="my-auto ml-1 font-bold">{nas.skillTu as number}</span>
+              </div>
+              <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
+                <Bullseye className="my-auto mr-1 w-[25px] h-[25px]" />
+                <span className="my-auto ml-1 font-bold">{nas.skillTarget as number}</span>
+              </div>
             </div>
           </div>
           <div className="my-2 cursor-default">
