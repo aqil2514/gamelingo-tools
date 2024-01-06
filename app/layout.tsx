@@ -4,10 +4,10 @@ import "./globals.css";
 
 import { getServerSession } from "next-auth";
 
-import SessionProvider from "./components/SessionProvider";
-import Headers from "./components/Headers";
+import SessionProvider from "@/components/Authentication/SessionProvider";
+import Headers from "@/components/Layout/Header";
 import { Analytics } from "@vercel/analytics/react";
-import Footer from "./components/Footer";
+import Footer from "@/components/Layout/Footer";
 
 export const metadata: Metadata = {
   title: {

@@ -1,6 +1,6 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Menu } from "./NavMenu";
+import { Menu } from ".";
 
 export default function NavMobile({ isMobile }: { isMobile: boolean }) {
   const { data: session } = useSession();

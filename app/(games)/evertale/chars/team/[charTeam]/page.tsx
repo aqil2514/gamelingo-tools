@@ -1,4 +1,4 @@
-import { DIV_MAIN_STYLE } from "@/app/components/Styles";
+import { DIV_MAIN_STYLE } from "@/components/Styles";
 import CharList from "@/components/Evertale/CharList";
 import { Metadata } from "next";
 

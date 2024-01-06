@@ -1,4 +1,4 @@
-import { DIV_MAIN_STYLE } from "@/app/components/Styles";
+import { DIV_MAIN_STYLE } from "@/components/Styles";
 import Post from "@/components/Evertale/Post";
 import axios from "axios";
 import { Metadata } from "next";

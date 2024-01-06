@@ -1,4 +1,4 @@
-import { DIV_MAIN_STYLE } from "@/app/components/Styles";
+import { DIV_MAIN_STYLE } from "@/components/Styles";
 import { Metadata } from "next";
 import Slider from "@/components/Evertale/Slider";
 import GameDescription from "@/components/general/GameDescription";

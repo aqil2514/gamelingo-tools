@@ -1,4 +1,4 @@
-import { DIV_MAIN_STYLE } from "@/app/components/Styles";
+import { DIV_MAIN_STYLE } from "@/components/Styles";
 import { useRef } from "react";
 import Title from "./Title";
 import CharStatus from "./CharStatus";
