@@ -99,6 +99,28 @@ export default function IndonesianSection() {
             <li className="list-disc">Infernal Mysha - Nine-Tailed Calamity</li>
             <li className="list-disc">Gaia - Goddess of the Earth</li>
           </ol>
+
+          <h2 className="font-semibold text-lg font-merienda my-4">6 Januari 2024</h2>
+          <strong className="my-4">Data Karakter Baru</strong>
+          <ol>
+            <li className="list-disc">Mysha - Fox-Eared Idol</li>
+            <li className="list-disc">Hibiki - Scarlet Oni Samurai</li>
+            <li className="list-disc">Dark Callen - Dark Guardian Dragon</li>
+            <li className="list-disc">Clarice - Black Summer Rose</li>
+            <li className="list-disc">Snow White - Queen of Dreams</li>
+            <li className="list-disc">Shanna - Red Riding Hood, Dragon Slayer</li>
+            <li className="list-disc">Beast Shikigami - Wild Guardian</li>
+            <li className="list-disc">Rei - Sakura Onmyoji</li>
+            <li className="list-disc">Reina - Deadly Nurse</li>
+            <li className="list-disc">Hibiki - Demon of Class 2-B</li>
+            <li className="list-disc">Saya - Solitary Star</li>
+            <li className="list-disc">Clarice - Venomous Rose</li>
+            <li className="list-disc">Ryouma - Warrior of the Nameless Beast</li>
+            <li className="list-disc">Aria - Petite Primordial</li>
+            <li className="list-disc">Callen - Magical Dragon Girl</li>
+            <li className="list-disc">Rolotia - Lady of Eternal Summer</li>
+            <li className="list-disc">Bahamut - Doomsday Dragon God</li>
+          </ol>
         </article>
       </div>
     </>
