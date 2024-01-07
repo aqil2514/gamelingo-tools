@@ -13,12 +13,6 @@ const CharPost = ({ data }: { data: any }) => {
   const part2 = useRef(null);
   const part3 = useRef(null);
 
-  console.log(data);
-  // return (
-  //   <>
-  //     <h1>ok</h1>
-  //   </>
-  // );
   return (
     <div className={DIV_MAIN_STYLE + " px-2 lg:px-8"}>
       <Title title={data.charStatus.charName} />

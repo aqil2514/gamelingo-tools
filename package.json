@@ -38,6 +38,8 @@
     "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
+    "@iconify-icon/react": "^1.0.8",
+    "@iconify/react": "^4.1.1",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.14",

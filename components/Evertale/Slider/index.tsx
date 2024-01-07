@@ -4,6 +4,7 @@ import ButtonLink from "./ButtonLink";
 import CharSlider from "./CharSlider";
 import useSWR from "swr";
 import Error from "@/components/general/Error";
+import WeaponSlider from "./WeaponSlider";
 
 interface SliderState {
   type: "chars" | "weapons" | "acc";
@@ -31,6 +32,13 @@ const Slider = ({ type, buttonLink, loadingAnimation, length, textOn = false, te
       <>
         <CharSlider characters={data.characters} />
         {buttonLink && <ButtonLink linkHref="/evertale/chars" />}
+      </>
+    );
+  else if (type === "weapons")
+    return (
+      <>
+        <WeaponSlider weapons={data.data} />
+        {buttonLink && <ButtonLink linkHref="/evertale/weapons" />}
       </>
     );
 };

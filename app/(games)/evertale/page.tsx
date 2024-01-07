@@ -21,6 +21,7 @@ export default function Evertale() {
         </div>
       </div>
       <Slider type="chars" buttonLink={true} loadingAnimation={true} textOn={true} text="Mohon tunggu..." length={15} />
+      <Slider type="weapons" buttonLink={true} loadingAnimation={false} textOn={false} length={15} />
     </div>
   );
 }

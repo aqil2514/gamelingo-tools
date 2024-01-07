@@ -1,4 +1,5 @@
 import connectMongoDB from "@/lib/mongoose";
+import { EvertaleReduce } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,28 +15,9 @@ export async function GET(req: NextRequest) {
   if (category === "element") {
     const chars = await Character.find().sort({ createdAt: -1 });
 
-    interface elementChar {
-      id: String;
-      charName: String;
-      image: String;
-    }
-
     const elements = ["Fire", "Water", "Dark", "Light", "Storm", "Earth"];
 
-    const elementChar = elements.reduce(
-      (result, element) => {
-        result[element.toLowerCase()] = chars
-          .filter((char: any) => char.charStatus.charElement === element)
-          .slice(0, limit)
-          .map((d: any) => ({
-            id: d._id,
-            image: d.charImage.f1Img,
-            charName: d.charStatus.charName,
-          }));
-        return result;
-      },
-      {} as Record<string, elementChar[]>
-    );
+    const elementChar = EvertaleReduce(elements, chars, "charStatus.charElement", "charImage.f1Img", "charStatus.charName", limit);
 
     return NextResponse.json({ elementChar }, { status: 200 });
   } else if (category === "team") {
