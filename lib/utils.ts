@@ -60,3 +60,14 @@ function propSplit(document: Record<string, any>, documentProps: string) {
 
   return result;
 }
+
+export const evertale = {
+  simpleMapping: (document: Record<string, any>, type: "chars" | "weapons") => {
+    const result = document.map((d: any) => {
+      if (type === "chars") return { id: d._id, name: d.charStatus.charName, image: d.charImage.f1Img };
+      if (type === "weapons") return { id: d._id, name: d.weapName, image: d.weapImage.webp };
+    });
+
+    return result;
+  },
+};

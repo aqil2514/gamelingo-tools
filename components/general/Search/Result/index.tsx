@@ -1,15 +1,13 @@
-import CharResult from "./CharResult";
+import EvertaleResult from "./EvertaleResult";
 
 interface ResultState {
-  game: "evertale" | "mlbb" | "gi";
-  category: "character" | "weapon";
+  category: string;
   data: any;
+  path: string;
 }
 
-const SearchResult = ({ game, category, data }: ResultState) => {
-  if (game === "evertale") {
-    if (category === "character") return <CharResult data={data} />;
-  }
+const SearchResult = ({ category, data, path }: ResultState) => {
+  return <EvertaleResult data={data} path={path} category={category} />;
 };
 
 export default SearchResult;

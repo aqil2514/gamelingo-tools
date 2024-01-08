@@ -1,4 +1,4 @@
-import OptionLanguage from "@/components/general/OptionLanguage";
+import { OptionLanguage } from "@/components/general/Option";
 import React from "react";
 
 export default function WeapLore({ lore }: any) {

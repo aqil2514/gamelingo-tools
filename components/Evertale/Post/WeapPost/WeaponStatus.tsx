@@ -1,3 +1,4 @@
+import { Option } from "@/components/general/Option";
 import { Icon } from "@iconify/react";
 import React from "react";
 import { QuestionOctagon, QuestionOctagonFill } from "react-bootstrap-icons";
@@ -14,7 +15,7 @@ export default function WeaponStatus({ weapAscend, weapMax }: any) {
       <Questions isActived={isActived} setIsActived={setIsActived} objectRef={objectRef} />
       {status === "no-ascend" && <Weapon data={weapAscend.noAscend} regex={regex} title="No Ascend Status" />}
       {status === "ascend-1" && <Weapon data={weapAscend.ascend1} regex={regex} title="Ascend 1 Status" />}
-      {status === "full-ascend" && <Weapon data={weapAscend.fullAscend} regex={regex} title="Ascend 1 Status" />}
+      {status === "full-ascend" && <Weapon data={weapAscend.fullAscend} regex={regex} title="Full Ascend Status" />}
       {status === "max-status" && <Weapon data={weapMax} skill={weapAscend.fullAscend.weapSkill} regex={regex} title="Max Status" isMaxed />}
     </div>
   );
@@ -23,25 +24,25 @@ export default function WeaponStatus({ weapAscend, weapMax }: any) {
 const OptionStatus = ({ status, setStatus }: { status: string; setStatus: React.ComponentState }) => {
   return (
     <div className="my-2">
-      <Option status={status} setStatus={setStatus} value="no-ascend" title="No Ascend" />
-      <Option status={status} setStatus={setStatus} value="ascend-1" title="Ascend 1" />
-      <Option status={status} setStatus={setStatus} value="full-ascend" title="Full Ascend" />
-      <Option status={status} setStatus={setStatus} value="max-status" title="Max Status" />
+      <Option status={status} setStatus={setStatus} name="status" value="no-ascend" title="No Ascend" />
+      <Option status={status} setStatus={setStatus} name="status" value="ascend-1" title="Ascend 1" />
+      <Option status={status} setStatus={setStatus} name="status" value="full-ascend" title="Full Ascend" />
+      <Option status={status} setStatus={setStatus} name="status" value="max-status" title="Max Status" />
     </div>
   );
 };
 
-const Option = ({ status, setStatus, value, title }: { status: string; setStatus: React.ComponentState; value: string; title: string }) => {
-  return (
-    <label
-      className={`font-semibold font-merriweather mx-2 my-2 px-4 py-2 rounded-xl text-[11px] md:text-base lg:text-xl text-white transition-all cursor-pointer ${status === value && " bg-white !text-slate-800 !cursor-default"}`}
-      htmlFor={`status-${value}`}
-    >
-      <input className="hidden" onChange={(e) => setStatus(e.target.value)} value={value} type="radio" name="language" id={`status-${value}`} />
-      {title}
-    </label>
-  );
-};
+// const Option = ({ status, setStatus, value, title }: { status: string; setStatus: React.ComponentState; value: string; title: string }) => {
+//   return (
+//     <label
+//       className={`font-semibold font-merriweather mx-2 my-2 px-4 py-2 rounded-xl text-[11px] md:text-base lg:text-xl text-white transition-all cursor-pointer ${status === value && " bg-white !text-slate-800 !cursor-default"}`}
+//       htmlFor={`status-${value}`}
+//     >
+//       <input className="hidden" onChange={(e) => setStatus(e.target.value)} value={value} type="radio" name="language" id={`status-${value}`} />
+//       {title}
+//     </label>
+//   );
+// };
 
 const Weapon = ({ data, regex, title, skill, isMaxed = false }: any) => {
   return (

@@ -17,7 +17,7 @@ const WeapType = ({ weapons, weaponName, isGrid }: any) => {
   return (
     <div className="px-0">
       <h1 className="text-base lg:text-2xl text-start font-bold font-merienda text-white mt-4">
-        <Link href={`/evertale/chars/element/${weaponName}`}>
+        <Link href={`/evertale/weapons/weapon-type/${weaponName.toLowerCase()}`}>
           <span className="capitalize">{weaponName}</span>
         </Link>
       </h1>
@@ -33,7 +33,7 @@ const WeapType = ({ weapons, weaponName, isGrid }: any) => {
         ))}
         {!isGrid && weapons.length > 8 && (
           <div className="min-h-[350px] flex flex-col flex-wrap justify-center content-center text-white font-merienda font-bold pr-2 text-base md:text-lg">
-            <Link href={`/evertale/chars/element/${weaponName}`}>
+            <Link href={`/evertale/weapons/weapon-type/${weaponName.toLowerCase()}`}>
               <div>
                 <ChevronDoubleRight className="block mx-auto" />
                 <span>More</span>
