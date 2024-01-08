@@ -5,8 +5,8 @@ import Slider from "@/components/Evertale/Slider";
 import WeaponList from "./Weapons";
 
 export const metadata: Metadata = {
-  title: "Characters",
-  description: "Evertale Characters",
+  title: "Weapons",
+  description: "Evertale Weapons",
   metadataBase: new URL("https://gamelingo-tools.vercel.app"),
 };
 
