@@ -2,6 +2,8 @@ import { DIV_MAIN_STYLE } from "@/components/Styles";
 import Post from "@/components/Evertale/Post";
 import axios from "axios";
 import { Metadata } from "next";
+import SuggestedPost from "@/components/Evertale/Post/SuggestedPost";
+import PostList from "@/components/Evertale/Post/SuggestedPost/PostList";
 
 type props = {
   params: { UID: string };
@@ -48,6 +50,11 @@ export default function Character({ params }: any) {
   return (
     <div className={DIV_MAIN_STYLE + " py-20"}>
       <Post type="chars" UID={UID} />
+      <SuggestedPost grid={3}>
+        <PostList UID={UID} category="chars" sort="team" />
+        <PostList UID={UID} category="chars" sort="element" />
+        <PostList UID={UID} category="chars" sort="newest" />
+      </SuggestedPost>
     </div>
   );
 }

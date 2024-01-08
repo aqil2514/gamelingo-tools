@@ -60,3 +60,43 @@ function propSplit(document: Record<string, any>, documentProps: string) {
 
   return result;
 }
+
+export const evertale = {
+  mapping: (data: Record<string, any>, value: string[] | string, limit: number, path: string, type: "chars" | "weapon", included: boolean = false, randomIndex: boolean = false) => {
+    const random = value.length > 0 ? Math.floor(Math.random() * value.length) : 0;
+    value = randomIndex ? value[random] : value;
+
+    let pathes = path.split(".");
+    let filtered;
+
+    if (typeof value === "string") {
+      const stringValue = value as string;
+      filtered = included ? data.filter((d: any) => d[pathes[0]][pathes[1]].includes(stringValue)) : data.filter((d: any) => d[pathes[0]][pathes[1]].toLowerCase() === stringValue.toLowerCase());
+    } else {
+      filtered = data;
+    }
+
+    const result = filtered.slice(0, limit).map((d: any) => {
+      if (type === "chars")
+        return {
+          id: d._id,
+          image: d.charImage.f1Img,
+          name: d.charStatus.charName,
+        };
+    });
+
+    return result;
+  },
+  simpleMapping: (data: Record<string, any>, limit: number, type: "chars" | "weapons") => {
+    const result = data.slice(0, limit).map((d: any) => {
+      if (type === "chars")
+        return {
+          id: d._id,
+          image: d.charImage.f1Img,
+          name: d.charStatus.charName,
+        };
+    });
+
+    return result;
+  },
+};
