@@ -23,7 +23,7 @@ const PostList = ({ UID, sort, category, limit = 9 }: { UID: string; sort: strin
         {data.map((d: any) => (
           <Link key={d.id} href={`/evertale/char/${d.id}`}>
             <figure className="flex flex-row justify-start my-4 gap-4">
-              <Image width={64} height={64} alt={d.name} src={d.image} />
+              <Image width={64} height={64} alt={d.name} src={d.image} className="object-cover rounded-xl" />
               <figcaption className="my-auto text-white text-base font-merriweather font-semibold">{d.name}</figcaption>
             </figure>
           </Link>

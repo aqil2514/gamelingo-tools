@@ -88,7 +88,7 @@ export const evertale = {
     return result;
   },
   simpleMapping: (document: Record<string, any>, type: "chars" | "weapons", limit: number = 0) => {
-    const result = (limit ? document.slice(0, limit).map : document.map)((d: any) => {
+    const result = (limit !== 0 ? document.slice(0, limit) : document).map((d: any) => {
       if (type === "chars") return { id: d._id, name: d.charStatus.charName, image: d.charImage.f1Img };
       if (type === "weapons") return { id: d._id, name: d.weapName, image: d.weapImage.webp };
     });

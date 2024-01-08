@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
         //Genshin Impact, Evertale, MLBB
         if (sort === "newest") {
           const newChars = await Character.find().sort({ createdAt: -1 });
-          const data = evertale.simpleMapping(newChars, 9, "chars");
+          const data = evertale.simpleMapping(newChars, "chars", 9);
           return NextResponse.json({ post, title: "New Post", data }, { status: 200 });
         }
       }
