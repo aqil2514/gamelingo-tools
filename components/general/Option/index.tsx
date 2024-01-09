@@ -17,7 +17,12 @@ export const OptionLanguage = ({ activeIndex, setActiveIndex }: { activeIndex: n
   );
 };
 
-export const Option = ({ status, setStatus, value, name, title }: { status: string; name: string; setStatus: React.ComponentState; value: string; title: string }) => {
+export const Option = ({ status, setStatus, value, name, title, variant = 1 }: { status: string; name: string; setStatus: React.ComponentState; value: string; title: string; variant?: number }) => {
+  if (variant === 1) return <Option1 status={status} setStatus={setStatus} value={value} name={name} title={title} />;
+  if (variant === 2) return <Option2 status={status} setStatus={setStatus} value={value} name={name} title={title} />;
+};
+
+const Option1 = ({ status, setStatus, value, name, title }: { status: string; name: string; setStatus: React.ComponentState; value: string; title: string }) => {
   return (
     <label
       className={`font-semibold font-merriweather mx-2 my-2 px-4 py-2 rounded-xl text-[11px] md:text-base lg:text-xl text-white transition-all cursor-pointer ${status === value && " bg-white !text-slate-800 !cursor-default"}`}
@@ -25,6 +30,15 @@ export const Option = ({ status, setStatus, value, name, title }: { status: stri
     >
       <input className="hidden" onChange={(e) => setStatus(e.target.value)} value={value} type="radio" name={`option-${name}`} id={`status-${value}`} />
       {title}
+    </label>
+  );
+};
+
+const Option2 = ({ status, setStatus, value, name, title }: { status: string; name: string; setStatus: React.ComponentState; value: string; title: string }) => {
+  return (
+    <label className="my-2" htmlFor={`status-${value}`}>
+      <input onChange={(e) => setStatus(e.target.value)} value={value} checked={value === status} type="radio" name={`option-${name}`} id={`status-${value}`} />
+      <span className="capitalize text-white font-semibold mx-2 font-mclaren">{title}</span>
     </label>
   );
 };

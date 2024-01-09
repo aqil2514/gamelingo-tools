@@ -2,6 +2,7 @@ import { DIV_MAIN_STYLE } from "@/components/Styles";
 import CharList from "@/components/Evertale/CharList";
 import { Metadata } from "next";
 import WeapList from "@/components/Evertale/WeapList";
+import List from "@/components/Evertale/List";
 
 type Props = {
   params: { weapType: string };
@@ -38,7 +39,7 @@ export default async function WeaponType({ params }: any) {
 
   return (
     <div className={DIV_MAIN_STYLE + " py-20 px-8"}>
-      <WeapList listBy="type" subListBy={query} loadingAnimation={true} textOn={true} isGrid={true} text="Loading..." />
+      <List listBy="type" subListBy={query} type="weapons" key={`weapon-${query}`} loadingAnimation textOn text="Loading..." isGrid />
     </div>
   );
 }

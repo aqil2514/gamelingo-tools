@@ -10,24 +10,6 @@ export const imageLoader = ({ src, width, quality }: ImageLoaderProps) => {
   return `${src}?w=${width}&q=${quality || 20}`;
 };
 
-export function EvertaleReduce(data: string[], document: Record<string, any>, docProps: string, imageProps: string, nameProps: string, limit: number) {
-  const result = data.reduce(
-    (result, d) => {
-      result[d.toLowerCase()] = propSplitFilter(document, docProps, d)
-        .slice(0, limit)
-        .map((d: any) => ({
-          id: d._id,
-          image: propSplit(d, imageProps),
-          name: propSplit(d, nameProps),
-        }));
-      return result;
-    },
-    {} as Record<string, any>
-  );
-
-  return result;
-}
-
 function propSplitFilter(doc: Record<string, any>, docProps: string, value: string) {
   const docPropsPath = docProps.split(".");
 
@@ -92,6 +74,40 @@ export const evertale = {
       if (type === "chars") return { id: d._id, name: d.charStatus.charName, image: d.charImage.f1Img };
       if (type === "weapons") return { id: d._id, name: d.weapName, image: d.weapImage.webp };
     });
+
+    return result;
+  },
+  simpleFilter: (document: Record<string, any>, path: string, value: string) => {
+    const result = document.filter((d: any) => d[path] === value);
+
+    return result;
+  },
+  filter: (document: Record<string, any>, parentPath: string, childPath?: string, secondChildPath?: string, included: boolean = false, value?: string) => {
+    let result;
+    if (included) {
+      result = document.filter((doc: any) => (childPath ? doc[parentPath][childPath] : doc[parentPath]).includes(value));
+    } else if (secondChildPath && childPath) {
+      result = document.filter((doc: any) => doc[parentPath][childPath] === value || doc[parentPath][secondChildPath] === value);
+    } else {
+      result = document.filter((doc: any) => (childPath ? doc[parentPath][childPath] : doc[parentPath]) === value);
+    }
+
+    return result;
+  },
+  reduce: (data: string[], document: Record<string, any>, type: string, included: boolean, parentPath: string, childPath?: string, limit?: number, secondChildPath?: string) => {
+    const result = data.reduce(
+      (result, d) => {
+        result[d.toLowerCase()] = evertale
+          .filter(document, parentPath, childPath, secondChildPath, included, d)
+          .slice(0, limit)
+          .map((d: any) => {
+            if (type === "chars") return { id: d._id, name: d.charStatus.charName, image: d.charImage.f1Img };
+            if (type === "weapons") return { id: d._id, name: d.weapName, image: d.weapImage.webp };
+          });
+        return result;
+      },
+      {} as Record<string, any>
+    );
 
     return result;
   },

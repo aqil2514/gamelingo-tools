@@ -17,11 +17,11 @@ const PostList = ({ UID, sort, category, limit = 9 }: { UID: string; sort: strin
   const data = res.data.data;
 
   return (
-    <div className="bg-slate-800 rounded-xl p-4">
+    <div className="bg-slate-800 rounded-xl p-4 w-full">
       <h1 className="font-bold text-center text-white font-merienda text-lg md:text-xl lg:text-2xl">{title}</h1>
       <div>
         {data.map((d: any) => (
-          <Link key={d.id} href={`/evertale/char/${d.id}`}>
+          <Link key={d.id} href={`/evertale/${category}/${d.id}`}>
             <figure className="flex flex-row justify-start my-4 gap-4">
               <Image width={64} height={64} alt={d.name} src={d.image} className="object-cover rounded-xl" />
               <figcaption className="my-auto text-white text-base font-merriweather font-semibold">{d.name}</figcaption>
@@ -29,6 +29,11 @@ const PostList = ({ UID, sort, category, limit = 9 }: { UID: string; sort: strin
           </Link>
         ))}
       </div>
+      {data.length > 8 && (
+        <Link href={sort === "newest" ? `/evertale/${category}` : `/evertale/${category}/${sort}/${title.toLowerCase().replace(" ", "-")}`} className="font-bold text-white font-merienda text-base md:text-lg lg:text-xl">
+          <h1 className="text-center">More about {title} &raquo;</h1>
+        </Link>
+      )}
     </div>
   );
 };

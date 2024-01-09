@@ -58,7 +58,6 @@ const CharList = ({ listBy, subListBy, loadingAnimation = false, textOn, text, i
   if (error) return <Error />;
 
   if (listBy === "element") {
-    console.log(data);
     subData = data.elementChar[subListBy];
 
     return <CharElement elementData={subData} elementTitle={subListBy} isGrid={isGrid} />;

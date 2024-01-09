@@ -1,6 +1,6 @@
 import { DIV_MAIN_STYLE } from "@/components/Styles";
-import CharList from "@/components/Evertale/CharList";
 import { Metadata } from "next";
+import List from "@/components/Evertale/List";
 
 export const metadata: Metadata = {
   title: "Character Element",
@@ -8,15 +8,16 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://gamelingo-tools.vercel.app"),
 };
 
+const element = ["water", "light", "dark", "storm", "earth"];
+
 export default function CharElement() {
   return (
     <div className={DIV_MAIN_STYLE + " py-20 px-8"}>
-      <CharList listBy="element" loadingAnimation={true} subListBy="fire" textOn={true} text="Mengambil Data..." />
-      <CharList listBy="element" loadingAnimation={false} subListBy="water" />
-      <CharList listBy="element" loadingAnimation={false} subListBy="light" />
-      <CharList listBy="element" loadingAnimation={false} subListBy="dark" />
-      <CharList listBy="element" loadingAnimation={false} subListBy="storm" />
-      <CharList listBy="element" loadingAnimation={false} subListBy="earth" />
+      <List listBy="element" subListBy="fire" type="chars" key={`element-character-fire`} limit={9} loadingAnimation textOn text="Loading..." />
+      {element.map((el: string, i: number) => (
+        //@ts-ignore
+        <List listBy="element" subListBy={el} type="chars" key={`element-character-${i++}`} limit={9} />
+      ))}
     </div>
   );
 }

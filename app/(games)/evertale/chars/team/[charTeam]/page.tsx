@@ -1,6 +1,7 @@
 import { DIV_MAIN_STYLE } from "@/components/Styles";
 import CharList from "@/components/Evertale/CharList";
 import { Metadata } from "next";
+import List from "@/components/Evertale/List";
 
 type Props = {
   params: { charTeam: string };
@@ -30,7 +31,7 @@ export default async function CharTeam({ params }: any) {
 
   return (
     <div className={DIV_MAIN_STYLE + " py-20 px-8"}>
-      <CharList listBy="team" subListBy={query} loadingAnimation={true} textOn={true} isGrid={true} text="Mengambil Data..." />
+      <List listBy="team" subListBy={query} type="chars" key={`element-character-${query}`} loadingAnimation textOn text="Loading..." isGrid />
     </div>
   );
 }

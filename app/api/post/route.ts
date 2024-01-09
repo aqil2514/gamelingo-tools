@@ -1,6 +1,7 @@
 import connectMongoDB from "@/lib/mongoose";
 import { evertale } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
+import { Weapon } from "@/models/Evertale/Weapons";
 import Post from "@/models/General/Post";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -41,6 +42,19 @@ export async function GET(req: NextRequest) {
         if (sort === "newest") {
           const newChars = await Character.find().sort({ createdAt: -1 });
           const data = evertale.simpleMapping(newChars, "chars", 9);
+          return NextResponse.json({ post, title: "New Post", data }, { status: 200 });
+        }
+      } else if (category === "weapons") {
+        const weapons = await Weapon.find();
+        if (sort === "weapon-type") {
+          const type = evertale.simpleFilter(weapons, "weapType", post.content.weapType);
+          const data = evertale.simpleMapping(type, "weapons");
+          const title = post.content.weapType;
+          return NextResponse.json({ data, type, title });
+        }
+        if (sort === "newest") {
+          const newWeapons = await Weapon.find().sort({ createdAt: -1 });
+          const data = evertale.simpleMapping(newWeapons, "weapons", 9);
           return NextResponse.json({ post, title: "New Post", data }, { status: 200 });
         }
       }

@@ -1,6 +1,7 @@
 import { DIV_MAIN_STYLE } from "@/components/Styles";
 import CharList from "@/components/Evertale/CharList";
 import { Metadata } from "next";
+import List from "@/components/Evertale/List";
 
 export const metadata: Metadata = {
   title: "Character Weapons",
@@ -8,18 +9,16 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://gamelingo-tools.vercel.app"),
 };
 
+const weapon = ["Axe", "Staff", "Mace", "GreatSword", "GreatAxe", "Spear", "Hammer", "Katana"];
+
 export default function CharElement() {
   return (
     <div className={DIV_MAIN_STYLE + " py-20 px-8"}>
-      <CharList listBy="weapon" loadingAnimation={true} subListBy="Axe" textOn text="Mengambil Data..." />
-      <CharList listBy="weapon" loadingAnimation={false} subListBy="GreatAxe" />
-      <CharList listBy="weapon" loadingAnimation={false} subListBy="GreatSword" />
-      <CharList listBy="weapon" loadingAnimation={false} subListBy="Hammer" />
-      <CharList listBy="weapon" loadingAnimation={false} subListBy="Katana" />
-      <CharList listBy="weapon" loadingAnimation={false} subListBy="Mace" />
-      <CharList listBy="weapon" loadingAnimation={false} subListBy="Spear" />
-      <CharList listBy="weapon" loadingAnimation={false} subListBy="Staff" />
-      <CharList listBy="weapon" loadingAnimation={false} subListBy="Sword" />
+      <List listBy="weapon" subListBy="Sword" type="chars" key={`weapon-team-sword`} limit={9} loadingAnimation textOn text="Loading..." />
+      {weapon.map((el: string, i: number) => (
+        //@ts-ignore
+        <List listBy="weapon" subListBy={el} type="chars" key={`weapon-team-${i++}`} limit={9} />
+      ))}
     </div>
   );
 }

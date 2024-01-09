@@ -1,5 +1,5 @@
 import connectMongoDB from "@/lib/mongoose";
-import { EvertaleReduce } from "@/lib/utils";
+import { evertale } from "@/lib/utils";
 import { Weapon } from "@/models/Evertale/Weapons";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -13,9 +13,9 @@ export async function GET(req: NextRequest) {
   if (category === "type") {
     const document = await Weapon.find().sort({ createdAt: -1 });
     const weapType = ["Sword", "Axe", "Staff", "Mace", "GreatSword", "GreatAxe", "Spear", "Hammer", "Katana"];
-    const weapons = EvertaleReduce(weapType, document, "weapType", "weapImage.webp", "weapName", 9);
+    const data = evertale.reduce(weapType, document, "weapons", false, "weapType", "", 9);
 
-    return NextResponse.json({ weapons }, { status: 200 });
+    return NextResponse.json({ data }, { status: 200 });
   }
 
   const weapons = await Weapon.find().sort({ createdAt: -1 });

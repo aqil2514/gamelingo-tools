@@ -1,5 +1,5 @@
 import connectMongoDB from "@/lib/mongoose";
-import { EvertaleReduce } from "@/lib/utils";
+import { evertale } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { NextRequest, NextResponse } from "next/server";
@@ -17,55 +17,24 @@ export async function GET(req: NextRequest) {
 
     const elements = ["Fire", "Water", "Dark", "Light", "Storm", "Earth"];
 
-    const elementChar = EvertaleReduce(elements, chars, "charStatus.charElement", "charImage.f1Img", "charStatus.charName", limit);
+    const data = evertale.reduce(elements, chars, "chars", false, "charStatus", "charElement", limit);
 
-    return NextResponse.json({ elementChar }, { status: 200 });
+    return NextResponse.json({ data }, { status: 200 });
   } else if (category === "team") {
-    interface CharTeam {
-      id: string;
-      charName: string;
-      image: string;
-    }
-
     const chars = await Character.find().sort({ createdAt: -1 });
     const types = await TypeSkill.find();
     const charTeamTypes = types[0].typeCharTeam;
 
-    const charTeam: Record<string, CharTeam[]> = charTeamTypes.reduce((result: any, team: any) => {
-      result[team] = chars
-        .filter((char: any) => char.charStatus.charTeam.includes(team))
-        .slice(0, limit)
-        .map((d: any) => ({
-          id: d._id,
-          image: d.charImage.f1Img,
-          charName: d.charStatus.charName,
-        }));
-      return result;
-    }, {});
+    const data = evertale.reduce(charTeamTypes, chars, "chars", true, "charStatus", "charTeam", limit);
 
-    return NextResponse.json({ charTeam }, { status: 200 });
+    return NextResponse.json({ data }, { status: 200 });
   } else if (category === "weapon") {
-    interface CharWeapon {
-      id: string;
-      charName: string;
-      image: string;
-    }
-
     const chars = await Character.find().sort({ createdAt: -1 });
     const weapons = ["Sword", "Axe", "Staff", "Mace", "GreatSword", "GreatAxe", "Spear", "Hammer", "Katana"];
-    const charWeapon: Record<string, CharWeapon[]> = weapons.reduce<Record<string, CharWeapon[]>>((result, weapon) => {
-      result[weapon] = chars
-        .filter((char: any) => char.charStatus.charWeapon1 === weapon || char.charStatus.charWeapon2 === weapon)
-        .slice(0, limit)
-        .map((char: any) => ({
-          id: char._id,
-          image: char.charImage.f1Img,
-          charName: char.charStatus.charName,
-        }));
-      return result;
-    }, {});
 
-    return NextResponse.json({ charWeapon }, { status: 200 });
+    const data = evertale.reduce(weapons, chars, "chars", false, "charStatus", "charWeapon1", limit, "charWeapon2");
+
+    return NextResponse.json({ data }, { status: 200 });
   }
 
   if (conjureName) {
