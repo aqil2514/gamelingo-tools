@@ -14,6 +14,8 @@ export default function WeapPost({ data }: any) {
         <WeapLore lore={data.weapLore} />
       </div>
       <WeaponStatus weapAscend={data.weapAscend} weapMax={data.weapMax} />
+
+      <div className="text-white mt-8 -mb-8 font-bold font-nova-square text-2xl">Related Article : </div>
     </div>
   );
 }

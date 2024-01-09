@@ -55,9 +55,7 @@ const List = ({ listBy, subListBy, type, loadingAnimation = false, textOn, text,
     return <></>;
   }
 
-  console.log(res.data);
   subData = res.data.data[subListBy.toLowerCase()];
-  console.log(subData);
 
   if (isGrid) return <GridList data={subData} title={subListBy} path={type} sort={listBy} />;
 

@@ -25,13 +25,15 @@ const CharPost = ({ data }: { data: any }) => {
 
       <CharStatus charStatus={data.charStatus} />
 
+      <p className="mt-4 text-white font-bold text text-xs h-0 font-merriweather">Click or touch the div to visible or hide the navigation</p>
       {data.charIntro && Object.keys(data.charIntro).length >= 2 && <CharIntro charIntro={data.charIntro} />}
 
-      <p className="mt-4 text-white font-bold text text-xs h-0 font-merriweather">Click or touch the div to visible or hide the navigation</p>
       <div className="flex mb-4 flex-col md:flex-row justify-between content-center">
         <CharActiveSkill charActiveSkill={data.charActiveSkill} />
         <CharPassiveSkill charPassiveSkill={data.charPassiveSkill} />
       </div>
+
+      <div className="text-white font-bold font-nova-square text-2xl">Related Article : </div>
     </div>
   );
 };
