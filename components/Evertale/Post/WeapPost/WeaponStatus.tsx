@@ -23,12 +23,24 @@ export default function WeaponStatus({ weapAscend, weapMax }: any) {
 
 const OptionStatus = ({ status, setStatus }: { status: string; setStatus: React.ComponentState }) => {
   return (
-    <div className="my-2">
-      <Option status={status} setStatus={setStatus} name="status" value="no-ascend" title="No Ascend" />
-      <Option status={status} setStatus={setStatus} name="status" value="ascend-1" title="Ascend 1" />
-      <Option status={status} setStatus={setStatus} name="status" value="full-ascend" title="Full Ascend" />
-      <Option status={status} setStatus={setStatus} name="status" value="max-status" title="Max Status" />
-    </div>
+    <>
+      <div className="my-2 hidden md:block">
+        <Option status={status} setStatus={setStatus} name="status" value="no-ascend" title="No Ascend" />
+        <Option status={status} setStatus={setStatus} name="status" value="ascend-1" title="Ascend 1" />
+        <Option status={status} setStatus={setStatus} name="status" value="full-ascend" title="Full Ascend" />
+        <Option status={status} setStatus={setStatus} name="status" value="max-status" title="Max Status" />
+      </div>
+      <div className="my-2 block md:hidden">
+        <div className="my-2 text-center">
+          <Option status={status} setStatus={setStatus} name="status" value="no-ascend" title="No Ascend" />
+          <Option status={status} setStatus={setStatus} name="status" value="ascend-1" title="Ascend 1" />
+        </div>
+        <div className="my-2 text-center">
+          <Option status={status} setStatus={setStatus} name="status" value="full-ascend" title="Full Ascend" />
+          <Option status={status} setStatus={setStatus} name="status" value="max-status" title="Max Status" />
+        </div>
+      </div>
+    </>
   );
 };
 
@@ -73,22 +85,22 @@ const Questions = ({ isActived, setIsActived, objectRef }: { isActived: boolean;
       {isActived ? <QuestionOctagonFill className="text-white text-2xl lg:text-4xl" onClick={() => setIsActived(false)} /> : <QuestionOctagon className="text-white text-2xl lg:text-4xl" onClick={() => setIsActived(true)} />}
       {isActived && (
         <div className="grid grid-cols-3 border-2 border-white rounded-xl p-2 mt-4">
-          <IconElement hoverText="hover:text-orange-500" justify="start" title="Power" iconName="game-icons:punch-blast" />
-          <IconElement hoverText="hover:text-rose-500" justify="center" title="Attack" iconName="game-icons:pointy-sword" />
-          <IconElement hoverText="hover:text-green-500" justify="end" title="HP" iconName="game-icons:healing-shield" />
-          <IconElement hoverText="hover:text-slate-500" justify="start" title="Cost" iconName="game-icons:abstract-047" />
-          <IconElement hoverText="hover:text-purple-500" justify="center" title="Level" iconName="game-icons:level-four" />
-          <IconElement hoverText="hover:text-yellow-500" justify="end" title="Boost" iconName="game-icons:power-lightning" />
-          <IconElement hoverText="hover:text-amber-300" justify="start" title="Potential" iconName="game-icons:crystal-shine" />
+          <IconElement hoverText="hover:text-orange-500" title="Power" iconName="game-icons:punch-blast" />
+          <IconElement hoverText="hover:text-rose-500" title="Attack" iconName="game-icons:pointy-sword" />
+          <IconElement hoverText="hover:text-green-500" title="HP" iconName="game-icons:healing-shield" />
+          <IconElement hoverText="hover:text-slate-500" title="Cost" iconName="game-icons:abstract-047" />
+          <IconElement hoverText="hover:text-purple-500" title="Level" iconName="game-icons:level-four" />
+          <IconElement hoverText="hover:text-yellow-500" title="Boost" iconName="game-icons:power-lightning" />
+          <IconElement hoverText="hover:text-amber-300" title="Pot" iconName="game-icons:crystal-shine" />
         </div>
       )}
     </div>
   );
 };
 
-const IconElement = ({ hoverText, title, iconName, iconValue, justify }: { hoverText: string; title: string; iconName: string; iconValue?: any; justify: string }) => {
+const IconElement = ({ hoverText, title, iconName, iconValue, justify }: { hoverText: string; title: string; iconName: string; iconValue?: any; justify?: string }) => {
   return (
-    <div className={`flex flex-row my-2 justify-${justify} text-white ${hoverText}`} title={title}>
+    <div className={`flex flex-row my-2 ${justify ? `justify-${justify}` : ""} text-white ${hoverText}`} title={title}>
       <Icon icon={iconName} className="w-[32px] h-[32px] md:h-[48px] md:w-[48px] lg:h-[64px] lg:w-[64px]" />
       <p className="my-auto ml-2 text-lg md:text-2xl lg:text-5xl font-poppins font-bold cursor-default">{iconValue ? iconValue : title}</p>
     </div>
