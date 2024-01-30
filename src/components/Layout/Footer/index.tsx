@@ -6,9 +6,6 @@ import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 
 export default function Footer() {
   const router = useRouter();
-  const pathName = usePathname();
-
-  if (pathName === "/") return <></>;
 
   return (
     <footer className="w-full flex flex-row justify-between h-[60px] bg-amber-600 ">
