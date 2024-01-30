@@ -8,12 +8,12 @@ import PostList from "@/components/Evertale/Post/SuggestedPost/PostList";
 type props = {
   params: { UID: string };
 };
+const isLocal = process.env.NODE_ENV === "development";
+const baseURL = isLocal ? "http://localhost:3000" : "https://gamelingo-tools.vercel.app";
 
 export async function generateMetadata({ params }: props): Promise<Metadata> {
   try {
     const { UID } = params;
-    const isLocal = process.env.NODE_ENV === "development";
-    const baseURL = isLocal ? "http://localhost:3000" : "https://gamelingo-tools.vercel.app";
     const ApiURL = `${baseURL}/api/post?UID=${UID}`;
 
     const response = await axios.get(ApiURL);

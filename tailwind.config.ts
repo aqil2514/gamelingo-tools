@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import plugin from "tailwindcss/plugin";
+
 module.exports = {
   darkMode: ["class"],
   content: ["./src/pages/**/*.{ts,tsx}", "./src/components/**/*.{ts,tsx}", "./src/app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -83,5 +85,16 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    plugin(function ({ addComponents }) {
+      addComponents({
+        ".main-wrapper": {
+          "background-color": "rgb(24 24 27)",
+          "min-height": "100vh",
+          width: "100%",
+        },
+      });
+    }),
+  ],
 };

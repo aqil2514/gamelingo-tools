@@ -1,4 +1,3 @@
-import { DIV_MAIN_STYLE } from "@/components/Styles";
 import { Metadata } from "next";
 import Slider from "@/components/Evertale/Slider";
 import GameDescription from "@/components/general/GameDescription";
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function Evertale() {
   return (
-    <div className={DIV_MAIN_STYLE + " pb-10"}>
+    <div className={"main-wrapper pb-10"}>
       <div className="mt-14 px-4 w-full h-[50vh] bg-no-repeat bg-cover bg-fixed bg-bottom sm:bg-top bg-evertale-hero-pattern flex flex-col content-center justify-center">
         <GameDescription game="Evertale" />
         <div className="flex justify-center">
