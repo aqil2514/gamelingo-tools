@@ -1,12 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+  content: ["./src/pages/**/*.{ts,tsx}", "./src/components/**/*.{ts,tsx}", "./src/app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   theme: {
     container: {
       center: true,
@@ -70,8 +65,8 @@ module.exports = {
         mclaren: ["var(--font-mclaren)"],
       },
       backgroundImage: {
-        "hero-pattern": 'linear-gradient(to bottom, rgba(0,0,0, 0.5), rgba(0,0,0, 0.8)), url("../public/hero-wallpaper.webp")',
-        "evertale-hero-pattern": 'linear-gradient(to bottom, rgba(0,0,0, 0.5), rgba(0,0,0, 0.8)), url("../public/evertale-home-page.webp")',
+        "hero-pattern": 'linear-gradient(to bottom, rgba(0,0,0, 0.5), rgba(0,0,0, 0.8)), url("../../public/hero-wallpaper.webp")',
+        "evertale-hero-pattern": 'linear-gradient(to bottom, rgba(0,0,0, 0.5), rgba(0,0,0, 0.8)), url("../../public/evertale-home-page.webp")',
       },
       keyframes: {
         "accordion-down": {
@@ -90,4 +85,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
