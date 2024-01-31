@@ -3,11 +3,13 @@ import { Icon } from "@iconify/react";
 import React from "react";
 import { QuestionOctagon, QuestionOctagonFill } from "react-bootstrap-icons";
 
-export default function WeaponStatus({ weapAscend, weapMax }: any) {
+export default function WeaponStatus({ weapAscend, weapMax }: { weapAscend: Evertale.Weapon.Ascend; weapMax: Evertale.Weapon.WeapMax }) {
   const regex = /\B(?=(\d{3})+(?!\d))/g;
   const [status, setStatus] = React.useState("no-ascend");
   const [isActived, setIsActived] = React.useState(false);
   const objectRef = React.useRef(null);
+
+  if (!weapAscend.noAscend || !weapAscend.ascend1 || !weapAscend.fullAscend || !weapMax || !weapAscend.fullAscend.weapSkill) throw new Error("Data tidak ada");
 
   return (
     <div className="w-full md:w1/2 mt-8 ml-2 px-4 py-4 rounded-xl bg-slate-800  overflow-y-scroll scrollbar-style">
@@ -21,7 +23,7 @@ export default function WeaponStatus({ weapAscend, weapMax }: any) {
   );
 }
 
-const OptionStatus = ({ status, setStatus }: { status: string; setStatus: React.ComponentState }) => {
+const OptionStatus = ({ status, setStatus }: { status: string; setStatus: React.Dispatch<React.SetStateAction<string>> }) => {
   return (
     <>
       <div className="my-2 hidden md:block">
@@ -56,24 +58,32 @@ const OptionStatus = ({ status, setStatus }: { status: string; setStatus: React.
 //   );
 // };
 
-const Weapon = ({ data, regex, title, skill, isMaxed = false }: any) => {
+interface WeaponTypes {
+  data: Evertale.Weapon.NoAscend | Evertale.Weapon.Ascend1 | Evertale.Weapon.FullAscend | Evertale.Weapon.WeapMax;
+  regex: RegExp;
+  title: string;
+  skill?: Evertale.Weapon.Skill;
+  isMaxed?: boolean;
+}
+
+const Weapon = ({ data, regex, title, skill, isMaxed = false }: WeaponTypes) => {
   return (
     <>
       <h1 className="text-white font-merriweather font-extrabold text-lg md:text-xl lg:text-2xl text-center">{title}</h1>
       <fieldset disabled className="border-2 px-4 py-2 my-4 w-full lg:w-1/2 mx-auto rounded-xl">
         <legend className="font-poppins text-center text-base text-white">Weapon Skill</legend>
-        <p className="font-poppins text-center text-base mb-2 text-white">{isMaxed ? skill.skillEn : data.weapSkill.skillEn}</p>
+        <p className="font-poppins text-center text-base mb-2 text-white">{isMaxed ? skill?.skillEn : (data as any).weapSkill.skillEn}</p>
         <div className="bg-white w-full h-[2px]"></div>
-        <p className="font-poppins text-center text-base mt-2 text-white">{isMaxed ? skill.skillId : data.weapSkill.skillId}</p>
+        <p className="font-poppins text-center text-base mt-2 text-white">{isMaxed ? skill?.skillId : (data as any).weapSkill.skillId}</p>
       </fieldset>
       <div className="grid grid-cols-3">
-        <IconElement hoverText="hover:text-orange-500" justify="start" title="Power" iconName="game-icons:punch-blast" iconValue={data.status.power.toString().replace(regex, ",")} />
-        <IconElement hoverText="hover:text-rose-500" justify="center" title="Attack" iconName="game-icons:pointy-sword" iconValue={data.status.atk.toString().replace(regex, ",")} />
-        <IconElement hoverText="hover:text-green-500" justify="end" title="HP" iconName="game-icons:healing-shield" iconValue={data.status.hp.toString().replace(regex, ",")} />
-        {!isMaxed && <IconElement hoverText="hover:text-slate-500" justify="start" title="Cost" iconName="game-icons:abstract-047" iconValue={data.status.cost.toString().replace(regex, ",")} />}
-        <IconElement hoverText="hover:text-purple-500" justify={isMaxed ? "start" : "center"} title="Level" iconName="game-icons:level-four" iconValue={data.status.level.toString().replace(regex, ",")} />
-        <IconElement hoverText="hover:text-yellow-500" justify={isMaxed ? "center" : "end"} title="Boost" iconName="game-icons:power-lightning" iconValue={data.status.boost.toString().replace(regex, ",")} />
-        <IconElement hoverText="hover:text-amber-300" justify={isMaxed ? "end" : "start"} title="Potential" iconName="game-icons:crystal-shine" iconValue={data.status.potential.toString().replace(regex, ",") + "%"} />
+        <IconElement hoverText="hover:text-orange-500" justify="start" title="Power" iconName="game-icons:punch-blast" iconValue={data?.status?.power?.toString().replace(regex, ",")} />
+        <IconElement hoverText="hover:text-rose-500" justify="center" title="Attack" iconName="game-icons:pointy-sword" iconValue={data?.status?.atk?.toString().replace(regex, ",")} />
+        <IconElement hoverText="hover:text-green-500" justify="end" title="HP" iconName="game-icons:healing-shield" iconValue={data?.status?.hp?.toString().replace(regex, ",")} />
+        {!isMaxed && <IconElement hoverText="hover:text-slate-500" justify="start" title="Cost" iconName="game-icons:abstract-047" iconValue={data?.status?.cost?.toString().replace(regex, ",")} />}
+        <IconElement hoverText="hover:text-purple-500" justify={isMaxed ? "start" : "center"} title="Level" iconName="game-icons:level-four" iconValue={data?.status?.level?.toString().replace(regex, ",")} />
+        <IconElement hoverText="hover:text-yellow-500" justify={isMaxed ? "center" : "end"} title="Boost" iconName="game-icons:power-lightning" iconValue={data?.status?.boost?.toString().replace(regex, ",")} />
+        <IconElement hoverText="hover:text-amber-300" justify={isMaxed ? "end" : "start"} title="Potential" iconName="game-icons:crystal-shine" iconValue={data?.status?.potential?.toString().replace(regex, ",") + "%"} />
       </div>
     </>
   );

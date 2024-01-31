@@ -1,5 +1,4 @@
-import { CharacterIntro } from "@/models/Evertale/Characters";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
@@ -7,7 +6,7 @@ import "./swiper-config.css";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const OptionLanguage = ({ introMode, setIntroMode }: { introMode: string; setIntroMode: React.ComponentState }) => {
+const OptionLanguage = ({ introMode, setIntroMode }: { introMode: string; setIntroMode: React.Dispatch<React.SetStateAction<string>> }) => {
   return (
     <div className="w-full mx-auto">
       <label className={`font-semibold font-merriweather mx-2 my-2 px-4 py-2 rounded-xl text-white transition-all cursor-pointer ${introMode === "ci-mode1" && " bg-white !text-slate-800 !cursor-default"}`} htmlFor="ci-mode-1">
@@ -26,13 +25,13 @@ const OptionLanguage = ({ introMode, setIntroMode }: { introMode: string; setInt
   );
 };
 
-const Article = ({ introMode, charIntro }: { introMode: string; charIntro: CharacterIntro }) => {
+const Article = ({ introMode, charIntro }: { introMode: string; charIntro: Evertale.Character.Intro }) => {
   if (introMode === "ci-mode1") return <CiMode1 charIntro={charIntro} />;
   else if (introMode === "ci-mode2") return <CiMode2 charIntro={charIntro} />;
   else if (introMode === "ci-mode3") return <CiMode3 charIntro={charIntro} />;
 };
 
-const CiMode1 = ({ charIntro }: { charIntro: CharacterIntro }) => {
+const CiMode1 = ({ charIntro }: { charIntro: Evertale.Character.Intro }) => {
   return (
     <>
       <div className="hidden lg:block">
@@ -205,7 +204,7 @@ const CiMode1 = ({ charIntro }: { charIntro: CharacterIntro }) => {
   );
 };
 
-const CiMode2 = ({ charIntro }: { charIntro: CharacterIntro }) => {
+const CiMode2 = ({ charIntro }: { charIntro: Evertale.Character.Intro }) => {
   return (
     <>
       <div className="hidden lg:block">
@@ -329,7 +328,7 @@ const CiMode2 = ({ charIntro }: { charIntro: CharacterIntro }) => {
   );
 };
 
-const CiMode3 = ({ charIntro }: { charIntro: CharacterIntro }) => {
+const CiMode3 = ({ charIntro }: { charIntro: Evertale.Character.Intro }) => {
   return (
     <>
       <div className="hidden lg:block">
@@ -454,7 +453,7 @@ const CiMode3 = ({ charIntro }: { charIntro: CharacterIntro }) => {
   );
 };
 
-export default function CharIntro({ charIntro }: { charIntro: CharacterIntro }) {
+export default function CharIntro({ charIntro }: { charIntro: Evertale.Character.Intro }) {
   const [introMode, setIntroMode] = useState<string>("ci-mode1");
 
   return (

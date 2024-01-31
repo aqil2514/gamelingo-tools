@@ -1,13 +1,11 @@
-import { CharacterImage } from "@/models/Evertale/Characters";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
-import "@/components/general/scrollbar.css";
 import "./swiper-config.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import Image, { ImageLoaderProps } from "next/image";
+import Image from "next/image";
 import { RefObject, useState } from "react";
 import { imageLoader } from "@/lib/utils";
 
@@ -18,8 +16,8 @@ const FULLSCREEN_FIGURE = "transition duration-500 relative w-full h-screen";
 const NORMAL_IMAGE = "object-cover object-top rounded-xl cursor-zoom-in";
 const FULLSCREEN_IMAGE = "object-contain object-center rounded-xl cursor-zoom-out";
 
-export default function CharImage({ charImage, charName, part1, part2, part3 }: { charImage: CharacterImage; charName: string; part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement> }) {
-  const [isFullScreen, setIsFullScreen] = useState<Boolean>(false);
+export default function CharImage({ charImage, charName, part1, part2, part3 }: { charImage: Evertale.Character.Image; charName: string; part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement> }) {
+  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const fullScreenHandler = () => {
     setIsFullScreen(!isFullScreen);
   };

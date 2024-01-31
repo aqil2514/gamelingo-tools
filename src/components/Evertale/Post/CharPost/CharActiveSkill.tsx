@@ -1,8 +1,3 @@
-import { CharacterActiveSkill } from "@/models/Evertale/Characters";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-
-import "@/components/general/scrollbar.css";
 import "./swiper-config.css";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -10,7 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Bullseye } from "react-bootstrap-icons";
 
-const OptionLanguage = ({ activeIndex, setActiveIndex }: { activeIndex: number; setActiveIndex: React.ComponentState }) => {
+const OptionLanguage = ({ activeIndex, setActiveIndex }: { activeIndex: number; setActiveIndex: React.Dispatch<React.SetStateAction<number>> }) => {
   return (
     <div className="w-full mx-auto">
       <label className={`font-semibold font-merriweather mx-2 my-4 px-4 py-2 rounded-xl text-white transition-all cursor-pointer ${activeIndex === 1 && " bg-white !text-slate-800 !cursor-default"}`} htmlFor="cas-mode-1">
@@ -29,13 +24,13 @@ const OptionLanguage = ({ activeIndex, setActiveIndex }: { activeIndex: number; 
   );
 };
 
-export default function CharActiveSkill({ charActiveSkill }: { charActiveSkill: CharacterActiveSkill[] }) {
+export default function CharActiveSkill({ charActiveSkill }: { charActiveSkill: Evertale.Character.ActiveSkill[] }) {
   const [activeIndex, setActiveIndex] = useState<number>(1);
 
   return (
     <div className="w-full md:w1/2 mt-8 ml-2 px-4 py-4 rounded-xl bg-slate-800 h-[460px] overflow-y-scroll scrollbar-style">
       <OptionLanguage activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-      {charActiveSkill.map((nas: CharacterActiveSkill, i: number) => (
+      {charActiveSkill.map((nas, i: number) => (
         <div key={`nas-${i++}`} className="border-b-2 last-of-type:border-none my-4 border-white text-white font-poppins">
           <div className="flex flex-col md:flex-row justify-start content-center cursor-default">
             <p className="text-base md:text-lg font-bold my-auto">{nas.skillName}</p>

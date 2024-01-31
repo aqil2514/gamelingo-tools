@@ -1,4 +1,8 @@
-export const charRank = [
+interface CharRankTypes {
+  rank: "SSR" | "SR" | "R" | "N";
+  image: string;
+}
+export const charRank: CharRankTypes[] = [
   {
     rank: "SSR",
     image: "/Evertale/Rank/SSR.png",
@@ -17,7 +21,12 @@ export const charRank = [
   },
 ];
 
-export const charElement = [
+interface CharElementTypes {
+  element: "Earth" | "Fire" | "Dark" | "Light" | "Water" | "Storm";
+  image: string;
+}
+
+export const charElement: CharElementTypes[] = [
   {
     element: "Earth",
     image: "/Evertale/Element/Earth.png",
@@ -44,7 +53,12 @@ export const charElement = [
   },
 ];
 
-export const charWeapon = [
+interface CharWeaponTypes {
+  name: "GreatSword" | "Staff" | "Axe" | "Hammer" | "GreatAxe" | "Sword" | "Mace" | "Spear" | "Katana";
+  image: string;
+}
+
+export const charWeapon: CharWeaponTypes[] = [
   {
     name: "GreatSword",
     image: "/Evertale/Weapon/GreatSword.png",

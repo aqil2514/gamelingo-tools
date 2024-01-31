@@ -8,7 +8,7 @@ import CharIntro from "./CharIntro";
 import CharActiveSkill from "./CharActiveSkill";
 import CharPassiveSkill from "./CharPassiveSkill";
 
-const CharPost = ({ data }: { data: any }) => {
+const CharPost = ({ data }: { data: Evertale.Character.State }) => {
   const part1 = useRef(null);
   const part2 = useRef(null);
   const part3 = useRef(null);

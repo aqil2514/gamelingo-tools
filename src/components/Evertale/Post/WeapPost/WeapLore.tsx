@@ -1,7 +1,7 @@
 import { OptionLanguage } from "@/components/general/Option";
 import React from "react";
 
-export default function WeapLore({ lore }: any) {
+export default function WeapLore({ lore }: { lore: Evertale.Weapon.WeapLore }) {
   const [activeIndex, setActiveIndex] = React.useState(1);
   return (
     <div className="w-full md:w1/2 mt-8 lg:ml-2 px-4 py-4 rounded-xl bg-slate-800 h-[460px] overflow-y-scroll scrollbar-style">
@@ -11,7 +11,7 @@ export default function WeapLore({ lore }: any) {
   );
 }
 
-const WeapLore1 = ({ weapLore }: any) => {
+const WeapLore1 = ({ weapLore }: { weapLore: Evertale.Weapon.WeapLore }) => {
   return (
     <div>
       <article key="lore">
@@ -24,7 +24,7 @@ const WeapLore1 = ({ weapLore }: any) => {
   );
 };
 
-const WeapLore2 = ({ weapLore }: any) => {
+const WeapLore2 = ({ weapLore }: { weapLore: Evertale.Weapon.WeapLore }) => {
   return (
     <div>
       <article key="lore">
@@ -35,7 +35,7 @@ const WeapLore2 = ({ weapLore }: any) => {
   );
 };
 
-const WeapLore3 = ({ weapLore }: any) => {
+const WeapLore3 = ({ weapLore }: { weapLore: Evertale.Weapon.WeapLore }) => {
   return (
     <div>
       <article key="lore">
@@ -46,7 +46,7 @@ const WeapLore3 = ({ weapLore }: any) => {
   );
 };
 
-const Article = ({ weapLore, activeIndex }: any) => {
+const Article = ({ weapLore, activeIndex }: { weapLore: Evertale.Weapon.WeapLore; activeIndex: number }) => {
   if (activeIndex === 1) return <WeapLore1 weapLore={weapLore} />;
   else if (activeIndex === 2) return <WeapLore2 weapLore={weapLore} />;
   else if (activeIndex === 3) return <WeapLore3 weapLore={weapLore} />;

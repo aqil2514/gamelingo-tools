@@ -72,21 +72,25 @@ namespace Evertale {
       weapName: string;
       weapRank: "SSR" | "SR" | "R" | "N" | "Weap Rank";
       weapType: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana" | "Weap Type";
-      weapLore?: {
-        loreEn?: string;
-        loreId?: string;
-      };
+      weapLore?: WeapLore;
       weapAscend?: Ascend;
-      weapMax?: {
-        status?: {
-          power?: number;
-          cost?: number;
-          hp?: number;
-          atk?: number;
-          level?: number;
-          boost?: number;
-          potential?: number;
-        };
+      weapMax?: WeapMax;
+    }
+
+    export interface WeapLore {
+      loreEn?: string;
+      loreId?: string;
+    }
+
+    export interface WeapMax {
+      status?: {
+        power?: number;
+        cost?: number;
+        hp?: number;
+        atk?: number;
+        level?: number;
+        boost?: number;
+        potential?: number;
       };
     }
 

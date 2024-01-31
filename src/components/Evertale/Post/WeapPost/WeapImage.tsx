@@ -1,4 +1,4 @@
-import Image, { ImageLoaderProps } from "next/image";
+import Image from "next/image";
 import { useState } from "react";
 import { imageLoader } from "@/lib/utils";
 
@@ -9,8 +9,8 @@ const FULLSCREEN_FIGURE = "transition duration-500 relative w-full h-screen";
 const NORMAL_IMAGE = "object-cover object-top rounded-xl cursor-zoom-in";
 const FULLSCREEN_IMAGE = "object-contain object-center rounded-xl cursor-zoom-out";
 
-export default function WeaponImage({ weapImage, weapName }: { weapImage: any; weapName: string }) {
-  const [isFullScreen, setIsFullScreen] = useState<Boolean>(false);
+export default function WeaponImage({ weapImage, weapName }: { weapImage: string; weapName: string }) {
+  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const fullScreenHandler = () => {
     setIsFullScreen(!isFullScreen);
   };
@@ -18,7 +18,7 @@ export default function WeaponImage({ weapImage, weapName }: { weapImage: any; w
   return (
     <div className={isFullScreen ? FULLSCREEN_DIV : NORMAL_DIV}>
       <figure key="form-1" className={isFullScreen ? FULLSCREEN_FIGURE : NORMAL_FIGURE}>
-        <Image onClick={fullScreenHandler} loader={imageLoader} src={weapImage as string} fill priority sizes="(max-width:768px) 100vw, 50vw" alt={weapName} className={isFullScreen ? FULLSCREEN_IMAGE : NORMAL_IMAGE} />
+        <Image onClick={fullScreenHandler} loader={imageLoader} src={weapImage} fill priority sizes="(max-width:768px) 100vw, 50vw" alt={weapName} className={isFullScreen ? FULLSCREEN_IMAGE : NORMAL_IMAGE} />
       </figure>
     </div>
   );

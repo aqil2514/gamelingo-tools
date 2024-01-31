@@ -1,14 +1,13 @@
 import { charElement, charRank, charWeapon } from "@/lib/evertale/data";
-import { CharacterStatus } from "@/models/Evertale/Characters";
 import Image from "next/image";
 import Link from "next/link";
 import useSWR from "swr";
 
-const Icon = ({ charStatus }: { charStatus: CharacterStatus }) => {
-  const rank = charRank.find((char: any) => char.rank === charStatus.charRank);
-  const element = charElement.find((char: any) => char.element === charStatus.charElement);
-  const weapon1 = charWeapon.find((char: any) => char.name === charStatus.charWeapon1);
-  const weapon2 = charWeapon.find((char: any) => char.name === charStatus.charWeapon2);
+const Icon = ({ charStatus }: { charStatus: Evertale.Character.Status }) => {
+  const rank = charRank.find((char) => char.rank === charStatus.charRank);
+  const element = charElement.find((char) => char.element === charStatus.charElement);
+  const weapon1 = charWeapon.find((char) => char.name === charStatus.charWeapon1);
+  const weapon2 = charWeapon.find((char) => char.name === charStatus.charWeapon2);
   return (
     <div className="flex flex-row w-full gap-4 mb-2 justify-center">
       <Image src={rank?.image as string} width={32} height={32} title={`Rank ${rank?.rank}`} alt={rank?.rank as string} />
@@ -29,7 +28,7 @@ const Icon = ({ charStatus }: { charStatus: CharacterStatus }) => {
 
 const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
-export default function CharStatus({ charStatus }: { charStatus: CharacterStatus }) {
+export default function CharStatus({ charStatus }: { charStatus: Evertale.Character.Status }) {
   const encodedLeaderSkill = encodeURIComponent(charStatus.charLeaderSkill as string);
   const URL = `/api/gamelingo/evertale?category=leaderSkill&name=${encodedLeaderSkill}`;
 

@@ -1,7 +1,6 @@
-import { CharacterProfile } from "@/models/Evertale/Characters";
 import React, { RefObject, useState } from "react";
 
-const OptionLanguage = ({ activeIndex, setActiveIndex }: { activeIndex: number; setActiveIndex: React.ComponentState }) => {
+const OptionLanguage = ({ activeIndex, setActiveIndex }: { activeIndex: number; setActiveIndex: React.Dispatch<React.SetStateAction<number>> }) => {
   return (
     <div className="w-full mx-auto">
       <label className={`font-semibold font-merriweather mx-2 my-2 px-4 py-2 rounded-xl text-white transition-all cursor-pointer ${activeIndex === 1 && " bg-white !text-slate-800 !cursor-default"}`} htmlFor="mode-1">
@@ -20,13 +19,13 @@ const OptionLanguage = ({ activeIndex, setActiveIndex }: { activeIndex: number; 
   );
 };
 
-const Article = ({ charProfile, part1, part2, part3, activeIndex }: { charProfile: CharacterProfile; part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement>; activeIndex: number | null }) => {
+const Article = ({ charProfile, part1, part2, part3, activeIndex }: { charProfile: Evertale.Character.Profile; part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement>; activeIndex: number | null }) => {
   if (activeIndex === 1) return <CharProfile1 part1={part1} part2={part2} part3={part3} charProfile={charProfile} />;
   else if (activeIndex === 2) return <CharProfile2 part1={part1} part2={part2} part3={part3} charProfile={charProfile} />;
   else if (activeIndex === 3) return <CharProfile3 part1={part1} part2={part2} part3={part3} charProfile={charProfile} />;
 };
 
-export default function CharProfile({ charProfile, part1, part2, part3 }: { charProfile: CharacterProfile; part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement> }) {
+export default function CharProfile({ charProfile, part1, part2, part3 }: { charProfile: Evertale.Character.Profile; part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement> }) {
   const [activeIndex, setActiveIndex] = useState<number>(1);
 
   return (
@@ -37,7 +36,7 @@ export default function CharProfile({ charProfile, part1, part2, part3 }: { char
   );
 }
 
-const CharProfile1 = ({ part1, part2, part3, charProfile }: { part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement>; charProfile: CharacterProfile }) => {
+const CharProfile1 = ({ part1, part2, part3, charProfile }: { part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement>; charProfile: Evertale.Character.Profile }) => {
   return (
     <div>
       <article key="part1" ref={part1}>
@@ -66,7 +65,7 @@ const CharProfile1 = ({ part1, part2, part3, charProfile }: { part1: RefObject<H
   );
 };
 
-const CharProfile2 = ({ part1, part2, part3, charProfile }: { part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement>; charProfile: CharacterProfile }) => {
+const CharProfile2 = ({ part1, part2, part3, charProfile }: { part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement>; charProfile: Evertale.Character.Profile }) => {
   return (
     <div>
       <article key="part1" ref={part1}>
@@ -89,7 +88,7 @@ const CharProfile2 = ({ part1, part2, part3, charProfile }: { part1: RefObject<H
   );
 };
 
-const CharProfile3 = ({ part1, part2, part3, charProfile }: { part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement>; charProfile: CharacterProfile }) => {
+const CharProfile3 = ({ part1, part2, part3, charProfile }: { part1: RefObject<HTMLElement>; part2: RefObject<HTMLElement>; part3: RefObject<HTMLElement>; charProfile: Evertale.Character.Profile }) => {
   return (
     <div>
       <article key="part1" ref={part1}>
