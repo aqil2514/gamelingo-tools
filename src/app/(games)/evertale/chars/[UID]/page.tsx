@@ -44,11 +44,15 @@ export async function generateMetadata({ params }: props): Promise<Metadata> {
   }
 }
 
-export default function Character({ params }: any) {
+interface ParamsType {
+  params: { UID: string };
+}
+
+export default function Character({ params }: ParamsType) {
   const { UID } = params;
 
   return (
-    <div className={DIV_MAIN_STYLE + " py-20"}>
+    <div className={"main-wrapper py-20"}>
       <Post type="chars" UID={UID} />
       <SuggestedPost grid={3}>
         <PostList UID={UID} category="chars" sort="team" />

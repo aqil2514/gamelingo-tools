@@ -2,7 +2,7 @@ import EvertaleResult from "./EvertaleResult";
 
 interface ResultState {
   category: string;
-  data: any;
+  data: General.Post[];
   path: string;
 }
 

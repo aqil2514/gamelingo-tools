@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function charElement({ params }: any) {
+export default async function charElement({ params }: Props) {
   const { charElement } = params;
 
   return (

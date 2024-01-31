@@ -37,8 +37,7 @@ const CharWeapon = () => {
   return (
     <>
       <List listBy="weapon" subListBy="Sword" type="chars" key={`weapon-team-sword`} limit={9} loadingAnimation />
-      {weapon.map((el: string, i: number) => (
-        //@ts-ignore
+      {weapon.map((el, i: number) => (
         <List listBy="weapon" subListBy={el} type="chars" key={`weapon-team-${i++}`} limit={9} />
       ))}
     </>
@@ -49,8 +48,7 @@ const CharElement = () => {
   return (
     <>
       <List listBy="element" subListBy="fire" type="chars" key={`element-character-fire`} limit={9} loadingAnimation />
-      {element.map((el: string, i: number) => (
-        //@ts-ignore
+      {element.map((el, i: number) => (
         <List listBy="element" subListBy={el} type="chars" key={`element-character-${i++}`} limit={9} />
       ))}
     </>
@@ -61,8 +59,7 @@ const CharTeam = () => {
   return (
     <>
       <List listBy="team" subListBy="Blood Team" type="chars" key={`character-blood-team`} limit={9} loadingAnimation />
-      {team.map((el: string, i: number) => (
-        //@ts-ignore
+      {team.map((el, i: number) => (
         <List listBy="team" subListBy={el} type="chars" key={`character-team-${i++}`} limit={9} />
       ))}
     </>

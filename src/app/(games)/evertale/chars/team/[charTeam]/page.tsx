@@ -1,5 +1,3 @@
-import { DIV_MAIN_STYLE } from "@/components/Styles";
-import CharList from "@/components/Evertale/CharList";
 import { Metadata } from "next";
 import List from "@/components/Evertale/List";
 
@@ -30,7 +28,7 @@ export default async function CharTeam({ params }: any) {
     .join(" ");
 
   return (
-    <div className={DIV_MAIN_STYLE + " py-20 px-8"}>
+    <div className={"main-wrapper py-20 px-8"}>
       <List listBy="team" subListBy={query} type="chars" key={`element-character-${query}`} loadingAnimation textOn text="Loading..." isGrid />
     </div>
   );

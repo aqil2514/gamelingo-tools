@@ -10,6 +10,7 @@ import CharWeapon from "./CharWeapon";
 interface CharListState {
   listBy: "element" | "team" | "weapon";
   subListBy:
+    | string
     | "fire"
     | "water"
     | "light"

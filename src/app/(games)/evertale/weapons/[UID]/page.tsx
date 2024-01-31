@@ -1,4 +1,3 @@
-import { DIV_MAIN_STYLE } from "@/components/Styles";
 import Post from "@/components/Evertale/Post";
 import axios from "axios";
 import { Metadata } from "next";
@@ -44,11 +43,11 @@ export async function generateMetadata({ params }: props): Promise<Metadata> {
   }
 }
 
-export default function Weapon({ params }: any) {
+export default function Weapon({ params }: props) {
   const { UID } = params;
 
   return (
-    <div className={DIV_MAIN_STYLE + " py-20"}>
+    <div className={"main-wrapper py-20"}>
       <Post type="weapon" UID={UID} />
       <SuggestedPost grid={2}>
         <PostList category="weapons" sort="weapon-type" UID={UID} />

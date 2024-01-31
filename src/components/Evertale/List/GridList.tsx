@@ -1,15 +1,15 @@
 import { imageLoader } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import "./scrollbar.css";
 
-type ListState = {
-  id: string;
-  name: string;
-  image: string;
-};
+interface GridState {
+  data: General.Post[];
+  title: string;
+  path: string;
+  sort: string;
+}
 
-const GridList = ({ data, title, path, sort }: { data: Record<string, any>; title: string; path: string; sort: string }) => {
+const GridList = ({ data, title, path, sort }: GridState) => {
   let category: string = "";
   if (path === "chars") {
     category = "Character";
@@ -24,7 +24,7 @@ const GridList = ({ data, title, path, sort }: { data: Record<string, any>; titl
         </Link>
       </h1>
       <div className={"grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2 content-center"}>
-        {data.map((d: ListState) => (
+        {data.map((d) => (
           <figure key={d?.id} className="flex flex-col justify-between items-center relative content-between bg-slate-800 w-full h-96 px-4 py-4 rounded-xl">
             <div className="relative w-full h-3/5 md:h-4/5">
               <Image loader={imageLoader} src={d?.image} fill sizes="auto" alt={d?.name} className="rounded-xl aspect-square object-cover" />

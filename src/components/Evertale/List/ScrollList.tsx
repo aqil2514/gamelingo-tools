@@ -1,18 +1,16 @@
 import { imageLoader } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import "./scrollbar.css";
 import { ChevronDoubleRight } from "react-bootstrap-icons";
 
-type ListState = {
-  id: string;
-  name: string;
-  image: string;
-};
+interface ScrollState {
+  data: General.Post[];
+  title: string;
+  path: string;
+  sort: string;
+}
 
-// TODO : ScrollList & GridList
-
-const ScrollList = ({ data, title, path, sort }: { data: Record<string, any>; title: string; path: string; sort: string }) => {
+const ScrollList = ({ data, title, path, sort }: ScrollState) => {
   let category: string;
   if (path === "chars") {
     category = "Character";
@@ -30,7 +28,7 @@ const ScrollList = ({ data, title, path, sort }: { data: Record<string, any>; ti
         </Link>
       </h1>
       <div className="flex flex-row justify-start overflow-x-scroll flex-nowrap w-full scrollbar-style">
-        {data.map((d: ListState) => (
+        {data.map((d) => (
           <figure key={d?.id} className="mx-4 my-4 flex flex-col justify-between content-between bg-slate-800 min-w-[240px] max-w-[240px] min-h-[350px] px-4 py-4 rounded-xl">
             <Image loader={imageLoader} src={d?.image} width={240} height={240} alt={d?.name} className="rounded-xl aspect-square object-cover" />
             <figcaption className="text-white font-poppins text-center text-sm mt-4">{d?.name}</figcaption>

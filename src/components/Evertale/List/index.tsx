@@ -1,6 +1,5 @@
 "use client";
 
-import Error from "@/components/general/Error";
 import Loading from "@/components/general/Loading";
 import useSWR from "swr";
 import GridList from "./GridList";
@@ -9,6 +8,7 @@ import ScrollList from "./ScrollList";
 interface ListState {
   listBy: "element" | "team" | "weapon" | "type";
   subListBy:
+    | string
     | "fire"
     | "water"
     | "light"
@@ -51,7 +51,7 @@ const List = ({ listBy, subListBy, type, loadingAnimation = false, textOn, text,
   let subData;
 
   if (!res.data || res.isLoading) {
-    if (loadingAnimation) return <Loading loading={1} textOn={textOn as boolean} text={text} />;
+    if (loadingAnimation) return <Loading loading={1} textOn={textOn} text={text} />;
     return <></>;
   }
 
