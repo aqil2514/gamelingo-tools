@@ -1,20 +1,38 @@
-import connectMongoDB from "@/lib/mongoose";
-import Character from "@/models/Evertale/Characters";
-import { Weapon } from "@/models/Evertale/Weapons";
-import Post from "@/models/General/Post";
+import { supabase } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  await connectMongoDB();
-  const weapons = await Weapon.find();
-  const chars = await Character.find();
+  const { data, error } = await supabase
+    .from("userslogin")
+    .insert([{ name: "aqil", username: "aqil2514", password: "12345678", image: "/no-profile.png", email: "muhamamadaqil383@gmail.com", role: "General Admin", account_verified: true }])
+    .select();
 
-  const post = await Post.find();
-  const char = await Post.findById("65977574843c76e0ccd52200").populate("content");
-  const weapon = await Post.findById("65977574843c76e0ccd521d8").populate("content");
-
-  return NextResponse.json({ post, char, weapon }, { status: 200 });
+  return NextResponse.json({ data }, { status: 200 });
 }
+
+// import connectMongoDB from "@/lib/mongoose";
+// import Character from "@/models/Evertale/Characters";
+// import { Weapon } from "@/models/Evertale/Weapons";
+// import Post from "@/models/General/Post";
+// import { NextResponse } from "next/server";
+
+// export async function GET() {
+//   const token = await getIdTokenFromMetadataServer();
+
+//   return NextResponse.json({ token }, { status: 200 });
+// }
+
+// export async function GET() {
+//   await connectMongoDB();
+//   const weapons = await Weapon.find();
+//   const chars = await Character.find();
+
+//   const post = await Post.find();
+//   const char = await Post.findById("65977574843c76e0ccd52200").populate("content");
+//   const weapon = await Post.findById("65977574843c76e0ccd521d8").populate("content");
+
+//   return NextResponse.json({ post, char, weapon }, { status: 200 });
+// }
 
 // **************************MIGRATTION FUNCTION********************
 // const post = await Post.find({ "game.topic": "Weapons" });

@@ -11,45 +11,37 @@ export default function LoginForm() {
   const [loading, setLoading] = useState<false | true>(false);
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    alert("Sedang dalam pengembangan");
-    return;
 
-    // try {
-    //   setLoading(true);
-    //   const { data } = await axios.post("/api/users", {
-    //     username: (document.getElementById("username") as HTMLInputElement)?.value,
-    //     password: (document.getElementById("password") as HTMLInputElement)?.value,
-    //     typeAction: "login",
-    //   });
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/users", {
+        username: (document.getElementById("username") as HTMLInputElement)?.value,
+        password: (document.getElementById("password") as HTMLInputElement)?.value,
+        typeAction: "login",
+      });
 
-    //   if (data.status !== "ok" && data.status !== "av") {
-    //     alert(data.msg);
-    //     return;
-    //   } else if (data.status === "av") {
-    //     alert(data.msg);
-    //     router.push(`/verification/${data.UID}`);
-    //     return;
-    //   }
+      if (data.status !== "ok" && data.status !== "av") {
+        alert(data.msg);
+        return;
+      } else if (data.status === "av") {
+        alert(data.msg);
+        router.push(`/verification/${data.UID}`);
+        return;
+      }
 
-    //   const username = (document.getElementById("username") as HTMLInputElement)?.value;
-    //   const password = (document.getElementById("password") as HTMLInputElement)?.value;
+      const username = (document.getElementById("username") as HTMLInputElement)?.value;
+      const password = (document.getElementById("password") as HTMLInputElement)?.value;
 
-    //   signIn("credentials", { username, password });
-    // } catch (error) {
-    //   console.error(error);
-    // } finally {
-    //   setLoading(false);
-    // }
+      signIn("credentials", { username, password });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
   return (
     <div className="sm:w-1/3 w-4/5 mx-auto my-4 rounded-lg bg-[rgba(0,0,0,0.4)] p-4">
-      <div
-        onClick={
-          () => alert("Dalam pengembangan")
-          // signIn("google", { callbackUrl: "/" })
-        }
-        className="bg-white cursor-pointer rounded-[32px] justify-center w-full flex flex-row ps-4 py-4"
-      >
+      <div onClick={() => signIn("google", { callbackUrl: "/" })} className="bg-white cursor-pointer rounded-[32px] justify-center w-full flex flex-row ps-4 py-4">
         <Google className="text-base sm:text-2xl mx-2 my-auto"></Google>
         <p className="font-poppins font-bold mx-2 my-auto text-base sm:text-2xl">Masuk dengan Google</p>
       </div>

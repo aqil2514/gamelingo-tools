@@ -1,7 +1,16 @@
 {
-    "workbench.colorCustomizations": {
-        "activityBar.background": "#252957",
-        "titleBar.activeBackground": "#333A7A",
-        "titleBar.activeForeground": "#FBFBFD"
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#252957",
+    "titleBar.activeBackground": "#333A7A",
+    "titleBar.activeForeground": "#FBFBFD"
+  },
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "aws-0-ap-northeast-1.pooler.supabase.com",
+      "driver": "PostgreSQL",
+      "name": "postgres",
+      "connectString": "postgres://postgres.remuamjdesbkqkxqewlc:9MYvByepZ7c38RyD@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres"
     }
+  ]
 }

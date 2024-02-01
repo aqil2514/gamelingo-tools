@@ -8,10 +8,8 @@
 
 # testing
 /coverage
-/models/testing
-/app/api/testing
-/app/testing
-/lib/mongoose-testing
+/app/api/testing/
+postgres.session.sql
 
 #environment
 .env
