@@ -1,8 +1,10 @@
 import connectMongoDB from "@/lib/mongoose";
 //@ts-ignore
 import prisma from "@/lib/prisma/prisma";
+import { supabase } from "@/lib/supabase";
 import User from "@/models/Evertale/Users";
-import { NextResponse } from "next/server";
+import { sendMail, verification } from "@/utils/api";
+import { NextRequest, NextResponse } from "next/server";
 import { createTransport } from "nodemailer";
 
 export async function GET() {
@@ -29,78 +31,38 @@ const transporter = createTransport({
 export async function PUT(req: Request) {
   const { UID, oldEmail, email, putType } = await req.json();
 
-  const uniqueToken = Math.floor(Math.random() * 1000000);
-
-  await new Promise((resolve, reject) => {
-    // verify connection configuration
-    transporter.verify((error, success) => {
-      if (error) {
-        console.log(error);
-        reject(error);
-      } else {
-        console.log("Server is ready to take our messages");
-        resolve(success);
-      }
-    });
-  });
-
   if (putType === "code") {
-    //@ts-ignore
-    await prisma.verificationCode.update({
-      where: {
-        UID: BigInt(UID),
-      },
-      data: {
-        code: uniqueToken,
-      },
-    });
+    const code = verification.generate();
 
-    const mailData = {
-      from: "clevergaming68@gmail.com",
-      to: email,
-      subject: "Email Verification",
-      html: `<p>Your Verification Code: ${uniqueToken}</p>`,
-    };
+    await supabase.from("verificationcode").update({ code }).eq("email", email);
 
-    await new Promise((resolve, reject) => {
-      transporter.sendMail(mailData, (err, info) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          console.log(info);
-          resolve(info);
-        }
-      });
-    });
+    await sendMail(email, code);
 
-    return NextResponse.json({ status: "ok", msg: `Kode Verifikasi telah dikirim kembali ke ${email}` });
+    return NextResponse.json({ msg: `Kode Verifikasi telah dikirim kembali ke ${email}` });
   }
   if (putType === "email") {
-    //@ts-ignore
-    await prisma.verificationCode.update({
-      where: {
-        UID: BigInt(UID),
-      },
-      data: {
-        email,
-      },
-    });
+    const code = verification.generate();
 
-    await connectMongoDB();
+    await sendMail(email, code);
 
-    //@ts-ignore
-    await prisma.usersLogin.update({
-      where: {
-        email: oldEmail,
-      },
-      data: {
-        email,
-      },
-    });
+    await supabase.from("verificationcode").update({ code }).eq("uid", UID);
 
-    await User.findOneAndUpdate({ email: oldEmail }, { email });
+    await supabase.from("userslogin").update({ email }).eq("email", oldEmail);
+
+    await supabase.from("verificationcode").update({ email }).eq("email", oldEmail);
 
     return NextResponse.json({ msg: `Email telah diganti dari ${oldEmail} menjadi ${email}. Silahkan kirim ulang kode` });
   }
+}
+
+export async function POST(req: NextRequest) {
+  const data = await req.json();
+  const { code, email } = data;
+
+  const compareResult = await verification.compare(code, email);
+  if (!compareResult?.status) {
+    return NextResponse.json({ msg: compareResult?.msg }, { status: 422 });
+  }
+
+  return NextResponse.json({ msg: compareResult.msg }, { status: 200 });
 }

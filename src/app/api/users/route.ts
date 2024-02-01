@@ -21,15 +21,6 @@ export async function GET(req: Request) {
   return NextResponse.json({ user: { name, username, email, role }, status: 200, msg: "Ok" });
 }
 
-const transporter = createTransport({
-  host: process.env.SMTP_SERVER,
-  port: Number(process.env.SMTP_PORT),
-  auth: {
-    user: process.env.SMTP_USERNAME,
-    pass: process.env.SMTP_PASSWORD,
-  },
-});
-
 // export async function POST(req: Request) {
 //   const { name, username, password, confirmPassword, email, typeAction, id, code, UID } = await req.json();
 //   if (typeAction === "login") {
@@ -223,7 +214,7 @@ const transporter = createTransport({
 //   }
 // }
 
-type TypeActionState = "register";
+type TypeActionState = "register" | "login";
 export async function POST(req: NextRequest) {
   const reqBody = await req.json();
   const typeAction: TypeActionState = reqBody.typeAction;
@@ -252,23 +243,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ref: passwordValidation?.ref, msg: passwordValidation?.msg }, { status: 422 });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const insertData: Account.UsersLogin = {
-      username,
-      name,
-      password: hashedPassword,
-      email,
-      role: "Pengguna",
-    };
-
-    try {
-      await supabase.from("userslogin").insert(insertData);
-
-      return NextResponse.json({ msg: "Akun berhasil ditambah" }, { status: 200 });
-    } catch (error) {
-      return NextResponse.json({ msg: "Terjadi kesalahan" }, { status: 422 });
-    }
+    const addAccount = await register.addAccount(username, password, name, email);
+    return NextResponse.json({ msg: addAccount.msg, UID: addAccount.UID }, { status: 200 });
   }
 }
 

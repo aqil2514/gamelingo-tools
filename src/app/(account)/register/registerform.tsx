@@ -28,12 +28,11 @@ export default function RegisterForm() {
       pElement.classList.add("text-green-500");
       pElement.classList.add("font-bold");
 
-      element?.after(pElement);
+      element?.before(pElement);
 
       setTimeout(() => {
-        router.replace(`/login`);
+        router.replace(`/verification/${data.UID}`);
       }, 3000);
-      // router.replace(`/verification/${data.UID}`);
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) {
