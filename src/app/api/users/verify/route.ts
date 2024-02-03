@@ -34,7 +34,7 @@ export async function PUT(req: Request) {
   if (putType === "code") {
     const code = verification.generate();
 
-    await supabase.from("verificationcode").update({ code }).eq("email", email);
+    await supabase.from("verificationcode").update({ code, createdat: new Date() }).eq("email", email);
 
     await sendMail(email, code);
 

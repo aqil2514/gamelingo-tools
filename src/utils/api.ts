@@ -108,9 +108,25 @@ export const verification = {
       return { status: false, msg: "Format kode harus angka" };
     }
 
-    const isThere = await supabase.from("verificationcode").select("*").like("email", email);
+    const isThere = await supabase.from("verificationcode").select("*").eq("email", email);
     if (!isThere || !isThere.data || isThere.data.length === 0) {
       return { status: false, msg: "Kode tidak tersedia atau sudah kadaluarsa" };
+    }
+
+    const isSame = await supabase.from("verificationcode").select("*").eq("code", code);
+    if (!isSame || !isSame.data || isSame.data.length === 0) {
+      return { status: false, msg: "Kode verifikasi salah" };
+    }
+
+    const date = isSame.data[0].createdat;
+    const currentTime = new Date();
+    const createdDate = new Date(date + "Z");
+
+    const currentTimeUTC = currentTime.getTime();
+    const createdDateUTC = createdDate.getTime();
+
+    if (currentTimeUTC > createdDateUTC + 5 * 60 * 1000) {
+      return { status: false, msg: "Kode sudah kadaluarsa" };
     }
 
     await supabase.from("userslogin").update({ account_verified: true }).eq("email", email);

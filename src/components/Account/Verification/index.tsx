@@ -73,10 +73,31 @@ export default function Verification({ initData }: { initData: Account.VerifCode
         email: initData.email,
       });
 
-      alert(res.data.msg);
-      router.replace("/login");
+      const pElement = document.createElement("p");
+      pElement.innerHTML = res.data.msg;
+      pElement.classList.add("text-green-500");
+      pElement.classList.add("font-bold");
+
+      buttonRef.current!.before(pElement);
+
+      setTimeout(() => {
+        router.replace("/login");
+        pElement.remove();
+      }, 3000);
     } catch (error) {
       if (isAxiosError(error)) {
+        if (error.response?.status === 422) {
+          const pElement = document.createElement("p");
+          pElement.innerHTML = error.response.data.msg;
+          pElement.classList.add("text-red-500");
+          pElement.classList.add("font-bold");
+
+          buttonRef.current!.before(pElement);
+
+          setTimeout(() => {
+            pElement.remove();
+          }, 3000);
+        }
         console.error(error);
       }
     } finally {
