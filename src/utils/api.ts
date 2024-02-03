@@ -3,6 +3,19 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { createTransport } from "nodemailer";
 
+function verifDataBuilder(email: string) {
+  const uid = crypto.randomUUID();
+  const verificationCode = verification.generate();
+
+  const verifData: Account.VerifCode = {
+    uid,
+    code: verificationCode,
+    email,
+  };
+
+  return verifData;
+}
+
 const transporter = createTransport({
   host: process.env.SMTP_SERVER,
   port: Number(process.env.SMTP_PORT),
@@ -78,12 +91,52 @@ export const register = {
 
       await supabase.from("verificationcode").insert(verifData).select();
 
-      sendMail(email, verifData.code);
+      await sendMail.verification(email, verifData.code);
 
       return { status: true, msg: "Akun berhasil ditambah", UID: verifData.uid };
     } catch (error) {
       throw error;
     }
+  },
+};
+
+export const login = {
+  usernameValidation: async (username: string) => {
+    if (!username) return { status: false, msg: "Username belum diisi" };
+
+    const isThere = await supabase.from("userslogin").select("*").eq("username", username);
+    if (!isThere || !isThere.data || isThere.data?.length === 0) {
+      return { status: false, msg: "Username tidak tersedia" };
+    }
+
+    return { status: true };
+  },
+  passwordValidation: async (username: string, password: string) => {
+    if (!password) return { status: false, msg: "Password belum diisi" };
+
+    const isThere = await supabase.from("userslogin").select("*").eq("username", username);
+    if (!isThere || !isThere.data || isThere.data?.length === 0) {
+      return { status: false, msg: "Username tidak tersedia" };
+    }
+
+    const passwordCompared = await bcrypt.compare(password, isThere.data[0].password);
+    if (!passwordCompared) return { status: false, msg: "Password salah" };
+
+    return { status: true };
+  },
+  isVerifiedValidation: async (username: string) => {
+    const isVerified = await supabase.from("userslogin").select("*").eq("username", username);
+
+    if (!isVerified || !isVerified.data || isVerified.data.length === 0) throw new Error("Data tidak ada");
+    const userData: Account.UsersLogin = isVerified.data[0];
+
+    const verification = await supabase.from("verificationcode").select("*").eq("email", userData.email);
+    if (!verification || !verification.data || verification.data.length === 0) throw new Error("Data tidak ada");
+    const verifCodeData: Account.VerifCode = verification.data[0];
+
+    if (!userData.account_verified) return { status: false, UID: verifCodeData.uid, msg: "Aku belum diverifikasi, verifikasi sekarang?" };
+
+    return { status: true };
   },
 };
 
@@ -137,48 +190,37 @@ export const verification = {
   },
 };
 
-function verifDataBuilder(email: string) {
-  const uid = crypto.randomUUID();
-  const verificationCode = verification.generate();
-
-  const verifData: Account.VerifCode = {
-    uid,
-    code: verificationCode,
-    email,
-  };
-
-  return verifData;
-}
-
-export async function sendMail(email: string, verificationCode: string) {
-  await new Promise((resolve, reject) => {
-    transporter.verify((error, success) => {
-      if (error) {
-        console.log(error);
-        reject(error);
-      } else {
-        console.log("Server is ready to take our messages");
-        resolve(success);
-      }
+export const sendMail = {
+  verification: async (email: string, verificationCode: string) => {
+    await new Promise((resolve, reject) => {
+      transporter.verify((error, success) => {
+        if (error) {
+          console.log(error);
+          reject(error);
+        } else {
+          console.log("Server is ready to take our messages");
+          resolve(success);
+        }
+      });
     });
-  });
 
-  const mailData = {
-    from: "clevergaming68@gmail.com",
-    to: email,
-    subject: "Email Verification",
-    html: `<p>Your Verification Code: ${verificationCode}</p>`,
-  };
+    const mailData = {
+      from: "clevergaming68@gmail.com",
+      to: email,
+      subject: "Email Verification",
+      html: `<p>Your Verification Code: ${verificationCode}</p>`,
+    };
 
-  await new Promise((resolve, reject) => {
-    transporter.sendMail(mailData, (err, info) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        console.log(info);
-        resolve(info);
-      }
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailData, (err, info) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          console.log(info);
+          resolve(info);
+        }
+      });
     });
-  });
-}
+  },
+};

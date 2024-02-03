@@ -36,14 +36,14 @@ export async function PUT(req: Request) {
 
     await supabase.from("verificationcode").update({ code, createdat: new Date() }).eq("email", email);
 
-    await sendMail(email, code);
+    await sendMail.verification(email, code);
 
     return NextResponse.json({ msg: `Kode Verifikasi telah dikirim kembali ke ${email}` });
   }
   if (putType === "email") {
     const code = verification.generate();
 
-    await sendMail(email, code);
+    await sendMail.verification(email, code);
 
     await supabase.from("verificationcode").update({ code }).eq("uid", UID);
 

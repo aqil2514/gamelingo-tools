@@ -1,5 +1,5 @@
 "use client";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { Google } from "react-bootstrap-icons";
@@ -14,27 +14,42 @@ export default function LoginForm() {
 
     try {
       setLoading(true);
-      const { data } = await axios.post("/api/users", {
+      const res = await axios.post("/api/users", {
         username: (document.getElementById("username") as HTMLInputElement)?.value,
         password: (document.getElementById("password") as HTMLInputElement)?.value,
         typeAction: "login",
       });
 
-      if (data.status !== "ok" && data.status !== "av") {
-        alert(data.msg);
-        return;
-      } else if (data.status === "av") {
-        alert(data.msg);
-        router.push(`/verification/${data.UID}`);
-        return;
+      if (res.status === 200) {
+        const username = (document.getElementById("username") as HTMLInputElement)?.value;
+        const password = (document.getElementById("password") as HTMLInputElement)?.value;
+
+        signIn("credentials", { username, password });
       }
-
-      const username = (document.getElementById("username") as HTMLInputElement)?.value;
-      const password = (document.getElementById("password") as HTMLInputElement)?.value;
-
-      signIn("credentials", { username, password });
     } catch (error) {
-      console.error(error);
+      if (isAxiosError(error)) {
+        if (error.response?.status === 422 && error.response.data.UID) {
+          const verifNow = confirm(error.response.data.msg);
+          if (!verifNow) return router.refresh();
+
+          return router.replace(`/verification/${error.response.data.UID}`);
+        }
+        if (error.response?.status === 422) {
+          const pElement = document.createElement("p");
+          pElement.innerHTML = error.response.data.msg;
+
+          pElement.classList.add("text-red-500");
+          pElement.classList.add("font-bold");
+
+          const ref = document.getElementById("login-button") as HTMLButtonElement;
+          ref.before(pElement);
+
+          setTimeout(() => {
+            pElement.remove();
+          }, 3000);
+        }
+        console.error(error);
+      }
     } finally {
       setLoading(false);
     }
@@ -61,7 +76,7 @@ export default function LoginForm() {
         <Link href="/register" className="text-xs sm:text-base text-white font-poppins underline my-2 inline cursor-pointer ms-2">
           Belum punya akun?
         </Link>
-        <button disabled={loading} type="submit" className="bg-white px-6 py-2 block mx-auto font-poppins my-4 font-bold text-black text-xl rounded-xl">
+        <button disabled={loading} id="login-button" type="submit" className="bg-white px-6 py-2 block mx-auto font-poppins my-4 font-bold text-black text-xl rounded-xl">
           {loading ? "Tunggu Sebentar..." : "Login"}
         </button>
       </form>

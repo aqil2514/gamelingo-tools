@@ -28,4 +28,10 @@ namespace Account {
     email: string;
     typeAction: "register";
   }
+
+  export interface LoginForm {
+    username: string;
+    password: string;
+    typeAction: "login";
+  }
 }
