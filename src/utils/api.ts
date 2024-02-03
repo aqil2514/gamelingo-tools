@@ -130,13 +130,15 @@ export const login = {
     if (!isVerified || !isVerified.data || isVerified.data.length === 0) throw new Error("Data tidak ada");
     const userData: Account.UsersLogin = isVerified.data[0];
 
-    const verification = await supabase.from("verificationcode").select("*").eq("email", userData.email);
-    if (!verification || !verification.data || verification.data.length === 0) throw new Error("Data tidak ada");
-    const verifCodeData: Account.VerifCode = verification.data[0];
+    if(!userData.account_verified){
+      const verification = await supabase.from("verificationcode").select("*").eq("email", userData.email);
+      if (!verification || !verification.data || verification.data.length === 0) throw new Error("Data tidak ada");
+      const verifCodeData: Account.VerifCode = verification.data[0];
+  
+      if (!userData.account_verified) return { status: false, UID: verifCodeData.uid, msg: "Aku belum diverifikasi, verifikasi sekarang?" };
+    }
 
-    if (!userData.account_verified) return { status: false, UID: verifCodeData.uid, msg: "Aku belum diverifikasi, verifikasi sekarang?" };
-
-    return { status: true };
+return {status:true}
   },
 };
 

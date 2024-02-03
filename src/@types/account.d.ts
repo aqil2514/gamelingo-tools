@@ -5,11 +5,20 @@ namespace Account {
     username: string;
     password: string;
     image?: string;
-    OAuthId?: string;
+    oauthid?: string;
     email: string;
     role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
     account_verified?: boolean;
     createdAt?: Date;
+  }
+
+  export interface User {
+    id: string;
+    name: string;
+    username: string;
+    role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
+    email: string;
+    image: string;
   }
 
   export interface VerifCode {

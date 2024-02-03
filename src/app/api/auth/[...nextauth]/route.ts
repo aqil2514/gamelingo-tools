@@ -2,6 +2,7 @@ import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkEmail, checkUser } from "@/lib/prisma/users";
+import { supabase } from "@/lib/supabase";
 
 const handler = NextAuth({
   providers: [
@@ -12,37 +13,85 @@ const handler = NextAuth({
     CredentialsProvider({
       credentials: {
         username: { label: "Username" },
-        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials) throw new Error("No credentials");
 
-        const isUser = await checkUser(credentials.username);
+        const isThere = await supabase.from("userslogin").select("*").eq("username", credentials.username);
+        if (!isThere || !isThere.data || isThere.data.length === 0) return null;
 
-        const user = isUser[0];
+        const userData: Account.UsersLogin = isThere.data[0];
+        const user: Account.User = {
+          id: userData.id as string,
+          name: userData.name as string,
+          username: userData.username,
+          email: userData.email,
+          role: userData.role,
+          image: userData.image as string,
+        };
 
-        if (!isUser) return null;
-
+        if (!userData) return null;
         return user;
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
-    async signIn({ user, account, credentials }) {
+    async signIn({ account, profile }) {
       if (account?.provider === "google") {
-        const isThere = await checkEmail(user.email as string);
-        if (!isThere[0]) {
-          return false;
+        const isThere = await supabase
+          .from("userslogin")
+          .select("*")
+          .eq("email", profile?.email);
+
+        if (!isThere || !isThere.data || isThere.data.length === 0 || !isThere.data[0]) {
+          await supabase.from("userslogin").insert([
+            {
+              name: profile?.name,
+              image: profile?.image,
+              email: profile?.email,
+              oauthid: profile?.sub,
+              role: "Pengguna",
+              account_verified: true,
+            },
+          ]);
         }
 
-        user = isThere[0];
+        const userData: Account.UsersLogin = isThere.data![0];
+
+        if (!userData.oauthid) {
+          await supabase.from("userslogin").update({ oauthid: profile?.sub });
+        }
       }
-      //   console.log("user:", user);
-      //   console.log("account:", account);
-      //   console.log("credentials:", credentials);
       return true;
     },
+    async jwt(params) {
+      let { token } = params;
+      let user = params.user as Account.User;
+
+      if (user) {
+        return {
+          ...token,
+          role: user.role,
+        };
+      }
+      return token;
+    },
+    async session(params) {
+      let { session, token } = params;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          role: token.role,
+        },
+      };
+    },
   },
+  debug: process.env.NODE_ENV === "development",
 });
 
 export { handler as GET, handler as POST };

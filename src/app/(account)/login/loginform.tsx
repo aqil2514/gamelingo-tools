@@ -22,9 +22,8 @@ export default function LoginForm() {
 
       if (res.status === 200) {
         const username = (document.getElementById("username") as HTMLInputElement)?.value;
-        const password = (document.getElementById("password") as HTMLInputElement)?.value;
 
-        signIn("credentials", { username, password });
+        signIn("credentials", { username });
       }
     } catch (error) {
       if (isAxiosError(error)) {
