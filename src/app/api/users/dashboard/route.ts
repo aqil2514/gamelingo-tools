@@ -130,5 +130,10 @@ export async function PUT(req: NextRequest) {
   const emailValidation = await dashboard.emailValidation(data.email, oldData.email);
   if (!emailValidation.status) return NextResponse.json({ msg: emailValidation.msg }, { status: 422 });
 
+  if (data.email !== oldData.email) return NextResponse.json({ popupEmail: true }, { status: 200 });
+
+  const changeData = await dashboard.changeHandler(data);
+  if (!changeData.status) return NextResponse.json({ msg: changeData.msg, error: changeData.error }, { status: 422 });
+
   return NextResponse.json({ msg: "Data berhasil diubah" }, { status: 200 });
 }

@@ -6,8 +6,6 @@ export enum StateActionKind {
   RESET_DATA = "RESET_DATA",
   DATA_CHANGE = "DATA_CHANGE",
   NO_DATA_CHANGE = "NO_DATA_CHANGE",
-  EMAIL_CHANGE = "EMAIL_CHANGE",
-  NO_EMAIL_CHANGE = "NO_EMAIL_CHANGE",
 }
 
 export interface DataState {
@@ -16,7 +14,6 @@ export interface DataState {
   editMode: boolean;
   isEditing: boolean;
   isChanged: boolean;
-  isEmailChanged: boolean;
 }
 
 export interface StateAction {
@@ -47,12 +44,6 @@ export function reducer(state: DataState, action: StateAction) {
     case StateActionKind.NO_DATA_CHANGE: {
       return { ...state, isChanged: false };
     }
-    case StateActionKind.EMAIL_CHANGE: {
-      return { ...state, isEmailChanged: true };
-    }
-    case StateActionKind.NO_EMAIL_CHANGE: {
-      return { ...state, isEmailChanged: false };
-    }
   }
 }
 
@@ -63,6 +54,5 @@ export function INITIAL_STATE(data: Account.User): DataState {
     editMode: false,
     isEditing: false,
     isChanged: false,
-    isEmailChanged: false,
   };
 }

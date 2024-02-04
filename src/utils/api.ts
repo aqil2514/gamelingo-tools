@@ -184,6 +184,15 @@ export const dashboard = {
 
     return { status: true };
   },
+  changeHandler: async (data: Account.User) => {
+    try {
+      await supabase.from("userslogin").update(data).eq("id", data.id);
+
+      return { status: true };
+    } catch (error) {
+      return { status: false, msg: "Terjadi kesalahan", error };
+    }
+  },
 };
 
 // **
