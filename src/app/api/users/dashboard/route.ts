@@ -1,4 +1,5 @@
 import { addVerificationCode, checkEmail, checkUser, checkVerificationCode, deleteVerificationCode, updateUser, updateVerificationCode } from "@/lib/prisma/users";
+import { dashboard } from "@/utils/api";
 import { NextRequest, NextResponse } from "next/server";
 import { createTransport } from "nodemailer";
 
@@ -68,49 +69,66 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ status: 200, msg: "Kode verifikasi telah dikirim melalui email. Periksa juga folder spam" });
 }
 
+// export async function PUT(req: NextRequest) {
+//   const { info, infoInit, code } = await req.json();
+
+//   const oldName = infoInit.name;
+//   const oldUsername = infoInit.username;
+//   const oldEmail = infoInit.email;
+//   const { username, email, name, role } = info;
+
+//   if (username !== oldUsername) {
+//     const checkUsername = await checkUser(username);
+//     if (checkUsername.length === 1) {
+//       return NextResponse.json({ status: 400, code, msg: "Username telah tersedia. Gunakan yang lain" });
+//     }
+//   }
+
+//   if (name.length === 0) {
+//     return NextResponse.json({ status: 400, msg: "Anda belum mengisi nama" });
+//   }
+
+//   if (oldEmail !== email) {
+//     if (!code) {
+//       return NextResponse.json({ status: 400, msg: "Anda belum mengisi kode verifikasi" });
+//     }
+
+//     const checkCode = await checkVerificationCode({ email, code: parseInt(code) });
+//     if (checkCode.length === 0) {
+//       return NextResponse.json({ status: 400, msg: "Kode verifikasi salah atau sudah kadaluarsa" });
+//     }
+
+//     await deleteVerificationCode({ email, code: parseInt(code) });
+//   }
+
+//   const where = {
+//     email: oldEmail,
+//   };
+
+//   const data = {
+//     email,
+//     name,
+//     role,
+//     username,
+//   };
+//   await updateUser(where, data);
+
+//   return NextResponse.json({ status: 200, msg: "Informasi akun berhasil diubah" });
+// }
+
 export async function PUT(req: NextRequest) {
-  const { info, infoInit, code } = await req.json();
+  const reqBody = await req.json();
+  const data: Account.User = reqBody.data;
+  const oldData: Account.User = reqBody.oldData;
 
-  const oldName = infoInit.name;
-  const oldUsername = infoInit.username;
-  const oldEmail = infoInit.email;
-  const { username, email, name, role } = info;
+  const nameValidation = dashboard.nameValidation(data.name);
+  if (!nameValidation.status) return NextResponse.json({ msg: nameValidation.msg }, { status: 422 });
 
-  if (username !== oldUsername) {
-    const checkUsername = await checkUser(username);
-    if (checkUsername.length === 1) {
-      return NextResponse.json({ status: 400, code, msg: "Username telah tersedia. Gunakan yang lain" });
-    }
-  }
+  const usernameValidation = await dashboard.usernameValidation(data.username, oldData.username);
+  if (!usernameValidation.status) return NextResponse.json({ msg: usernameValidation.msg }, { status: 422 });
 
-  if (name.length === 0) {
-    return NextResponse.json({ status: 400, msg: "Anda belum mengisi nama" });
-  }
+  const emailValidation = await dashboard.emailValidation(data.email, oldData.email);
+  if (!emailValidation.status) return NextResponse.json({ msg: emailValidation.msg }, { status: 422 });
 
-  if (oldEmail !== email) {
-    if (!code) {
-      return NextResponse.json({ status: 400, msg: "Anda belum mengisi kode verifikasi" });
-    }
-
-    const checkCode = await checkVerificationCode({ email, code: parseInt(code) });
-    if (checkCode.length === 0) {
-      return NextResponse.json({ status: 400, msg: "Kode verifikasi salah atau sudah kadaluarsa" });
-    }
-
-    await deleteVerificationCode({ email, code: parseInt(code) });
-  }
-
-  const where = {
-    email: oldEmail,
-  };
-
-  const data = {
-    email,
-    name,
-    role,
-    username,
-  };
-  await updateUser(where, data);
-
-  return NextResponse.json({ status: 200, msg: "Informasi akun berhasil diubah" });
+  return NextResponse.json({ msg: "Data berhasil diubah" }, { status: 200 });
 }

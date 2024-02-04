@@ -25,7 +25,11 @@ const transporter = createTransport({
   },
 });
 
-// UTILS FOR API/Users
+// **
+// *
+// USERS API UTILS
+// *
+// */
 export const register = {
   nameValidation: (name: string) => {
     if (!name) {
@@ -130,18 +134,63 @@ export const login = {
     if (!isVerified || !isVerified.data || isVerified.data.length === 0) throw new Error("Data tidak ada");
     const userData: Account.UsersLogin = isVerified.data[0];
 
-    if(!userData.account_verified){
+    if (!userData.account_verified) {
       const verification = await supabase.from("verificationcode").select("*").eq("email", userData.email);
       if (!verification || !verification.data || verification.data.length === 0) throw new Error("Data tidak ada");
       const verifCodeData: Account.VerifCode = verification.data[0];
-  
+
       if (!userData.account_verified) return { status: false, UID: verifCodeData.uid, msg: "Aku belum diverifikasi, verifikasi sekarang?" };
     }
 
-return {status:true}
+    return { status: true };
   },
 };
 
+// **
+// *
+// DASHBOARD API UTILS
+// *
+// */
+
+export const dashboard = {
+  nameValidation: (name: string) => {
+    if (!name) return { status: false, msg: "Nama belum diisi" };
+
+    return { status: true };
+  },
+  usernameValidation: async (username: string, oldUsername: string) => {
+    if (!username) return { status: false, msg: "Username belum diisi" };
+
+    if (username.length <= 7) return { status: false, msg: "Username kurang dari 8 karakter" };
+
+    const isDupplicate = await supabase.from("userslogin").select("username").eq("username", username);
+    if (isDupplicate.data?.length !== 0 && isDupplicate!.data![0].username !== oldUsername) return { status: false, msg: "Username telah digunakan" };
+
+    return { status: true };
+  },
+  emailValidation: async (email: string, oldEmail: string) => {
+    if (!email) return { status: false, msg: "Email belum diisi" };
+
+    const emailType = z.string().email();
+
+    try {
+      emailType.parse(email);
+    } catch (error) {
+      return { status: false, ref: "email", msg: "Email tidak valid" };
+    }
+
+    const isDupplicate = await supabase.from("userslogin").select("email").like("email", email);
+    if (isDupplicate.data?.length !== 0 && isDupplicate!.data![0].email !== oldEmail) return { status: false, ref: "email", msg: "Email telah digunakan" };
+
+    return { status: true };
+  },
+};
+
+// **
+// *
+// GENERAL API UTILS
+// *
+// */
 export const verification = {
   generate: () => {
     const length = 6;
