@@ -1,20 +1,20 @@
-import { checkUser, checkEmail, updateUser } from "@/lib/prisma/users";
+// import { checkUser, checkEmail, updateUser } from "@/lib/prisma/users";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { login, register } from "@/utils/api";
 
-export async function GET(req: Request) {
-  const serverSession: any = await getServerSession();
+// export async function GET(req: Request) {
+//   const serverSession: any = await getServerSession();
 
-  if (!serverSession) {
-    redirect("/");
-  }
-  const user = await checkEmail(serverSession.user?.email);
-  const { name, username, email, role } = user[0];
-  return NextResponse.json({ user: { name, username, email, role }, status: 200, msg: "Ok" });
-}
+//   if (!serverSession) {
+//     redirect("/");
+//   }
+//   const user = await checkEmail(serverSession.user?.email);
+//   const { name, username, email, role } = user[0];
+//   return NextResponse.json({ user: { name, username, email, role }, status: 200, msg: "Ok" });
+// }
 
 type TypeActionState = "register" | "login";
 export async function POST(req: NextRequest) {
@@ -65,43 +65,43 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function PUT(req: Request) {
-  const { username, password, putType } = await req.json();
+// export async function PUT(req: Request) {
+//   const { username, password, putType } = await req.json();
 
-  if (putType === "changePassword") {
-    const { oldPassword, newPassword, confirmNewPassword } = password;
+//   if (putType === "changePassword") {
+//     const { oldPassword, newPassword, confirmNewPassword } = password;
 
-    if (!oldPassword || !newPassword || !confirmNewPassword) {
-      return NextResponse.json({ status: "nd", msg: "Data masih ada yang kosong" });
-    }
+//     if (!oldPassword || !newPassword || !confirmNewPassword) {
+//       return NextResponse.json({ status: "nd", msg: "Data masih ada yang kosong" });
+//     }
 
-    const user = await checkUser(username);
-    const compare = await bcrypt.compare(oldPassword, user[0].password);
+//     const user = await checkUser(username);
+//     const compare = await bcrypt.compare(oldPassword, user[0].password);
 
-    if (!compare) {
-      return NextResponse.json({ status: "wp", msg: "Kata sandi lama salah" });
-    }
+//     if (!compare) {
+//       return NextResponse.json({ status: "wp", msg: "Kata sandi lama salah" });
+//     }
 
-    if (newPassword !== confirmNewPassword) {
-      return NextResponse.json({ status: "wp2", msg: "Konfirmasi kata sandi baru tidak sama" });
-    }
+//     if (newPassword !== confirmNewPassword) {
+//       return NextResponse.json({ status: "wp2", msg: "Konfirmasi kata sandi baru tidak sama" });
+//     }
 
-    if (newPassword === oldPassword) {
-      return NextResponse.json({ status: "sp", msg: "Kata sandi baru tidak boleh sama dengan kata sandi lama" });
-    }
+//     if (newPassword === oldPassword) {
+//       return NextResponse.json({ status: "sp", msg: "Kata sandi baru tidak boleh sama dengan kata sandi lama" });
+//     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+//     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    const where = {
-      username,
-    };
+//     const where = {
+//       username,
+//     };
 
-    const data = {
-      password: hashedPassword,
-    };
+//     const data = {
+//       password: hashedPassword,
+//     };
 
-    await updateUser(where, data);
+//     await updateUser(where, data);
 
-    return NextResponse.json({ user, status: "ok", msg: "Password berhasil diganti" });
-  }
-}
+//     return NextResponse.json({ user, status: "ok", msg: "Password berhasil diganti" });
+//   }
+// }

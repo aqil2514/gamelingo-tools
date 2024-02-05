@@ -3,20 +3,19 @@ import { redirect } from "next/navigation";
 import UserInfo from "./UserInfo";
 import { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export const metadata: Metadata = {
   title: "Dashboard",
 };
 
 export default async function Dashboard() {
-  const session = await getServerSession();
-
-  console.log(session);
+  const session = await getServerSession(authOptions);
 
   const user = await supabase
     .from("userslogin")
     .select("username, email, name, role, id,image")
-    .eq("email", session?.user?.email);
+    .eq("id", (session?.user as Account.User)?.id);
   const userData = user!.data![0] as Account.User;
 
   if (!session) {
