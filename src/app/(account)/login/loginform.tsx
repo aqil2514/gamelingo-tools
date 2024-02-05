@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Google } from "react-bootstrap-icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { notif } from "@/utils/fe";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -34,18 +35,7 @@ export default function LoginForm() {
           return router.replace(`/verification/${error.response.data.UID}`);
         }
         if (error.response?.status === 422) {
-          const pElement = document.createElement("p");
-          pElement.innerHTML = error.response.data.msg;
-
-          pElement.classList.add("text-red-500");
-          pElement.classList.add("font-bold");
-
-          const ref = document.getElementById("login-button") as HTMLButtonElement;
-          ref.before(pElement);
-
-          setTimeout(() => {
-            pElement.remove();
-          }, 3000);
+          notif(error.response.data.msg, "red", "login-button", "before");
         }
         console.error(error);
       }

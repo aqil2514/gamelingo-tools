@@ -3,6 +3,7 @@ import axios, { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
+import { notif } from "@/utils/fe";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState<false | true>(false);
@@ -21,34 +22,14 @@ export default function RegisterForm() {
         typeAction: "register",
       });
 
-      const element = document.getElementById("submit-button") as HTMLButtonElement;
-      const pElement = document.createElement("p");
-
-      pElement.innerHTML = data.msg;
-      pElement.classList.add("text-green-500");
-      pElement.classList.add("font-bold");
-
-      element?.before(pElement);
-
+      notif(data.msg, "green", "submit-button", "before");
       setTimeout(() => {
         router.replace(`/verification/${data.UID}`);
       }, 3000);
     } catch (error) {
       if (isAxiosError(error)) {
-        if (error.response?.status === 422) {
-          const element = document.getElementById(error.response?.data.ref);
-          const pElement = document.createElement("p");
+        if (error.response?.status === 422) return notif(error.response?.data.msg, "red", error.response?.data.ref, "after");
 
-          pElement.innerHTML = error.response?.data.msg;
-          pElement.classList.add("text-red-500");
-          pElement.classList.add("font-bold");
-
-          element?.after(pElement);
-
-          setTimeout(() => {
-            pElement.remove();
-          }, 3000);
-        }
         console.error(error);
       }
     } finally {

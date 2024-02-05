@@ -4,7 +4,17 @@ import bcrypt from "bcrypt";
 import { createTransport } from "nodemailer";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+
+interface ResultApi {
+  status: boolean;
+  msg?: string;
+}
+
+interface ResultRefApi {
+  status: boolean;
+  ref?: string;
+  msg?: string;
+}
 
 function verifDataBuilder(email: string) {
   const uid = crypto.randomUUID();
@@ -28,19 +38,32 @@ const transporter = createTransport({
   },
 });
 
-// **
-// *
-// USERS API UTILS
-// *
-// */
-export const register = {
-  nameValidation: (name: string) => {
+/**
+ * USERS API UTILS
+ */
+
+interface AccountResult {
+  status: true;
+  msg: string;
+  UID: string;
+}
+interface RegisterApi {
+  nameValidation: (name: string) => ResultRefApi;
+  usernameValidation: (username: string) => Promise<ResultRefApi>;
+  emailValidation: (email: string) => Promise<ResultRefApi>;
+  passwordValidation: (password: string, confirmPassword: string) => ResultRefApi;
+  addAccount: (username: string, password: string, name: string, email: string) => Promise<AccountResult>;
+}
+
+/** Register API Utils */
+export const register: RegisterApi = {
+  nameValidation: (name) => {
     if (!name) {
       return { status: false, ref: "name", msg: "Nama belum diisi" };
     }
     return { status: true };
   },
-  usernameValidation: async (username: string) => {
+  usernameValidation: async (username) => {
     if (!username) {
       return { status: false, ref: "username", msg: "Username belum diisi" };
     }
@@ -55,7 +78,7 @@ export const register = {
 
     return { status: true };
   },
-  emailValidation: async (email: string) => {
+  emailValidation: async (email) => {
     const emailType = z.string().email();
 
     try {
@@ -69,7 +92,7 @@ export const register = {
 
     return { status: true };
   },
-  passwordValidation: (password: string, confirmPassword: string) => {
+  passwordValidation: (password, confirmPassword) => {
     const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)\w{7,20}$/;
     if (!password.match(regex)) {
       return { status: false, ref: "password", msg: "Password tidak sesuai dengan aturan" };
@@ -80,7 +103,7 @@ export const register = {
 
     return { status: true };
   },
-  addAccount: async (username: string, password: string, name: string, email: string) => {
+  addAccount: async (username, password, name, email) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const insertData: Account.UsersLogin = {
@@ -107,7 +130,20 @@ export const register = {
   },
 };
 
-export const login = {
+interface VerifiedResult {
+  status: boolean;
+  UID?: string;
+  msg?: string;
+}
+
+interface LoginApi {
+  usernameValidation: (username: string) => Promise<ResultApi>;
+  passwordValidation: (username: string, password: string) => Promise<ResultApi>;
+  isVerifiedValidation: (username: string) => Promise<VerifiedResult>;
+}
+
+/** Login API Utils*/
+export const login: LoginApi = {
   usernameValidation: async (username: string) => {
     if (!username) return { status: false, msg: "Username belum diisi" };
 
@@ -149,19 +185,23 @@ export const login = {
   },
 };
 
-// **
-// *
-// DASHBOARD API UTILS
-// *
-// */
+interface DashboardApi {
+  nameValidation: (name: string) => ResultApi;
+  usernameValidation: (username: string, oldUsername: string) => Promise<ResultApi>;
+  emailValidation: (email: string, oldEmail: string) => Promise<ResultApi>;
+  changeHandler: (data: Account.User) => Promise<ResultApi>;
+}
 
-export const dashboard = {
-  nameValidation: (name: string) => {
+/** Dashboard API Utils */
+export const dashboard: DashboardApi = {
+  /** Validasi nama */
+  nameValidation: (name) => {
     if (!name) return { status: false, msg: "Nama belum diisi" };
 
     return { status: true };
   },
-  usernameValidation: async (username: string, oldUsername: string) => {
+  /** Validasi Username */
+  usernameValidation: async (username, oldUsername) => {
     if (!username) return { status: false, msg: "Username belum diisi" };
 
     if (username.length <= 7) return { status: false, msg: "Username kurang dari 8 karakter" };
@@ -171,7 +211,8 @@ export const dashboard = {
 
     return { status: true };
   },
-  emailValidation: async (email: string, oldEmail: string) => {
+  /** Validasi email */
+  emailValidation: async (email, oldEmail) => {
     if (!email) return { status: false, msg: "Email belum diisi" };
 
     const emailType = z.string().email();
@@ -187,7 +228,8 @@ export const dashboard = {
 
     return { status: true };
   },
-  changeHandler: async (data: Account.User) => {
+  /** Fungsi ubah data */
+  changeHandler: async (data) => {
     try {
       await supabase.from("userslogin").update(data).eq("id", data.id);
 
@@ -198,12 +240,18 @@ export const dashboard = {
   },
 };
 
-// **
-// *
-// GENERAL API UTILS
-// *
-// */
-export const verification = {
+interface VerificationApi {
+  generate: () => string;
+  compare: (code: string, email: string) => Promise<ResultApi>;
+}
+/**
+ * Verification API Utils
+ */
+export const verification: VerificationApi = {
+  /**
+   * Menghasilkan kode unik angka
+   * @returns Result berupa kode unik angka sebanyak 6 digit
+   */
   generate: () => {
     const length = 6;
     let result = "";
@@ -215,7 +263,13 @@ export const verification = {
 
     return result;
   },
-  compare: async (code: string, email: string) => {
+  /**
+   * Komparasi kode
+   * @param code - kode yang diinput
+   * @param email - email yang digunakan
+   * @returns Hasil
+   */
+  compare: async (code, email) => {
     const isNumber = z.number();
 
     try {
@@ -253,8 +307,18 @@ export const verification = {
   },
 };
 
-export const sendMail = {
-  verification: async (email: string, verificationCode: string) => {
+interface SendmailApi {
+  verification: (email: string, verificationCode: string) => Promise<void>;
+}
+
+/** Sendmail API Utils */
+export const sendMail: SendmailApi = {
+  /**
+   * Mengirim kode verifikasi ke email
+   * @param email - Email tujuan
+   * @param verificationCode - Kode yang akan dikirim
+   */
+  verification: async (email, verificationCode) => {
     await new Promise((resolve, reject) => {
       transporter.verify((error, success) => {
         if (error) {
@@ -288,6 +352,7 @@ export const sendMail = {
   },
 };
 
+/** Mendapatkan user dari server */
 export async function getUser(): Promise<Account.User | null> {
   const session = await getServerSession(authOptions);
 
