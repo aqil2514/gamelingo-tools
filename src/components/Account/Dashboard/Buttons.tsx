@@ -17,6 +17,11 @@ export default function Buttons() {
         oldData: state.initialData,
       });
 
+      if (res.data.popupEmail) {
+        dispatch({ type: StateActionKind.SHOW_POPUP_EMAIL });
+        return;
+      }
+
       const divElement = document.getElementById("confirm-buttons") as HTMLDivElement;
       const pElement = document.createElement("p");
 

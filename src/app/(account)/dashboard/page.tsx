@@ -1,7 +1,7 @@
-import UserInfo from "./UserInfo";
 import { Metadata } from "next";
 import { getUser } from "@/utils/api";
 import { redirect } from "next/navigation";
+import UserInfo from "./UserInfo";
 
 export const metadata: Metadata = {
   title: "Dashboard",

@@ -6,6 +6,8 @@ export enum StateActionKind {
   RESET_DATA = "RESET_DATA",
   DATA_CHANGE = "DATA_CHANGE",
   NO_DATA_CHANGE = "NO_DATA_CHANGE",
+  SHOW_POPUP_EMAIL = "SHOW_POPUP_EMAIL",
+  HIDE_POPUP_EMAIL = "HIDE_POPUP_EMAIL",
 }
 
 export interface DataState {
@@ -14,6 +16,7 @@ export interface DataState {
   editMode: boolean;
   isEditing: boolean;
   isChanged: boolean;
+  popUpActive: boolean;
 }
 
 export interface StateAction {
@@ -44,6 +47,12 @@ export function reducer(state: DataState, action: StateAction) {
     case StateActionKind.NO_DATA_CHANGE: {
       return { ...state, isChanged: false };
     }
+    case StateActionKind.SHOW_POPUP_EMAIL: {
+      return { ...state, popUpActive: true };
+    }
+    case StateActionKind.HIDE_POPUP_EMAIL: {
+      return { ...state, popUpActive: false };
+    }
   }
 }
 
@@ -54,5 +63,6 @@ export function INITIAL_STATE(data: Account.User): DataState {
     editMode: false,
     isEditing: false,
     isChanged: false,
+    popUpActive: false,
   };
 }
