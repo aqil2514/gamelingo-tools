@@ -66,20 +66,37 @@ export const authOptions: AuthOptions = {
         const userData: Account.UsersLogin = isThere.data![0];
 
         if (!userData.oauthid) {
-          await supabase.from("userslogin").update({ oauthid: profile?.sub });
+          await supabase.from("userslogin").update({ oauthid: profile?.sub }).eq("email", userData.email);
         }
       }
       return true;
     },
     async jwt(params) {
-      let { token } = params;
+      let { token, profile, account } = params;
       let user = params.user as Account.User;
 
-      if (user) {
+      if (account?.provider === "credentials") {
+        if (user) {
+          return {
+            ...token,
+            role: user.role,
+            id: user.id,
+          };
+        }
+      }
+      if (account?.provider === "google") {
+        const isThere = await supabase.from("userslogin").select("*").eq("email", profile?.email);
+        if (!isThere || !isThere.data || isThere.data.length === 0 || !isThere.data[0]) throw new Error("Ooppss. Something error");
+
+        const userData: Account.UsersLogin = isThere.data![0];
         return {
           ...token,
-          role: user.role,
-          id: user.id,
+          username: userData.username,
+          image: userData.image,
+          id: userData.id,
+          role: userData.role,
+          name: userData.name,
+          email: userData.email,
         };
       }
       return token;

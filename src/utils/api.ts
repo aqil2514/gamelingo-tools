@@ -2,6 +2,9 @@ import { supabase } from "@/lib/supabase";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { createTransport } from "nodemailer";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 function verifDataBuilder(email: string) {
   const uid = crypto.randomUUID();
@@ -284,3 +287,17 @@ export const sendMail = {
     });
   },
 };
+
+export async function getUser(): Promise<Account.User | null> {
+  const session = await getServerSession(authOptions);
+
+  if (!session) return null;
+
+  const user = await supabase
+    .from("userslogin")
+    .select("username, email, name, role, id,image")
+    .eq("id", (session?.user as Account.User)?.id);
+  const userData = user!.data![0] as Account.User;
+
+  return userData;
+}

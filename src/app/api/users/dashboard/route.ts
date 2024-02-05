@@ -1,4 +1,3 @@
-import { addVerificationCode, checkEmail, checkUser, checkVerificationCode, deleteVerificationCode, updateUser, updateVerificationCode } from "@/lib/prisma/users";
 import { dashboard } from "@/utils/api";
 import { NextRequest, NextResponse } from "next/server";
 import { createTransport } from "nodemailer";
@@ -12,62 +11,62 @@ const transporter = createTransport({
   },
 });
 
-export async function GET(req: NextRequest) {
-  const url = new URL(req.url);
-  const email: any = url.searchParams.get("email");
+// export async function GET(req: NextRequest) {
+//   const url = new URL(req.url);
+//   const email: any = url.searchParams.get("email");
 
-  const userEmail = await checkEmail(email);
-  if (userEmail.length === 1) {
-    return NextResponse.json({ status: 400, msg: "Email sudah digunakan" });
-  }
+//   const userEmail = await checkEmail(email);
+//   if (userEmail.length === 1) {
+//     return NextResponse.json({ status: 400, msg: "Email sudah digunakan" });
+//   }
 
-  const checkCode = await checkVerificationCode({ email });
-  const code = checkCode.map((item: any) => ({
-    ...item,
-    UID: item.UID.toString(),
-  }));
+//   const checkCode = await checkVerificationCode({ email });
+//   const code = checkCode.map((item: any) => ({
+//     ...item,
+//     UID: item.UID.toString(),
+//   }));
 
-  const uniqeCode = Math.floor(Math.random() * 1000000);
-  const UID = Math.floor(Math.random() * 1000000000000000);
+//   const uniqeCode = Math.floor(Math.random() * 1000000);
+//   const UID = Math.floor(Math.random() * 1000000000000000);
 
-  await new Promise((resolve, reject) => {
-    // verify connection configuration
-    transporter.verify((error, success) => {
-      if (error) {
-        console.log(error);
-        reject(error);
-      } else {
-        console.log("Server is ready to take our messages");
-        resolve(success);
-      }
-    });
-  });
+//   await new Promise((resolve, reject) => {
+//     // verify connection configuration
+//     transporter.verify((error, success) => {
+//       if (error) {
+//         console.log(error);
+//         reject(error);
+//       } else {
+//         console.log("Server is ready to take our messages");
+//         resolve(success);
+//       }
+//     });
+//   });
 
-  const mailData = {
-    from: "clevergaming68@gmail.com",
-    to: email,
-    subject: "Verification Code",
-    html: `<p>This is your verification code <br/> <str>${uniqeCode}</str></p>`,
-  };
+//   const mailData = {
+//     from: "clevergaming68@gmail.com",
+//     to: email,
+//     subject: "Verification Code",
+//     html: `<p>This is your verification code <br/> <str>${uniqeCode}</str></p>`,
+//   };
 
-  await new Promise((resolve, reject) => {
-    transporter.sendMail(mailData, (err, info) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(info);
-      }
-    });
-  });
+//   await new Promise((resolve, reject) => {
+//     transporter.sendMail(mailData, (err, info) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         resolve(info);
+//       }
+//     });
+//   });
 
-  if (code.length === 1) {
-    await updateVerificationCode({ email }, { email, code: uniqeCode, UID });
-  } else if (code.length === 0) {
-    await addVerificationCode({ email, code: uniqeCode, UID });
-  }
+//   if (code.length === 1) {
+//     await updateVerificationCode({ email }, { email, code: uniqeCode, UID });
+//   } else if (code.length === 0) {
+//     await addVerificationCode({ email, code: uniqeCode, UID });
+//   }
 
-  return NextResponse.json({ status: 200, msg: "Kode verifikasi telah dikirim melalui email. Periksa juga folder spam" });
-}
+//   return NextResponse.json({ status: 200, msg: "Kode verifikasi telah dikirim melalui email. Periksa juga folder spam" });
+// }
 
 // export async function PUT(req: NextRequest) {
 //   const { info, infoInit, code } = await req.json();
