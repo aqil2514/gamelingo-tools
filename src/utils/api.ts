@@ -5,17 +5,6 @@ import { createTransport } from "nodemailer";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-interface ResultApi {
-  status: boolean;
-  msg?: string;
-}
-
-interface ResultRefApi {
-  status: boolean;
-  ref?: string;
-  msg?: string;
-}
-
 /** Membuat verifikasi data untuk disimpan ke Database */
 export function verifDataBuilder(email: string) {
   const uid = crypto.randomUUID();
@@ -28,6 +17,25 @@ export function verifDataBuilder(email: string) {
   };
 
   return verifData;
+}
+
+/**
+ * Membuat link untuk pemulihan password
+ */
+export function linkBuilder() {
+  const uid = crypto.randomUUID();
+
+  return uid;
+}
+
+/**
+ * Mengecek dan mengembalikan Base URL
+ */
+export function getBaseUrl() {
+  const isLocal = process.env.NODE_ENV === "development";
+  const baseUrl = isLocal ? "http://localhost:3000" : "https://gamelingo-tools.vercel.app";
+
+  return baseUrl;
 }
 
 const transporter = createTransport({
@@ -43,21 +51,8 @@ const transporter = createTransport({
  * USERS API UTILS
  */
 
-interface AccountResult {
-  status: true;
-  msg: string;
-  UID: string;
-}
-interface RegisterApi {
-  nameValidation: (name: string) => ResultRefApi;
-  usernameValidation: (username: string) => Promise<ResultRefApi>;
-  emailValidation: (email: string) => Promise<ResultRefApi>;
-  passwordValidation: (password: string, confirmPassword: string) => ResultRefApi;
-  addAccount: (username: string, password: string, name: string, email: string) => Promise<AccountResult>;
-}
-
 /** Register API Utils */
-export const register: RegisterApi = {
+export const register: ApiUtils.RegisterApi = {
   nameValidation: (name) => {
     if (!name) {
       return { status: false, ref: "name", msg: "Nama belum diisi" };
@@ -131,20 +126,8 @@ export const register: RegisterApi = {
   },
 };
 
-interface VerifiedResult {
-  status: boolean;
-  UID?: string;
-  msg?: string;
-}
-
-interface LoginApi {
-  usernameValidation: (username: string) => Promise<ResultApi>;
-  passwordValidation: (username: string, password: string) => Promise<ResultApi>;
-  isVerifiedValidation: (username: string) => Promise<VerifiedResult>;
-}
-
 /** Login API Utils*/
-export const login: LoginApi = {
+export const login: ApiUtils.LoginApi = {
   usernameValidation: async (username: string) => {
     if (!username) return { status: false, msg: "Username belum diisi" };
 
@@ -186,15 +169,8 @@ export const login: LoginApi = {
   },
 };
 
-interface DashboardApi {
-  nameValidation: (name: string) => ResultApi;
-  usernameValidation: (username: string, oldUsername: string) => Promise<ResultApi>;
-  emailValidation: (email: string, oldEmail: string) => Promise<ResultApi>;
-  changeHandler: (data: Account.User) => Promise<ResultApi>;
-}
-
 /** Dashboard API Utils */
-export const dashboard: DashboardApi = {
+export const dashboard: ApiUtils.DashboardApi = {
   /** Validasi nama */
   nameValidation: (name) => {
     if (!name) return { status: false, msg: "Nama belum diisi" };
@@ -241,14 +217,10 @@ export const dashboard: DashboardApi = {
   },
 };
 
-interface VerificationApi {
-  generate: () => string;
-  compare: (code: string, email: string, action: "verify-account" | "change-email", newEmail?: string) => Promise<ResultApi>;
-}
 /**
  * Verification API Utils
  */
-export const verification: VerificationApi = {
+export const verification: ApiUtils.VerificationApi = {
   /**
    * Menghasilkan kode unik angka
    * @returns Result berupa kode unik angka sebanyak 6 digit
@@ -319,18 +291,14 @@ export const verification: VerificationApi = {
   },
 };
 
-interface SendmailApi {
-  verification: (email: string, verificationCode: string) => Promise<void>;
-}
-
 /** Sendmail API Utils */
-export const sendMail: SendmailApi = {
+export const sendMail: ApiUtils.SendmailApi = {
   /**
    * Mengirim kode verifikasi ke email
    * @param email - Email tujuan
    * @param verificationCode - Kode yang akan dikirim
    */
-  verification: async (email, verificationCode) => {
+  async verification(email, verificationCode) {
     await new Promise((resolve, reject) => {
       transporter.verify((error, success) => {
         if (error) {
@@ -348,6 +316,38 @@ export const sendMail: SendmailApi = {
       to: email,
       subject: "Email Verification",
       html: `<p>Your Verification Code: ${verificationCode}</p>`,
+    };
+
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailData, (err, info) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          console.log(info);
+          resolve(info);
+        }
+      });
+    });
+  },
+  async purify(email, uniqueLink) {
+    await new Promise((resolve, reject) => {
+      transporter.verify((error, success) => {
+        if (error) {
+          console.log(error);
+          reject(error);
+        } else {
+          console.log("Server is ready to take our messages");
+          resolve(success);
+        }
+      });
+    });
+
+    const mailData = {
+      from: "clevergaming68@gmail.com",
+      to: email,
+      subject: "Reset Password",
+      html: `<p>Click the link to:<br /> <a href="${uniqueLink}"> Purify your Password </a></p>`,
     };
 
     await new Promise((resolve, reject) => {
@@ -380,3 +380,15 @@ export async function getUser() {
   const userData = user.data[0] as Account.User;
   return userData;
 }
+
+export const resetPassword: ApiUtils.ResetPasswordApi = {
+  /**
+   * Konfirmasi email
+   * @param email = Email yang menjadi pemulihan
+   */
+  async checkEmail(email) {
+    const isThere = await supabase.from("userslogin").select("email").eq("email", email);
+    if (!isThere || !isThere.data || isThere.data.length === 0) return { status: false, msg: "Email tidak ditemukan" };
+    return { status: true };
+  },
+};

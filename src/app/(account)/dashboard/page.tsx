@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { getUser } from "@/utils/api";
 import { redirect } from "next/navigation";
-import UserInfo from "./UserInfo";
+import UserData from "./UserData";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -15,7 +15,7 @@ export default async function Dashboard() {
   return (
     <div className="bg-zinc-900 min-h-screen w-full py-20">
       <h1 className=" font-nova-square text-white font-bold text-center text-5xl">Informasi Akun</h1>
-      <UserInfo data={userData} />
+      <UserData data={userData} />
     </div>
   );
 }

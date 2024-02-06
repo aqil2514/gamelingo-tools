@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 
 export default function ResetPassword() {
   return (
-    <div className="bg-zinc-900 min-h-screen w-full">
-      <h1 className="mt-20 font-nova-square text-white font-bold text-center text-5xl">Lupa Password</h1>
+    <div className="bg-zinc-900 min-h-screen py-20 w-full">
+      <h1 className="font-nova-square text-white font-bold text-center text-5xl">Lupa Password</h1>
       <ResetForm />
     </div>
   );
