@@ -1,8 +1,8 @@
 import React from "react";
 import { DataState, INITIAL_STATE, StateAction, reducer } from "./reducer";
 import BasicInfo from "./BasicInfo";
-import Buttons from "./Buttons";
 import PopupEmail from "./PopupEmail";
+import PasswordManage from "./PasswordSection";
 
 interface DashboardProps {
   data: Account.User;
@@ -24,9 +24,9 @@ export default function Dashboard({ data }: DashboardProps) {
 
   return (
     <DashboardContext.Provider value={{ state, dispatch }}>
-      <BasicInfo />
-      <Buttons />
+      {!state.passwordSection && <BasicInfo />}
       {state.popUpActive && <PopupEmail />}
+      {state.passwordSection && <PasswordManage />}
     </DashboardContext.Provider>
   );
 }

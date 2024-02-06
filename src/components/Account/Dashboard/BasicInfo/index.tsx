@@ -1,8 +1,9 @@
 import React from "react";
-import { useDashboardData } from ".";
-import { StateActionKind } from "./reducer";
+import { useDashboardData } from "..";
+import { StateActionKind } from "../reducer";
 import { Input, VariantClass } from "@/components/general/Input";
-import { mainRoleData } from "../Data";
+import { mainRoleData } from "../../Data";
+import Buttons from "./Buttons";
 
 export default function BasicInfo() {
   const { state, dispatch } = useDashboardData();
@@ -49,6 +50,7 @@ export default function BasicInfo() {
           <option value={role} key={role} />
         ))}
       </datalist>
+      <Buttons />
     </>
   );
 }

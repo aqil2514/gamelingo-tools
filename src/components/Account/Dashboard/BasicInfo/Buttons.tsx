@@ -1,6 +1,6 @@
 import axios, { isAxiosError } from "axios";
-import { useDashboardData } from ".";
-import { StateActionKind } from "./reducer";
+import { useDashboardData } from "..";
+import { StateActionKind } from "../reducer";
 import React from "react";
 import { useRouter } from "next/navigation";
 
@@ -86,6 +86,15 @@ export default function Buttons() {
           className="hover:bg-green-400 disabled:bg-green-50 bg-green-800 px-6 py-2 block font-poppins my-4 mx-2 font-bold text-white hover:text-black disabled:text-black text-base rounded-xl"
         >
           {state.isEditing ? "Editing..." : "Konfirmasi"}
+        </button>
+      )}
+      {!state.editMode && (
+        <button
+          className="hover:bg-blue-400 disabled:bg-blue-50 bg-blue-800 px-6 py-2 block font-poppins my-4 mx-2 font-bold text-white hover:text-black disabled:text-black text-base rounded-xl"
+          disabled={state.isEditing}
+          onClick={() => dispatch({ type: StateActionKind.SHOW_PASSWORD_SECTION })}
+        >
+          Ganti Password
         </button>
       )}
     </div>
