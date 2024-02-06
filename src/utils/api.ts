@@ -16,7 +16,8 @@ interface ResultRefApi {
   msg?: string;
 }
 
-function verifDataBuilder(email: string) {
+/** Membuat verifikasi data untuk disimpan ke Database */
+export function verifDataBuilder(email: string) {
   const uid = crypto.randomUUID();
   const verificationCode = verification.generate();
 
@@ -242,7 +243,7 @@ export const dashboard: DashboardApi = {
 
 interface VerificationApi {
   generate: () => string;
-  compare: (code: string, email: string) => Promise<ResultApi>;
+  compare: (code: string, email: string, action: "verify-account" | "change-email", newEmail?: string) => Promise<ResultApi>;
 }
 /**
  * Verification API Utils
@@ -267,14 +268,13 @@ export const verification: VerificationApi = {
    * Komparasi kode
    * @param code - kode yang diinput
    * @param email - email yang digunakan
+   * @param action = aksi yang digunakan
+   * @param newEmail = email tambahan
    * @returns Hasil
    */
-  compare: async (code, email) => {
-    const isNumber = z.number();
-
-    try {
-      isNumber.parse(Number(code));
-    } catch (error) {
+  compare: async (code, email, action, newEmail) => {
+    // Periksa apakah 'code' adalah angka
+    if (isNaN(Number(code))) {
       return { status: false, msg: "Format kode harus angka" };
     }
 
@@ -296,14 +296,26 @@ export const verification: VerificationApi = {
     const createdDateUTC = createdDate.getTime();
 
     if (currentTimeUTC > createdDateUTC + 5 * 60 * 1000) {
+      //Hapus semua kode yang sudah kadaluarsa
+      await supabase.from("verificationcode").delete().eq("code", code);
       return { status: false, msg: "Kode sudah kadaluarsa" };
     }
 
-    await supabase.from("userslogin").update({ account_verified: true }).eq("email", email);
+    if (action === "verify-account") {
+      await supabase.from("userslogin").update({ account_verified: true }).eq("email", email);
 
-    await supabase.from("verificationcode").delete().eq("email", email);
+      await supabase.from("verificationcode").delete().eq("email", email);
 
-    return { status: true, msg: "Akun berhasil diverifikasi, silahkan login" };
+      return { status: true, msg: "Akun berhasil diverifikasi! Silahkan login!" };
+    } else if (action === "change-email") {
+      await supabase.from("userslogin").update({ email }).eq("email", newEmail);
+
+      await supabase.from("verificationcode").delete().eq("email", email);
+
+      return { status: true, msg: "Email berhasil diganti!" };
+    }
+
+    return { status: true };
   },
 };
 
@@ -353,16 +365,18 @@ export const sendMail: SendmailApi = {
 };
 
 /** Mendapatkan user dari server */
-export async function getUser(): Promise<Account.User | null> {
+export async function getUser() {
   const session = await getServerSession(authOptions);
 
   if (!session) return null;
 
   const user = await supabase
     .from("userslogin")
-    .select("username, email, name, role, id,image")
+    .select("username, email, name, role, id, image")
     .eq("id", (session?.user as Account.User)?.id);
-  const userData = user!.data![0] as Account.User;
 
+  if (!user || !user.data || !user.data[0]) return null;
+
+  const userData = user.data[0] as Account.User;
   return userData;
 }

@@ -71,6 +71,7 @@ export default function Verification({ initData }: { initData: Account.VerifCode
       const res = await axios.post("/api/users/verify", {
         code: (document.getElementById("code") as HTMLInputElement).value,
         email: initData.email,
+        action: "verify-account",
       });
 
       const pElement = document.createElement("p");

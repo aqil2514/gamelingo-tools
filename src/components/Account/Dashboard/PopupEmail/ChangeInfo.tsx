@@ -12,6 +12,7 @@ export default function ChangeInfo() {
         <strong>Email Baru : </strong>
         {state.data.email}
       </p>
+      <p className="text-white font-poppins my-2">Kode verifikasi telah dikirim ke {state.data.email}</p>
     </div>
   );
 }
