@@ -1,5 +1,6 @@
 "use client";
 import axios, { isAxiosError } from "axios";
+import type { Route } from "next";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { Google } from "react-bootstrap-icons";
@@ -9,17 +10,18 @@ import { notif } from "@/utils/fe";
 
 export default function LoginForm() {
   const router = useRouter();
-  const [loading, setLoading] = useState<false | true>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const url: Route = "/api/users";
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
       setLoading(true);
-      const res = await axios.post("/api/users", {
+      const res = await axios.post(url, {
         username: (document.getElementById("username") as HTMLInputElement)?.value,
         password: (document.getElementById("password") as HTMLInputElement)?.value,
         typeAction: "login",
-      });
+      } as Route.Request.Users);
 
       if (res.status === 200) {
         const username = (document.getElementById("username") as HTMLInputElement)?.value;

@@ -12,5 +12,6 @@
       "name": "postgres",
       "connectString": "postgres://postgres.remuamjdesbkqkxqewlc:9MYvByepZ7c38RyD@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres"
     }
-  ]
+  ],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
