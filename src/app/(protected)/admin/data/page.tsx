@@ -1,3 +1,4 @@
+import AdminData from "@/components/Admin/Data";
 import { Metadata } from "next";
 
 type SearchParamsProps = AccountRoutes | EvertaleRoutes;
@@ -24,6 +25,8 @@ const subFieldTitle: Record<string, string> = {
   chars: "Characters",
   leaderskills: "Leader Skills",
   weapons: "Weapons",
+  passives: "Passive Skills",
+  typeskills: "Type Skills",
 };
 
 export function generateMetadata({ searchParams }: { searchParams: SearchParamsProps }): Metadata {
@@ -32,12 +35,13 @@ export function generateMetadata({ searchParams }: { searchParams: SearchParamsP
   };
 }
 
-export default function AdminData({ searchParams }: { searchParams: SearchParamsProps }) {
+export default function Data({ searchParams }: { searchParams: SearchParamsProps }) {
   return (
     <div className="py-20">
       <h1 className="font-nova-square text-white font-bold text-center text-5xl capitalize">
         {fieldTitle[searchParams.field]} : {subFieldTitle[searchParams.subfield]}
       </h1>
+      <AdminData field={searchParams.field} subfield={searchParams.subfield} />
     </div>
   );
 }
