@@ -1,8 +1,10 @@
+import type { Route } from "next";
+
 interface homeIconsType {
   id: string;
   name: string;
   imgLoc: string;
-  url: string;
+  url: Route;
 }
 
 export const homeIcon: homeIconsType[] = [
