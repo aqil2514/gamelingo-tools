@@ -1,12 +1,14 @@
 import { imageLoader } from "@/lib/utils";
+import { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ListState } from ".";
 
 interface GridState {
   data: General.Post[];
-  title: string;
-  path: string;
-  sort: string;
+  title: ListState["subListBy"];
+  path: "chars" | "weapons";
+  sort: ListState["listBy"];
 }
 
 const GridList = ({ data, title, path, sort }: GridState) => {
@@ -16,10 +18,11 @@ const GridList = ({ data, title, path, sort }: GridState) => {
   } else if (path === "weapons") {
     category = "Weapon";
   }
+
   return (
     <div className="px-0">
       <h1 className="text-base lg:text-2xl text-start font-bold font-merienda text-white mt-4">
-        <Link href={`/evertale/${path}/${sort}/${title}`}>
+        <Link href={`/evertale/${path}/${sort}/${title}` as Route}>
           <span className="capitalize">{title}</span> {category}
         </Link>
       </h1>

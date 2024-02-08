@@ -5,10 +5,9 @@ import useSWR from "swr";
 import GridList from "./GridList";
 import ScrollList from "./ScrollList";
 
-interface ListState {
+export interface ListState {
   listBy: "element" | "team" | "weapon" | "type";
   subListBy:
-    | string
     | "fire"
     | "water"
     | "light"
