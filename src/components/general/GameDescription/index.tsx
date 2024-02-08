@@ -1,5 +1,5 @@
 interface GameDescriptionState {
-  game: "Evertale" | "GenshinImpact" | "MobileLegends";
+  game: "Evertale" | "Genshin Impact" | "MobileLegends";
 }
 
 interface DataGameTypes {
@@ -12,12 +12,17 @@ const dataGame: DataGameTypes[] = [
     gameName: "Evertale",
     gameSub: "Explore sprawling landscapes, bustling cities, and mythical dungeons in this expansive open-world RPG!",
   },
+  {
+    gameName: "Genshin Impact",
+    gameSub: "Step Into a Vast Magical World of Adventure",
+  },
 ];
 
 export default function GameDescription({ game }: GameDescriptionState) {
   const data = dataGame.find((g) => g.gameName === game);
   if (!data) throw new Error("Data tidak ada");
   if (game === "Evertale") return <EvertaleDescription data={data} />;
+  else if (game ==="Genshin Impact") return <GenshinImpactDescription data={data}/>
 }
 
 function EvertaleDescription({ data }: { data: DataGameTypes }) {
@@ -27,4 +32,14 @@ function EvertaleDescription({ data }: { data: DataGameTypes }) {
       <p className="text-center text-white font-bold text-xs md:text-lg font-mclaren mb-2">{data?.gameSub}</p>
     </>
   );
+}
+
+function GenshinImpactDescription({data} : {data:DataGameTypes}){
+  return (
+    <>
+      <h1 className="text-center text-white font-bold text-2xl md:text-5xl font-merienda mb-2">{data?.gameName}</h1>
+      <p className="text-center text-white font-bold text-xs md:text-lg font-mclaren mb-2">{data?.gameSub}</p>
+    </>
+  );
+
 }
