@@ -1,4 +1,5 @@
 import { imageLoader } from "@/lib/utils";
+import { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -21,7 +22,7 @@ const EvertaleResult = ({ data, path, category }: ResultState) => {
             <Image loader={imageLoader} src={d?.image} fill sizes="auto" alt={d?.name} className="rounded-xl object-cover" />
           </div>
           <figcaption className="text-white font-poppins text-center text-sm mt-4">{d?.name}</figcaption>
-          <Link href={`/evertale/${path}/${d?.id}`} className="my-4">
+          <Link href={`/evertale/${path}/${d?.id}` as Route} className="my-4">
             <button className="block mx-auto px-2 py-2 bg-lime-700 rounded-xl text-white font-poppins text-sm">Lihat {category}</button>
           </Link>
         </figure>

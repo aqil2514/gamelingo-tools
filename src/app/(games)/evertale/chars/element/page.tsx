@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import List from "@/components/Evertale/List";
+import List, { ListState } from "@/components/Evertale/List";
 
 export const metadata: Metadata = {
   title: "Character Element",
@@ -14,7 +14,7 @@ export default function CharElement() {
     <div className={"main-wrapper py-20 px-8"}>
       <List listBy="element" subListBy="fire" type="chars" key={`element-character-fire`} limit={9} loadingAnimation textOn text="Loading..." />
       {element.map((el, i: number) => (
-        <List listBy="element" subListBy={el} type="chars" key={`element-character-${i++}`} limit={9} />
+        <List listBy="element" subListBy={el as ListState["subListBy"]} type="chars" key={`element-character-${i++}`} limit={9} />
       ))}
     </div>
   );

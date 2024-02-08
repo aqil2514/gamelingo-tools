@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import List from "@/components/Evertale/List";
+import List, { ListState } from "@/components/Evertale/List";
 
 export const metadata: Metadata = {
   title: "Character Team",
@@ -13,7 +13,7 @@ export default function CharTeam() {
     <div className={"main-wrapper py-20 px-8"}>
       <List listBy="team" subListBy="Blood Team" type="chars" key={`character-blood-team`} limit={9} text="Loading..." textOn loadingAnimation />
       {team.map((el: string, i: number) => (
-        <List listBy="team" subListBy={el} type="chars" key={`character-team-${i++}`} limit={9} />
+        <List listBy="team" subListBy={el as ListState["subListBy"]} type="chars" key={`character-team-${i++}`} limit={9} />
       ))}
       ;
     </div>
