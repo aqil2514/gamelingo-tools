@@ -93,6 +93,7 @@ namespace Evertale {
   }
   namespace Weapon {
     export interface State {
+      _id?: string;
       weapImage: { png: string; webp: string };
       weapName: string;
       weapRank: "SSR" | "SR" | "R" | "N" | "Weap Rank";
@@ -110,6 +111,9 @@ namespace Evertale {
       weapLore?: WeapLore;
       weapAscend?: Ascend;
       weapMax?: WeapMax;
+      createdAt?: string;
+      updatedAt?: string;
+      __v?: number;
     }
 
     export interface WeapLore {
@@ -167,16 +171,34 @@ namespace Evertale {
   }
   namespace Misc {
     export interface TypeSkill {
+      _id?: string;
       typeLeaderSkill: string[];
       typePassiveSkill: string[];
       typeActiveSkill: string[];
       typeCharTeam: string[];
+      __v?: number;
     }
+
     export interface LeaderSkill {
+      _id?: string;
       name: string;
       descEn: string;
       descId: string;
       typeSkill: string;
+      createdAt: string;
+      updatedAt: string;
+      __v: number;
+    }
+
+    export interface PassiveSkill {
+      _id?: string;
+      skillName: string;
+      typeSkill: string;
+      skillDescEn: string;
+      skillDescId: string;
+      createdAt?: string;
+      updatedAt?: string;
+      __v?: number;
     }
   }
 }

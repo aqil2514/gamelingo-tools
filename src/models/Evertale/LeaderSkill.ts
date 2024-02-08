@@ -1,13 +1,6 @@
 import { Schema, default as mongoose } from "mongoose";
 
-interface LeaderSkill {
-  name: String;
-  descEn: String;
-  descId: String;
-  typeSkill: String;
-}
-
-const leaderSkillSchema = new Schema<LeaderSkill>(
+const leaderSkillSchema = new Schema<Evertale.Misc.LeaderSkill>(
   {
     name: { type: String, required: true },
     descEn: { type: String, required: true },

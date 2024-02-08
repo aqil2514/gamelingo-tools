@@ -2,6 +2,8 @@ import connectMongoDB from "@/lib/mongoose";
 import { supabase } from "@/lib/supabase";
 import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
+import PassiveSkill from "@/models/Evertale/PassiveSkill";
+import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { Weapon } from "@/models/Evertale/Weapons";
 import { admin } from "@/utils/api";
 import { NextRequest, NextResponse } from "next/server";
@@ -33,6 +35,8 @@ export async function GET(req: NextRequest) {
     if (subfield === "chars") data = await admin.getEvertaleCharacter();
     else if (subfield === "weapons") data = await Weapon.find();
     else if (subfield === "leaderskills") data = await LeaderSkill.find();
+    else if (subfield === "typeskills") data = await TypeSkill.find();
+    else if (subfield === "passives") data = await PassiveSkill.find();
 
     return NextResponse.json({ data }, { status: 200 });
   }
