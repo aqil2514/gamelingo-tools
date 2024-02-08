@@ -4,6 +4,9 @@ import bcrypt from "bcrypt";
 import { createTransport } from "nodemailer";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./authoptions";
+import connectMongoDB from "@/lib/mongoose";
+import Character from "@/models/Evertale/Characters";
+import { Route } from "next";
 
 /** Membuat verifikasi data untuk disimpan ke Database */
 export function verifDataBuilder(email: string) {
@@ -33,7 +36,9 @@ export function linkBuilder() {
  */
 export function getBaseUrl() {
   const isLocal = process.env.NODE_ENV === "development";
-  const baseUrl = isLocal ? "http://localhost:3000" : "https://gamelingo-tools.vercel.app";
+  const baseUrl = isLocal
+    ? "http://localhost:3000"
+    : "https://gamelingo-tools.vercel.app";
 
   return baseUrl;
 }
@@ -64,12 +69,23 @@ export const register: ApiUtils.RegisterApi = {
       return { status: false, ref: "username", msg: "Username belum diisi" };
     }
     if (username.length <= 7) {
-      return { status: false, ref: "username", msg: "Username kurang dari 8 karakter" };
+      return {
+        status: false,
+        ref: "username",
+        msg: "Username kurang dari 8 karakter",
+      };
     }
 
-    const isThere = await supabase.from("userslogin").select("*").like("username", username);
+    const isThere = await supabase
+      .from("userslogin")
+      .select("*")
+      .like("username", username);
     if (isThere.data?.length !== 0) {
-      return { status: false, ref: "username", msg: "Username Telah digunakan" };
+      return {
+        status: false,
+        ref: "username",
+        msg: "Username Telah digunakan",
+      };
     }
 
     return { status: true };
@@ -83,18 +99,30 @@ export const register: ApiUtils.RegisterApi = {
       return { status: false, ref: "email", msg: "Email tidak valid" };
     }
 
-    const isThere = await supabase.from("userslogin").select("*").like("email", email);
-    if (isThere.data?.length !== 0) return { status: false, ref: "email", msg: "Email telah digunakan" };
+    const isThere = await supabase
+      .from("userslogin")
+      .select("*")
+      .like("email", email);
+    if (isThere.data?.length !== 0)
+      return { status: false, ref: "email", msg: "Email telah digunakan" };
 
     return { status: true };
   },
   passwordValidation: (password, confirmPassword) => {
     const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)\w{7,20}$/;
     if (!password.match(regex)) {
-      return { status: false, ref: "password", msg: "Password tidak sesuai dengan aturan" };
+      return {
+        status: false,
+        ref: "password",
+        msg: "Password tidak sesuai dengan aturan",
+      };
     }
     if (password !== confirmPassword) {
-      return { status: false, ref: "confirm-password", msg: "Password tidak sama" };
+      return {
+        status: false,
+        ref: "confirm-password",
+        msg: "Password tidak sama",
+      };
     }
 
     return { status: true };
@@ -119,7 +147,11 @@ export const register: ApiUtils.RegisterApi = {
 
       await sendMail.verification(email, verifData.code);
 
-      return { status: true, msg: "Akun berhasil ditambah", UID: verifData.uid };
+      return {
+        status: true,
+        msg: "Akun berhasil ditambah",
+        UID: verifData.uid,
+      };
     } catch (error) {
       throw error;
     }
@@ -131,7 +163,10 @@ export const login: ApiUtils.LoginApi = {
   usernameValidation: async (username: string) => {
     if (!username) return { status: false, msg: "Username belum diisi" };
 
-    const isThere = await supabase.from("userslogin").select("*").eq("username", username);
+    const isThere = await supabase
+      .from("userslogin")
+      .select("*")
+      .eq("username", username);
     if (!isThere || !isThere.data || isThere.data?.length === 0) {
       return { status: false, msg: "Username tidak tersedia" };
     }
@@ -141,28 +176,47 @@ export const login: ApiUtils.LoginApi = {
   passwordValidation: async (username: string, password: string) => {
     if (!password) return { status: false, msg: "Password belum diisi" };
 
-    const isThere = await supabase.from("userslogin").select("*").eq("username", username);
+    const isThere = await supabase
+      .from("userslogin")
+      .select("*")
+      .eq("username", username);
     if (!isThere || !isThere.data || isThere.data?.length === 0) {
       return { status: false, msg: "Username tidak tersedia" };
     }
 
-    const passwordCompared = await bcrypt.compare(password, isThere.data[0].password);
+    const passwordCompared = await bcrypt.compare(
+      password,
+      isThere.data[0].password
+    );
     if (!passwordCompared) return { status: false, msg: "Password salah" };
 
     return { status: true };
   },
   isVerifiedValidation: async (username: string) => {
-    const isVerified = await supabase.from("userslogin").select("*").eq("username", username);
+    const isVerified = await supabase
+      .from("userslogin")
+      .select("*")
+      .eq("username", username);
 
-    if (!isVerified || !isVerified.data || isVerified.data.length === 0) throw new Error("Data tidak ada");
+    if (!isVerified || !isVerified.data || isVerified.data.length === 0)
+      throw new Error("Data tidak ada");
     const userData: Account.UsersLogin = isVerified.data[0];
 
     if (!userData.account_verified) {
-      const verification = await supabase.from("verificationcode").select("*").eq("email", userData.email);
-      if (!verification || !verification.data || verification.data.length === 0) throw new Error("Data tidak ada");
+      const verification = await supabase
+        .from("verificationcode")
+        .select("*")
+        .eq("email", userData.email);
+      if (!verification || !verification.data || verification.data.length === 0)
+        throw new Error("Data tidak ada");
       const verifCodeData: Account.VerifCode = verification.data[0];
 
-      if (!userData.account_verified) return { status: false, UID: verifCodeData.uid, msg: "Aku belum diverifikasi, verifikasi sekarang?" };
+      if (!userData.account_verified)
+        return {
+          status: false,
+          UID: verifCodeData.uid,
+          msg: "Aku belum diverifikasi, verifikasi sekarang?",
+        };
     }
 
     return { status: true };
@@ -181,10 +235,18 @@ export const dashboard: ApiUtils.DashboardApi = {
   usernameValidation: async (username, oldUsername) => {
     if (!username) return { status: false, msg: "Username belum diisi" };
 
-    if (username.length <= 7) return { status: false, msg: "Username kurang dari 8 karakter" };
+    if (username.length <= 7)
+      return { status: false, msg: "Username kurang dari 8 karakter" };
 
-    const isDupplicate = await supabase.from("userslogin").select("username").eq("username", username);
-    if (isDupplicate.data?.length !== 0 && isDupplicate!.data![0].username !== oldUsername) return { status: false, msg: "Username telah digunakan" };
+    const isDupplicate = await supabase
+      .from("userslogin")
+      .select("username")
+      .eq("username", username);
+    if (
+      isDupplicate.data?.length !== 0 &&
+      isDupplicate!.data![0].username !== oldUsername
+    )
+      return { status: false, msg: "Username telah digunakan" };
 
     return { status: true };
   },
@@ -200,8 +262,15 @@ export const dashboard: ApiUtils.DashboardApi = {
       return { status: false, ref: "email", msg: "Email tidak valid" };
     }
 
-    const isDupplicate = await supabase.from("userslogin").select("email").like("email", email);
-    if (isDupplicate.data?.length !== 0 && isDupplicate!.data![0].email !== oldEmail) return { status: false, ref: "email", msg: "Email telah digunakan" };
+    const isDupplicate = await supabase
+      .from("userslogin")
+      .select("email")
+      .like("email", email);
+    if (
+      isDupplicate.data?.length !== 0 &&
+      isDupplicate!.data![0].email !== oldEmail
+    )
+      return { status: false, ref: "email", msg: "Email telah digunakan" };
 
     return { status: true };
   },
@@ -250,12 +319,21 @@ export const verification: ApiUtils.VerificationApi = {
       return { status: false, msg: "Format kode harus angka" };
     }
 
-    const isThere = await supabase.from("verificationcode").select("*").eq("email", email);
+    const isThere = await supabase
+      .from("verificationcode")
+      .select("*")
+      .eq("email", email);
     if (!isThere || !isThere.data || isThere.data.length === 0) {
-      return { status: false, msg: "Kode tidak tersedia atau sudah kadaluarsa" };
+      return {
+        status: false,
+        msg: "Kode tidak tersedia atau sudah kadaluarsa",
+      };
     }
 
-    const isSame = await supabase.from("verificationcode").select("*").eq("code", code);
+    const isSame = await supabase
+      .from("verificationcode")
+      .select("*")
+      .eq("code", code);
     if (!isSame || !isSame.data || isSame.data.length === 0) {
       return { status: false, msg: "Kode verifikasi salah" };
     }
@@ -274,11 +352,17 @@ export const verification: ApiUtils.VerificationApi = {
     }
 
     if (action === "verify-account") {
-      await supabase.from("userslogin").update({ account_verified: true }).eq("email", email);
+      await supabase
+        .from("userslogin")
+        .update({ account_verified: true })
+        .eq("email", email);
 
       await supabase.from("verificationcode").delete().eq("email", email);
 
-      return { status: true, msg: "Akun berhasil diverifikasi! Silahkan login!" };
+      return {
+        status: true,
+        msg: "Akun berhasil diverifikasi! Silahkan login!",
+      };
     } else if (action === "change-email") {
       await supabase.from("userslogin").update({ email }).eq("email", newEmail);
 
@@ -387,33 +471,52 @@ export const resetPassword: ApiUtils.ResetPasswordApi = {
    * @param email = Email yang menjadi pemulihan
    */
   async checkEmail(email) {
-    const isThere = await supabase.from("userslogin").select("email").eq("email", email);
-    if (!isThere || !isThere.data || isThere.data.length === 0) return { status: false, msg: "Email tidak ditemukan" };
+    const isThere = await supabase
+      .from("userslogin")
+      .select("email")
+      .eq("email", email);
+    if (!isThere || !isThere.data || isThere.data.length === 0)
+      return { status: false, msg: "Email tidak ditemukan" };
     return { status: true };
   },
 };
 
-// Admin API UTILS 
+// Admin API UTILS
 
-export const admin:ApiUtils.AdminApi= {
+export const admin: ApiUtils.AdminApi = {
   async getUser() {
     const res = await supabase.from("userslogin").select("*");
 
-      if (!res || !res.data || res.data.length === 0) return null;
+    if (!res || !res.data || res.data.length === 0) return null;
 
-      const resData = res.data;
-      const data = resData.map((d: Account.UsersLogin) => ({
-        id: d.id,
-        oauthid: d.oauthid,
-        image: d.image,
-        name: d.name,
-        username: d.username,
-        email: d.email,
-        role: d.role,
-        account_verified: d.account_verified,
-        createdat: d.createdAt,
-      }));
+    const resData = res.data;
+    const data = resData.map((d: Account.UsersLogin) => ({
+      id: d.id,
+      oauthid: d.oauthid,
+      image: d.image,
+      name: d.name,
+      username: d.username,
+      email: d.email,
+      role: d.role,
+      account_verified: d.account_verified,
+      createdat: d.createdAt,
+    }));
 
-      return data;
+    return data;
   },
-}
+  async getEvertaleCharacter() {
+    await connectMongoDB();
+
+    const characters: Evertale.Character.State[] = await Character.find();
+
+    if (!characters || characters.length === 0) return null;
+
+    const data: Evertale.Character.QuickInfo[] = characters.map((char) => ({
+      id: char._id as string,
+      name: char.charStatus.charName,
+      link: `/evertale/chars/${char._id as string}` as Route,
+    }));
+
+    return data;
+  },
+};

@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
     let data;
     await connectMongoDB();
 
-    if (subfield === "chars") data = await Character.find();
+    if (subfield === "chars") data = await admin.getEvertaleCharacter();
     else if (subfield === "weapons") data = await Weapon.find();
     else if (subfield === "leaderskills") data = await LeaderSkill.find();
 

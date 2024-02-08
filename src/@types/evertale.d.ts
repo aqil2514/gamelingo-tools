@@ -6,6 +6,7 @@ namespace Evertale {
       f3Img?: string;
     }
     export interface State {
+      _id?: string;
       charStatus: CharacterStatus;
       charIntro: CharacterIntro;
       charImage: CharacterImage;
@@ -35,8 +36,26 @@ namespace Evertale {
       charRank: "SSR" | "SR" | "R" | "N";
       charElement: "Dark" | "Light" | "Earth" | "Fire" | "Storm" | "Water";
       charTeam: string[];
-      charWeapon1: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
-      charWeapon2?: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
+      charWeapon1:
+        | "Sword"
+        | "Axe"
+        | "Staff"
+        | "Mace"
+        | "GreatSword"
+        | "GreatAxe"
+        | "Spear"
+        | "Hammer"
+        | "Katana";
+      charWeapon2?:
+        | "Sword"
+        | "Axe"
+        | "Staff"
+        | "Mace"
+        | "GreatSword"
+        | "GreatAxe"
+        | "Spear"
+        | "Hammer"
+        | "Katana";
       charLeaderSkill?: string;
       isConjured: boolean | string;
       charConjure?: string;
@@ -65,13 +84,29 @@ namespace Evertale {
       skillDescEn: string;
       skillDescId: string;
     }
+
+    export interface QuickInfo {
+      id: string;
+      name: string;
+      link: Route;
+    }
   }
   namespace Weapon {
     export interface State {
       weapImage: { png: string; webp: string };
       weapName: string;
       weapRank: "SSR" | "SR" | "R" | "N" | "Weap Rank";
-      weapType: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana" | "Weap Type";
+      weapType:
+        | "Sword"
+        | "Axe"
+        | "Staff"
+        | "Mace"
+        | "GreatSword"
+        | "GreatAxe"
+        | "Spear"
+        | "Hammer"
+        | "Katana"
+        | "Weap Type";
       weapLore?: WeapLore;
       weapAscend?: Ascend;
       weapMax?: WeapMax;

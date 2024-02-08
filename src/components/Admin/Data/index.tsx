@@ -5,6 +5,7 @@ import Loading from "@/components/general/Loading";
 import { Route } from "next";
 import useSWR from "swr";
 import AccountData from "./Account";
+import EvertaleData from "./Evertale";
 
 const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 export default function AdminData({ field, subfield }: { field: string; subfield: string }) {
@@ -16,9 +17,5 @@ export default function AdminData({ field, subfield }: { field: string; subfield
   if (error) return <Error />;
 
   if(field === "account") return <AccountData subfield={subfield} data={data.data} />
-  return (
-    <>
-      <h1>data here...</h1>
-    </>
-  );
+  if(field ==="evertale") return <EvertaleData subfield={subfield} data={data.data}/>
 }
