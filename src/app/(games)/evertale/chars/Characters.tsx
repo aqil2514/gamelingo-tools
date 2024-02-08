@@ -1,6 +1,6 @@
 "use client";
 
-import List from "@/components/Evertale/List";
+import List, { ListState } from "@/components/Evertale/List";
 import { Option } from "@/components/general/Option";
 import { useState } from "react";
 
@@ -38,7 +38,7 @@ const CharWeapon = () => {
     <>
       <List listBy="weapon" subListBy="Sword" type="chars" key={`weapon-team-sword`} limit={9} loadingAnimation />
       {weapon.map((el, i: number) => (
-        <List listBy="weapon" subListBy={el} type="chars" key={`weapon-team-${i++}`} limit={9} />
+        <List listBy="weapon" subListBy={el as ListState["subListBy"]} type="chars" key={`weapon-team-${i++}`} limit={9} />
       ))}
     </>
   );
@@ -49,7 +49,7 @@ const CharElement = () => {
     <>
       <List listBy="element" subListBy="fire" type="chars" key={`element-character-fire`} limit={9} loadingAnimation />
       {element.map((el, i: number) => (
-        <List listBy="element" subListBy={el} type="chars" key={`element-character-${i++}`} limit={9} />
+        <List listBy="element" subListBy={el as ListState["subListBy"]} type="chars" key={`element-character-${i++}`} limit={9} />
       ))}
     </>
   );
@@ -60,7 +60,7 @@ const CharTeam = () => {
     <>
       <List listBy="team" subListBy="Blood Team" type="chars" key={`character-blood-team`} limit={9} loadingAnimation />
       {team.map((el, i: number) => (
-        <List listBy="team" subListBy={el} type="chars" key={`character-team-${i++}`} limit={9} />
+        <List listBy="team" subListBy={el as ListState["subListBy"]} type="chars" key={`character-team-${i++}`} limit={9} />
       ))}
     </>
   );
