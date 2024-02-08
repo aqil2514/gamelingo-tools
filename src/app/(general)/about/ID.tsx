@@ -33,12 +33,7 @@ export default function IndonesianSection() {
           <h1 className="font-semibold text-lg font-merienda my-4">Ingin kontribusi?</h1>
           <p>Jika Anda ingin berkontribusi, silahkan hubungi admin melalui email clevergaming68@gmail.com</p>
           <h1 className="font-semibold text-lg font-merienda my-4">Tertarik ingin donasi?</h1>
-          <p>
-            Dengan adanya bantuan finansial dari para pengunjung, tentu saja perkembangan web akan semakin signifikan dan semakin cepat. Anda bisa mengirim donasi melalui Dana.
-            <ul>
-              <li>Dana : 081779174118 (Muhamad Aqil Maulana)</li>
-            </ul>
-          </p>
+          <Link href={"https://saweria.co/gamelingotools"} className="underline" target="_blank">Donasi Sekarang!</Link>
           <h1 className="font-semibold text-lg font-merienda my-4 text-center">Terimakasih telah membaca ^_^. Selamat menjelajahi situs.</h1>
         </article>
       </div>
