@@ -77,4 +77,22 @@ namespace GenshinImpact {
     gainedFrom?: string[];
     image?: string;
   }
+
+  export interface Artifact {
+    _id?: string;
+    name: string;
+    type:
+      | "Flower of Life"
+      | "Plume of Death"
+      | "Sands of Eon"
+      | "Goblet of Eonothem"
+      | "Circlet of Logos";
+    set: string;
+    setBonus: {
+      setName?: string;
+      setValue?: string;
+    }[];
+    rarity: string[];
+    source: string;
+  }
 }
