@@ -1,6 +1,6 @@
 import { DIV_MAIN_STYLE } from "@/components/Styles";
 import { Metadata } from "next";
-import List from "@/components/Evertale/List";
+import List, { ListState } from "@/components/Evertale/List";
 
 type Props = {
   params: { charWeapon: string };
@@ -33,7 +33,7 @@ export default async function CharWeapon({ params }: Props) {
 
   return (
     <div className={"main-wrapper py-20 px-8"}>
-      <List listBy="weapon" subListBy={query} type="chars" key={`element-character-${query}`} loadingAnimation textOn text="Loading..." isGrid />
+      <List listBy="weapon" subListBy={query as ListState["subListBy"]} type="chars" key={`element-character-${query}`} loadingAnimation textOn text="Loading..." isGrid />
     </div>
   );
 }

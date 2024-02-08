@@ -1,6 +1,6 @@
 import { DIV_MAIN_STYLE } from "@/components/Styles";
 import { Metadata } from "next";
-import List from "@/components/Evertale/List";
+import List, { ListState } from "@/components/Evertale/List";
 
 type Props = {
   params: { weapType: string };
@@ -35,7 +35,7 @@ export default async function WeaponType({ params }: Props) {
 
   return (
     <div className={"main-wrapper py-20 px-8"}>
-      <List listBy="type" subListBy={query} type="weapons" key={`weapon-${query}`} loadingAnimation textOn text="Loading..." isGrid />
+      <List listBy="type" subListBy={query as ListState["subListBy"]} type="weapons" key={`weapon-${query}`} loadingAnimation textOn text="Loading..." isGrid />
     </div>
   );
 }
