@@ -17,7 +17,7 @@ export default function AccountLink({ field, subfield }: { field: string; subfie
           </Link>
         </li>
         <li>
-          <Link href={`/admin/data?field=account&subfield=verifcode`} className={field === "account" && subfield === "verifcode" ? LINKSTYLE.ACTIVE_LINK : LINKSTYLE.NONACTIVE_LINK}>
+          <Link href={`/admin/data?field=account&subfield=verificationcode`} className={field === "account" && subfield === "verificationcode" ? LINKSTYLE.ACTIVE_LINK : LINKSTYLE.NONACTIVE_LINK}>
             Verification Code
           </Link>
         </li>

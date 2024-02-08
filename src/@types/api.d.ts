@@ -55,4 +55,8 @@ namespace ApiUtils {
   export interface ResetPasswordApi {
     checkEmail: (email: string) => Promise<ResultApi>;
   }
+
+  export interface AdminApi{
+    getUser: () => Promise<Account.AdminUserOutput[] | null>;
+  }
 }

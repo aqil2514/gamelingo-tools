@@ -43,4 +43,22 @@ namespace Account {
     password: string;
     typeAction: "login";
   }
+
+  export interface AdminUserOutput{
+    id: string | undefined;
+    oauthid: string | undefined;
+    image: string | undefined;
+    name: string | undefined;
+    username: string;
+    email: string;
+    role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
+    account_verified: boolean | undefined;
+    createdat: Date | undefined;
+}
+
+export interface PasswordPurify{
+  email: string;
+  uid:string;
+  createdat: string;
+}
 }

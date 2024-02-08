@@ -21,7 +21,7 @@ const fieldTitle: Record<string, string> = {
 const subFieldTitle: Record<string, string> = {
   userslogin: "User",
   password_purify: "Password Purify",
-  verifcode: "Verification Code",
+  verificationcode: "Verification Code",
   chars: "Characters",
   leaderskills: "Leader Skills",
   weapons: "Weapons",

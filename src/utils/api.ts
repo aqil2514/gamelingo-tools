@@ -392,3 +392,28 @@ export const resetPassword: ApiUtils.ResetPasswordApi = {
     return { status: true };
   },
 };
+
+// Admin API UTILS 
+
+export const admin:ApiUtils.AdminApi= {
+  async getUser() {
+    const res = await supabase.from("userslogin").select("*");
+
+      if (!res || !res.data || res.data.length === 0) return null;
+
+      const resData = res.data;
+      const data = resData.map((d: Account.UsersLogin) => ({
+        id: d.id,
+        oauthid: d.oauthid,
+        image: d.image,
+        name: d.name,
+        username: d.username,
+        email: d.email,
+        role: d.role,
+        account_verified: d.account_verified,
+        createdat: d.createdAt,
+      }));
+
+      return data;
+  },
+}
