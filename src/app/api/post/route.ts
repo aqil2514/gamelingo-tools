@@ -4,7 +4,8 @@ import Character from "@/models/Evertale/Characters";
 import { Weapon } from "@/models/Evertale/Weapons";
 import Post from "@/models/General/Post";
 import Material from "@/models/GenshinImpact/Material";
-import { genshinValidator } from "@/utils/api";
+import { file, genshinValidator, getFormData } from "@/utils/api";
+import { genshin } from "@/utils/formUtils";
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
@@ -104,36 +105,23 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
   const searchParams = req.nextUrl.searchParams;
-  const game= searchParams.get("game");
-  const category= searchParams.get("category");
-  
+  const game = searchParams.get("game");
+  const category = searchParams.get("category");
+
   if (mongoose.connection.name !== "genshinimpact") {
     await destroyDB();
     await connectMongoDB("genshinimpact");
   }
-  
+
   if (game === "genshin-impact") {
     if (category === "material") {
-      const name = formData.get("name");
-      const lore = formData.get("lore");
-      const gainedFrom = formData.get("gainedFrom")
-      const rarity = formData.get("rarity");
-      const typeMaterial = formData.get("typeMaterial")
-      const image = formData.get("image") as File;
-      
-      const materialValidation = await genshinValidator.material({ name, image, lore, gainedFrom, rarity, typeMaterial });
+      const process = await genshin.processMaterial(formData);
+      if (process.status === 422)
+        return NextResponse.json({ msg: process.msg }, { status: 422 });
 
-      if (!materialValidation.status) return NextResponse.json({ msg: materialValidation.msg }, { status: 422 });
-
-      // await Material.create(data.data);
-      return NextResponse.json(
-        { msg: "Data material berhasil ditambah", data:materialValidation.data },
-        { status: 200 }
-      );
+      return NextResponse.json({ msg: process.msg }, { status: 200 });
     }
   }
-
-  
 
   return NextResponse.json({ msg: "Tambah Data Berhasil" }, { status: 200 });
 }

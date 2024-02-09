@@ -7,6 +7,7 @@ import { authOptions } from "./authoptions";
 import connectMongoDB from "@/lib/mongoose";
 import Character from "@/models/Evertale/Characters";
 import { Route } from "next";
+import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 
 /** Membuat verifikasi data untuk disimpan ke Database */
 export function verifDataBuilder(email: string) {
@@ -551,5 +552,145 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     };
 
     return { status: true, data };
+  },
+};
+
+// File Handler Api
+export const file = {
+  /**
+   * Validasi file banyak gambar sekaligus
+   *
+   * @param files Kumpulan file yang akan divalidasi
+   * @returns Hasil validasi
+   */
+  validationImageArray: (files: File[]) => {
+    const allowedExtension = ["webp", "png"];
+    const maxSizeInBytes = 1 * 1024 * 1024;
+
+    for (const file of files) {
+      const extension = file.type.split("/")[1];
+
+      if (!allowedExtension.includes(extension)) {
+        return {
+          status: false,
+          msg: "Gambar harus format webp atau png",
+        };
+      }
+      if (file.size > maxSizeInBytes) {
+        return {
+          status: false,
+          msg: "Maksimal ukuran gambar 1MB",
+        };
+      }
+    }
+
+    return { status: true, files };
+  },
+  /**
+   * Validasi file gambar
+   *
+   * @param file  file yang akan divalidasi
+   * @returns Hasil validasi
+   */
+  validationImage: (file: File) => {
+    const allowedExtension = ["webp", "png"];
+    const maxSizeInBytes = 1 * 1024 * 1024;
+
+    const extension = file.type.split("/")[1];
+
+    if (!allowedExtension.includes(extension)) {
+      return {
+        status: false,
+        msg: "Gambar harus format webp atau png",
+      };
+    }
+    if (file.size > maxSizeInBytes) {
+      return {
+        status: false,
+        msg: "Maksimal ukuran gambar 1MB",
+      };
+    }
+
+    return { status: true, file };
+  },
+  /**
+   * Upload File Gambar ke Cloudinary
+   *
+   * @param files Array File yang ingin diupload
+   * @param game Game apa? Digunakan untuk main folder
+   * @param category Category apa? Digunakan untuk sub folder
+   * @returns {Promise<CloudinaryAPI.Image[]>} Kumpulan informasi tentang data yang diupload
+   */
+  uploadImage: async (
+    files: File[],
+    game: string,
+    category: string
+  ): Promise<UploadApiResponse[]> => {
+    try {
+      const uploadPromises = files.map(async (file) => {
+        try {
+          const fileBuffer = await file.arrayBuffer();
+          const format = file.name.split(".");
+          const mime = file.type;
+          const encoding = "base64";
+          const base64Data = Buffer.from(fileBuffer).toString("base64");
+          const fileUri = `data:${mime};${encoding},${base64Data}`;
+
+          const result = await cloudinary.uploader.upload(fileUri, {
+            invalidate: true,
+            folder: `${game}/${category}/${format[1]}`,
+            public_id: format[0],
+            discard_original_filename: true,
+          });
+
+          return result;
+        } catch (error) {
+          console.error(error);
+          throw error;
+        }
+      });
+
+      const uploadResults = await Promise.all(uploadPromises);
+      return uploadResults;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+};
+
+// Form Data Handler
+
+/**
+ *
+ * @param formData - Form Data
+ * @param game - Game
+ * @param category  - Category
+ */
+export function getFormData(
+  formData: FormData,
+  game: General.Game["game"],
+  category: General.Game["category"]
+) {
+  if (game === "Genshin Impact" && category === "Material")
+    return genshinFormData.material(formData);
+}
+
+// Form Data Helpers
+
+const genshinFormData = {
+  material: (formData: FormData) => {
+    const name = formData.get("name") as GenshinImpact.Material["name"];
+    const lore = formData.get("lore") as GenshinImpact.Material["lore"];
+    const gainedFrom = formData.get(
+      "gainedFrom"
+    ) as GenshinImpact.Material["gainedFrom"];
+    const rarity = formData.get("rarity") as GenshinImpact.Material["rarity"];
+    const typeMaterial = formData.get(
+      "typeMaterial"
+    ) as GenshinImpact.Material["typeMaterial"];
+    const image = formData.getAll("image") as File[];
+
+    return { name, lore, gainedFrom, rarity, typeMaterial, image };
   },
 };
