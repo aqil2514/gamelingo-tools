@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import LoginForm from "./loginform";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { getUser } from "@/utils/api";
 
 export const metadata: Metadata = {
   title: "Login",
 };
 
 export default async function Login() {
-  const session = await getServerSession();
-  if (session) {
+  const user = await getUser();
+  if (user) {
     redirect("/");
   }
 

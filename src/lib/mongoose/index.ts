@@ -1,18 +1,26 @@
 import mongoose, { ConnectOptions } from "mongoose";
 
-const connectMongoDB = async (): Promise<void> => {
+/** Connect to Mongo DB
+ * @param {"evertale" | "genshinimpact"} db - Nama Database.
+ * Daftar nama Database :
+ * - Evertale : "evertale"
+ * - Genshin Impact : "genshinimpact"
+ */
+const connectMongoDB = async (db: "evertale" | "genshinimpact" = "evertale"): Promise<void> => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI ?? "");
-    console.log("Connected to MongoDB");
+    await mongoose.connect(`${process.env.MONGODB_URI}/${db}`);
+    console.log(`Connected to ${db} Collection`);
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
   }
 };
 
-export const destroyMainDB = async (): Promise<void> => {
+export const dbName = mongoose.connection.db.databaseName;
+
+export const destroyDB = async (): Promise<void> => {
   try {
     await mongoose.connection.close();
-    console.log("MongoDB Main Disconnected");
+    console.log("MongoDB Disconnected");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
   }
