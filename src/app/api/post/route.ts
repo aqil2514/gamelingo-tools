@@ -1,4 +1,4 @@
-import connectMongoDB, { dbName, destroyDB } from "@/lib/mongoose";
+import connectMongoDB, { destroyDB } from "@/lib/mongoose";
 import { evertale } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
 import { Weapon } from "@/models/Evertale/Weapons";
@@ -20,7 +20,9 @@ export async function GET(req: NextRequest) {
   await connectMongoDB();
 
   if (UID) {
-    const post = await Post.findOne({ content: new ObjectId(UID) }).populate("content");
+    const post = await Post.findOne({ content: new ObjectId(UID) }).populate(
+      "content"
+    );
 
     if (Boolean(tag)) {
       //Genshin Impact, Evertale
@@ -28,29 +30,57 @@ export async function GET(req: NextRequest) {
         const characters = await Character.find();
         if (sort === "team") {
           const tags = post.content.charStatus.charTeam;
-          const random = tags.length > 0 ? Math.floor(Math.random() * tags.length) : 0;
-          const data = evertale.mapping(characters, tags, limit, "charStatus.charTeam", "chars", true, true);
+          const random =
+            tags.length > 0 ? Math.floor(Math.random() * tags.length) : 0;
+          const data = evertale.mapping(
+            characters,
+            tags,
+            limit,
+            "charStatus.charTeam",
+            "chars",
+            true,
+            true
+          );
 
-          return NextResponse.json({ post, title: tags[random], data }, { status: 200 });
+          return NextResponse.json(
+            { post, title: tags[random], data },
+            { status: 200 }
+          );
         }
         //Genshin Impact, Evertale
         if (sort === "element") {
           const tags = post.content.charStatus.charElement;
-          const data = evertale.mapping(characters, tags, limit, "charStatus.charElement", "chars");
+          const data = evertale.mapping(
+            characters,
+            tags,
+            limit,
+            "charStatus.charElement",
+            "chars"
+          );
 
-          return NextResponse.json({ post, title: tags, data }, { status: 200 });
+          return NextResponse.json(
+            { post, title: tags, data },
+            { status: 200 }
+          );
         }
 
         //Genshin Impact, Evertale, MLBB
         if (sort === "newest") {
           const newChars = await Character.find().sort({ createdAt: -1 });
           const data = evertale.simpleMapping(newChars, "chars", 9);
-          return NextResponse.json({ post, title: "New Post", data }, { status: 200 });
+          return NextResponse.json(
+            { post, title: "New Post", data },
+            { status: 200 }
+          );
         }
       } else if (category === "weapons") {
         const weapons = await Weapon.find();
         if (sort === "weapon-type") {
-          const type = evertale.simpleFilter(weapons, "weapType", post.content.weapType);
+          const type = evertale.simpleFilter(
+            weapons,
+            "weapType",
+            post.content.weapType
+          );
           const data = evertale.simpleMapping(type, "weapons");
           const title = post.content.weapType;
           return NextResponse.json({ data, type, title });
@@ -58,7 +88,10 @@ export async function GET(req: NextRequest) {
         if (sort === "newest") {
           const newWeapons = await Weapon.find().sort({ createdAt: -1 });
           const data = evertale.simpleMapping(newWeapons, "weapons", 9);
-          return NextResponse.json({ post, title: "New Post", data }, { status: 200 });
+          return NextResponse.json(
+            { post, title: "New Post", data },
+            { status: 200 }
+          );
         }
       }
     }
@@ -69,21 +102,38 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  if (dbName !== "genshinimpact") {
+  const formData = await req.formData();
+  const searchParams = req.nextUrl.searchParams;
+  const game= searchParams.get("game");
+  const category= searchParams.get("category");
+  
+  if (mongoose.connection.name !== "genshinimpact") {
     await destroyDB();
     await connectMongoDB("genshinimpact");
   }
-
-  if (data.game === "genshin-impact") {
-    if (data.category === "material") {
-      const { name, image, lore, gainedFrom, rarity, typeMaterial }: GenshinImpact.Material = data.data;
-
+  
+  if (game === "genshin-impact") {
+    if (category === "material") {
+      const name = formData.get("name");
+      const lore = formData.get("lore");
+      const gainedFrom = formData.get("gainedFrom")
+      const rarity = formData.get("rarity");
+      const typeMaterial = formData.get("typeMaterial")
+      const image = formData.get("image") as File;
+      
       const materialValidation = await genshinValidator.material({ name, image, lore, gainedFrom, rarity, typeMaterial });
+
       if (!materialValidation.status) return NextResponse.json({ msg: materialValidation.msg }, { status: 422 });
 
-      await Material.create(data.data);
-      return NextResponse.json({ msg: "Data material berhasil ditambah" }, { status: 200 });
+      // await Material.create(data.data);
+      return NextResponse.json(
+        { msg: "Data material berhasil ditambah", data:materialValidation.data },
+        { status: 200 }
+      );
     }
   }
+
+  
+
+  return NextResponse.json({ msg: "Tambah Data Berhasil" }, { status: 200 });
 }

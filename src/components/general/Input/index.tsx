@@ -14,7 +14,7 @@ export function Input({ forId, label, variant, className, ...props }: InputProps
   return (
     <label htmlFor={forId} className="text-white text-base font-bold font-poppins my-8">
       {label} :
-      <input type="text" name="username" id={forId} className={clsx(variant, className)} required {...props} />
+      <input type="text" id={forId} className={clsx(variant, className)} {...props} />
     </label>
   );
 }

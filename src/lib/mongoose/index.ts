@@ -8,14 +8,15 @@ import mongoose, { ConnectOptions } from "mongoose";
  */
 const connectMongoDB = async (db: "evertale" | "genshinimpact" = "evertale"): Promise<void> => {
   try {
-    await mongoose.connect(`${process.env.MONGODB_URI}/${db}`);
+    if (db==="evertale")await mongoose.connect(`${process.env.MONGODB_URI}`);
+    else if (db==="genshinimpact")await mongoose.connect(`${process.env.MONGODB_URI_Genshin}`);
     console.log(`Connected to ${db} Collection`);
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
   }
 };
 
-export const dbName = mongoose.connection.db.databaseName;
+// export const dbName = mongoose.connection.db.databaseName;
 
 export const destroyDB = async (): Promise<void> => {
   try {

@@ -2,6 +2,9 @@
 const nextConfig = {
   experimental: {
     typedRoutes: true,
+    serverActions:{
+      allowedOrigins :["ideal-space-guacamole-7gv49w64gx4c9j4-3000.app.github.dev"]
+    }
   },
   images: {
     remotePatterns: [

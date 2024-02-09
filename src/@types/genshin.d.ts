@@ -74,7 +74,7 @@ namespace GenshinImpact {
       | "Talent Material";
     rarity: string;
     lore: string;
-    gainedFrom?: string[];
+    gainedFrom?: string[] | string;
     image?: string;
   }
 
