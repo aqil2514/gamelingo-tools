@@ -67,7 +67,7 @@ namespace GenshinImpact {
   export interface Material {
     _id?: string;
     name: string;
-    typeMaterial:
+    typeMaterial?:
       | "Character Ascension"
       | "Weapon Ascension"
       | "Weapon and Character Material"
