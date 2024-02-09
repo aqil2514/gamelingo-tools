@@ -3,8 +3,6 @@ import { evertale } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
 import { Weapon } from "@/models/Evertale/Weapons";
 import Post from "@/models/General/Post";
-import Material from "@/models/GenshinImpact/Material";
-import { file, genshinValidator, getFormData } from "@/utils/api";
 import { genshin } from "@/utils/formUtils";
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
@@ -105,16 +103,16 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
   const searchParams = req.nextUrl.searchParams;
-  const game = searchParams.get("game");
-  const category = searchParams.get("category");
+  const game = searchParams.get("game") as General.Game["game"];
+  const category = searchParams.get("category") as General.Game["category"];
 
   if (mongoose.connection.name !== "genshinimpact") {
     await destroyDB();
     await connectMongoDB("genshinimpact");
   }
 
-  if (game === "genshin-impact") {
-    if (category === "material") {
+  if (game === "Genshin Impact") {
+    if (category === "Material") {
       const process = await genshin.processMaterial(formData);
       if (process.status === 422)
         return NextResponse.json({ msg: process.msg }, { status: 422 });

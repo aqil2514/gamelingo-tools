@@ -3,65 +3,18 @@
 import { GenshinMaterialProvider } from "@/components/Providers";
 import { Input, VariantClass } from "@/components/general/Input";
 import React from "react";
-import { getFormData } from "./formState";
-import { Route } from "next";
-import axios from "axios";
-import { notif } from "@/utils/fe";
-import Image from "next/image";
+import { submitFormHandler } from "./formState";
+import ImageInput, { changeHandler } from "@/components/general/ImageInput";
 
 export default function Material() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [previewLink, setPreviewLink] = React.useState<string>("");
   const [fileName, setFileName] = React.useState<string>("");
 
-  async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const url: Route = "/api/post";
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    try {
-      setIsLoading(true);
-      const res = await axios.post(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        params: {
-          game: "genshin-impact",
-          category: "material",
-        },
-      });
-
-      notif(res.data.msg, "green", "material-submit-button", "before");
-      console.log(res.data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 422) {
-          notif(
-            error.response?.data.msg,
-            "red",
-            "material-submit-button",
-            "before"
-          );
-        }
-      }
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.files && event.target.files.length > 0) {
-      const selectedFile = event.target.files[0] as File;
-      setFileName(selectedFile.name);
-      setPreviewLink(URL.createObjectURL(selectedFile)); // Create URL for preview
-    }
-  }
-
   return (
     <GenshinMaterialProvider>
       <form
-        onSubmit={submitHandler}
+        onSubmit={(e) => submitFormHandler(e, "/api/post", setIsLoading, "Genshin Impact", "Material")}
         id="form-material-genshin"
         className="my-4"
       >
@@ -108,33 +61,10 @@ export default function Material() {
         <p className="text-white font-bold">
           Tambah tanda &quot;,&quot; sebagai pemisah.
         </p>
-        <div 
-        className="inline-block hover:cursor-pointer group hover:bg-slate-800 font-semibold my-4 mx-2 text-slate-800 hover:text-slate-300 p-1 bg-slate-500 transition duration-200"
-        onClick={(e) =>{
-          const element = e.target as HTMLDivElement;
-          const input = element.children[0] as HTMLInputElement;
-          
-          if(input) return input.click();
-        }}
-        >
-          Gambar :
-          <input
-            type="file"
-            name="image"
-            onChange={changeHandler}
-            id="file"
-            className="hidden"
-          />
-          <label
-            htmlFor="file"
-            className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white"
-          >
-            {fileName? fileName:"Belum pilih file..."}
-          </label>
-        </div>
-        {previewLink && (
-          <Image src={previewLink} width={300} height={300} alt={fileName} className="w-auto h-auto" />
-        )}
+        <ImageInput
+          changeHandler={(e) => changeHandler(e, setFileName, setPreviewLink)}
+          fileName={fileName} previewLink={previewLink}
+        />
         <button
           id="material-submit-button"
           className="block px-4 py-2 bg-green-700 mt-4 hover:bg-green-600 disabled:bg-green-600 text-white"
