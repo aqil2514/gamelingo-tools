@@ -3,6 +3,7 @@ import Character from "../Evertale/Characters";
 import { Document, ObjectId } from "mongodb";
 import { Weapon } from "../Evertale/Weapons";
 import { Accessory } from "../Evertale/Accessories";
+import { evertaleConnection } from "@/lib/mongoose";
 
 interface PostDocument extends Document {
   title: string;
@@ -89,5 +90,5 @@ const PostSchema = new Schema<PostDocument>(
   { timestamps: true }
 );
 
-const Post = mongoose.models.Post2 || mongoose.model("Post2", PostSchema);
+const Post = evertaleConnection.models.Post2 || evertaleConnection.model("Post2", PostSchema);
 export default Post;
