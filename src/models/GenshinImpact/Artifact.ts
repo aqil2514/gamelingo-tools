@@ -1,3 +1,4 @@
+import { genshinConnection } from "@/lib/mongoose";
 import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 
@@ -17,6 +18,6 @@ const ArtifactSchema = new Schema<GenshinImpact.Artifact>({
 });
 
 const Artifact =
-  mongoose.models.artifacts || mongoose.model("artifacts", ArtifactSchema);
+  genshinConnection.models.artifacts || genshinConnection.model("artifacts", ArtifactSchema);
 
 export default Artifact;

@@ -1,4 +1,3 @@
-import connectMongoDB, { destroyDB } from "@/lib/mongoose";
 import { evertale } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
 import { Weapon } from "@/models/Evertale/Weapons";
@@ -16,7 +15,6 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get("category");
   const limit = Number(searchParams.get("limit")) || 0;
 
-  await connectMongoDB();
 
   if (UID) {
     const post = await Post.findOne({ content: new ObjectId(UID) }).populate(
@@ -105,11 +103,6 @@ export async function POST(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const game = searchParams.get("game") as General.Game["game"];
   const category = searchParams.get("category") as General.Game["category"];
-
-  if (mongoose.connection.name !== "genshinimpact") {
-    await destroyDB();
-    await connectMongoDB("genshinimpact");
-  }
 
   if (game === "Genshin Impact") {
     if (category === "Material") {

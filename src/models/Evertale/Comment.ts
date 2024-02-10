@@ -1,3 +1,4 @@
+import { evertaleConnection } from "@/lib/mongoose";
 import mongoose, { Schema } from "mongoose";
 
 const CommentSchema = new Schema(
@@ -8,5 +9,5 @@ const CommentSchema = new Schema(
   { timestamps: true }
 );
 
-const Comment = mongoose.models.Comment || mongoose.model("Comment", CommentSchema);
+const Comment = evertaleConnection.models.Comment || evertaleConnection.model("Comment", CommentSchema);
 export default Comment;

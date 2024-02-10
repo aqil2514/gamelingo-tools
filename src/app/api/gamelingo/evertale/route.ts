@@ -1,4 +1,3 @@
-import connectMongoDB from "@/lib/mongoose";
 import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
 import Post from "@/models/General/Post";
@@ -20,7 +19,6 @@ export async function GET(req: NextRequest) {
   const name = url.searchParams.get("name");
   const maxResult = Number(url.searchParams.get("maxResult")) || 0;
 
-  await connectMongoDB();
 
   // Character Category
   if (category === "chars" && UID) {

@@ -1,3 +1,4 @@
+import { genshinConnection } from "@/lib/mongoose";
 import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 
@@ -17,6 +18,6 @@ const WeaponSchema = new Schema<GenshinImpact.Weapon>({
 });
 
 const Weapon =
-  mongoose.models.weaponstest1 || mongoose.model("weaponstest1", WeaponSchema);
+  genshinConnection.models.weapons || genshinConnection.model("weapons", WeaponSchema);
 
 export default Weapon;

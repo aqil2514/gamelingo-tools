@@ -1,3 +1,4 @@
+import { evertaleConnection } from "@/lib/mongoose";
 import mongoose, { Schema } from "mongoose";
 
 interface TypeSkill {
@@ -14,4 +15,4 @@ const TypeSkillSchema = new Schema<TypeSkill>({
   typeLeaderSkill: [String],
 });
 
-export const TypeSkill = mongoose.models.TypeSkill || mongoose.model("TypeSkill", TypeSkillSchema);
+export const TypeSkill = evertaleConnection.models.TypeSkill || evertaleConnection.model("TypeSkill", TypeSkillSchema);

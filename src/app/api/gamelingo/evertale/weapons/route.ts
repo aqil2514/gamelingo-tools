@@ -1,4 +1,3 @@
-import connectMongoDB from "@/lib/mongoose";
 import { evertale } from "@/lib/utils";
 import { Weapon } from "@/models/Evertale/Weapons";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,7 +7,6 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get("category");
   const maxResult = Number(searchParams.get("maxResult")) || 0;
 
-  await connectMongoDB();
 
   if (category === "type") {
     const document = await Weapon.find().sort({ createdAt: -1 });

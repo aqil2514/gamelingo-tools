@@ -1,3 +1,4 @@
+import { evertaleConnection } from "@/lib/mongoose";
 import mongoose, { Schema } from "mongoose";
 
 const PassiveSkillSchema = new Schema<Evertale.Misc.PassiveSkill>({
@@ -7,6 +8,6 @@ const PassiveSkillSchema = new Schema<Evertale.Misc.PassiveSkill>({
   skillDescId: String,
 });
 
-const PassiveSkill = mongoose.models.Passives || mongoose.model("Passives", PassiveSkillSchema);
+const PassiveSkill = evertaleConnection.models.Passives || evertaleConnection.model("Passives", PassiveSkillSchema);
 
 export default PassiveSkill;

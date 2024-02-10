@@ -1,3 +1,4 @@
+import { evertaleConnection } from "@/lib/mongoose";
 import mongoose, { Schema } from "mongoose";
 
 const CharImageSchema = new Schema<Evertale.Character.Image>({
@@ -74,5 +75,5 @@ export const CharacterSchema = new Schema(
   { timestamps: true }
 );
 
-const Character = mongoose.models.chars || mongoose.model("chars", CharacterSchema);
+const Character = evertaleConnection.models.chars || evertaleConnection.model("chars", CharacterSchema);
 export default Character;

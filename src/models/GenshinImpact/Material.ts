@@ -1,3 +1,4 @@
+import { genshinConnection } from "@/lib/mongoose";
 import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 
@@ -11,6 +12,6 @@ const MaterialSchema = new Schema<GenshinImpact.Material>({
 });
 
 const Material =
-  mongoose.models.materials || mongoose.model("materials", MaterialSchema);
+  genshinConnection.models.materials || genshinConnection.model("materials", MaterialSchema);
 
 export default Material;

@@ -1,4 +1,3 @@
-import connectMongoDB from "@/lib/mongoose";
 import { evertale } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
@@ -10,7 +9,6 @@ export async function GET(req: NextRequest) {
   const maxResult = Number(searchParams.get("maxResult")) || 0;
   const limit = Number(searchParams.get("limit")) || 0;
   const conjureName = searchParams.get("conjureName");
-  await connectMongoDB();
 
   if (category === "element") {
     const chars = await Character.find().sort({ createdAt: -1 });

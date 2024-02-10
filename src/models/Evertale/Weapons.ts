@@ -1,3 +1,4 @@
+import { evertaleConnection } from "@/lib/mongoose";
 import mongoose, { Schema, SchemaType } from "mongoose";
 
 const WeaponModels = new Schema<Evertale.Weapon.State>(
@@ -75,4 +76,4 @@ const WeaponModels = new Schema<Evertale.Weapon.State>(
   { timestamps: true }
 );
 
-export const Weapon = mongoose.models.Weapon || mongoose.model("Weapon", WeaponModels);
+export const Weapon = evertaleConnection.models.Weapon || evertaleConnection.model("Weapon", WeaponModels);

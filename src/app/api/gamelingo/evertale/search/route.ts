@@ -1,4 +1,3 @@
-import connectMongoDB from "@/lib/mongoose";
 import { evertale } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
 import { Weapon } from "@/models/Evertale/Weapons";
@@ -9,7 +8,6 @@ export async function GET(req: NextRequest) {
   const s = searchParams.get("s");
   const category = searchParams.get("category");
 
-  await connectMongoDB();
 
   if (category === "chars") {
     const chars = await Character.find({ "charStatus.charName": { $regex: new RegExp(s as string, "i") } });

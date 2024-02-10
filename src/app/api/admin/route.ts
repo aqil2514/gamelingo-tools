@@ -1,6 +1,4 @@
-import connectMongoDB from "@/lib/mongoose";
 import { supabase } from "@/lib/supabase";
-import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
 import PassiveSkill from "@/models/Evertale/PassiveSkill";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
@@ -30,7 +28,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ data: res.data }, { status: 200 });
   } else if (field === "evertale") {
     let data;
-    await connectMongoDB();
 
     if (subfield === "chars") data = await admin.getEvertaleCharacter();
     else if (subfield === "weapons") data = await Weapon.find();

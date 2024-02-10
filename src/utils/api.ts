@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import { createTransport } from "nodemailer";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./authoptions";
-import connectMongoDB from "@/lib/mongoose";
 import Character from "@/models/Evertale/Characters";
 import { Route } from "next";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
@@ -506,7 +505,6 @@ export const admin: ApiUtils.AdminApi = {
     return data;
   },
   async getEvertaleCharacter() {
-    await connectMongoDB();
 
     const characters: Evertale.Character.State[] = await Character.find();
 

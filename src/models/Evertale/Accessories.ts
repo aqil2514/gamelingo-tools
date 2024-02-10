@@ -1,3 +1,4 @@
+import { evertaleConnection } from "@/lib/mongoose";
 import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 
@@ -35,4 +36,4 @@ const AccessoriesSchema = new Schema<AccessoriesState>({
   },
 });
 
-export const Accessory = mongoose.models.Accessories || mongoose.model("Accessories", AccessoriesSchema);
+export const Accessory = evertaleConnection.models.Accessories || evertaleConnection.model("Accessories", AccessoriesSchema);

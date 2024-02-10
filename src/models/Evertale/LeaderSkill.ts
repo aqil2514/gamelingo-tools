@@ -1,3 +1,4 @@
+import { evertaleConnection } from "@/lib/mongoose";
 import { Schema, default as mongoose } from "mongoose";
 
 const leaderSkillSchema = new Schema<Evertale.Misc.LeaderSkill>(
@@ -12,6 +13,6 @@ const leaderSkillSchema = new Schema<Evertale.Misc.LeaderSkill>(
   }
 );
 
-const LeaderSkill = mongoose.models.LeaderSkill || mongoose.model("LeaderSkill", leaderSkillSchema);
+const LeaderSkill = evertaleConnection.models.LeaderSkill || evertaleConnection.model("LeaderSkill", leaderSkillSchema);
 
 export default LeaderSkill;
