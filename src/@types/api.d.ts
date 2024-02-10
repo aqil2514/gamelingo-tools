@@ -96,5 +96,6 @@ namespace ApiUtils {
       typeMaterial,
     }: any) => Promise<ResultApiwithData>;
     artifact: (data:FormUtils.FormDataArtifact) => Promise<ResultApiwithData>;
+    weapon: (data:FormUtils.FormDataWeapon) => Promise<ResultApiwithData>;
   }
 }

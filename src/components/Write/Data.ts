@@ -4,6 +4,6 @@ export interface SubTemplateDataState {
 }
 
 export const subTemplateData: SubTemplateDataState = {
-  "genshin-impact": ["Artifact", "Character", "Material", "Weapons"],
+  "genshin-impact": ["Artifact", "Character", "Material", "Weapon"],
   evertale: ["Character", "Weapons"],
 };

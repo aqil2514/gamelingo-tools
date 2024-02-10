@@ -65,4 +65,33 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
 
     return { status: true, data };
   },
+  async weapon(data) {
+    const allowedType:string[] = ["Bow", "Catalyst", "Claymore", "Polearm", "Sword"]
+    if(!data.name) return {status:false, msg:"Nama Weapon belum diisi"};
+    if(!data.type) return {status:false, msg:"Tipe Weapon belum diisi"};
+    if(!allowedType.includes(data.type)) return {status:false, msg:"Tipe weapon tidak diizinkan"}
+    if(!data.subStatus) return {status:false, msg:"Sub status weapon belum diisi"};
+    if(!data["weap-ref-1"]) return {status:false, msg:"Weapon ref 1 belum diisi"};
+    if(!data["weap-ref-1-effect"]) return {status:false, msg:"Deskripsi Weapon ref 1 belum diisi"};
+    if(!data["weap-ref-2"]) return {status:false, msg:"Weapon ref 2 belum diisi"};
+    if(!data["weap-ref-2-effect"]) return {status:false, msg:"Deskripsi Weapon ref 2 belum diisi"};
+    if(!data["weap-ref-3"]) return {status:false, msg:"Weapon ref 3 belum diisi"};
+    if(!data["weap-ref-3-effect"]) return {status:false, msg:"Deskripsi Weapon ref 3 belum diisi"};
+    if(!data["weap-ref-4"]) return {status:false, msg:"Weapon ref 4 belum diisi"};
+    if(!data["weap-ref-4-effect"]) return {status:false, msg:"Deskripsi Weapon ref 4 belum diisi"};
+    if(!data["weap-ref-5"]) return {status:false, msg:"Weapon ref 5 belum diisi"};
+    if(!data["weap-ref-5-effect"]) return {status:false, msg:"Deskripsi Weapon ref 5 belum diisi"};
+    if(!data.lore) return {status:false, msg:"Lore weapon belum diisi"};
+    if(!data.rarity) return {status:false, msg:"Rarity weapon belum diisi"};
+
+    if (data.image?.name) {
+      const imageValidation = file.validationImage(data.image);
+      if (!imageValidation.status)
+        return { msg: imageValidation.msg, status: false };
+    } else if(!data?.image?.name){
+        data.image = undefined;
+    }
+    
+    return {status:true, data}
+  },
 };

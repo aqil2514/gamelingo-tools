@@ -14,6 +14,6 @@ namespace General {
   
   interface GenshinImpact{
     game :"Genshin Impact",
-    category:"Artifact" | "Character" | "Material" | "Weapons"
+    category:"Artifact" | "Character" | "Material" | "Weapon"
   }
 }

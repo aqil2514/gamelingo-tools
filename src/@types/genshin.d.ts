@@ -46,11 +46,13 @@ namespace GenshinImpact {
 
   export interface Weapon {
     _id?: string;
+    type: Character["weapon"];
     name: string;
     subStatus: string;
     refinement: Refinement[];
     lore: string;
     rarity: string;
+    image?:string;
   }
 
   export interface Refinement {

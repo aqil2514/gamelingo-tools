@@ -118,13 +118,20 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: process.msg }, { status: 200 });
-    }
-    if (category === "Artifact") {
+    } else if (category === "Artifact") {
       const process = await genshin.proccessArtifact(formData);
       if (process.status === 422)
         return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: process.msg, process }, { status: 200 });
+    } else if (category === "Weapon") {
+      const process = await genshin.processWeapon(formData);
+      if (process.status === 422)
+        return NextResponse.json({ msg: process.msg }, { status: 422 });
+
+      return NextResponse.json({ msg: "Tambah data senjata berhasil", process }, { status: 200 });
     }
   }
+
+  return new Response();
 }

@@ -3,8 +3,9 @@ import { file, getFormData } from "./api";
 import { genshinValidator } from "./formValidator";
 import { genshinOrganizing } from "./organizeData";
 import Artifact from "@/models/GenshinImpact/Artifact";
+import Weapon from "@/models/GenshinImpact/Weapon";
 
-export const genshin: FormUtils.Genshin = {
+export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData: FormData) => {
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Material";
@@ -50,7 +51,7 @@ export const genshin: FormUtils.Genshin = {
     // Ambil data dari form;
     const data = Object.fromEntries(
       formData.entries()
-    ) as unknown as FormUtils.FormDataArtifact;
+    ) as unknown as FormUtils.Genshin.FormDataArtifact;
 
     // Validasi data
     const validation = await genshinValidator.artifact(data);
@@ -70,5 +71,30 @@ export const genshin: FormUtils.Genshin = {
     await Artifact.create(organizedData);
 
     return { msg: "Tambah data artefak berhasil", status: 200 };
+  },
+  async processWeapon(formData) {
+    const game: General.Game["game"] = "Genshin Impact";
+    const category: General.Game["category"] = "Artifact";
+
+    // Ambil Data
+    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataWeapon;
+    
+    // Validasi
+    const validation = await genshinValidator.weapon(data);
+    if(!validation.status) return {status: 422, msg: validation.msg};
+
+    // Upload Image jika ada
+    let imageUrl="";
+    if (validation.data.image) {
+      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
+      imageUrl=uploadFile.secure_url;
+    }
+
+    // data final
+    const organizedData= genshinOrganizing.weapon(validation.data, imageUrl);
+
+    await Weapon.create(organizedData);
+
+    return {status:200, organizedData, validation, data}
   },
 };

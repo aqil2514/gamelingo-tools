@@ -2,11 +2,6 @@ import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 
 const MaterialSchema = new Schema<GenshinImpact.Material>({
-  _id: {
-    type: ObjectId,
-    required: false,
-    default: new mongoose.Types.ObjectId(),
-  },
   name: { type: String, required: true },
   typeMaterial: { type: String, required: true },
   rarity: { type: String, required: true },

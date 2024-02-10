@@ -2,12 +2,8 @@ import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 
 const WeaponSchema = new Schema<GenshinImpact.Weapon>({
-  _id: {
-    type: ObjectId,
-    default: new mongoose.Types.ObjectId(),
-    required: false,
-  },
   name: { type: String, required: true },
+  type: { type: String, required: true },
   subStatus: { type: String, required: true },
   refinement: [
     {
@@ -17,9 +13,10 @@ const WeaponSchema = new Schema<GenshinImpact.Weapon>({
   ],
   lore: { type: String, required: true },
   rarity: { type: String, required: true },
+  image: { type: String, required: false },
 });
 
 const Weapon =
-  mongoose.models.weapons || mongoose.model("weapons", WeaponSchema);
+  mongoose.models.weaponstest1 || mongoose.model("weaponstest1", WeaponSchema);
 
 export default Weapon;
