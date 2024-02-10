@@ -89,10 +89,11 @@ namespace GenshinImpact {
       | "Circlet of Logos";
     set: string;
     setBonus: {
-      setName?: string;
+      setName?: "2 Set Bonus" | "4 Set Bonus";
       setValue?: string;
     }[];
-    rarity: string[];
-    source: string;
+    rarity: string;
+    source: string[];
+    image: string;
   }
 }

@@ -6,6 +6,7 @@ import { SubTemplateDataState, subTemplateData } from "./Data";
 export default function SelectSubTemplate(){
     const searchParams = useSearchParams();
     const game = searchParams.get("game") as keyof SubTemplateDataState;
+    const category = searchParams.get("category");
     const router = useRouter();
 
     if(!game) return<></>;
@@ -30,6 +31,7 @@ export default function SelectSubTemplate(){
             name="section-sub-template"
             id="section-sub-template"
             className="block my-2 bg-zinc-800 text-white font-semibold font-poppins px-4"
+            defaultValue={category ? category : ""}
             onChange={changeHandler}
           >
             <option value="select-category"> Select Category</option>

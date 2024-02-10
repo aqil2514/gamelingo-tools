@@ -16,8 +16,9 @@ const ArtifactSchema = new Schema<GenshinImpact.Artifact>({
       setValue: { type: String, required: false },
     },
   ],
-  rarity: { type: [String], required: true },
-  source: { type: String, required: true },
+  rarity: { type: String, required: true },
+  source: { type: [String], required: true },
+  image: { type: String, required: false },
 });
 
 const Artifact =

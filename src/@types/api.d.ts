@@ -95,5 +95,6 @@ namespace ApiUtils {
       rarity,
       typeMaterial,
     }: any) => Promise<ResultApiwithData>;
+    artifact: (data:FormUtils.FormDataArtifact) => Promise<ResultApiwithData>;
   }
 }

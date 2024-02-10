@@ -33,7 +33,8 @@ export async function submitFormHandler(
   url: Route,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   game: General.Game["game"],
-  category: General.Game["category"]
+  category: General.Game["category"],
+  ref: string
 ) {
   e.preventDefault();
 
@@ -50,17 +51,12 @@ export async function submitFormHandler(
       },
     });
 
-    notif(res.data.msg, "green", "material-submit-button", "before");
+    notif(res.data.msg, "green", ref, "before");
     console.log(res.data);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 422) {
-        notif(
-          error.response?.data.msg,
-          "red",
-          "material-submit-button",
-          "before"
-        );
+        notif(error.response?.data.msg, "red", ref, "before");
       }
     }
     console.error(error);

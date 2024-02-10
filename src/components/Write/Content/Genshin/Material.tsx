@@ -5,6 +5,9 @@ import { Input, VariantClass } from "@/components/general/Input";
 import React from "react";
 import { submitFormHandler } from "./formState";
 import ImageInput, { changeHandler } from "@/components/general/ImageInput";
+import Button, {
+  VariantClass as ButtonClass,
+} from "@/components/general/Button";
 
 export default function Material() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -14,7 +17,16 @@ export default function Material() {
   return (
     <GenshinMaterialProvider>
       <form
-        onSubmit={(e) => submitFormHandler(e, "/api/post", setIsLoading, "Genshin Impact", "Material")}
+        onSubmit={(e) =>
+          submitFormHandler(
+            e,
+            "/api/post",
+            setIsLoading,
+            "Genshin Impact",
+            "Material",
+            "material-button-submit"
+          )
+        }
         id="form-material-genshin"
         className="my-4"
       >
@@ -46,7 +58,7 @@ export default function Material() {
           </label>
           <textarea
             disabled={isLoading}
-            className="w-full h-[100px] block  my-4 rounded-xl p-4"
+            className="w-full h-[100px] block  my-4 rounded-xl p-4 text-zinc-950 text-base font-bold font-poppins"
             name="lore"
             id="material-lore"
           ></textarea>
@@ -63,15 +75,12 @@ export default function Material() {
         </p>
         <ImageInput
           changeHandler={(e) => changeHandler(e, setFileName, setPreviewLink)}
-          fileName={fileName} previewLink={previewLink}
+          fileName={fileName}
+          previewLink={previewLink}
         />
-        <button
-          id="material-submit-button"
-          className="block px-4 py-2 bg-green-700 mt-4 hover:bg-green-600 disabled:bg-green-600 text-white"
-          disabled={isLoading}
-        >
+        <Button className={ButtonClass.submit} id="material-button-submit">
           {isLoading ? "Submitting..." : "Submit"}
-        </button>
+        </Button>
       </form>
 
       <datalist id="material-type-list">

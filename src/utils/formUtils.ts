@@ -1,5 +1,8 @@
 import Material from "@/models/GenshinImpact/Material";
-import { file, genshinValidator, getFormData } from "./api";
+import { file, getFormData } from "./api";
+import { genshinValidator } from "./formValidator";
+import { genshinOrganizing } from "./organizeData";
+import Artifact from "@/models/GenshinImpact/Artifact";
 
 export const genshin: FormUtils.Genshin = {
   processMaterial: async (formData: FormData) => {
@@ -39,5 +42,33 @@ export const genshin: FormUtils.Genshin = {
 
     await Material.create(finalData);
     return { msg: "Data material berhasil ditambah", status: 200 };
+  },
+  async proccessArtifact(formData) {
+    const game: General.Game["game"] = "Genshin Impact";
+    const category: General.Game["category"] = "Artifact";
+
+    // Ambil data dari form;
+    const data = Object.fromEntries(
+      formData.entries()
+    ) as unknown as FormUtils.FormDataArtifact;
+
+    // Validasi data
+    const validation = await genshinValidator.artifact(data);
+    if (!validation.status) return { msg: validation.msg, status: 422 };
+
+    let imageUrl="";
+    // Upload image
+    if (validation.data.image) {
+      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
+      imageUrl=uploadFile.secure_url;
+    }
+
+    // Penyusunan Data
+    const organizedData = genshinOrganizing.artifact(validation.data, imageUrl);
+
+    // Tambah ke database
+    await Artifact.create(organizedData);
+
+    return { msg: "Tambah data artefak berhasil", status: 200 };
   },
 };

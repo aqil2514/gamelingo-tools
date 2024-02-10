@@ -522,39 +522,6 @@ export const admin: ApiUtils.AdminApi = {
   },
 };
 
-//Genshin Validator API Utils
-
-export const genshinValidator: ApiUtils.GenshinValidatorApi = {
-  async material({ name, image, lore, gainedFrom, rarity, typeMaterial }) {
-    const allowedType: GenshinImpact.Material["typeMaterial"][] = [
-      "Character Ascension",
-      "Talent Material",
-      "Weapon Ascension",
-      "Weapon and Character Material",
-    ];
-
-    if (!name) return { status: false, msg: "Nama material belum diisi" };
-    if (!typeMaterial)
-      return { status: false, msg: "Tipe material belum diisi" };
-    if (!allowedType.includes(typeMaterial))
-      return { status: false, msg: "Tipe material tidak dikenal" };
-    if (!lore) return { status: false, msg: "Lore material belum diisi" };
-    if (!rarity) return { status: false, msg: "Rarity material belum diisi" };
-
-    const data: GenshinImpact.Material = {
-      name,
-      typeMaterial,
-      lore,
-      rarity,
-      image,
-      gainedFrom:
-        typeof gainedFrom === "string" ? gainedFrom.split(",") : gainedFrom,
-    };
-
-    return { status: true, data };
-  },
-};
-
 // File Handler Api
 export const file = {
   /**
@@ -657,6 +624,32 @@ export const file = {
       throw error;
     }
   },
+  uploadSingleImage: async (
+    file: File,
+    game: string,
+    category: string
+  ): Promise<UploadApiResponse> => {
+    try {
+      const fileBuffer = await file.arrayBuffer();
+      const format = file.name.split(".");
+      const mime = file.type;
+      const encoding = "base64";
+      const base64Data = Buffer.from(fileBuffer).toString("base64");
+      const fileUri = `data:${mime};${encoding},${base64Data}`;
+
+      const result = await cloudinary.uploader.upload(fileUri, {
+        invalidate: true,
+        folder: `${game}/${category}/${format[1]}`,
+        public_id: format[0],
+        discard_original_filename: true,
+      });
+
+      return result;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
 };
 
 // Form Data Handler
@@ -674,6 +667,8 @@ export function getFormData(
 ) {
   if (game === "Genshin Impact" && category === "Material")
     return genshinFormData.material(formData);
+  else if (game === "Genshin Impact" && category === "Artifact")
+    return genshinFormData.artifact(formData);
 }
 
 // Form Data Helpers
@@ -692,5 +687,10 @@ const genshinFormData = {
     const image = formData.getAll("image") as File[];
 
     return { name, lore, gainedFrom, rarity, typeMaterial, image };
+  },
+  artifact: (formData: FormData) => {
+    const data = Object.fromEntries(formData.entries());
+
+    console.log(data);
   },
 };
