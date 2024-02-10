@@ -20,7 +20,7 @@ export default function WriteData() {
         category
       </h2>
 
-      <Content game={game as keyof SubTemplateDataState} category={category} />
+      <Content game={game as keyof SubTemplateDataState} category={category as General.Game["category"]} />
     </div>
   );
 }
