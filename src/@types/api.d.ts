@@ -95,7 +95,8 @@ namespace ApiUtils {
       rarity,
       typeMaterial,
     }: any) => Promise<ResultApiwithData>;
-    artifact: (data:FormUtils.FormDataArtifact) => Promise<ResultApiwithData>;
-    weapon: (data:FormUtils.FormDataWeapon) => Promise<ResultApiwithData>;
+    artifact: (data:FormUtils.Genshin.FormDataArtifact) => Promise<ResultApiwithData>;
+    weapon: (data:FormUtils.Genshin.FormDataWeapon) => Promise<ResultApiwithData>;
+    character: (data:FormUtils.Genshin.FormDataCharacter) => Promise<ResultApiwithData>;
   }
 }

@@ -8,5 +8,9 @@ namespace OrganizeData {
       data: FormUtils.Genshin.FormDataWeapon,
       imageUrl: string
     ) => GenshinImpact.Weapon;
+    character: (
+      data: FormUtils.Genshin.FormDataCharacter,
+      imageUrl: string
+    ) => GenshinImpact.Character;
   }
 }

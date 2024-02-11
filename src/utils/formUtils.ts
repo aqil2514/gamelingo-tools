@@ -4,6 +4,7 @@ import { genshinValidator } from "./formValidator";
 import { genshinOrganizing } from "./organizeData";
 import Artifact from "@/models/GenshinImpact/Artifact";
 import Weapon from "@/models/GenshinImpact/Weapon";
+import Character from "@/models/GenshinImpact/Character";
 
 export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData: FormData) => {
@@ -57,11 +58,15 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const validation = await genshinValidator.artifact(data);
     if (!validation.status) return { msg: validation.msg, status: 422 };
 
-    let imageUrl="";
+    let imageUrl = "";
     // Upload image
     if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
-      imageUrl=uploadFile.secure_url;
+      const uploadFile = await file.uploadSingleImage(
+        validation.data.image,
+        game,
+        category
+      );
+      imageUrl = uploadFile.secure_url;
     }
 
     // Penyusunan Data
@@ -77,24 +82,60 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const category: General.Game["category"] = "Artifact";
 
     // Ambil Data
-    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataWeapon;
-    
+    const data = Object.fromEntries(
+      formData.entries()
+    ) as unknown as FormUtils.Genshin.FormDataWeapon;
+
     // Validasi
     const validation = await genshinValidator.weapon(data);
-    if(!validation.status) return {status: 422, msg: validation.msg};
+    if (!validation.status) return { status: 422, msg: validation.msg };
 
     // Upload Image jika ada
-    let imageUrl="";
+    let imageUrl = "";
     if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
-      imageUrl=uploadFile.secure_url;
+      const uploadFile = await file.uploadSingleImage(
+        validation.data.image,
+        game,
+        category
+      );
+      imageUrl = uploadFile.secure_url;
     }
 
     // data final
-    const organizedData= genshinOrganizing.weapon(validation.data, imageUrl);
+    const organizedData = genshinOrganizing.weapon(validation.data, imageUrl);
 
     await Weapon.create(organizedData);
 
-    return {status:200, organizedData, validation, data}
+    return { status: 200, organizedData, validation, data };
+  },
+  async proccessCharacter(formData) {
+    const game: General.Game["game"] = "Genshin Impact";
+    const category: General.Game["category"] = "Character";
+
+    // Ambil Data
+    const data = Object.fromEntries(
+      formData.entries()
+    ) as unknown as FormUtils.Genshin.FormDataCharacter;
+
+    // Validasi
+    const validation = await genshinValidator.character(data);
+    if (!validation.status) return { status: 422, msg: validation.msg };
+
+    // Upload Image jika ada
+    let imageUrl = "";
+    if (validation.data.image) {
+      const uploadFile = await file.uploadSingleImage(
+        validation.data.image,
+        game,
+        category
+      );
+      imageUrl = uploadFile.secure_url;
+    }
+
+    const organizedData = genshinOrganizing.character(validation.data, imageUrl);
+
+    await Character.create(organizedData);
+
+    return { status: 200, organizedData };
   },
 };

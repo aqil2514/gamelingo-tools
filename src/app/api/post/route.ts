@@ -123,6 +123,13 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah data senjata berhasil", process }, { status: 200 });
+    } else if (category === "Character"){
+      const process = await genshin.proccessCharacter(formData);
+      if (process.status === 422)
+        return NextResponse.json({ msg: process.msg }, { status: 422 });
+
+      return NextResponse.json({ msg: "Tambah data karakter berhasil", process }, { status: 200 });
+      
     }
   }
 

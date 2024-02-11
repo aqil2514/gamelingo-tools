@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 import Weapon from "./Weapon";
+import { genshinConnection } from "@/lib/mongoose";
 
 const CharacterSchema = new Schema<GenshinImpact.Character>({
   _id: {
@@ -11,7 +12,7 @@ const CharacterSchema = new Schema<GenshinImpact.Character>({
   name: { type: String, required: true },
   description: { type: String, required: true },
   ascendStatus: { type: String, required: true },
-  ascendMaterial: { type: [String], required: false },
+  ascendMaterial: { type: Object, required: false },
   rarity: { type: String, required: true },
   element: { type: String, required: true },
   weapon: { type: String, required: true },
@@ -34,8 +35,8 @@ const CharacterSchema = new Schema<GenshinImpact.Character>({
   },
   talent: [
     {
-      infoTalent: { type: String, required: true },
-      talentName: { type: String, required: true },
+      infoTalent: { type: String, required: false },
+      talentName: { type: String, required: false },
       talentImage: { type: String, required: false },
       statsSkill: [
         {
@@ -47,13 +48,13 @@ const CharacterSchema = new Schema<GenshinImpact.Character>({
   ],
   constellation: [
     {
-      constName: { type: String, required: true },
-      constEffect: { type: String, required: true },
+      constName: { type: String, required: false },
+      constEffect: { type: String, required: false },
     },
   ],
-});
+},{timestamps:true});
 
 const Character =
-  mongoose.models.character || mongoose.model("character", CharacterSchema);
+  genshinConnection.models.character || genshinConnection.model("character", CharacterSchema);
 
 export default Character;

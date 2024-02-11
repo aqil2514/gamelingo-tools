@@ -8,25 +8,27 @@ namespace GenshinImpact {
     rarity: string;
     element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo";
     weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";
-    gender: "Female" | "Male";
-    region: "Mondstadt" | "Liyue " | "Inazuma" | "Sumeru" | "Fontain";
+    gender: "Female" | "Male" | "Perempuan" | "Pria";
+    region: "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontain";
     cv: {
       english: string;
       chinese: string;
       japanese: string;
       korean: string;
     };
-    image: string;
-    build: {
-      weapon: string;
-      substitude: string[];
-      bestArtifact: string;
-      artifactStatus: string[];
-      prioritySubStat: string[];
-      team: string[];
-    };
-    talent: Talent[];
-    constellation: Constellation[];
+    image?: string;
+    build?: BuildCharacter;
+    talent?: Talent[];
+    constellation?: Constellation[];
+  }
+
+  interface BuldCharacter{
+    weapon: string;
+    substitude: string[];
+    bestArtifact: string;
+    artifactStatus: string[];
+    prioritySubStat: string[];
+    team: string[];
   }
 
   interface AscendMaterial{

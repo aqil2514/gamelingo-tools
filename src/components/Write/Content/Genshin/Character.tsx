@@ -14,7 +14,6 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import ImageInput, { changeHandler } from "@/components/general/ImageInput";
 import Image from "next/image";
-import { Route } from "next";
 
 export default function CharacterForm() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -44,9 +43,18 @@ export default function CharacterForm() {
       const res = await axios.get(`${apiURL}/characters`, {
         params: {
           query: charName,
-          queryLanguages: "Indonesian",
+          resultLanguage: "Indonesian",
         },
       });
+
+      if (!res.data) {
+        return notif(
+          "Karakter tidak ada. Pastikan yang benar",
+          "red",
+          "character-name",
+          "before"
+        );
+      }
 
       setCharacter(res.data);
       console.log(res);
@@ -376,8 +384,8 @@ export default function CharacterForm() {
                   variant={VariantClass.dashboard}
                 ></Input>
                 <Input
-                  forId="ascend-2-count-5"
-                  name="ascend-2-count-5"
+                  forId="ascend-3-count-5"
+                  name="ascend-3-count-5"
                   labelMarginY="0"
                   label="Count"
                   defaultValue={character?.costs?.ascend3[4]?.count}
@@ -393,7 +401,7 @@ export default function CharacterForm() {
               </h2>
               <div className="grid grid-cols-2 gap-4">
                 <Input
-                  forId="ascend-5-material-1"
+                  forId="ascend-4-material-1"
                   name="ascend-4-material-1"
                   labelMarginY="0"
                   label="Material"
@@ -554,16 +562,16 @@ export default function CharacterForm() {
                   variant={VariantClass.dashboard}
                 ></Input>
                 <Input
-                  forId="ascend-3-material-5"
-                  name="ascend-3-material-5"
+                  forId="ascend-5-material-5"
+                  name="ascend-5-material-5"
                   labelMarginY="0"
                   label="Material"
                   defaultValue={character?.costs?.ascend5[4]?.name}
                   variant={VariantClass.dashboard}
                 ></Input>
                 <Input
-                  forId="ascend-2-count-5"
-                  name="ascend-2-count-5"
+                  forId="ascend-5-count-5"
+                  name="ascend-5-count-5"
                   labelMarginY="0"
                   label="Count"
                   defaultValue={character?.costs?.ascend5[4]?.count}
@@ -667,6 +675,71 @@ export default function CharacterForm() {
             </SwiperSlide>
           </Swiper>
         </div>
+      </div>
+
+      <div className="border-2 border-white rounded-lg p-4 my-4">
+        <h1 className="text-white font-semibold font-poppins text-center">
+          Character Voice
+        </h1>
+        <Input
+          forId="character-voice-chinese"
+          name="character-voice-chinese"
+          value={character?.cv?.chinese}
+          onChange={(e) =>
+            setCharacter({
+              ...character,
+              cv: { ...character?.cv, chinese: e.target.value },
+            })
+          }
+          variant={VariantClass.dashboard}
+          disabled={isLoading}
+          label="Chinese"
+        />
+
+        <Input
+          forId="character-voice-english"
+          name="character-voice-english"
+          value={character?.cv?.english}
+          onChange={(e) =>
+            setCharacter({
+              ...character,
+              cv: { ...character?.cv, english: e.target.value },
+            })
+          }
+          variant={VariantClass.dashboard}
+          disabled={isLoading}
+          label="English"
+        />
+
+        <Input
+          forId="character-voice-japanese"
+          name="character-voice-japanese"
+          value={character?.cv?.japanese}
+          onChange={(e) =>
+            setCharacter({
+              ...character,
+              cv: { ...character?.cv, japanese: e.target.value },
+            })
+          }
+          variant={VariantClass.dashboard}
+          disabled={isLoading}
+          label="Japanese"
+        />
+
+        <Input
+          forId="character-voice-korean"
+          name="character-voice-korean"
+          value={character?.cv?.korean}
+          onChange={(e) =>
+            setCharacter({
+              ...character,
+              cv: { ...character?.cv, korean: e.target.value },
+            })
+          }
+          variant={VariantClass.dashboard}
+          disabled={isLoading}
+          label="Korean"
+        />
       </div>
 
       <Input
