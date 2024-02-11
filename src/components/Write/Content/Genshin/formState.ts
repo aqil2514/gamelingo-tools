@@ -3,6 +3,8 @@ import axios from "axios";
 import { Route } from "next";
 import React from "react";
 
+export const apiURL = "https://genshin-db-api.vercel.app/api/v5"
+
 export function getFormData(e: React.FormEvent<HTMLFormElement>) {
   const formData = new FormData(e.target as HTMLFormElement);
 

@@ -4,7 +4,7 @@ namespace GenshinImpact {
     name: string;
     description: string;
     ascendStatus: string;
-    ascendMaterial?: Material[];
+    ascendMaterial?: AscendMaterial;
     rarity: string;
     element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo";
     weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";
@@ -27,6 +27,81 @@ namespace GenshinImpact {
     };
     talent: Talent[];
     constellation: Constellation[];
+  }
+
+  interface AscendMaterial{
+    ascend1: AscendMaterialItem[],
+    ascend2: AscendMaterialItem[],
+    ascend3: AscendMaterialItem[],
+    ascend4: AscendMaterialItem[],
+    ascend5: AscendMaterialItem[],
+    ascend6: AscendMaterialItem[],
+  }
+
+interface AscendMaterialItem{
+  name:string, 
+  count:number,
+}
+
+  export interface ApiResponseCharacter {
+    id: number;
+    name: string;
+    title: string;
+    description: string;
+    weaponType: string;
+    weaponText: string;
+    bodyType: string;
+    gender: string;
+    qualityType: string;
+    rarity: number;
+    birthdaymmdd: string;
+    birthday: string;
+    elementType: string;
+    elementText: string;
+    affiliation: string;
+    associationType: string;
+    region: string;
+    substatType: string;
+    substatText: string;
+    constellation: string;
+    cv: {
+      english: string;
+      chinese: string;
+      japanese: string;
+      korean: string;
+    };
+    costs: {
+      ascend1: ApiResponseMaterial[];
+      ascend2: ApiResponseMaterial[];
+      ascend3: ApiResponseMaterial[];
+      ascend4: ApiResponseMaterial[];
+      ascend5: ApiResponseMaterial[];
+      ascend6: ApiResponseMaterial[];
+    };
+    images: {
+      card: string;
+      portrait: string;
+      cover1: string;
+      cover2: string;
+      hoyolabAvatar: string;
+      filenameIcon: string;
+      filenameIconCard: string;
+      filenameSideIcon: string;
+      filenameGachaSplash: string;
+      filenameGachaSlice: string;
+      mihoyoIcon: string;
+      mihoyoSideIcon: string;
+    };
+    url: {
+      fandom: string;
+    };
+    version: string;
+  }
+  
+  interface ApiResponseMaterial {
+    id: number;
+    name: string;
+    count: number;
   }
 
   export interface Talent {
