@@ -22,7 +22,7 @@ namespace GenshinImpact {
     constellation?: Constellation[];
   }
 
-  interface BuldCharacter{
+  interface BuldCharacter {
     weapon: string;
     substitude: string[];
     bestArtifact: string;
@@ -31,19 +31,76 @@ namespace GenshinImpact {
     team: string[];
   }
 
-  interface AscendMaterial{
-    ascend1: AscendMaterialItem[],
-    ascend2: AscendMaterialItem[],
-    ascend3: AscendMaterialItem[],
-    ascend4: AscendMaterialItem[],
-    ascend5: AscendMaterialItem[],
-    ascend6: AscendMaterialItem[],
+  interface AscendMaterial {
+    ascend1: AscendMaterialItem[];
+    ascend2: AscendMaterialItem[];
+    ascend3: AscendMaterialItem[];
+    ascend4: AscendMaterialItem[];
+    ascend5: AscendMaterialItem[];
+    ascend6: AscendMaterialItem[];
   }
 
-interface AscendMaterialItem{
-  name:string, 
-  count:number,
-}
+  interface AscendMaterialItem {
+    name: string;
+    count: number;
+  }
+
+  export interface ApiResponseTalent {
+    id: number;
+    name: string;
+    combat1: ApiTalentCombatData;
+    combat2: ApiTalentCombatData;
+    combat3: ApiTalentCombatData;
+    combatsp: ApiTalentCombatData;
+    passive1: ApiTalentPassiveData;
+    passive2: ApiTalentPassiveData;
+    passive3: ApiTalentPassiveData;
+    cost: {
+      lvl2: ApiTalentCostData[];
+      lvl3: ApiTalentCostData[];
+      lvl4: ApiTalentCostData[];
+      lvl5: ApiTalentCostData[];
+      lvl6: ApiTalentCostData[];
+      lvl7: ApiTalentCostData[];
+      lvl8: ApiTalentCostData[];
+      lvl9: ApiTalentCostData[];
+      lvl10: ApiTalentCostData[];
+    };
+    images: {
+      combat1: string;
+      combat2: string;
+      combatsp?: string;
+      combat3: string;
+      passive1: string;
+      passive2: string;
+      passive3: string;
+    };
+    version: string;
+  }
+
+  export interface ApiTalentCombatData {
+    name: string;
+    info?: string;
+    description?: string;
+
+    attributes: {
+      labels: string[];
+      parameters: {
+        [key: string]: number[];
+      };
+    };
+  }
+
+  export interface ApiTalentPassiveData {
+    name: string;
+    info: string;
+  }
+
+  export interface ApiTalentCostData {
+    id: number;
+    name: string;
+    count: number;
+  }
 
   export interface ApiResponseCharacter {
     id: number;
@@ -99,7 +156,7 @@ interface AscendMaterialItem{
     };
     version: string;
   }
-  
+
   interface ApiResponseMaterial {
     id: number;
     name: string;
@@ -110,8 +167,14 @@ interface AscendMaterialItem{
     talentName: string;
     talentImage?: string;
     infoTalent: string;
-    statsSkill?: {
-      statName: string;
+    descriptionTalent?: string;
+    statsSkill?: TalentStatus[];
+  }
+
+  export interface TalentStatus {
+    statName: string;
+    status: {
+      statLvl: string;
       statValue: string;
     }[];
   }
@@ -129,7 +192,7 @@ interface AscendMaterialItem{
     refinement: Refinement[];
     lore: string;
     rarity: string;
-    image?:string;
+    image?: string;
   }
 
   export interface Refinement {

@@ -3,7 +3,7 @@
 import { GenshinMaterialProvider } from "@/components/Providers";
 import { Input, VariantClass } from "@/components/general/Input";
 import React from "react";
-import { submitFormHandler } from "./formState";
+import { submitFormHandler } from "./genshinUtils";
 import ImageInput, { changeHandler } from "@/components/general/ImageInput";
 import Button, {
   VariantClass as ButtonClass,

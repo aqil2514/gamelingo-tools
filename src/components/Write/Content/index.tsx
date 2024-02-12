@@ -2,6 +2,7 @@ import { SubTemplateDataState } from "../Data";
 import ArtifactForm from "./Genshin/Artifact";
 import CharacterForm from "./Genshin/Character";
 import Material from "./Genshin/Material";
+import TalentForm from "./Genshin/Talent";
 import WeaponForm from "./Genshin/Weapon";
 
 export default function Content({
@@ -18,4 +19,5 @@ export default function Content({
     return <WeaponForm />;
   else if (game === "genshin-impact" && category === "Character")
     return <CharacterForm />;
+    else if (game === "genshin-impact" && category === "Talent") return <TalentForm /> 
 }

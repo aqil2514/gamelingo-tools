@@ -1,5 +1,5 @@
 import React from "react";
-import { apiURL, submitFormHandler } from "./formState";
+import { apiURL, submitFormHandler } from "./genshinUtils";
 import Button, {
   VariantClass as ButtonStyle,
 } from "@/components/general/Button";
@@ -14,6 +14,7 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import ImageInput, { changeHandler } from "@/components/general/ImageInput";
 import Image from "next/image";
+import { FetchApi } from "./genshinComponents";
 
 export default function CharacterForm() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -23,47 +24,6 @@ export default function CharacterForm() {
     );
   const [fileName, setFileName] = React.useState<string>("");
   const [previewLink, setPreviewLink] = React.useState<string>("");
-
-  async function fetchHandler() {
-    const element = document.getElementById(
-      "character-name"
-    ) as HTMLInputElement;
-    const charName = element.value;
-
-    if (!charName)
-      return notif(
-        "Nama karakter belum dipilih",
-        "red",
-        "character-name",
-        "before"
-      );
-    try {
-      setIsLoading(true);
-
-      const res = await axios.get(`${apiURL}/characters`, {
-        params: {
-          query: charName,
-          resultLanguage: "Indonesian",
-        },
-      });
-
-      if (!res.data) {
-        return notif(
-          "Karakter tidak ada. Pastikan yang benar",
-          "red",
-          "character-name",
-          "before"
-        );
-      }
-
-      setCharacter(res.data);
-      console.log(res);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
 
   return (
     <form
@@ -79,15 +39,9 @@ export default function CharacterForm() {
       }
       className="my-4"
     >
-      <Button
-        id="fetct-data"
-        onClick={fetchHandler}
-        className={ButtonStyle.fetch}
-        disabled={isLoading}
-        type="button"
-      >
-        {isLoading ? "Fetching Data..." : "Fetch Data"}
-      </Button>
+
+    <FetchApi elementId="character-name" msgNoInput="Belum ada input data" msgNoData="Tidak ada karakter yang dimaksud" refElement="character-name" setData={setCharacter} query="characters"   />
+
       <Input
         forId="character-name"
         name="name"

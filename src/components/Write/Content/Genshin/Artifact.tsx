@@ -1,5 +1,5 @@
 import React from "react";
-import { submitFormHandler } from "./formState";
+import { submitFormHandler } from "./genshinUtils";
 import { Input, VariantClass } from "@/components/general/Input";
 import Button, {
   VariantClass as ButtonClass,
