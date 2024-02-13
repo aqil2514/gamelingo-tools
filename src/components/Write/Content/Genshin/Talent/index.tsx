@@ -49,7 +49,7 @@ export default function TalentForm() {
         ? additionalRuleMatch.join("")
         : "";
 
-      const codeStatus = combat1[1].toString().split(":")[1].replace("}", "");
+      const codeStatus = combat1[1].toString().split(":")[1].split("}")[0];
 
       const suffix = !combat1[1].endsWith("}") ? combat1[1].split("}")[1].trim() : "";
       result.push({
