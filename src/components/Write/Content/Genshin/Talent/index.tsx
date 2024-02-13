@@ -64,8 +64,6 @@ export default function TalentForm() {
     return result;
   }, [combat1Label]);
 
-  console.log(status);
-
   return (
     <form
       onSubmit={(e) =>
