@@ -1,13 +1,16 @@
 import { useMemo } from "react";
+import { CombatStatus } from ".";
 
 // TODO: COMEBACK HERE AFTER MASTERING REGEX
 
 export default function Combat1({
   talent,
   combat1Label,
+  status,
 }: {
   talent: GenshinImpact.ApiResponseTalent;
   combat1Label: string[][];
+  status: CombatStatus[];
 }) {
   return (
     <div className="h-64 rounded px-4 overflow-scroll">
@@ -28,18 +31,20 @@ export default function Combat1({
           </tr>
         </thead>
         <tbody className="max-w-[200px] text-center">
-          {combat1Label?.map((label) => {
-            const labelParam = label[1].split(":")[0].replace("{", "");
-            const number = talent?.combat1?.attributes?.parameters[labelParam];
+          {status?.map((stat) => {
+            const param =
+              talent?.combat1?.attributes?.parameters[stat.paramName[0]];
+            const additionalParam =
+              talent?.combat1?.attributes?.parameters[stat.paramName[1]];
 
             return (
-              <tr key={label[0]}>
+              <tr key={stat.statsName}>
                 <td className="bg-slate-700 hover:bg-slate-600 hover:cursor-pointer border border-slate-800">
                   <p className="text-white font-bold font-poppins p-4">
-                    {label[0]}
+                    {stat.statsName}
                   </p>
                 </td>
-                <NumCombatMap number={number} combat1Label={combat1Label} />
+                <NumCombatMap number={param} status={stat} talent={talent} />
               </tr>
             );
           })}
@@ -51,55 +56,45 @@ export default function Combat1({
 
 function NumCombatMap({
   number,
-  combat1Label,
+  status,
+  talent,
 }: {
   number: number[];
-  combat1Label: string[][];
+  status: CombatStatus;
+  talent: GenshinImpact.ApiResponseTalent;
 }) {
-  const status = useMemo(() => {
-    const result = [] as any;
-
-    combat1Label.forEach((combat1) => {
-      const paramNameMatch = combat1[1].match(/\{(\w+):[A-Z0-9]+\}/g);
-      const paramName = paramNameMatch
-        ? paramNameMatch?.map((match) => match.substring(1, match.indexOf(":")))
-        : [];
-      
-        const additionalRuleMatch = combat1[1].match(/[\+/]/g);
-      const additionalRule = additionalRuleMatch
-        ? additionalRuleMatch.join("")
-        : "";
-
-      const statusScallingMatches= combat1[1].match(/}\{(.*?)\}([^}]+)$/); 
-      const statusScalling = statusScallingMatches ? statusScallingMatches[2].trim() : ""; ;
-      result.push({
-        statsName: combat1[0],
-        paramName,
-        additionalRule,
-        statusScalling,
-      });
-    });
-
-    return result;
-  }, [combat1Label]);
-
   function clickHandler(e: React.MouseEvent<HTMLTableCellElement>) {
     const parentElement = e.currentTarget.parentElement as HTMLTableCellElement;
     const children = Array.from(parentElement.children);
-
-    console.log(status);
   }
 
-  // children.forEach((child) => {
-  //   const table = child as HTMLTableCellElement;
-  //   const pElement = table.firstElementChild as HTMLParagraphElement;
-  //   if (pElement.innerText.endsWith("%")) {
-  //     pElement.innerText = pElement.innerText + " Max HP";
-  //   }
-  // });
   return (
     <>
-      {number.map((num: number, i: number) => {
+      {number?.map((num: number, i: number) => {
+        const basicStatus = status.codeStatus === "F1" ? num : (num * 100).toFixed(2) + "%";
+        const procBasicAdditionalStatus =
+          talent?.combat1?.attributes?.parameters[status.paramName[1]];
+        let basicAdditionalStatus;
+        if (procBasicAdditionalStatus) {
+          basicAdditionalStatus = procBasicAdditionalStatus?.map(
+            (num) => (num * 100).toFixed(2) + "%"
+          );
+        }
+
+        const isAdditional = status.additionalRule;
+        const isAnyParam =
+          status.paramName.length === 2 &&
+          status.paramName[0] !== status.paramName[1];
+
+        const additionalStatus = isAnyParam
+          ? `${basicStatus} ${status.additionalRule} ${
+              basicAdditionalStatus && basicAdditionalStatus[i]
+            }`
+          : `${basicStatus} ${status.additionalRule} ${basicStatus}`;
+
+        const isSuffix = status.suffix;
+        const suffix = status.suffix;
+
         return (
           <td
             key={num}
@@ -107,7 +102,8 @@ function NumCombatMap({
             className="bg-slate-700 hover:bg-slate-600 hover:cursor-pointer border border-slate-800"
           >
             <p className="text-white font-bold font-poppins p-4 ">
-              {(num * 100).toFixed(2) + "%"}
+              {(isAdditional ? additionalStatus : basicStatus) +
+                (isSuffix ? ` ${suffix}` : "")}
             </p>
           </td>
         );
