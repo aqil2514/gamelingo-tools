@@ -106,7 +106,7 @@ function CombatMapping({
                     {stat.statsName}
                   </p>
                 </td>
-                <NumCombatMap number={param} status={stat} talent={talent} />
+                <NumCombatMap number={param} status={stat} talent={talent} index={index} />
               </tr>
             );
           })}
@@ -120,39 +120,42 @@ function NumCombatMap({
   number,
   status,
   talent,
+  index
 }: {
   number: number[];
   status: CombatStatus;
   talent: GenshinImpact.ApiResponseTalent;
+  index: "combat1" | "combat2" | "combat3" | "combatsp";
 }) {
   return (
     <>
       {number?.map((num: number, i: number) => {
-        const {
-          basicStatus,
-          isAdditional,
-          additionalStatus,
-          isSuffix,
-          suffix,
-        } = tableMappingConfig({
-          status,
-          num,
-          talent,
-          i,
-        });
-
+        const { basicStatus, isAdditional, isAnyParam,isSuffix, suffix } =
+          tableMappingConfig({
+            status,
+            num,
+            talent,
+            i,
+          });
+        
+          // TODO : FIX BAGIAN SEPERTI KASUS XIANYUN
         return (
           <td
             key={num}
             className="bg-slate-700 hover:bg-slate-600 hover:cursor-pointer border border-slate-800"
           >
             <p className="text-white font-bold font-poppins p-4 ">
-              {(isAdditional ? additionalStatus : basicStatus) +
-                (isSuffix ? ` ${suffix}` : "")}
+              {`${basicStatus} ${isSuffix ? suffix[0] : ""}`}
+              {isAdditional ? <SecondMapping status={status} talent={talent} combat={index} i={i} /> :""}
             </p>
           </td>
         );
       })}
     </>
   );
+}
+
+function SecondMapping({status, talent, combat,i} : {status:CombatStatus, talent:GenshinImpact.ApiResponseTalent, combat: "combat1" | "combat2" | "combat3" | "combatsp", i:number}){
+  const params = talent[combat]?.attributes.parameters[status.paramName[1]]
+  return <>{`${status.additionalRule} ${(params[i] * 100).toFixed(2)}% ${status.suffix[1] ? status.suffix[1] : ''}`}</>
 }

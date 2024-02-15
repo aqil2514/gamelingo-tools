@@ -28,6 +28,7 @@ export default function TalentForm() {
     {} as GenshinImpact.ApiResponseTalent
   );
 
+  const talentExist = Object.keys(talent).length !== 0 && talent.combat1;
   return (
     <form
       onSubmit={(e) =>
@@ -59,32 +60,56 @@ export default function TalentForm() {
       />
 
       <div className="border-2 border-white rounded-lg p-4 my-4">
-        <h1 className="text-white font-semibold font-poppins text-center">
-          Talent
-        </h1>
+        {talentExist ? (
+          <>
+            <h1 className="text-white font-semibold font-poppins text-center">
+              Talent
+            </h1>
+            <Swiper
+              slidesPerView={1}
+              modules={[Pagination]}
+              pagination={{ clickable: true }}
+            >
+              <SwiperSlide>
+                <TableMapping
+                  talent={talent}
+                  setTalent={setTalent}
+                  index="combat1"
+                />
+              </SwiperSlide>
 
-        <Swiper
-          slidesPerView={1}
-          modules={[Pagination]}
-          pagination={{ clickable: true }}
-        >
+              <SwiperSlide>
+                <TableMapping
+                  talent={talent}
+                  setTalent={setTalent}
+                  index="combat2"
+                />
+              </SwiperSlide>
 
-          <SwiperSlide>
-            <TableMapping talent={talent}setTalent={setTalent} index="combat1" />
-          </SwiperSlide>
-          
-          <SwiperSlide>
-            <TableMapping talent={talent}setTalent={setTalent} index="combat2" />
-          </SwiperSlide>
-          
-          <SwiperSlide>
-            <TableMapping talent={talent}setTalent={setTalent} index="combat3" />
-          </SwiperSlide>
+              <SwiperSlide>
+                <TableMapping
+                  talent={talent}
+                  setTalent={setTalent}
+                  index="combat3"
+                />
+              </SwiperSlide>
 
-          {talent?.combatsp && <SwiperSlide>
-            <TableMapping talent={talent}setTalent={setTalent} index="combatsp" />
-          </SwiperSlide>}
-        </Swiper>
+              {talent?.combatsp && (
+                <SwiperSlide>
+                  <TableMapping
+                    talent={talent}
+                    setTalent={setTalent}
+                    index="combatsp"
+                  />
+                </SwiperSlide>
+              )}
+            </Swiper>
+          </>
+        ) : (
+          <h1 className="text-white font-semibold font-poppins text-center">
+            Belum pilih data character
+          </h1>
+        )}
       </div>
 
       <Button className={ButtonStyle.submit} id="talent-button-submit">

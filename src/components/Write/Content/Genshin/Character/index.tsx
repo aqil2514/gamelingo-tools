@@ -13,7 +13,7 @@ import { Pagination } from "swiper/modules";
 import ImageInput, { changeHandler } from "@/components/general/ImageInput";
 import Image from "next/image";
 import { FetchApi } from "../genshinComponents";
-import SwiperSlideData from "./SwiperSlideData";
+import SwiperSlideData from "../Components/SwiperSlideData";
 
 export default function CharacterForm() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
