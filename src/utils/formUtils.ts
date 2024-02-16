@@ -5,6 +5,7 @@ import { genshinOrganizing } from "./organizeData";
 import Artifact from "@/models/GenshinImpact/Artifact";
 import Weapon from "@/models/GenshinImpact/Weapon";
 import Character from "@/models/GenshinImpact/Character";
+import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 
 export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData: FormData) => {
@@ -24,12 +25,10 @@ export const genshin: FormUtils.Genshin.Genshin = {
       typeMaterial,
     });
 
-    if (!materialValidation.status)
-      return { msg: materialValidation.msg, status: 422 };
+    if (!materialValidation.status) return { msg: materialValidation.msg, status: 422 };
 
     const imageValidation = file.validationImageArray(image);
-    if (!imageValidation.status)
-      return { msg: imageValidation.msg, status: 422 };
+    if (!imageValidation.status) return { msg: imageValidation.msg, status: 422 };
 
     const uploadFile = await file.uploadImage(image, game, category);
 
@@ -50,9 +49,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const category: General.Game["category"] = "Artifact";
 
     // Ambil data dari form;
-    const data = Object.fromEntries(
-      formData.entries()
-    ) as unknown as FormUtils.Genshin.FormDataArtifact;
+    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataArtifact;
 
     // Validasi data
     const validation = await genshinValidator.artifact(data);
@@ -61,11 +58,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
     let imageUrl = "";
     // Upload image
     if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(
-        validation.data.image,
-        game,
-        category
-      );
+      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
       imageUrl = uploadFile.secure_url;
     }
 
@@ -82,9 +75,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const category: General.Game["category"] = "Artifact";
 
     // Ambil Data
-    const data = Object.fromEntries(
-      formData.entries()
-    ) as unknown as FormUtils.Genshin.FormDataWeapon;
+    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataWeapon;
 
     // Validasi
     const validation = await genshinValidator.weapon(data);
@@ -93,11 +84,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
     // Upload Image jika ada
     let imageUrl = "";
     if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(
-        validation.data.image,
-        game,
-        category
-      );
+      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
       imageUrl = uploadFile.secure_url;
     }
 
@@ -113,9 +100,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const category: General.Game["category"] = "Character";
 
     // Ambil Data
-    const data = Object.fromEntries(
-      formData.entries()
-    ) as unknown as FormUtils.Genshin.FormDataCharacter;
+    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataCharacter;
 
     // Validasi
     const validation = await genshinValidator.character(data);
@@ -124,11 +109,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
     // Upload Image jika ada
     let imageUrl = "";
     if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(
-        validation.data.image,
-        game,
-        category
-      );
+      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
       imageUrl = uploadFile.secure_url;
     }
 
@@ -137,5 +118,23 @@ export const genshin: FormUtils.Genshin.Genshin = {
     await Character.create(organizedData);
 
     return { status: 200, organizedData };
+  },
+  async processTalent(formData) {
+    const game: General.Game["game"] = "Genshin Impact";
+    const category: General.Game["category"] = "Character";
+
+    // Ambil Data
+    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataTalent;
+
+    // Validasi
+    const validation = await genshinValidator.talent(data);
+    if (!validation.status) return { status: 422, msg: validation.msg };
+
+    const organizedData = genshinOrganizing.talent(data);
+
+    if (data["result-lang"] === "Indonesian") await TalentID.create(organizedData);
+    else if (data["result-lang"] === "English") await TalentEN.create(organizedData);
+
+    return { status: 200, data: organizedData };
   },
 };

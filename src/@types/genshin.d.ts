@@ -31,16 +31,16 @@ namespace GenshinImpact {
     team: string[];
   }
 
-  interface AscendMaterial {
-    ascend1: AscendMaterialItem[];
-    ascend2: AscendMaterialItem[];
-    ascend3: AscendMaterialItem[];
-    ascend4: AscendMaterialItem[];
-    ascend5: AscendMaterialItem[];
-    ascend6: AscendMaterialItem[];
+  interface UpgradeMaterial {
+    ascend1: UpgradeMaterialItem[];
+    ascend2: UpgradeMaterialItem[];
+    ascend3: UpgradeMaterialItem[];
+    ascend4: UpgradeMaterialItem[];
+    ascend5: UpgradeMaterialItem[];
+    ascend6: UpgradeMaterialItem[];
   }
 
-  interface AscendMaterialItem {
+  interface UpgradeMaterialItem {
     name: string;
     count: number;
   }
@@ -51,11 +51,11 @@ namespace GenshinImpact {
     combat1: ApiTalentCombatData;
     combat2: ApiTalentCombatData;
     combat3: ApiTalentCombatData;
-    combatsp: ApiTalentCombatData;
+    combatsp?: ApiTalentCombatData;
     passive1: ApiTalentPassiveData;
     passive2: ApiTalentPassiveData;
     passive3: ApiTalentPassiveData;
-    cost: {
+    costs: {
       lvl2: ApiTalentCostData[];
       lvl3: ApiTalentCostData[];
       lvl4: ApiTalentCostData[];
@@ -93,7 +93,7 @@ namespace GenshinImpact {
 
   export interface ApiTalentPassiveData {
     name: string;
-    info: string;
+    description: string;
   }
 
   export interface ApiTalentCostData {
@@ -164,14 +164,38 @@ namespace GenshinImpact {
   }
 
   export interface Talent {
-    talentName: string;
-    talentImage?: string;
-    infoTalent: string;
-    descriptionTalent?: string;
-    statsSkill?: TalentStatus[];
+    id?: string;
+    charName: string;
+    combats: {
+      combat1: TalentSkill;
+      combat2: TalentSkill;
+      combat3: TalentSkill;
+      combatsp?: TalentSkill;
+    };
+    passives: {
+      passive1: TalentSkill;
+      passive2: TalentSkill;
+      passive3: TalentSkill;
+    };
+    costs: {
+      lvl2: UpgradeMaterialItem[];
+      lvl3: UpgradeMaterialItem[];
+      lvl4: UpgradeMaterialItem[];
+      lvl5: UpgradeMaterialItem[];
+      lvl6: UpgradeMaterialItem[];
+      lvl7: UpgradeMaterialItem[];
+      lvl8: UpgradeMaterialItem[];
+      lvl9: UpgradeMaterialItem[];
+      lvl10: UpgradeMaterialItem[];
+    };
   }
 
-  export interface TalentStatus {
+  interface TalentSkill {
+    name: string;
+    description: string;
+  }
+
+  interface TalentStatus {
     statName: string;
     status: {
       statLvl: string;
@@ -209,11 +233,7 @@ namespace GenshinImpact {
   export interface Material {
     _id?: string;
     name: string;
-    typeMaterial?:
-      | "Character Ascension"
-      | "Weapon Ascension"
-      | "Weapon and Character Material"
-      | "Talent Material";
+    typeMaterial?: "Character Ascension" | "Weapon Ascension" | "Weapon and Character Material" | "Talent Material";
     rarity: string;
     lore: string;
     gainedFrom?: string[] | string;
@@ -223,12 +243,7 @@ namespace GenshinImpact {
   export interface Artifact {
     _id?: string;
     name: string;
-    type:
-      | "Flower of Life"
-      | "Plume of Death"
-      | "Sands of Eon"
-      | "Goblet of Eonothem"
-      | "Circlet of Logos";
+    type: "Flower of Life" | "Plume of Death" | "Sands of Eon" | "Goblet of Eonothem" | "Circlet of Logos";
     set: string;
     setBonus: {
       setName?: "2 Set Bonus" | "4 Set Bonus";

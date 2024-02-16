@@ -15,11 +15,8 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get("category");
   const limit = Number(searchParams.get("limit")) || 0;
 
-
   if (UID) {
-    const post = await Post.findOne({ content: new ObjectId(UID) }).populate(
-      "content"
-    );
+    const post = await Post.findOne({ content: new ObjectId(UID) }).populate("content");
 
     if (Boolean(tag)) {
       //Genshin Impact, Evertale
@@ -27,57 +24,29 @@ export async function GET(req: NextRequest) {
         const characters = await Character.find();
         if (sort === "team") {
           const tags = post.content.charStatus.charTeam;
-          const random =
-            tags.length > 0 ? Math.floor(Math.random() * tags.length) : 0;
-          const data = evertale.mapping(
-            characters,
-            tags,
-            limit,
-            "charStatus.charTeam",
-            "chars",
-            true,
-            true
-          );
+          const random = tags.length > 0 ? Math.floor(Math.random() * tags.length) : 0;
+          const data = evertale.mapping(characters, tags, limit, "charStatus.charTeam", "chars", true, true);
 
-          return NextResponse.json(
-            { post, title: tags[random], data },
-            { status: 200 }
-          );
+          return NextResponse.json({ post, title: tags[random], data }, { status: 200 });
         }
         //Genshin Impact, Evertale
         if (sort === "element") {
           const tags = post.content.charStatus.charElement;
-          const data = evertale.mapping(
-            characters,
-            tags,
-            limit,
-            "charStatus.charElement",
-            "chars"
-          );
+          const data = evertale.mapping(characters, tags, limit, "charStatus.charElement", "chars");
 
-          return NextResponse.json(
-            { post, title: tags, data },
-            { status: 200 }
-          );
+          return NextResponse.json({ post, title: tags, data }, { status: 200 });
         }
 
         //Genshin Impact, Evertale, MLBB
         if (sort === "newest") {
           const newChars = await Character.find().sort({ createdAt: -1 });
           const data = evertale.simpleMapping(newChars, "chars", 9);
-          return NextResponse.json(
-            { post, title: "New Post", data },
-            { status: 200 }
-          );
+          return NextResponse.json({ post, title: "New Post", data }, { status: 200 });
         }
       } else if (category === "weapons") {
         const weapons = await Weapon.find();
         if (sort === "weapon-type") {
-          const type = evertale.simpleFilter(
-            weapons,
-            "weapType",
-            post.content.weapType
-          );
+          const type = evertale.simpleFilter(weapons, "weapType", post.content.weapType);
           const data = evertale.simpleMapping(type, "weapons");
           const title = post.content.weapType;
           return NextResponse.json({ data, type, title });
@@ -85,10 +54,7 @@ export async function GET(req: NextRequest) {
         if (sort === "newest") {
           const newWeapons = await Weapon.find().sort({ createdAt: -1 });
           const data = evertale.simpleMapping(newWeapons, "weapons", 9);
-          return NextResponse.json(
-            { post, title: "New Post", data },
-            { status: 200 }
-          );
+          return NextResponse.json({ post, title: "New Post", data }, { status: 200 });
         }
       }
     }
@@ -107,29 +73,29 @@ export async function POST(req: NextRequest) {
   if (game === "Genshin Impact") {
     if (category === "Material") {
       const process = await genshin.processMaterial(formData);
-      if (process.status === 422)
-        return NextResponse.json({ msg: process.msg }, { status: 422 });
+      if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: process.msg }, { status: 200 });
     } else if (category === "Artifact") {
       const process = await genshin.proccessArtifact(formData);
-      if (process.status === 422)
-        return NextResponse.json({ msg: process.msg }, { status: 422 });
+      if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: process.msg, process }, { status: 200 });
     } else if (category === "Weapon") {
       const process = await genshin.processWeapon(formData);
-      if (process.status === 422)
-        return NextResponse.json({ msg: process.msg }, { status: 422 });
+      if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah data senjata berhasil", process }, { status: 200 });
-    } else if (category === "Character"){
+    } else if (category === "Character") {
       const process = await genshin.proccessCharacter(formData);
-      if (process.status === 422)
-        return NextResponse.json({ msg: process.msg }, { status: 422 });
+      if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah data karakter berhasil", process }, { status: 200 });
-      
+    } else if (category === "Talent") {
+      const process = await genshin.processTalent(formData);
+      if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
+
+      return NextResponse.json({ msg: "Tambah talent karakter berhasil", process }, { status: 200 });
     }
   }
 

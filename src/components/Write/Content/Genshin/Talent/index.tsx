@@ -1,8 +1,6 @@
 import React from "react";
 import { submitFormHandler } from "../genshinUtils";
-import Button, {
-  VariantClass as ButtonStyle,
-} from "@/components/general/Button";
+import Button, { VariantClass as ButtonStyle } from "@/components/general/Button";
 import { Input, VariantClass } from "@/components/general/Input";
 import { FetchApi } from "../genshinComponents";
 
@@ -13,6 +11,8 @@ import "swiper/css/pagination";
 
 import { Pagination } from "swiper/modules";
 import TableMapping from "./Table";
+import PassiveTalent from "./Passive";
+import UpgradeCost from "./Cost";
 
 export interface CombatStatus {
   statsName: string;
@@ -24,93 +24,99 @@ export interface CombatStatus {
 
 export default function TalentForm() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [talent, setTalent] = React.useState<GenshinImpact.ApiResponseTalent>(
-    {} as GenshinImpact.ApiResponseTalent
-  );
+  const [talent, setTalent] = React.useState<GenshinImpact.ApiResponseTalent>({} as GenshinImpact.ApiResponseTalent);
 
-  const talentExist = Object.keys(talent).length !== 0 && talent.combat1;
+  const dataExist = Object.keys(talent).length !== 0 && talent.combat1;
+
   return (
-    <form
-      onSubmit={(e) =>
-        submitFormHandler(
-          e,
-          "/api/post",
-          setIsLoading,
-          "Genshin Impact",
-          "Talent",
-          "talent-button-submit"
-        )
-      }
-    >
-      <FetchApi
-        elementId="character-name"
-        msgNoData="Tidak ada karakter yang dimaksud"
-        msgNoInput="Nama karakter belum diisi"
-        refElement="character-name"
-        query="talents"
-        setData={setTalent}
-      />
+    <form onSubmit={(e) => submitFormHandler(e, "/api/post", setIsLoading, "Genshin Impact", "Talent", "talent-button-submit")}>
+      <FetchApi elementId="character-name" msgNoData="Tidak ada karakter yang dimaksud" msgNoInput="Nama karakter belum diisi" refElement="character-name" query="talents" setData={setTalent} />
 
-      <Input
-        forId="character-name"
-        label="Character Name"
-        variant={VariantClass.dashboard}
-        onChange={(e) => setTalent({ ...talent, name: e.target.value })}
-        value={talent?.name}
-      />
+      <Input forId="character-name" name="character-name" label="Character Name" variant={VariantClass.dashboard} onChange={(e) => setTalent({ ...talent, name: e.target.value })} value={talent?.name} />
 
       <div className="border-2 border-white rounded-lg p-4 my-4">
-        {talentExist ? (
+        {dataExist ? (
           <>
-            <h1 className="text-white font-semibold font-poppins text-center">
-              Talent
-            </h1>
-            <Swiper
-              slidesPerView={1}
-              modules={[Pagination]}
-              pagination={{ clickable: true }}
-            >
+            <h1 className="text-white font-semibold font-poppins text-center">Talent</h1>
+            <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
               <SwiperSlide>
-                <TableMapping
-                  talent={talent}
-                  setTalent={setTalent}
-                  index="combat1"
-                />
+                <TableMapping talent={talent} setTalent={setTalent} index="combat1" />
               </SwiperSlide>
 
               <SwiperSlide>
-                <TableMapping
-                  talent={talent}
-                  setTalent={setTalent}
-                  index="combat2"
-                />
+                <TableMapping talent={talent} setTalent={setTalent} index="combat2" />
               </SwiperSlide>
 
               <SwiperSlide>
-                <TableMapping
-                  talent={talent}
-                  setTalent={setTalent}
-                  index="combat3"
-                />
+                <TableMapping talent={talent} setTalent={setTalent} index="combat3" />
               </SwiperSlide>
 
               {talent?.combatsp && (
                 <SwiperSlide>
-                  <TableMapping
-                    talent={talent}
-                    setTalent={setTalent}
-                    index="combatsp"
-                  />
+                  <TableMapping talent={talent} setTalent={setTalent} index="combatsp" />
                 </SwiperSlide>
               )}
+
+              <SwiperSlide>
+                <PassiveTalent talent={talent} setTalent={setTalent} index="passive1" />
+              </SwiperSlide>
+
+              <SwiperSlide>
+                <PassiveTalent talent={talent} setTalent={setTalent} index="passive2" />
+              </SwiperSlide>
+
+              <SwiperSlide>
+                <PassiveTalent talent={talent} setTalent={setTalent} index="passive3" />
+              </SwiperSlide>
             </Swiper>
           </>
         ) : (
-          <h1 className="text-white font-semibold font-poppins text-center">
-            Belum pilih data character
-          </h1>
+          <h1 className="text-white font-semibold font-poppins text-center">Belum pilih data character</h1>
         )}
       </div>
+
+      {dataExist && (
+        <div className="border-2 border-white rounded-lg p-4 my-4">
+          <h2 className="text-white font-semibold font-poppins text-center">Upgrade Cost</h2>
+          <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
+            <SwiperSlide>
+              <UpgradeCost talent={talent} setTalent={setTalent} keyValue="lvl2" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <UpgradeCost talent={talent} setTalent={setTalent} keyValue="lvl3" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <UpgradeCost talent={talent} setTalent={setTalent} keyValue="lvl4" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <UpgradeCost talent={talent} setTalent={setTalent} keyValue="lvl5" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <UpgradeCost talent={talent} setTalent={setTalent} keyValue="lvl6" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <UpgradeCost talent={talent} setTalent={setTalent} keyValue="lvl7" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <UpgradeCost talent={talent} setTalent={setTalent} keyValue="lvl8" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <UpgradeCost talent={talent} setTalent={setTalent} keyValue="lvl9" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <UpgradeCost talent={talent} setTalent={setTalent} keyValue="lvl10" />
+            </SwiperSlide>
+          </Swiper>
+        </div>
+      )}
 
       <Button className={ButtonStyle.submit} id="talent-button-submit">
         {isLoading ? "Submitting..." : "Submit"}

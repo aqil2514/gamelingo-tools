@@ -190,7 +190,7 @@ export const genshinOrganizing: OrganizeData.Genshin = {
           },
         ],
       },
-      cv:{
+      cv: {
         english: data["character-voice-english"],
         japanese: data["character-voice-japanese"],
         korean: data["character-voice-korean"],
@@ -202,6 +202,196 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       gender: data.gender as GenshinImpact.Character["gender"],
       region: data.region as GenshinImpact.Character["region"],
       image: imageUrl ? imageUrl : undefined,
+    };
+
+    return finalData;
+  },
+  talent(data) {
+    const finalData: GenshinImpact.Talent = {
+      charName: data["character-name"],
+      combats: {
+        combat1: {
+          name: data["combat1-name"],
+          description: data["combat1-description"],
+        },
+        combat2: {
+          name: data["combat2-name"],
+          description: data["combat2-description"],
+        },
+        combat3: {
+          name: data["combat3-name"],
+          description: data["combat3-description"],
+        },
+        combatsp:
+          data["combatsp-name"] && data["combatsp-description"]
+            ? {
+                name: data["combatsp-name"],
+                description: data["combatsp-description"],
+              }
+            : undefined,
+      },
+      passives: {
+        passive1: {
+          name: data["passive1-name"],
+          description: data["passive1-description"],
+        },
+        passive2: {
+          name: data["passive2-name"],
+          description: data["passive2-description"],
+        },
+        passive3: {
+          name: data["passive3-name"],
+          description: data["passive3-description"],
+        },
+      },
+      costs: {
+        lvl2: [
+          {
+            name: data["lvl2-material-1"],
+            count: Number(data["lvl2-count-1"]),
+          },
+          {
+            name: data["lvl2-material-2"],
+            count: Number(data["lvl2-count-2"]),
+          },
+          {
+            name: data["lvl2-material-3"],
+            count: Number(data["lvl2-count-3"]),
+          },
+        ],
+        lvl3: [
+          {
+            name: data["lvl3-material-1"],
+            count: Number(data["lvl3-count-1"]),
+          },
+          {
+            name: data["lvl3-material-2"],
+            count: Number(data["lvl3-count-2"]),
+          },
+          {
+            name: data["lvl3-material-3"],
+            count: Number(data["lvl3-count-3"]),
+          },
+        ],
+        lvl4: [
+          {
+            name: data["lvl4-material-1"],
+            count: Number(data["lvl4-count-1"]),
+          },
+          {
+            name: data["lvl4-material-2"],
+            count: Number(data["lvl4-count-2"]),
+          },
+          {
+            name: data["lvl4-material-3"],
+            count: Number(data["lvl4-count-3"]),
+          },
+        ],
+        lvl5: [
+          {
+            name: data["lvl5-material-1"],
+            count: Number(data["lvl5-count-1"]),
+          },
+          {
+            name: data["lvl5-material-2"],
+            count: Number(data["lvl5-count-2"]),
+          },
+          {
+            name: data["lvl5-material-3"],
+            count: Number(data["lvl5-count-3"]),
+          },
+        ],
+        lvl6: [
+          {
+            name: data["lvl6-material-1"],
+            count: Number(data["lvl6-count-1"]),
+          },
+          {
+            name: data["lvl6-material-2"],
+            count: Number(data["lvl6-count-2"]),
+          },
+          {
+            name: data["lvl6-material-3"],
+            count: Number(data["lvl6-count-3"]),
+          },
+        ],
+        lvl7: [
+          {
+            name: data["lvl7-material-1"],
+            count: Number(data["lvl7-count-1"]),
+          },
+          {
+            name: data["lvl7-material-2"],
+            count: Number(data["lvl7-count-2"]),
+          },
+          {
+            name: data["lvl7-material-3"],
+            count: Number(data["lvl7-count-3"]),
+          },
+          {
+            name: data["lvl7-material-4"],
+            count: Number(data["lvl7-count-4"]),
+          },
+        ],
+        lvl8: [
+          {
+            name: data["lvl8-material-1"],
+            count: Number(data["lvl8-count-1"]),
+          },
+          {
+            name: data["lvl8-material-2"],
+            count: Number(data["lvl8-count-2"]),
+          },
+          {
+            name: data["lvl8-material-3"],
+            count: Number(data["lvl8-count-3"]),
+          },
+          {
+            name: data["lvl8-material-4"],
+            count: Number(data["lvl8-count-4"]),
+          },
+        ],
+        lvl9: [
+          {
+            name: data["lvl9-material-1"],
+            count: Number(data["lvl9-count-1"]),
+          },
+          {
+            name: data["lvl9-material-2"],
+            count: Number(data["lvl9-count-2"]),
+          },
+          {
+            name: data["lvl9-material-3"],
+            count: Number(data["lvl9-count-3"]),
+          },
+          {
+            name: data["lvl9-material-4"],
+            count: Number(data["lvl9-count-4"]),
+          },
+        ],
+        lvl10: [
+          {
+            name: data["lvl10-material-1"],
+            count: Number(data["lvl10-count-1"]),
+          },
+          {
+            name: data["lvl10-material-2"],
+            count: Number(data["lvl10-count-2"]),
+          },
+          {
+            name: data["lvl10-material-3"],
+            count: Number(data["lvl10-count-3"]),
+          },
+          {
+            name: data["lvl10-material-4"],
+            count: Number(data["lvl10-count-4"]),
+          },
+          {
+            name: data["lvl10-material-5"],
+            count: Number(data["lvl10-count-5"]),
+          },
+        ],
+      },
     };
 
     return finalData;

@@ -25,16 +25,8 @@ namespace ApiUtils {
     nameValidation: (name: string) => ResultRefApi;
     usernameValidation: (username: string) => Promise<ResultRefApi>;
     emailValidation: (email: string) => Promise<ResultRefApi>;
-    passwordValidation: (
-      password: string,
-      confirmPassword: string
-    ) => ResultRefApi;
-    addAccount: (
-      username: string,
-      password: string,
-      name: string,
-      email: string
-    ) => Promise<AccountResult>;
+    passwordValidation: (password: string, confirmPassword: string) => ResultRefApi;
+    addAccount: (username: string, password: string, name: string, email: string) => Promise<AccountResult>;
   }
 
   export interface VerifiedResult {
@@ -45,10 +37,7 @@ namespace ApiUtils {
 
   export interface DashboardApi {
     nameValidation: (name: string) => ResultApi;
-    usernameValidation: (
-      username: string,
-      oldUsername: string
-    ) => Promise<ResultApi>;
+    usernameValidation: (username: string, oldUsername: string) => Promise<ResultApi>;
     emailValidation: (email: string, oldEmail: string) => Promise<ResultApi>;
     changeHandler: (data: Account.User) => Promise<ResultApi>;
   }
@@ -60,21 +49,13 @@ namespace ApiUtils {
 
   export interface LoginApi {
     usernameValidation: (username: string) => Promise<ResultApi>;
-    passwordValidation: (
-      username: string,
-      password: string
-    ) => Promise<ResultApi>;
+    passwordValidation: (username: string, password: string) => Promise<ResultApi>;
     isVerifiedValidation: (username: string) => Promise<VerifiedResult>;
   }
 
   export interface VerificationApi {
     generate: () => string;
-    compare: (
-      code: string,
-      email: string,
-      action: "verify-account" | "change-email",
-      newEmail?: string
-    ) => Promise<ResultApi>;
+    compare: (code: string, email: string, action: "verify-account" | "change-email", newEmail?: string) => Promise<ResultApi>;
   }
 
   export interface ResetPasswordApi {
@@ -87,16 +68,10 @@ namespace ApiUtils {
   }
 
   export interface GenshinValidatorApi {
-    material: ({
-      name,
-      image,
-      lore,
-      gainedFrom,
-      rarity,
-      typeMaterial,
-    }: any) => Promise<ResultApiwithData>;
-    artifact: (data:FormUtils.Genshin.FormDataArtifact) => Promise<ResultApiwithData>;
-    weapon: (data:FormUtils.Genshin.FormDataWeapon) => Promise<ResultApiwithData>;
-    character: (data:FormUtils.Genshin.FormDataCharacter) => Promise<ResultApiwithData>;
+    material: ({ name, image, lore, gainedFrom, rarity, typeMaterial }: any) => Promise<ResultApiwithData>;
+    artifact: (data: FormUtils.Genshin.FormDataArtifact) => Promise<ResultApiwithData>;
+    weapon: (data: FormUtils.Genshin.FormDataWeapon) => Promise<ResultApiwithData>;
+    character: (data: FormUtils.Genshin.FormDataCharacter) => Promise<ResultApiwithData>;
+    talent: (data: FormUtils.Genshin.FormDataTalent) => Promise<ResultApiwithData>;
   }
 }
