@@ -6,14 +6,14 @@ namespace General {
   }
 
   export type Game = Evertale | GenshinImpact;
-  
-  interface Evertale{
-    game:"Evertale",
-    category:"Weapon" | "Character" | "Accessory";
+
+  interface Evertale {
+    game: "Evertale";
+    category: "Weapon" | "Character" | "Accessory";
   }
-  
-  interface GenshinImpact{
-    game :"Genshin Impact",
-    category:"Artifact" | "Character" | "Material" | "Weapon" | "Talent"
+
+  interface GenshinImpact {
+    game: "Genshin Impact";
+    category: "Artifact" | "Character" | "Material" | "Weapon" | "Talent" | "Constellations";
   }
 }

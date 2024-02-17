@@ -3,18 +3,14 @@ import axios from "axios";
 import { Route } from "next";
 import React from "react";
 
-export const apiURL = "https://genshin-db-api.vercel.app/api/v5"
+export const apiURL = "https://genshin-db-api.vercel.app/api/v5";
 
 export function getFormData(e: React.FormEvent<HTMLFormElement>) {
   const formData = new FormData(e.target as HTMLFormElement);
 
-  const elements = document.querySelectorAll(
-    "input[type=text]"
-  ) as NodeListOf<HTMLInputElement>;
+  const elements = document.querySelectorAll("input[type=text]") as NodeListOf<HTMLInputElement>;
   const textarea = document.querySelector("textarea");
-  const files = document.querySelectorAll(
-    "input[type=file]"
-  ) as NodeListOf<HTMLInputElement>;
+  const files = document.querySelectorAll("input[type=file]") as NodeListOf<HTMLInputElement>;
 
   const data: { [key: string]: string | null | FileList } = {};
 
@@ -30,14 +26,7 @@ export function getFormData(e: React.FormEvent<HTMLFormElement>) {
   return data;
 }
 
-export async function submitFormHandler(
-  e: React.FormEvent<HTMLFormElement>,
-  url: Route,
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  game: General.Game["game"],
-  category: General.Game["category"],
-  ref: string
-) {
+export async function submitFormHandler(e: React.FormEvent<HTMLFormElement>, url: Route, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>, game: General.Game["game"], category: General.Game["category"], ref: string) {
   e.preventDefault();
 
   const formData = new FormData(e.target as HTMLFormElement);
@@ -66,5 +55,3 @@ export async function submitFormHandler(
     setIsLoading(false);
   }
 }
-
-

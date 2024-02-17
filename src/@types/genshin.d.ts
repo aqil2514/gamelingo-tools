@@ -78,6 +78,33 @@ namespace GenshinImpact {
     version: string;
   }
 
+  export interface ApiResponseConstellations {
+    id?: number;
+    name: string;
+    c1: ApiResponseBasicInfo;
+    c2: ApiResponseBasicInfo;
+    c3: ApiResponseBasicInfo;
+    c4: ApiResponseBasicInfo;
+    c5: ApiResponseBasicInfo;
+    c6: ApiResponseBasicInfo;
+    images: {
+      filename_c1: string;
+      filename_c2: string;
+      filename_c3: string;
+      filename_c4: string;
+      filename_c5: string;
+      filename_c6: string;
+      filename_constellation: string;
+    };
+    version: string;
+  }
+
+  interface ApiResponseBasicInfo {
+    name: string;
+    descriptionRaw: string;
+    description: string;
+  }
+
   export interface ApiTalentCombatData {
     name: string;
     info?: string;
