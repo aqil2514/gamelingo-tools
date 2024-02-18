@@ -57,6 +57,7 @@ export const genshinOrganizing: OrganizeData.Genshin = {
   },
   character(data, imageUrl) {
     const finalData: GenshinImpact.Character = {
+      lang: data["result-lang"],
       name: data.name,
       description: data.description,
       ascendStatus: data.ascendStatus,

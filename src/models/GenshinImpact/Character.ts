@@ -1,60 +1,59 @@
-import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 import Weapon from "./Weapon";
 import { genshinConnection } from "@/lib/mongoose";
+import { TalentEN, TalentID } from "./Talent";
+import { ConstellationEN, ConstellationID } from "./Constellation";
 
-const CharacterSchema = new Schema<GenshinImpact.Character>({
-  _id: {
-    type: ObjectId,
-    default: new mongoose.Types.ObjectId(),
-    required: false,
-  },
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  ascendStatus: { type: String, required: true },
-  ascendMaterial: { type: Object, required: false },
-  rarity: { type: String, required: true },
-  element: { type: String, required: true },
-  weapon: { type: String, required: true },
-  gender: { type: String, required: true },
-  region: { type: String, required: true },
-  cv: {
-    english: String,
-    chinese: String,
-    japanese: String,
-    korean: String,
-  },
-  image: { type: String, required: true },
-  build: {
-    weapon: { type: Schema.Types.ObjectId, required: false, ref: Weapon },
-    substitude: { type: [Schema.Types.ObjectId], required: false, ref: Weapon },
-    bestArtifact: { type: Schema.Types.ObjectId, required: false },
-    artifactStatus: { type: [Schema.Types.ObjectId], required: false },
-    prioritySubStat: { type: [Schema.Types.ObjectId], required: false },
-    team: { type: [Schema.Types.ObjectId], required: false },
-  },
-  talent: [
-    {
-      infoTalent: { type: String, required: false },
-      talentName: { type: String, required: false },
-      talentImage: { type: String, required: false },
-      statsSkill: [
-        {
-          statName: { type: String, required: false },
-          statValue: { type: String, required: false },
-        },
-      ],
+const CharacterSchema = new Schema<GenshinImpact.Character>(
+  {
+    lang: { type: String, enum: ["Indonesian", "English"], required: true },
+    name: { type: String, required: true, unique: true },
+    description: { type: String, required: true },
+    ascendStatus: { type: String, required: true },
+    ascendMaterial: { type: Object, required: false },
+    rarity: { type: String, required: true },
+    element: { type: String, enum: ["Cryo", "Pyro", "Dendro", "Geo", "Hydro", "Anemo"], required: true },
+    weapon: { type: String, enum: ["Sword", "Polearm", "Claymore", "Bow", "Catalyst"], required: true },
+    gender: { type: String, enum: ["Female", "Male", "Perempuan", "Pria"], required: true },
+    region: { type: String, enum: ["Mondstadt", "Liyue", "Inazuma", "Sumeru", "Fontain"], required: true },
+    cv: {
+      english: String,
+      chinese: String,
+      japanese: String,
+      korean: String,
     },
-  ],
-  constellation: [
-    {
-      constName: { type: String, required: false },
-      constEffect: { type: String, required: false },
+    image: { type: String, required: true },
+    build: {
+      weapon: { type: Schema.Types.ObjectId, required: false, ref: Weapon },
+      substitude: { type: [Schema.Types.ObjectId], required: false, ref: Weapon },
+      bestArtifact: { type: Schema.Types.ObjectId, required: false },
+      artifactStatus: { type: [Schema.Types.ObjectId], required: false },
+      prioritySubStat: { type: [Schema.Types.ObjectId], required: false },
+      team: { type: [Schema.Types.ObjectId], required: false },
     },
-  ],
-},{timestamps:true});
+    talent: {
+      type: Schema.Types.ObjectId,
+      required: false,
+      ref: function () {
+        if (this.lang === "Indonesian") return TalentID;
+        else if (this.lang === "English") return TalentEN;
 
-const Character =
-  genshinConnection.models.character || genshinConnection.model("character", CharacterSchema);
+        return TalentEN;
+      },
+    },
+    constellation: {
+      type: Schema.Types.ObjectId,
+      required: false,
+      ref: function () {
+        if (this.lang === "Indonesian") return ConstellationID;
+        else if (this.lang === "English") return ConstellationEN;
 
-export default Character;
+        return ConstellationEN;
+      },
+    },
+  },
+  { timestamps: true }
+);
+
+export const CharacterID = genshinConnection.models.id_character || genshinConnection.model("id_character", CharacterSchema);
+export const CharacterEN = genshinConnection.models.en_character || genshinConnection.model("en_character", CharacterSchema);

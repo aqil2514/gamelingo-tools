@@ -20,7 +20,6 @@ const LvlSchema = new Schema<GenshinImpact.UpgradeMaterialItem>(
 
 const TalentSchema = new Schema<GenshinImpact.Talent>(
   {
-    id: { type: ObjectId, required: false, default: new mongoose.Types.ObjectId() },
     charName: { type: String, required: true },
     combats: {
       combat1: { type: TalentSubSchema, required: true },

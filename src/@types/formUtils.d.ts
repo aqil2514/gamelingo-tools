@@ -44,6 +44,7 @@ namespace FormUtils {
     type Language = "Indonesian" | "English";
 
     export interface FormDataCharacter {
+      "result-lang": Language;
       name: string;
       description: string;
       ascendStatus: string;

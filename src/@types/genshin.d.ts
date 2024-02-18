@@ -1,6 +1,7 @@
 namespace GenshinImpact {
   export interface Character {
     _id?: string;
+    lang: "Indonesian" | "English";
     name: string;
     description: string;
     ascendStatus: string;

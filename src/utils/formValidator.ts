@@ -2,6 +2,7 @@
 
 import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
 import { file } from "./api";
+import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 
 export const genshinValidator: ApiUtils.GenshinValidatorApi = {
   async material({ name, image, lore, gainedFrom, rarity, typeMaterial }) {
@@ -75,6 +76,13 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
   },
   async character(data) {
     if (!data.name) return { status: false, msg: "Nama karakter belum ada" };
+    if (data["result-lang"] === "Indonesian") {
+      const isThere = await CharacterID.findOne({ charName: data.name });
+      if (isThere) return { status: false, msg: `${data.name} sudah ada di Database` };
+    } else if (data["result-lang"] === "English") {
+      const isThere = await CharacterEN.findOne({ charName: data.name });
+      if (isThere) return { status: false, msg: `${data.name} is there in Database` };
+    }
     if (!data.description) return { status: false, msg: "Deskripsi karakter belum ada" };
     if (!data.ascendStatus) return { status: false, msg: "Ascend status karakter belum ada" };
 
@@ -165,8 +173,8 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     if (!data.region) return { status: false, msg: "Region belum diisi" };
     if (!allowedRegion.includes(data.region as GenshinImpact.Character["region"])) return { status: false, msg: "Region tidak diizinkan" };
 
-    if (data.image?.name) {
-      const imageValidation = file.validationImage(data.image);
+    if (data.image?.name !== "undefined") {
+      const imageValidation = file.validationImage(data.image as File);
       if (!imageValidation.status) return { msg: imageValidation.msg, status: false };
 
       if (!data.image?.name.toLowerCase().includes(data.name.toLowerCase())) {
@@ -175,8 +183,8 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
           msg: "Nama file tidak mencakup nama karakter. Apa ini file yang benar?",
         };
       }
-    } else if (!data?.image?.name) {
-      data.image = undefined;
+    } else if (data?.image?.name === "undefined") {
+      return { status: false, msg: "Gambar belum dipilih" };
     }
 
     return { status: true, data };

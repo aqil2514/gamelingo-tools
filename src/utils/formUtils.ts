@@ -4,9 +4,9 @@ import { genshinValidator } from "./formValidator";
 import { genshinOrganizing } from "./organizeData";
 import Artifact from "@/models/GenshinImpact/Artifact";
 import Weapon from "@/models/GenshinImpact/Weapon";
-import Character from "@/models/GenshinImpact/Character";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
+import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 
 export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData: FormData) => {
@@ -116,7 +116,8 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     const organizedData = genshinOrganizing.character(validation.data, imageUrl);
 
-    await Character.create(organizedData);
+    if (data["result-lang"] === "English") await CharacterEN.create(organizedData);
+    else if (data["result-lang"] === "Indonesian") await CharacterID.create(organizedData);
 
     return { status: 200, organizedData };
   },
