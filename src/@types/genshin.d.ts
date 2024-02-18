@@ -100,6 +100,67 @@ namespace GenshinImpact {
     version: string;
   }
 
+  export interface ApiResponseArtifacts {
+    id: number;
+    rarityList: string[] | string;
+    name: string;
+    effect2Pc: string;
+    effect4Pc: string;
+    flower: {
+      name: string;
+      relicType: string;
+      relicText: string;
+      description: string;
+      story: string;
+    };
+    plume: {
+      name: string;
+      relicType: string;
+      relicText: string;
+      description: string;
+      story: string;
+    };
+    sands: {
+      name: string;
+      relicType: string;
+      relicText: string;
+      description: string;
+      story: string;
+    };
+    goblet: {
+      name: string;
+      relicType: string;
+      relicText: string;
+      description: string;
+      story: string;
+    };
+    circlet: {
+      name: string;
+      relicType: string;
+      relicText: string;
+      description: string;
+      story: string;
+    };
+    images: {
+      flower: string;
+      plume: string;
+      sands: string;
+      goblet: string;
+      circlet: string;
+      filename_flower: string;
+      filename_plume: string;
+      filename_sands: string;
+      filename_goblet: string;
+      filename_circlet: string;
+      mihoyo_flower: string;
+      mihoyo_plume: string;
+      mihoyo_sands: string;
+      mihoyo_goblet: string;
+      mihoyo_circlet: string;
+    };
+    version: string;
+  }
+
   interface ApiResponseBasicInfo {
     name: string;
     descriptionRaw: string;

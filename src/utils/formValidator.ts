@@ -76,13 +76,15 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
   },
   async character(data) {
     if (!data.name) return { status: false, msg: "Nama karakter belum ada" };
+
     if (data["result-lang"] === "Indonesian") {
-      const isThere = await CharacterID.findOne({ charName: data.name });
+      const isThere = await CharacterID.findOne({ name: data.name });
       if (isThere) return { status: false, msg: `${data.name} sudah ada di Database` };
     } else if (data["result-lang"] === "English") {
-      const isThere = await CharacterEN.findOne({ charName: data.name });
+      const isThere = await CharacterEN.findOne({ name: data.name });
       if (isThere) return { status: false, msg: `${data.name} is there in Database` };
     }
+
     if (!data.description) return { status: false, msg: "Deskripsi karakter belum ada" };
     if (!data.ascendStatus) return { status: false, msg: "Ascend status karakter belum ada" };
 
