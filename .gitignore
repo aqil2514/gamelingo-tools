@@ -13,6 +13,7 @@ postgres.session.sql
 
 #environment
 .env
+/backup
 
 # next.js
 /.next/
