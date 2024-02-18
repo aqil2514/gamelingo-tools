@@ -41,6 +41,8 @@ namespace FormUtils {
       image?: File;
     }
 
+    type Language = "Indonesian" | "English";
+
     export interface FormDataCharacter {
       name: string;
       description: string;
@@ -198,12 +200,30 @@ namespace FormUtils {
       "lvl10-count-5": number;
     }
 
+    export interface FormDataConstellation {
+      "result-lang": Language;
+      charName: string;
+      c1: string;
+      d1: string;
+      c2: string;
+      d2: string;
+      c3: string;
+      d3: string;
+      c4: string;
+      d4: string;
+      c5: string;
+      d5: string;
+      c6: string;
+      d6: string;
+    }
+
     export interface Genshin {
       processMaterial: (formData: FormData) => Promise<Result>;
       proccessArtifact: (formData: FormData) => Promise<Result>;
       processWeapon: (formData: FormData) => Promise<Result>;
       proccessCharacter: (formData: FormData) => Promise<Result>;
       processTalent: (formData: FormData) => Promise<Result>;
+      processConstellation: (formData: FormData) => Promise<Result>;
     }
   }
 }

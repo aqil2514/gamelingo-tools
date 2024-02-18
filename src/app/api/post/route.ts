@@ -96,6 +96,11 @@ export async function POST(req: NextRequest) {
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah talent karakter berhasil", process }, { status: 200 });
+    } else if (category === "Constellations") {
+      const process = await genshin.processConstellation(formData);
+      if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
+
+      return NextResponse.json({ msg: "Tambah talent karakter berhasil", process }, { status: 200 });
     }
   }
 

@@ -73,5 +73,6 @@ namespace ApiUtils {
     weapon: (data: FormUtils.Genshin.FormDataWeapon) => Promise<ResultApiwithData>;
     character: (data: FormUtils.Genshin.FormDataCharacter) => Promise<ResultApiwithData>;
     talent: (data: FormUtils.Genshin.FormDataTalent) => Promise<ResultApiwithData>;
+    constellation: (data: FormUtils.Genshin.FormDataConstellation) => Promise<ResultApiwithData>;
   }
 }

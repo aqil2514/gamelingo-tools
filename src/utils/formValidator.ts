@@ -1,5 +1,6 @@
 //Genshin Validator API Utils
 
+import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
 import { file } from "./api";
 
 export const genshinValidator: ApiUtils.GenshinValidatorApi = {
@@ -198,6 +199,25 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
         if (!data[key as keyof FormUtils.Genshin.FormDataTalent]) return { status: false, msg: `Data masih ada yang kosong` };
       }
     }
+    return { status: true, data };
+  },
+  async constellation(data) {
+    if (!data.charName) return { status: false, msg: "Nama karakter belum diisi" };
+
+    for (const key in data) {
+      if (key.startsWith("c") || key.startsWith("d")) {
+        if (!data[key as keyof FormUtils.Genshin.FormDataConstellation]) return { status: false, msg: `Data masih ada yang kosong` };
+      }
+    }
+
+    if (data["result-lang"] === "English") {
+      const isThere = await ConstellationEN.findOne({ charName: data.charName });
+      if (isThere) return { status: false, msg: "Yelan is there in Database." };
+    } else if (data["result-lang"] === "Indonesian") {
+      const isThere = await ConstellationID.findOne({ charName: data.charName });
+      if (isThere) return { status: false, msg: "Yelan sudah ada di Database." };
+    }
+
     return { status: true, data };
   },
 };

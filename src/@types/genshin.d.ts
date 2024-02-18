@@ -231,8 +231,21 @@ namespace GenshinImpact {
   }
 
   export interface Constellation {
-    constName: string;
-    constEffect: string;
+    id?: string;
+    charName: string;
+    constellation: {
+      c1: BasicInfo;
+      c2: BasicInfo;
+      c3: BasicInfo;
+      c4: BasicInfo;
+      c5: BasicInfo;
+      c6: BasicInfo;
+    };
+  }
+
+  interface BasicInfo {
+    name: string;
+    description: string;
   }
 
   export interface Weapon {

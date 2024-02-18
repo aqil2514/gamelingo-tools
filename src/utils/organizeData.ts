@@ -396,4 +396,37 @@ export const genshinOrganizing: OrganizeData.Genshin = {
 
     return finalData;
   },
+  constellation(data) {
+    const finalData: GenshinImpact.Constellation = {
+      charName: data.charName,
+      constellation: {
+        c1: {
+          name: data.c1,
+          description: data.d1,
+        },
+        c2: {
+          name: data.c2,
+          description: data.d2,
+        },
+        c3: {
+          name: data.c3,
+          description: data.d3,
+        },
+        c4: {
+          name: data.c4,
+          description: data.d4,
+        },
+        c5: {
+          name: data.c5,
+          description: data.d5,
+        },
+        c6: {
+          name: data.c6,
+          description: data.d6,
+        },
+      },
+    };
+
+    return finalData;
+  },
 };

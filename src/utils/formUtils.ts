@@ -6,6 +6,7 @@ import Artifact from "@/models/GenshinImpact/Artifact";
 import Weapon from "@/models/GenshinImpact/Weapon";
 import Character from "@/models/GenshinImpact/Character";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
+import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
 
 export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData: FormData) => {
@@ -134,6 +135,22 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     if (data["result-lang"] === "Indonesian") await TalentID.create(organizedData);
     else if (data["result-lang"] === "English") await TalentEN.create(organizedData);
+
+    return { status: 200, data: organizedData };
+  },
+  async processConstellation(formData) {
+    //Ambil data
+    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataConstellation;
+
+    // Validasi
+    const validation = await genshinValidator.constellation(data);
+    if (!validation.status) return { status: 422, msg: validation.msg };
+
+    // Susun adta
+    const organizedData = genshinOrganizing.constellation(data);
+
+    if (data["result-lang"] === "Indonesian") await ConstellationID.create(organizedData);
+    else if (data["result-lang"] === "English") await ConstellationEN.create(organizedData);
 
     return { status: 200, data: organizedData };
   },
