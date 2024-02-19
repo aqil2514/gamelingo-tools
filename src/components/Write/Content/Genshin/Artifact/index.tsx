@@ -46,7 +46,7 @@ export default function ArtifactForm() {
               </div>
             </div>
 
-            <div className="border-2 border-white rounded-lg p-4 my-4">
+            <div className="border-2 border-white rounded-lg px-4 py-12 my-4">
               <div className="my-4">
                 <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
                   <SwiperSlide>

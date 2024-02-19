@@ -1,5 +1,7 @@
+import Button, { VariantClass as ButtonClass } from "@/components/general/Button";
 import { Input, VariantClass } from "@/components/general/Input";
 import Textarea, { TextareaStyle } from "@/components/general/Textarea";
+import Image from "next/image";
 import React from "react";
 
 interface SwiperSlideProps {
@@ -9,6 +11,28 @@ interface SwiperSlideProps {
 }
 
 export default function SwiperSlideData({ data, setData, keyValue }: SwiperSlideProps) {
+  const initFileName = `No Image Selected for ${keyValue}`;
+  const [fileName, setFileName] = React.useState<string>(initFileName);
+  const [previewLink, setPreviewLink] = React.useState<string>("");
+  const imageRef = React.useRef<HTMLInputElement>(null);
+
+  function imageHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    const el = e.target as HTMLInputElement;
+    if (el.files && el.files?.length > 0) {
+      const imgSrc = URL.createObjectURL(el?.files[0] as File);
+      setFileName(el.files[0].name);
+      setPreviewLink(imgSrc);
+    }
+  }
+
+  function removeHandler() {
+    if (imageRef.current) {
+      imageRef.current.value = "";
+      imageRef.current.files = null;
+      setPreviewLink("");
+      setFileName(initFileName);
+    }
+  }
   return (
     <>
       <h2 className="text-white font-semibold font-poppins capitalize">{keyValue}</h2>
@@ -42,6 +66,23 @@ export default function SwiperSlideData({ data, setData, keyValue }: SwiperSlide
       />
 
       {/* Gambar di sini */}
+      <div className="flex justify-start min-h-[70px] gap-4">
+        {previewLink && (
+          <Button
+            type="button"
+            className="h-[30px] transition duration-200 hover:bg-red-700 rounded-lg border border-red-700 hover:border-red-700 text-red-700 font-semibold font-poppins hover:text-white px-4 cursor-pointer"
+            onClick={removeHandler}
+          >
+            Remove
+          </Button>
+        )}
+        <label htmlFor={`${keyValue}-image`} className="h-[30px] transition duration-200 hover:bg-zinc-800 rounded-lg border border-white hover:border-zinc-800 text-white px-4 cursor-pointer">
+          <p className="font-semibold font-poppins cursor-pointer">{previewLink ? "Change Image" : "Upload Image"}</p>
+          <input type="file" ref={imageRef} name={`${keyValue}-image`} id={`${keyValue}-image`} onChange={imageHandler} accept=".png, .webp" className="hidden" />
+        </label>
+        <p className="font-bold font-mono text-white">{fileName}</p>
+        {previewLink && <Image width={64} height={64} alt={fileName} src={previewLink} className="h-auto rounded-xl" />}
+      </div>
     </>
   );
 }
