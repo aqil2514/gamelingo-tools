@@ -69,7 +69,7 @@ namespace ApiUtils {
   }
 
   export interface GenshinValidatorApi {
-    material: ({ name, image, lore, gainedFrom, rarity, typeMaterial }: any) => Promise<ResultApiwithData>;
+    material: (data: FormUtils.Genshin.FormDataMaterial) => Promise<ResultApiwithData>;
     artifact: (data: FormUtils.Genshin.FormDataArtifact) => Promise<ResultApiwithData>;
     weapon: (data: FormUtils.Genshin.FormDataWeapon) => Promise<ResultApiwithData>;
     character: (data: FormUtils.Genshin.FormDataCharacter) => Promise<ResultApiwithData>;

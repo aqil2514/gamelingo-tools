@@ -9,7 +9,7 @@ import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 
 export const genshinValidator: ApiUtils.GenshinValidatorApi = {
-  async material({ name, image, lore, gainedFrom, rarity, typeMaterial }) {
+  async material(data) {
     const allowedType: GenshinImpact.Material["typeMaterial"][] = [
       "Character Ascension",
       "Talent Material",
@@ -17,23 +17,27 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       "Weapon and Character Material",
     ];
 
-    if (!name) return { status: false, msg: "Nama material belum diisi" };
-    if (!typeMaterial)
+    if (!data.name) return { status: false, msg: "Nama material belum diisi" };
+    if (!data.typeMaterial)
       return { status: false, msg: "Tipe material belum diisi" };
-    if (!allowedType.includes(typeMaterial))
-      return { status: false, msg: "Tipe material tidak dikenal" };
-    if (!lore) return { status: false, msg: "Lore material belum diisi" };
-    if (!rarity) return { status: false, msg: "Rarity material belum diisi" };
+    if (!data.lore) return { status: false, msg: "Lore material belum diisi" };
+    if (!data.rarity)
+      return { status: false, msg: "Rarity material belum diisi" };
 
-    const data: GenshinImpact.Material = {
-      name,
-      typeMaterial,
-      lore,
-      rarity,
-      image,
-      gainedFrom:
-        typeof gainedFrom === "string" ? gainedFrom.split(",") : gainedFrom,
-    };
+    if (data.image && data.image.name) {
+      if (!data.image.name.toLowerCase().includes(data.name.toLowerCase()))
+        return { status: false, msg: "Image harus sesuai namanya." };
+      if (data.image.size > 1 * 1024 * 1024)
+        return { status: false, msg: "Image harus kurang dari 1 MB" };
+      if (data.image.type !== "image/png" && data.image.type !== "image/webp")
+        return { status: false, msg: "Image harus bertipe PNG atau WEBP" };
+      const newFile = new File([data.image], data.name, {
+        type: data.image.type,
+      });
+      data.image = newFile;
+    } else {
+      data.image = undefined;
+    }
 
     return { status: true, data };
   },

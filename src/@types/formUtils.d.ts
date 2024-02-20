@@ -5,6 +5,16 @@ namespace FormUtils {
       status: number;
     }
 
+    export interface FormDataMaterial{
+      'result-lang': Language;
+      name: string;
+      typeMaterial: string;
+      rarity: string;
+      lore: string;
+      gainedFrom: string;
+      image?: File;
+    }
+
     export interface FormDataArtifactKey {
       key: "name" | "type" | "set" | "setName_1" | "setValue_1" | "setName_2" | "setValue_2" | "rarity" | "image";
     }

@@ -24,141 +24,135 @@ export default function ArtifactForm() {
 
   const dataExist = artifact.rarityList;
   return (
-    <>
-      <form
-        onSubmit={(e) =>
-          submitFormHandler(
-            e,
-            "/api/post",
-            setIsLoading,
-            "Genshin Impact",
-            "Artifact",
-            "artifact-button-submit",
-          )
-        }
-        className="my-4"
-      >
-        <FetchApi
-          elementId="name"
-          msgNoInput="Artifact belum diinput"
-          msgNoData="Data Artifact tidak ada"
-          refElement="name"
-          query="artifacts"
-          setData={setArtifact}
-        />
-        <Input
-          forId="name"
-          value={artifact?.name}
-          onChange={(e) => setArtifact({ ...artifact, name: e.target.value })}
-          required
-          name="name"
-          variant={VariantClass.dashboard}
-          label="Artifact Name"
-        />
+    <form
+      onSubmit={(e) =>
+        submitFormHandler(
+          e,
+          "/api/post",
+          setIsLoading,
+          "Genshin Impact",
+          "Artifact",
+          "artifact-button-submit",
+        )
+      }
+      className="my-4"
+    >
+      <FetchApi
+        elementId="name"
+        msgNoInput="Artifact belum diinput"
+        msgNoData="Data Artifact tidak ada"
+        refElement="name"
+        query="artifacts"
+        setData={setArtifact}
+      />
+      <Input
+        forId="name"
+        value={artifact?.name}
+        onChange={(e) => setArtifact({ ...artifact, name: e.target.value })}
+        required
+        name="name"
+        variant={VariantClass.dashboard}
+        label="Artifact Name"
+      />
 
-        {dataExist ? (
-          <>
-            <Input
-              forId="rarityList"
-              value={(artifact.rarityList as string[]).join(", ")}
-              onChange={(e) =>
-                setArtifact({ ...artifact, rarityList: e.target.value })
-              }
-              required
-              name="rarityList"
-              variant={VariantClass.dashboard}
-              label="Rarity List"
-            />
+      {dataExist ? (
+        <>
+          <Input
+            forId="rarityList"
+            value={(artifact.rarityList as string[]).join(", ")}
+            onChange={(e) =>
+              setArtifact({ ...artifact, rarityList: e.target.value })
+            }
+            required
+            name="rarityList"
+            variant={VariantClass.dashboard}
+            label="Rarity List"
+          />
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Textarea
-                  forId="effect2Pc"
-                  value={artifact.effect2Pc}
-                  className={TextareaStyle.variant_1}
-                  onChange={(e) =>
-                    setArtifact({ ...artifact, effect2Pc: e.target.value })
-                  }
-                  name="effect2Pc"
-                  label="2 Set Effect"
-                />
-              </div>
-              <div>
-                <Textarea
-                  forId="effect4Pc"
-                  value={artifact.effect4Pc}
-                  className={TextareaStyle.variant_1}
-                  onChange={(e) =>
-                    setArtifact({ ...artifact, effect4Pc: e.target.value })
-                  }
-                  name="effect4Pc"
-                  label="4 Set Effect"
-                />
-              </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Textarea
+                forId="effect2Pc"
+                value={artifact.effect2Pc}
+                className={TextareaStyle.variant_1}
+                onChange={(e) =>
+                  setArtifact({ ...artifact, effect2Pc: e.target.value })
+                }
+                name="effect2Pc"
+                label="2 Set Effect"
+              />
             </div>
-
-            <div className="border-2 border-white rounded-lg px-4 py-12 my-4">
-              <div className="my-4">
-                <Swiper
-                  slidesPerView={1}
-                  modules={[Pagination]}
-                  pagination={{ clickable: true }}
-                >
-                  <SwiperSlide>
-                    <SwiperSlideData
-                      data={artifact}
-                      setData={setArtifact}
-                      keyValue="flower"
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <SwiperSlideData
-                      data={artifact}
-                      setData={setArtifact}
-                      keyValue="plume"
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <SwiperSlideData
-                      data={artifact}
-                      setData={setArtifact}
-                      keyValue="sands"
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <SwiperSlideData
-                      data={artifact}
-                      setData={setArtifact}
-                      keyValue="goblet"
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <SwiperSlideData
-                      data={artifact}
-                      setData={setArtifact}
-                      keyValue="circlet"
-                    />
-                  </SwiperSlide>
-                </Swiper>
-              </div>
+            <div>
+              <Textarea
+                forId="effect4Pc"
+                value={artifact.effect4Pc}
+                className={TextareaStyle.variant_1}
+                onChange={(e) =>
+                  setArtifact({ ...artifact, effect4Pc: e.target.value })
+                }
+                name="effect4Pc"
+                label="4 Set Effect"
+              />
             </div>
-          </>
-        ) : (
-          <p className="text-white font-bold font-poppins">No Data Selected</p>
-        )}
+          </div>
 
-        <Button className={ButtonClass.submit} id="artifact-button-submit">
-          {isLoading ? "Submitting..." : "Submit"}
-        </Button>
-      </form>
+          <div className="border-2 border-white rounded-lg px-4 py-12 my-4">
+            <div className="my-4">
+              <Swiper
+                slidesPerView={1}
+                modules={[Pagination]}
+                pagination={{ clickable: true }}
+              >
+                <SwiperSlide>
+                  <SwiperSlideData
+                    data={artifact}
+                    setData={setArtifact}
+                    keyValue="flower"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <SwiperSlideData
+                    data={artifact}
+                    setData={setArtifact}
+                    keyValue="plume"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <SwiperSlideData
+                    data={artifact}
+                    setData={setArtifact}
+                    keyValue="sands"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <SwiperSlideData
+                    data={artifact}
+                    setData={setArtifact}
+                    keyValue="goblet"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <SwiperSlideData
+                    data={artifact}
+                    setData={setArtifact}
+                    keyValue="circlet"
+                  />
+                </SwiperSlide>
+              </Swiper>
+            </div>
+          </div>
+          <p className="text-white font-bold font-poppins">
+            Pastikan nama Filenya menyesuaikan set artefaknya, misal flower,
+            plume, dsb.
+          </p>
+        </>
+      ) : (
+        <p className="text-white font-bold font-poppins">No Data Selected</p>
+      )}
 
-      <datalist id="artifact-type-list">
-        <option value="Flower of Life" />
-        <option value="Plume of Death" />
-        <option value="Sands of Eon" />
-        <option value="Goblet of Eonothem" />
-        <option value="Circlet of Logos" />
-      </datalist>
-    </>
+      <Button className={ButtonClass.submit} id="artifact-button-submit">
+        {isLoading ? "Submitting..." : "Submit"}
+      </Button>
+    </form>
   );
 }

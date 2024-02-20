@@ -16,38 +16,26 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Material";
 
-    const data = getFormData(formData, "Genshin Impact", "Material");
-    if (!data) return { msg: "Data tidak Valid", status: 422 };
-    const { name, lore, gainedFrom, rarity, typeMaterial, image } = data;
+    const data = Object.fromEntries(
+      formData.entries(),
+    ) as unknown as FormUtils.Genshin.FormDataMaterial;
 
-    const materialValidation = await genshinValidator.material({
-      name,
-      image,
-      lore,
-      gainedFrom,
-      rarity,
-      typeMaterial,
-    });
+    const validation = await genshinValidator.material(data);
+    if (!validation.status) return { status: 422, msg: validation.msg };
 
-    if (!materialValidation.status)
-      return { msg: materialValidation.msg, status: 422 };
+    let imageUrl: string = "";
+    if (validation.data.image) {
+      const uploadFile = await file.uploadSingleImage(
+        validation.data.image,
+        game,
+        category,
+      );
+      imageUrl = uploadFile.secure_url;
+    }
 
-    const imageValidation = file.validationImageArray(image);
-    if (!imageValidation.status)
-      return { msg: imageValidation.msg, status: 422 };
+    // const organizedData = genshinOrganizing;
 
-    const uploadFile = await file.uploadImage(image, game, category);
-
-    const finalData: GenshinImpact.Material = {
-      name,
-      lore,
-      gainedFrom,
-      rarity,
-      image: uploadFile[0].secure_url,
-      typeMaterial,
-    };
-
-    await Material.create(finalData);
+    // await Material.create(finalData);
     return { msg: "Data material berhasil ditambah", status: 200 };
   },
   async proccessArtifact(formData) {

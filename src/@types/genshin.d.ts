@@ -79,6 +79,21 @@ namespace GenshinImpact {
     version: string;
   }
 
+  export interface ApiResponseMaterial{
+    id: number,
+    name: string,
+    rarity: number,
+    sortRank: number,
+    description: string,
+    category: string,
+    typeText: string,
+    sources: string[] | string,
+    images: {
+        filename_icon: string,
+    },
+    version: string
+}
+
   export interface ApiResponseConstellations {
     id?: number;
     name: string;
