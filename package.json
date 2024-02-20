@@ -13,7 +13,7 @@
     "@auth/core": "^0.25.1",
     "@auth/supabase-adapter": "^0.3.1",
     "@radix-ui/react-slot": "^1.0.2",
-    "@supabase/supabase-js": "^2.39.3",
+    "@supabase/supabase-js": "^2.39.7",
     "@vercel/analytics": "^1.1.1",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",

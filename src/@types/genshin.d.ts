@@ -345,14 +345,23 @@ namespace GenshinImpact {
   export interface Artifact {
     _id?: string;
     name: string;
-    type: "Flower of Life" | "Plume of Death" | "Sands of Eon" | "Goblet of Eonothem" | "Circlet of Logos";
-    set: string;
-    setBonus: {
-      setName?: "2 Set Bonus" | "4 Set Bonus";
-      setValue?: string;
-    }[];
-    rarity: string;
-    source: string[];
-    image: string;
+    rarityList: string[];
+    effect2pc: string;
+    effect4pc: string;
+    effectOther?: string;
+    flower: ArtifactSub;
+    plume: ArtifactSub;
+    sands: ArtifactSub;
+    goblet: ArtifactSub;
+    circlet: ArtifactSub;
+  }
+  
+  export interface ArtifactSub{
+    name:string;
+    description:string;
+    lore:string;
+    type:string;
+    image?:string;
   }
 }
+

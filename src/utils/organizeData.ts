@@ -2,21 +2,47 @@ export const genshinOrganizing: OrganizeData.Genshin = {
   artifact: (data, imageUrl) => {
     const finalData: GenshinImpact.Artifact = {
       name: data.name,
-      type: data.type as GenshinImpact.Artifact["type"],
-      set: data.set,
-      setBonus: [
-        {
-          setName: data["setName-1"] as "2 Set Bonus" | "4 Set Bonus",
-          setValue: data["setValue-1"],
-        },
-        {
-          setName: data["setName-2"] as "2 Set Bonus" | "4 Set Bonus",
-          setValue: data["setValue-2"],
-        },
-      ],
-      rarity: data.rarity,
-      source: data.source.split(","),
-      image: imageUrl,
+      rarityList:
+        typeof data.rarityList === "string"
+          ? data.rarityList.split(",")
+          : data.rarityList,
+      effect2pc: data.effect2Pc,
+      effect4pc: data.effect4Pc,
+      flower: {
+        name: data["flower-name"],
+        description: data["flower-description"],
+        lore: data["flower-lore"],
+        type: data["flower-type"],
+        image: findImage(imageUrl, "Flower"),
+      },
+      plume: {
+        name: data["plume-name"],
+        description: data["plume-description"],
+        lore: data["plume-lore"],
+        type: data["plume-type"],
+        image: findImage(imageUrl, "Plume"),
+      },
+      sands: {
+        name: data["sands-name"],
+        description: data["sands-description"],
+        lore: data["sands-lore"],
+        type: data["sands-type"],
+        image: findImage(imageUrl, "Sands"),
+      },
+      goblet: {
+        name: data["goblet-name"],
+        description: data["goblet-description"],
+        lore: data["goblet-lore"],
+        type: data["goblet-type"],
+        image: findImage(imageUrl, "Goblet"),
+      },
+      circlet: {
+        name: data["circlet-name"],
+        description: data["circlet-description"],
+        lore: data["circlet-lore"],
+        type: data["circlet-type"],
+        image: findImage(imageUrl, "Circlet"),
+      },
     };
 
     return finalData;
@@ -431,3 +457,10 @@ export const genshinOrganizing: OrganizeData.Genshin = {
     return finalData;
   },
 };
+
+function findImage(
+  imageUrl: string[],
+  artifactType: "Flower" | "Plume" | "Sands" | "Goblet" | "Circlet",
+): string | undefined {
+  return imageUrl.find((image) => image.includes(artifactType));
+}

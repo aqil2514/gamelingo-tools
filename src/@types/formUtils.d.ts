@@ -10,16 +10,36 @@ namespace FormUtils {
     }
 
     export interface FormDataArtifact {
-      name: string;
-      type: string;
-      set: string;
-      "setName-1": string;
-      "setValue-1": string;
-      "setName-2"?: string;
-      "setValue-2"?: string;
-      rarity: string;
-      image?: File;
-      source: string;
+        "result-lang": Language;
+        "name": string;
+        "rarityList": string[] | string;
+        "effect2Pc": string;
+        "effect4Pc": string;
+        "flower-name": string;
+        "flower-type": string;
+        "flower-description": string; 
+        "flower-lore": string; 
+        "plume-name": string;
+        "plume-type": string;
+        "plume-description": string; 
+        "plume-lore": string;
+        "sands-name": string;
+        "sands-type": string;
+        "sands-description": string;
+        "sands-lore": string;
+        "goblet-name": string;
+        "goblet-type": string;
+        "goblet-description": string;
+        "flower-image"?: File;
+        "plume-image"?: File;
+        "sands-image"?: File;
+        "goblet-lore": string;
+        "circlet-name": string;
+        "circlet-type": string;
+        "circlet-description": string;
+        "circlet-lore": string;
+        "goblet-image"?: File;
+        "circlet-image"?: File;
     }
 
     export interface FormDataWeapon {

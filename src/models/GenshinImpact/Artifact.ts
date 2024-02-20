@@ -1,23 +1,49 @@
 import { genshinConnection } from "@/lib/mongoose";
+import { genshin } from "@/utils/formUtils";
 import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 
-const ArtifactSchema = new Schema<GenshinImpact.Artifact>({
-  name: { type: String, required: true },
-  type: { type: String, required: true },
-  set: { type: String, required: true },
-  setBonus: [
-    {
-      setName: { type: String, required: false },
-      setValue: { type: String, required: false },
-    },
-  ],
-  rarity: { type: String, required: true },
-  source: { type: [String], required: true },
-  image: { type: String, required: false },
-});
+const SubArtifactSchema = new Schema<GenshinImpact.ArtifactSub>(
+  {
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    lore: { type: String, required: true },
+    type: { type: String, required: true },
+    image: { type: String, required: false },
+  },
+  {
+    _id: false,
+  },
+);
 
-const Artifact =
-  genshinConnection.models.artifacts || genshinConnection.model("artifacts", ArtifactSchema);
+const ArtifactSchema = new Schema<GenshinImpact.Artifact>(
+  {
+    name: { type: String, required: true },
+    rarityList: { type: [String], required: true },
+    effect2pc: { type: String, required: true },
+    effect4pc: { type: String, required: true },
+    effectOther: { type: String, required: false },
+    flower: SubArtifactSchema,
+    plume: SubArtifactSchema,
+    sands: SubArtifactSchema,
+    goblet: SubArtifactSchema,
+    circlet: SubArtifactSchema,
+  },
+  {
+    timestamps: true,
+  },
+);
 
-export default Artifact;
+export const IDArtifact =
+  genshinConnection.models.id_artifact ||
+  genshinConnection.model<GenshinImpact.Artifact>(
+    "id_artifact",
+    ArtifactSchema,
+  );
+
+export const ENArtifact =
+  genshinConnection.models.en_artifact ||
+  genshinConnection.model<GenshinImpact.Artifact>(
+    "en_artifact",
+    ArtifactSchema,
+  );

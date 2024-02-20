@@ -8,6 +8,7 @@ namespace ApiUtils {
     status: boolean;
     msg?: string;
     data?: any;
+    images?: File[];
   }
 
   export interface ResultRefApi {
