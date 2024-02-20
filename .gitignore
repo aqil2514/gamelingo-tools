@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+.github
+.devcontainer
+.codesandbox
 
 # testing
 /coverage
