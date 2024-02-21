@@ -132,29 +132,22 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       return { status: false, msg: "Tipe weapon tidak diizinkan" };
     if (!data.subStatus)
       return { status: false, msg: "Sub status weapon belum diisi" };
-    if (!data["weap-ref-1"])
-      return { status: false, msg: "Weapon ref 1 belum diisi" };
-    if (!data["weap-ref-1-effect"])
-      return { status: false, msg: "Deskripsi Weapon ref 1 belum diisi" };
-    if (!data["weap-ref-2"])
-      return { status: false, msg: "Weapon ref 2 belum diisi" };
-    if (!data["weap-ref-2-effect"])
-      return { status: false, msg: "Deskripsi Weapon ref 2 belum diisi" };
-    if (!data["weap-ref-3"])
-      return { status: false, msg: "Weapon ref 3 belum diisi" };
-    if (!data["weap-ref-3-effect"])
-      return { status: false, msg: "Deskripsi Weapon ref 3 belum diisi" };
-    if (!data["weap-ref-4"])
-      return { status: false, msg: "Weapon ref 4 belum diisi" };
-    if (!data["weap-ref-4-effect"])
-      return { status: false, msg: "Deskripsi Weapon ref 4 belum diisi" };
-    if (!data["weap-ref-5"])
-      return { status: false, msg: "Weapon ref 5 belum diisi" };
-    if (!data["weap-ref-5-effect"])
-      return { status: false, msg: "Deskripsi Weapon ref 5 belum diisi" };
     if (!data.lore) return { status: false, msg: "Lore weapon belum diisi" };
     if (!data.rarity)
       return { status: false, msg: "Rarity weapon belum diisi" };
+    if (!data["weapon-base-atk"])
+      return { status: false, msg: "Base Atk weapon belum diisi" };
+    if (!data["weapon-base-stat"])
+      return { status: false, msg: "Base Stat weapon belum diisi" };
+    if (!data["passive-name"])
+      return { status: false, msg: "Passive name weapon belum diisi" };
+
+    for (const key in data) {
+      if (key.startsWith("weapon-ref") || key.startsWith("ascend")) {
+        if (!data[key as keyof FormUtils.Genshin.FormDataWeapon])
+          return { status: false, msg: `Data masih ada yang kosong` };
+      }
+    }
 
     if (data.image?.name) {
       const imageValidation = file.validationImage(data.image);

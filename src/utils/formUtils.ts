@@ -100,22 +100,22 @@ export const genshin: FormUtils.Genshin.Genshin = {
     if (!validation.status) return { status: 422, msg: validation.msg };
 
     // Upload Image jika ada
-    let imageUrl = "";
-    if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(
-        validation.data.image,
-        game,
-        category,
-      );
-      imageUrl = uploadFile.secure_url;
-    }
+    // let imageUrl = "";
+    // if (validation.data.image) {
+    //   const uploadFile = await file.uploadSingleImage(
+    //     validation.data.image,
+    //     game,
+    //     category,
+    //   );
+    //   imageUrl = uploadFile.secure_url;
+    // }
 
     // data final
-    const organizedData = genshinOrganizing.weapon(validation.data, imageUrl);
+    // const organizedData = genshinOrganizing.weapon(validation.data, imageUrl);
 
-    await Weapon.create(organizedData);
+    // await Weapon.create(organizedData);
 
-    return { status: 200, organizedData, validation, data };
+    return { status: 200, data };
   },
   async proccessCharacter(formData) {
     const game: General.Game["game"] = "Genshin Impact";

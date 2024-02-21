@@ -53,23 +53,71 @@ namespace FormUtils {
     }
 
     export interface FormDataWeapon {
-      name: string;
-      type: string;
-      subStatus: string;
-      "weap-ref-1": string;
-      "weap-ref-1-effect": string;
-      "weap-ref-2": string;
-      "weap-ref-2-effect": string;
-      "weap-ref-3": string;
-      "weap-ref-3-effect": string;
-      "weap-ref-4": string;
-      "weap-ref-4-effect": string;
-      "weap-ref-5": string;
-      "weap-ref-5-effect": string;
-      lore: string;
-      rarity: string;
-      image?: File;
+      "result-lang": Language;
+      "name": string;
+      "weapon-base-atk": string;
+      "weapon-base-stat": string;
+      "subStatus": string;
+      "type": string;
+      "lore": string;
+      "rarity": string;
+      "passive-name": string;
+      "weapon-ref-r1": string;
+      "weapon-ref-r2": string;
+      "weapon-ref-r3": string;
+      "weapon-ref-r4": string;
+      "weapon-ref-r5": string;
+      "ascend-1-material-1": string;
+      "ascend-1-count-1": string;
+      "ascend-1-material-2": string;
+      "ascend-1-count-2": string;
+      "ascend-1-material-3": string;
+      "ascend-1-count-3": string;
+      "ascend-1-material-4": string;
+      "ascend-1-count-4": string;
+      "ascend-2-material-1": string;
+      "ascend-2-count-1": string;
+      "ascend-2-material-2": string;
+      "ascend-2-count-2": string;
+      "ascend-2-material-3": string;
+      "ascend-2-count-3": string;
+      "ascend-2-material-4": string;
+      "ascend-2-count-4": string;
+      "ascend-3-material-1": string;
+      "ascend-3-count-1": string;
+      "ascend-3-material-2": string;
+      "ascend-3-count-2": string;
+      "ascend-3-material-3": string;
+      "ascend-3-count-3": string;
+      "ascend-3-material-4": string;
+      "ascend-3-count-4": string;
+      "ascend-4-material-1": string;
+      "ascend-4-count-1": string;
+      "ascend-4-material-2": string;
+      "ascend-4-count-2": string;
+      "ascend-4-material-3": string;
+      "ascend-4-count-3": string;
+      "ascend-4-material-4": string;
+      "ascend-4-count-4": string;
+      "ascend-5-material-1": string;
+      "ascend-5-count-1": string;
+      "ascend-5-material-2": string;
+      "ascend-5-count-2": string;
+      "ascend-5-material-3": string;
+      "ascend-5-count-3": string;
+      "ascend-5-material-4": string;
+      "ascend-5-count-4": string;
+      "ascend-6-material-1": string;
+      "ascend-6-count-1": string;
+      "ascend-6-material-2": string;
+      "ascend-6-count-2": string;
+      "ascend-6-material-3": string;
+      "ascend-6-count-3": string;
+      "ascend-6-material-4": string;
+      "ascend-6-count-4": string;
+      "image"?: File;
     }
+    
 
     type Language = "Indonesian" | "English";
 
