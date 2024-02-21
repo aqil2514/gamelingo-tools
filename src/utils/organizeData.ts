@@ -5,10 +5,7 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       typeMaterial: data.typeMaterial,
       rarity: data.rarity,
       lore: data.lore,
-      gainedFrom:
-        typeof data.gainedFrom === "string"
-          ? data.gainedFrom.split(", ")
-          : data.gainedFrom,
+      gainedFrom: typeof data.gainedFrom === "string" ? data.gainedFrom.split(", ") : data.gainedFrom,
       image: imageUrl ? imageUrl : undefined,
     };
     return finalData;
@@ -16,10 +13,7 @@ export const genshinOrganizing: OrganizeData.Genshin = {
   artifact: (data, imageUrl) => {
     const finalData: GenshinImpact.Artifact = {
       name: data.name,
-      rarityList:
-        typeof data.rarityList === "string"
-          ? data.rarityList.split(",")
-          : data.rarityList,
+      rarityList: typeof data.rarityList === "string" ? data.rarityList.split(",") : data.rarityList,
       effect2pc: data.effect2Pc,
       effect4pc: data.effect4Pc,
       flower: {
@@ -64,32 +58,128 @@ export const genshinOrganizing: OrganizeData.Genshin = {
   weapon(data, imageUrl) {
     const finalData: GenshinImpact.Weapon = {
       name: data.name,
-      type: data.type as GenshinImpact.Character["weapon"],
+      type: data.type,
+      baseAtk: data["weapon-base-atk"],
+      baseStat: data["weapon-base-stat"],
       subStatus: data.subStatus,
-      refinement: [
-        {
-          nameRef: data["weap-ref-1"],
-          effectRef: data["weap-ref-1-effect"],
-        },
-        {
-          nameRef: data["weap-ref-2"],
-          effectRef: data["weap-ref-2-effect"],
-        },
-        {
-          nameRef: data["weap-ref-3"],
-          effectRef: data["weap-ref-3-effect"],
-        },
-        {
-          nameRef: data["weap-ref-4"],
-          effectRef: data["weap-ref-4-effect"],
-        },
-        {
-          nameRef: data["weap-ref-5"],
-          effectRef: data["weap-ref-5-effect"],
-        },
-      ],
       lore: data.lore,
       rarity: data.rarity,
+      passive: {
+        passiveName: data["passive-name"],
+        r1: data["weapon-ref-r1"],
+        r2: data["weapon-ref-r2"],
+        r3: data["weapon-ref-r3"],
+        r4: data["weapon-ref-r4"],
+        r5: data["weapon-ref-r5"],
+      },
+      ascend1: [
+        {
+          name: data["ascend-1-material-1"],
+          count: Number(data["ascend-1-count-1"]),
+        },
+        {
+          name: data["ascend-1-material-2"],
+          count: Number(data["ascend-1-count-2"]),
+        },
+        {
+          name: data["ascend-1-material-3"],
+          count: Number(data["ascend-1-count-3"]),
+        },
+        {
+          name: data["ascend-1-material-4"],
+          count: Number(data["ascend-1-count-4"]),
+        },
+      ],
+      ascend2: [
+        {
+          name: data["ascend-2-material-1"],
+          count: Number(data["ascend-2-count-1"]),
+        },
+        {
+          name: data["ascend-2-material-2"],
+          count: Number(data["ascend-2-count-2"]),
+        },
+        {
+          name: data["ascend-2-material-3"],
+          count: Number(data["ascend-2-count-3"]),
+        },
+        {
+          name: data["ascend-2-material-4"],
+          count: Number(data["ascend-2-count-4"]),
+        },
+      ],
+      ascend3: [
+        {
+          name: data["ascend-3-material-1"],
+          count: Number(data["ascend-3-count-1"]),
+        },
+        {
+          name: data["ascend-3-material-2"],
+          count: Number(data["ascend-3-count-2"]),
+        },
+        {
+          name: data["ascend-3-material-3"],
+          count: Number(data["ascend-3-count-3"]),
+        },
+        {
+          name: data["ascend-3-material-4"],
+          count: Number(data["ascend-3-count-4"]),
+        },
+      ],
+      ascend4: [
+        {
+          name: data["ascend-4-material-1"],
+          count: Number(data["ascend-4-count-1"]),
+        },
+        {
+          name: data["ascend-4-material-2"],
+          count: Number(data["ascend-4-count-2"]),
+        },
+        {
+          name: data["ascend-4-material-3"],
+          count: Number(data["ascend-4-count-3"]),
+        },
+        {
+          name: data["ascend-4-material-4"],
+          count: Number(data["ascend-4-count-4"]),
+        },
+      ],
+      ascend5: [
+        {
+          name: data["ascend-5-material-1"],
+          count: Number(data["ascend-5-count-1"]),
+        },
+        {
+          name: data["ascend-5-material-2"],
+          count: Number(data["ascend-5-count-2"]),
+        },
+        {
+          name: data["ascend-5-material-3"],
+          count: Number(data["ascend-5-count-3"]),
+        },
+        {
+          name: data["ascend-5-material-4"],
+          count: Number(data["ascend-5-count-4"]),
+        },
+      ],
+      ascend6: [
+        {
+          name: data["ascend-6-material-1"],
+          count: Number(data["ascend-6-count-1"]),
+        },
+        {
+          name: data["ascend-6-material-2"],
+          count: Number(data["ascend-6-count-2"]),
+        },
+        {
+          name: data["ascend-6-material-3"],
+          count: Number(data["ascend-6-count-3"]),
+        },
+        {
+          name: data["ascend-6-material-4"],
+          count: Number(data["ascend-6-count-4"]),
+        },
+      ],
       image: imageUrl ? imageUrl : undefined,
     };
 
@@ -472,9 +562,6 @@ export const genshinOrganizing: OrganizeData.Genshin = {
   },
 };
 
-function findImage(
-  imageUrl: string[],
-  artifactType: "Flower" | "Plume" | "Sands" | "Goblet" | "Circlet",
-): string | undefined {
+function findImage(imageUrl: string[], artifactType: "Flower" | "Plume" | "Sands" | "Goblet" | "Circlet"): string | undefined {
   return imageUrl.find((image) => image.includes(artifactType));
 }

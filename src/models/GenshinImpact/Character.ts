@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-import Weapon from "./Weapon";
 import { genshinConnection } from "@/lib/mongoose";
 import { TalentEN, TalentID } from "./Talent";
 import { ConstellationEN, ConstellationID } from "./Constellation";
+import { ENWeapon } from "./Weapon";
 
 const CharacterSchema = new Schema<GenshinImpact.Character>(
   {
@@ -24,8 +24,8 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
     },
     image: { type: String, required: true },
     build: {
-      weapon: { type: Schema.Types.ObjectId, required: false, ref: Weapon },
-      substitude: { type: [Schema.Types.ObjectId], required: false, ref: Weapon },
+      weapon: { type: Schema.Types.ObjectId, required: false, ref: ENWeapon },
+      substitude: { type: [Schema.Types.ObjectId], required: false, ref: ENWeapon },
       bestArtifact: { type: Schema.Types.ObjectId, required: false },
       artifactStatus: { type: [Schema.Types.ObjectId], required: false },
       prioritySubStat: { type: [Schema.Types.ObjectId], required: false },

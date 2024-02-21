@@ -47,185 +47,185 @@ namespace GenshinImpact {
   }
 
   export interface ApiResponseWeapon {
-    id: number,
+    id: number;
     name: string;
     description: string;
     descriptionRaw: string;
     weaponType: string;
     weaponText: string;
-    rarity: number,
+    rarity: number;
     story: string;
-    baseAtkValue: number,
+    baseAtkValue: number;
     mainStatType: string;
     mainStatText: string;
     baseStatText: string;
     effectName: string;
     effectTemplateRaw: string;
     r1: {
-        description: string;
-        values: string[]
-    },
+      description: string;
+      values: string[];
+    };
     r2: {
-        description: string;
-        values: string[]
-    },
+      description: string;
+      values: string[];
+    };
     r3: {
-        description: string;
-        values: string[]
-    },
+      description: string;
+      values: string[];
+    };
     r4: {
-        description: string;
-        values: string[]
-    },
+      description: string;
+      values: string[];
+    };
     r5: {
-        description: string;
-        values: string[]
-    },
+      description: string;
+      values: string[];
+    };
     costs: {
-        ascend1: [
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            }
-        ],
-        ascend2: [
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            }
-        ],
-        ascend3: [
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            }
-        ],
-        ascend4: [
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            }
-        ],
-        ascend5: [
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            }
-        ],
-        ascend6: [
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            },
-            {
-                id: number;
-                name: string;
-                count: number;
-            }
-        ]
-    },
+      ascend1: [
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        }
+      ];
+      ascend2: [
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        }
+      ];
+      ascend3: [
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        }
+      ];
+      ascend4: [
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        }
+      ];
+      ascend5: [
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        }
+      ];
+      ascend6: [
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        },
+        {
+          id: number;
+          name: string;
+          count: number;
+        }
+      ];
+    };
     images: {
-        icon: string;
-        awakenicon: string;
-        filename_icon: string;
-        filename_awakenIcon: string;
-        filename_gacha: string;
-        mihoyo_icon: string;
-        mihoyo_awakenIcon: string;
-    },
+      icon: string;
+      awakenicon: string;
+      filename_icon: string;
+      filename_awakenIcon: string;
+      filename_gacha: string;
+      mihoyo_icon: string;
+      mihoyo_awakenIcon: string;
+    };
     version: string;
-}
+  }
 
   export interface ApiResponseTalent {
     id: number;
@@ -260,20 +260,20 @@ namespace GenshinImpact {
     version: string;
   }
 
-  export interface ApiResponseMaterial{
-    id: number,
-    name: string,
-    rarity: number,
-    sortRank: number,
-    description: string,
-    category: string,
-    typeText: string,
-    sources: string[] | string,
+  export interface ApiResponseMaterial {
+    id: number;
+    name: string;
+    rarity: number;
+    sortRank: number;
+    description: string;
+    category: string;
+    typeText: string;
+    sources: string[] | string;
     images: {
-        filename_icon: string,
-    },
-    version: string
-}
+      filename_icon: string;
+    };
+    version: string;
+  }
 
   export interface ApiResponseConstellations {
     id?: number;
@@ -508,18 +508,28 @@ namespace GenshinImpact {
 
   export interface Weapon {
     _id?: string;
-    type: Character["weapon"];
     name: string;
+    type: string;
+    baseAtk: string;
+    baseStat: string;
     subStatus: string;
-    refinement: Refinement[];
     lore: string;
+    passive: {
+      passiveName: string;
+      r1: string;
+      r2: string;
+      r3: string;
+      r4: string;
+      r5: string;
+    };
+    ascend1: UpgradeMaterialItem[];
+    ascend2: UpgradeMaterialItem[];
+    ascend3: UpgradeMaterialItem[];
+    ascend4: UpgradeMaterialItem[];
+    ascend5: UpgradeMaterialItem[];
+    ascend6: UpgradeMaterialItem[];
     rarity: string;
     image?: string;
-  }
-
-  export interface Refinement {
-    nameRef: string;
-    effectRef: string;
   }
 
   export interface Misc {
@@ -551,13 +561,12 @@ namespace GenshinImpact {
     goblet: ArtifactSub;
     circlet: ArtifactSub;
   }
-  
-  export interface ArtifactSub{
-    name:string;
-    description:string;
-    lore:string;
-    type:string;
-    image?:string;
+
+  export interface ArtifactSub {
+    name: string;
+    description: string;
+    lore: string;
+    type: string;
+    image?: string;
   }
 }
-
