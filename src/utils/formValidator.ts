@@ -2,6 +2,7 @@
 
 import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
 import { file } from "./api";
+import { File } from "@web-std/file";
 import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
@@ -92,6 +93,7 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
   async weapon(data) {
     const allowedType: string[] = ["Bow", "Catalyst", "Claymore", "Polearm", "Sword"];
     if (!data.name) return { status: false, msg: "Nama Weapon belum diisi" };
+
     if (data["result-lang"] === "Indonesian") {
       const isThere = await IDWeapon.findOne({ name: data.name });
       if (isThere) return { status: false, msg: `${data.name} sudah ada di database` };
@@ -114,13 +116,15 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       }
     }
 
-    if (data.image?.name) {
-      const imageValidation = file.validationImage(data.image);
-      if (!imageValidation.status) return { msg: imageValidation.msg, status: false };
+    if (data.image && data.image.name !== "undefined") {
+      if (data.image.size > 1 * 1024 * 1024) return { status: false, msg: "Gambar ukuran maksimal 1MB" };
 
-      const newFile = new File([data.image], data.name, { type: data.image.type });
+      const newFile = new File([data.image], `${data.name}.${data.image.type.split("/")[1]}`, {
+        type: data.image.type,
+      });
+
       data.image = newFile;
-    } else if (!data?.image?.name) {
+    } else {
       data.image = undefined;
     }
 

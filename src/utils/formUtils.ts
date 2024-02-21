@@ -6,6 +6,7 @@ import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
 import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
+import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 
 export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData: FormData) => {
@@ -70,7 +71,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
   },
   async processWeapon(formData) {
     const game: General.Game["game"] = "Genshin Impact";
-    const category: General.Game["category"] = "Artifact";
+    const category: General.Game["category"] = "Weapon";
 
     // Ambil Data
     const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataWeapon;
@@ -89,9 +90,9 @@ export const genshin: FormUtils.Genshin.Genshin = {
     // data final
     const organizedData = genshinOrganizing.weapon(validation.data, imageUrl);
 
-    // await Weapon.create(organizedData);
-
-    return { status: 200, data };
+    if (data["result-lang"] === "Indonesian") await IDWeapon.create(organizedData);
+    else if (data["result-lang"] === "English") await ENWeapon.create(organizedData);
+    return { status: 200, data: organizedData };
   },
   async proccessCharacter(formData) {
     const game: General.Game["game"] = "Genshin Impact";

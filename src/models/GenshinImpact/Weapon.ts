@@ -23,7 +23,7 @@ const AscendSchema = new Schema<GenshinImpact.UpgradeMaterialItem>(
 
 const WeaponSchema = new Schema<GenshinImpact.Weapon>(
   {
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     type: { type: String, required: true },
     baseAtk: { type: String, required: true },
     baseStat: { type: String, required: true },
