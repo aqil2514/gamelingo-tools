@@ -1,4 +1,18 @@
 export const genshinOrganizing: OrganizeData.Genshin = {
+  material: (data, imageUrl) => {
+    const finalData: GenshinImpact.Material = {
+      name: data.name,
+      typeMaterial: data.typeMaterial,
+      rarity: data.rarity,
+      lore: data.lore,
+      gainedFrom:
+        typeof data.gainedFrom === "string"
+          ? data.gainedFrom.split(", ")
+          : data.gainedFrom,
+      image: imageUrl ? imageUrl : undefined,
+    };
+    return finalData;
+  },
   artifact: (data, imageUrl) => {
     const finalData: GenshinImpact.Artifact = {
       name: data.name,

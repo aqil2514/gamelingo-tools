@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 
 const MaterialSchema = new Schema<GenshinImpact.Material>({
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique: true },
   typeMaterial: { type: String, required: true },
   rarity: { type: String, required: true },
   lore: { type: String, rerquired: true },
@@ -11,7 +11,9 @@ const MaterialSchema = new Schema<GenshinImpact.Material>({
   image: { type: String, required: false },
 });
 
-const Material =
-  genshinConnection.models.materials || genshinConnection.model("materials", MaterialSchema);
-
-export default Material;
+export const IDMaterial =
+  genshinConnection.models.id_material ||
+  genshinConnection.model("id_material", MaterialSchema);
+export const ENMaterial =
+  genshinConnection.models.en_material ||
+  genshinConnection.model("en_material", MaterialSchema);

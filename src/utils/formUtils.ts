@@ -1,4 +1,4 @@
-import Material from "@/models/GenshinImpact/Material";
+import { IDMaterial, ENMaterial } from "@/models/GenshinImpact/Material";
 import { file, getFormData } from "./api";
 import { genshinValidator } from "./formValidator";
 import { genshinOrganizing } from "./organizeData";
@@ -33,10 +33,19 @@ export const genshin: FormUtils.Genshin.Genshin = {
       imageUrl = uploadFile.secure_url;
     }
 
-    // const organizedData = genshinOrganizing;
+    const organizedData = genshinOrganizing.material(validation.data, imageUrl);
 
-    // await Material.create(finalData);
-    return { msg: "Data material berhasil ditambah", status: 200 };
+    if (data["result-lang"] === "Indonesian") {
+      await IDMaterial.create(organizedData);
+    } else if (data["result-lang"] === "English") {
+      await ENMaterial.create(organizedData);
+    }
+
+    return {
+      msg: "Data material berhasil ditambah",
+      status: 200,
+      data: organizedData,
+    };
   },
   async proccessArtifact(formData) {
     const game: General.Game["game"] = "Genshin Impact";

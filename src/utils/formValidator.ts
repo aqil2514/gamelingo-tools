@@ -7,15 +7,17 @@ import {
 import { file } from "./api";
 import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
+import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
 
 export const genshinValidator: ApiUtils.GenshinValidatorApi = {
   async material(data) {
-    const allowedType: GenshinImpact.Material["typeMaterial"][] = [
-      "Character Ascension",
-      "Talent Material",
-      "Weapon Ascension",
-      "Weapon and Character Material",
-    ];
+    if (data["result-lang"] === "English") {
+      const isThere = await ENMaterial.findOne({ name: data.name });
+      if (isThere) return { status: false, msg: "Material is there" };
+    } else if (data["result-lang"] === "Indonesian") {
+      const isThere = await IDMaterial.findOne({ name: data.name });
+      if (isThere) return { status: false, msg: "Material sudah ada" };
+    }
 
     if (!data.name) return { status: false, msg: "Nama material belum diisi" };
     if (!data.typeMaterial)
@@ -31,9 +33,13 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
         return { status: false, msg: "Image harus kurang dari 1 MB" };
       if (data.image.type !== "image/png" && data.image.type !== "image/webp")
         return { status: false, msg: "Image harus bertipe PNG atau WEBP" };
-      const newFile = new File([data.image], data.name, {
-        type: data.image.type,
-      });
+      const newFile = new File(
+        [data.image],
+        `${data.name}.${data.image.type.split("/")[1]}`,
+        {
+          type: data.image.type,
+        },
+      );
       data.image = newFile;
     } else {
       data.image = undefined;
@@ -100,7 +106,7 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
         const firstChar = image.name.charAt(0).toUpperCase();
         const newFileName = new File(
           [image],
-          `${data.name} - ${firstChar + image.name.slice(1)}`,
+          `${data.name} - ${firstChar + image.name.slice(1)}.${image.type.split("/")[1]}`,
           {
             type: image.type,
           },

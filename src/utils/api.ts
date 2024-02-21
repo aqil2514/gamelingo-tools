@@ -186,7 +186,7 @@ export const login: ApiUtils.LoginApi = {
 
     const passwordCompared = await bcrypt.compare(
       password,
-      isThere.data[0].password
+      isThere.data[0].password,
     );
     if (!passwordCompared) return { status: false, msg: "Password salah" };
 
@@ -505,7 +505,6 @@ export const admin: ApiUtils.AdminApi = {
     return data;
   },
   async getEvertaleCharacter() {
-
     const characters: Evertale.Character.State[] = await Character.find();
 
     if (!characters || characters.length === 0) return null;
@@ -589,7 +588,7 @@ export const file = {
   uploadImage: async (
     files: File[],
     game: string,
-    category: string
+    category: string,
   ): Promise<UploadApiResponse[]> => {
     try {
       const uploadPromises = files.map(async (file) => {
@@ -625,7 +624,7 @@ export const file = {
   uploadSingleImage: async (
     file: File,
     game: string,
-    category: string
+    category: string,
   ): Promise<UploadApiResponse> => {
     try {
       const fileBuffer = await file.arrayBuffer();
@@ -634,7 +633,6 @@ export const file = {
       const encoding = "base64";
       const base64Data = Buffer.from(fileBuffer).toString("base64");
       const fileUri = `data:${mime};${encoding},${base64Data}`;
-
       const result = await cloudinary.uploader.upload(fileUri, {
         invalidate: true,
         folder: `${game}/${category}/${format[1]}`,
@@ -661,7 +659,7 @@ export const file = {
 export function getFormData(
   formData: FormData,
   game: General.Game["game"],
-  category: General.Game["category"]
+  category: General.Game["category"],
 ) {
   if (game === "Genshin Impact" && category === "Material")
     return genshinFormData.material(formData);
@@ -676,11 +674,11 @@ const genshinFormData = {
     const name = formData.get("name") as GenshinImpact.Material["name"];
     const lore = formData.get("lore") as GenshinImpact.Material["lore"];
     const gainedFrom = formData.get(
-      "gainedFrom"
+      "gainedFrom",
     ) as GenshinImpact.Material["gainedFrom"];
     const rarity = formData.get("rarity") as GenshinImpact.Material["rarity"];
     const typeMaterial = formData.get(
-      "typeMaterial"
+      "typeMaterial",
     ) as GenshinImpact.Material["typeMaterial"];
     const image = formData.getAll("image") as File[];
 

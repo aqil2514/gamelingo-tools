@@ -350,10 +350,10 @@ namespace GenshinImpact {
   export interface Material {
     _id?: string;
     name: string;
-    typeMaterial?: "Character Ascension" | "Weapon Ascension" | "Weapon and Character Material" | "Talent Material";
+    typeMaterial: string;
     rarity: string;
     lore: string;
-    gainedFrom?: string[] | string;
+    gainedFrom: string[] | string;
     image?: string;
   }
 
