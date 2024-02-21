@@ -46,6 +46,187 @@ namespace GenshinImpact {
     count: number;
   }
 
+  export interface ApiResponseWeapon {
+    id: number,
+    name: string;
+    description: string;
+    descriptionRaw: string;
+    weaponType: string;
+    weaponText: string;
+    rarity: number,
+    story: string;
+    baseAtkValue: number,
+    mainStatType: string;
+    mainStatText: string;
+    baseStatText: string;
+    effectName: string;
+    effectTemplateRaw: string;
+    r1: {
+        description: string;
+        values: string[]
+    },
+    r2: {
+        description: string;
+        values: string[]
+    },
+    r3: {
+        description: string;
+        values: string[]
+    },
+    r4: {
+        description: string;
+        values: string[]
+    },
+    r5: {
+        description: string;
+        values: string[]
+    },
+    costs: {
+        ascend1: [
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            }
+        ],
+        ascend2: [
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            }
+        ],
+        ascend3: [
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            }
+        ],
+        ascend4: [
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            }
+        ],
+        ascend5: [
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            }
+        ],
+        ascend6: [
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            },
+            {
+                id: number;
+                name: string;
+                count: number;
+            }
+        ]
+    },
+    images: {
+        icon: string;
+        awakenicon: string;
+        filename_icon: string;
+        filename_awakenIcon: string;
+        filename_gacha: string;
+        mihoyo_icon: string;
+        mihoyo_awakenIcon: string;
+    },
+    version: string;
+}
+
   export interface ApiResponseTalent {
     id: number;
     name: string;

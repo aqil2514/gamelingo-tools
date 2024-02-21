@@ -1,6 +1,5 @@
 "use client";
 
-import { GenshinMaterialProvider } from "@/components/Providers";
 import { Input, VariantClass } from "@/components/general/Input";
 import React from "react";
 import { submitFormHandler } from "../genshinUtils";
