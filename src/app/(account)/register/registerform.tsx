@@ -1,13 +1,17 @@
 "use client";
 import axios, { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { notif } from "@/utils/fe";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState<false | true>(false);
   const router = useRouter();
+
+  useEffect(() => {
+    alert("Fitur login dan register baru bisa dirasakan oleh kontributor situs.\n Next akan ada fitur untuk para pengunjung situs");
+  }, []);
 
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

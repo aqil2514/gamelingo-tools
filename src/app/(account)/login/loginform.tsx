@@ -2,7 +2,7 @@
 import axios, { isAxiosError } from "axios";
 import type { Route } from "next";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Google } from "react-bootstrap-icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,9 @@ export default function LoginForm() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const url: Route = "/api/users";
+  useEffect(() => {
+    alert("Fitur login dan register baru bisa dirasakan oleh kontributor situs.\n Next akan ada fitur untuk para pengunjung situs");
+  }, []);
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
