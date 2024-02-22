@@ -26,7 +26,7 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
     image: { type: String, required: true },
     build: {
       weapon: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         required: false,
         ref: function (this: GenshinImpact.Character) {
           if (this.lang === "Indonesian") return IDWeapon;
@@ -34,7 +34,7 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
         },
       },
       substitude: {
-        type: [Schema.Types.ObjectId],
+        type: [mongoose.Schema.ObjectId],
         required: false,
         ref: function (this: GenshinImpact.Character) {
           if (this.lang === "Indonesian") return IDWeapon;
@@ -42,22 +42,22 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
         },
       },
       bestArtifact: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         required: false,
         ref: function (this: GenshinImpact.Character) {
           if (this.lang === "Indonesian") return IDArtifact;
           return ENArtifact;
         },
       },
-      artifactStatus: { type: [Schema.Types.ObjectId], required: false },
-      prioritySubStat: { type: [Schema.Types.ObjectId], required: false },
+      artifactStatus: { type: [mongoose.Schema.ObjectId], required: false },
+      prioritySubStat: { type: [mongoose.Schema.ObjectId], required: false },
       team: {
-        type: [Schema.Types.ObjectId],
+        type: [mongoose.Schema.ObjectId],
         required: false,
       },
     },
     talent: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.ObjectId,
       required: false,
       ref: function () {
         if (this.lang === "Indonesian") return TalentID;
@@ -67,7 +67,7 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
       },
     },
     constellation: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.ObjectId,
       required: false,
       ref: function () {
         if (this.lang === "Indonesian") return ConstellationID;

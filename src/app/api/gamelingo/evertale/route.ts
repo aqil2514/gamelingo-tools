@@ -1,6 +1,6 @@
 import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
-import Post from "@/models/General/Post";
+import { Post } from "@/models/General/Post";
 import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
   const UID = url.searchParams.get("UID");
   const name = url.searchParams.get("name");
   const maxResult = Number(url.searchParams.get("maxResult")) || 0;
-
 
   // Character Category
   if (category === "chars" && UID) {

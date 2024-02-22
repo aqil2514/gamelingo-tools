@@ -1,4 +1,10 @@
 namespace General {
+  export interface Post {
+    id: string;
+    name: string;
+    image: string;
+  }
+
   export interface PostDocument extends Document {
     title: string;
     lang: "English" | "Indonesian";
@@ -13,8 +19,8 @@ namespace General {
   }
 
   export interface Comment {
-    author: string;
-    avatar: string;
+    author: ObjectId;
+    postId: ObjectId;
     text: string;
     likes: number;
     replies: Reply[];
@@ -23,12 +29,19 @@ namespace General {
   }
 
   export interface Reply {
-    author: string;
-    avatar: string;
+    author: ObjectId;
     text: string;
     likes: number;
     createdAt: Date;
     updatedAt: Date;
+  }
+
+  export interface User {
+    _id?: ObjectId;
+    username: string;
+    name: string;
+    avatar: string;
+    post: ObjectId;
   }
 
   export type Game = Evertale | GenshinImpact;

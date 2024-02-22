@@ -1,12 +1,13 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import Character from "../Evertale/Characters";
 import { Weapon } from "../Evertale/Weapons";
 import { Accessory } from "../Evertale/Accessories";
-import { evertaleConnection, generalConnection } from "@/lib/mongoose";
+import { generalConnection } from "@/lib/mongoose";
 import { CharacterEN, CharacterID } from "../GenshinImpact/Character";
 import { ENWeapon, IDWeapon } from "../GenshinImpact/Weapon";
 import { ENArtifact, IDArtifact } from "../GenshinImpact/Artifact";
 import { ENMaterial, IDMaterial } from "../GenshinImpact/Material";
+import { CommentSchema } from "./Comment";
 
 const PostSchema = new Schema<General.PostDocument>(
   {
@@ -20,7 +21,7 @@ const PostSchema = new Schema<General.PostDocument>(
       topic: { type: String, required: true },
     },
     content: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.ObjectId,
       required: true,
       ref: function (this: General.PostDocument) {
         if (this.game.name === "Evertale") {
@@ -51,24 +52,7 @@ const PostSchema = new Schema<General.PostDocument>(
       type: [String],
       default: [],
     },
-    comment: [
-      {
-        author: { type: String, ref: "User", required: true },
-        avatar: { type: String, ref: "User", default: "/no-profile.png" },
-        text: { type: String, required: true },
-        likes: { type: Number, default: 0 },
-        replies: [
-          {
-            author: { type: String, ref: "User", required: true },
-            avatar: { type: String, ref: "User", default: "/no-profile.png" },
-            text: { type: String, required: true },
-            likes: { type: Number, default: 0 },
-            createdAt: { type: Date, required: true, default: new Date() },
-            updateAt: { type: Date, required: true, default: new Date() },
-          },
-        ],
-      },
-    ],
+    comment: [CommentSchema],
   },
   { timestamps: true }
 );
