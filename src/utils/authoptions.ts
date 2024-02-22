@@ -71,9 +71,9 @@ export const authOptions: AuthOptions = {
 
         const userData: Account.UsersLogin = isThere.data![0];
 
-        if (!userData.oauthid) {
-          await supabase.from("userslogin").update({ oauthid: profile?.sub }).eq("email", userData.email);
-        }
+        // if (!userData.oauthid) {
+        //   await supabase.from("userslogin").update({ oauthid: profile?.sub }).eq("email", userData.email);
+        // }
       }
       return true;
     },
