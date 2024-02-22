@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { Adapter } from "next-auth/adapters";
 import { AuthOptions, User } from "next-auth";
+import { User as MongoUser } from "@/models/General/User";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -59,6 +60,12 @@ export const authOptions: AuthOptions = {
               role: "Pengguna",
               account_verified: true,
             },
+            await MongoUser.create({
+              name: profile?.name,
+              username: "Belum Disetting",
+              avatar: profile?.image,
+              post: [],
+            }),
           ]);
         }
 

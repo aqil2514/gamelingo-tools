@@ -7,6 +7,7 @@ import { authOptions } from "./authoptions";
 import Character from "@/models/Evertale/Characters";
 import { Route } from "next";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
+import { User } from "@/models/General/User";
 
 /** Membuat verifikasi data untuk disimpan ke Database */
 export function verifDataBuilder(email: string) {
@@ -137,6 +138,13 @@ export const register: ApiUtils.RegisterApi = {
       await supabase.from("verificationcode").insert(verifData).select();
 
       await sendMail.verification(email, verifData.code);
+
+      await User.create({
+        username: insertData.username,
+        name: insertData.name,
+        avatar: null,
+        post: [],
+      });
 
       return {
         status: true,
