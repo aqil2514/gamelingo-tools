@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import Character from "../Evertale/Characters";
 import { Weapon } from "../Evertale/Weapons";
 import { Accessory } from "../Evertale/Accessories";
@@ -8,6 +8,7 @@ import { ENWeapon, IDWeapon } from "../GenshinImpact/Weapon";
 import { ENArtifact, IDArtifact } from "../GenshinImpact/Artifact";
 import { ENMaterial, IDMaterial } from "../GenshinImpact/Material";
 import { CommentSchema } from "./Comment";
+import { User } from "./User";
 
 const PostSchema = new Schema<General.PostDocument>(
   {
@@ -15,7 +16,7 @@ const PostSchema = new Schema<General.PostDocument>(
       type: String,
       required: true,
     },
-    lang: { type: String, enum: ["Indonesian", "English"], required: true },
+    lang: { type: String, enum: ["Indonesian", "English", "English & Indonesian"], required: true },
     game: {
       name: { type: String, enum: ["Evertale", "Genshin Impact", "Mobile Legends"], required: true },
       topic: { type: String, required: true },
@@ -56,5 +57,7 @@ const PostSchema = new Schema<General.PostDocument>(
   },
   { timestamps: true }
 );
+
+interface PostModel extends Model<General.PostDocument> {}
 
 export const Post = generalConnection.models.post || generalConnection.model("post", PostSchema);

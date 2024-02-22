@@ -48,6 +48,11 @@ export async function submitFormHandler(e: React.FormEvent<HTMLFormElement>, url
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 422) {
         notif(error.response?.data.msg, "red", ref, "before");
+      } else if (error.response?.status === 401) {
+        notif(error.response?.data.msg, "red", ref, "before");
+        setTimeout(() => {
+          location.href = "/login" as Route;
+        }, 3000);
       }
     }
     console.error(error);

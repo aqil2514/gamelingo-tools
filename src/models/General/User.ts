@@ -6,8 +6,8 @@ const UserSchema = new Schema<General.User>(
   {
     username: { type: String, required: true },
     name: { type: String, required: true },
-    avatar: { type: String, required: true },
-    post: { type: mongoose.Schema.ObjectId, ref: Post },
+    avatar: { type: String, required: false },
+    post: { type: [mongoose.Schema.ObjectId], ref: Post },
   },
   { timestamps: true }
 );

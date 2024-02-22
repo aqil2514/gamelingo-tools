@@ -7,9 +7,10 @@ import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constel
 import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
+import { Post } from "@/models/General/Post";
 
 export const genshin: FormUtils.Genshin.Genshin = {
-  processMaterial: async (formData: FormData) => {
+  processMaterial: async (formData, user) => {
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Material";
 
@@ -27,9 +28,13 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const organizedData = genshinOrganizing.material(validation.data, imageUrl);
 
     if (data["result-lang"] === "Indonesian") {
-      await IDMaterial.create(organizedData);
+      const material = await IDMaterial.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
     } else if (data["result-lang"] === "English") {
-      await ENMaterial.create(organizedData);
+      const material = await ENMaterial.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
     }
 
     return {
@@ -38,7 +43,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
       data: organizedData,
     };
   },
-  async proccessArtifact(formData) {
+  async proccessArtifact(formData, user) {
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Artifact";
 
@@ -60,8 +65,15 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const organizedData = genshinOrganizing.artifact(validation.data, imageUrl);
 
     // Tambah ke database
-    if (data["result-lang"] === "Indonesian") await IDArtifact.create(organizedData);
-    else if (data["result-lang"] === "English") await ENArtifact.create(organizedData);
+    if (data["result-lang"] === "Indonesian") {
+      const artifact = await IDArtifact.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, artifact, user, data.name);
+    } else if (data["result-lang"] === "English") {
+      const artifact = await ENArtifact.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, artifact, user, data.name);
+    }
 
     return {
       msg: "Tambah data artefak berhasil",
@@ -69,7 +81,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
       data: organizedData,
     };
   },
-  async processWeapon(formData) {
+  async processWeapon(formData, user) {
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Weapon";
 
@@ -90,11 +102,18 @@ export const genshin: FormUtils.Genshin.Genshin = {
     // data final
     const organizedData = genshinOrganizing.weapon(validation.data, imageUrl);
 
-    if (data["result-lang"] === "Indonesian") await IDWeapon.create(organizedData);
-    else if (data["result-lang"] === "English") await ENWeapon.create(organizedData);
+    if (data["result-lang"] === "Indonesian") {
+      const weapon = await IDWeapon.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, weapon, user, data.type);
+    } else if (data["result-lang"] === "English") {
+      const weapon = await ENWeapon.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, weapon, user, data.type);
+    }
     return { status: 200, data: organizedData };
   },
-  async proccessCharacter(formData) {
+  async proccessCharacter(formData, user) {
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Character";
 
@@ -114,12 +133,19 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     const organizedData = genshinOrganizing.character(validation.data, imageUrl);
 
-    if (data["result-lang"] === "English") await CharacterEN.create(organizedData);
-    else if (data["result-lang"] === "Indonesian") await CharacterID.create(organizedData);
+    if (data["result-lang"] === "English") {
+      const character = await CharacterEN.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, character, user, data.element);
+    } else if (data["result-lang"] === "Indonesian") {
+      const character = await CharacterID.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, character, user, data.element);
+    }
 
     return { status: 200, organizedData };
   },
-  async processTalent(formData) {
+  async processTalent(formData, user) {
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Character";
 
@@ -132,12 +158,21 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     const organizedData = genshinOrganizing.talent(data);
 
-    if (data["result-lang"] === "Indonesian") await TalentID.create(organizedData);
-    else if (data["result-lang"] === "English") await TalentEN.create(organizedData);
+    if (data["result-lang"] === "Indonesian") {
+      const talent = await TalentID.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, talent, user, data["character-name"]);
+    } else if (data["result-lang"] === "English") {
+      const talent = await TalentEN.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, talent, user, data["character-name"]);
+    }
 
     return { status: 200, data: organizedData };
   },
-  async processConstellation(formData) {
+  async processConstellation(formData, user) {
+    const game: General.Game["game"] = "Genshin Impact";
+    const category: General.Game["category"] = "Character";
     //Ambil data
     const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataConstellation;
 
@@ -148,9 +183,42 @@ export const genshin: FormUtils.Genshin.Genshin = {
     // Susun adta
     const organizedData = genshinOrganizing.constellation(data);
 
-    if (data["result-lang"] === "Indonesian") await ConstellationID.create(organizedData);
-    else if (data["result-lang"] === "English") await ConstellationEN.create(organizedData);
+    if (data["result-lang"] === "Indonesian") {
+      const constellation = await ConstellationID.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, constellation, user, data.charName);
+    } else if (data["result-lang"] === "English") {
+      const constellation = await ConstellationEN.create(organizedData);
+
+      await addPost(data, data["result-lang"], game, category, constellation, user, data.charName);
+    }
 
     return { status: 200, data: organizedData };
   },
 };
+
+/**
+ * Untuk menambahkan post
+ * @param data  - Data yang dari form
+ * @param lang - Bahasa dari data yang ditambahkan
+ * @param gameName - Nama game
+ * @param gameTopic - Topic atau kategorinya
+ * @param parent - Mongoose Create document
+ * @param user - User
+ * @param firstTag - Tag Pertama
+ */
+async function addPost(data: any, lang: General.PostDocument["lang"], gameName: General.PostDocument["game"]["name"], gameTopic: General.PostDocument["game"]["topic"], parent: any, user: Account.User, firstTag: string) {
+  const postData: General.PostDocument = {
+    title: data.name,
+    lang: lang,
+    game: {
+      name: gameName,
+      topic: gameTopic,
+    },
+    content: parent._id,
+    author: user.name,
+    tags: [firstTag, gameName, gameTopic],
+  };
+
+  await Post.create(postData);
+}

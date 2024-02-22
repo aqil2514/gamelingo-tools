@@ -5,8 +5,8 @@ namespace FormUtils {
       status: number;
     }
 
-    export interface FormDataMaterial{
-      'result-lang': Language;
+    export interface FormDataMaterial {
+      "result-lang": Language;
       name: string;
       typeMaterial: string;
       rarity: string;
@@ -20,47 +20,47 @@ namespace FormUtils {
     }
 
     export interface FormDataArtifact {
-        "result-lang": Language;
-        "name": string;
-        "rarityList": string[] | string;
-        "effect2Pc": string;
-        "effect4Pc": string;
-        "flower-name": string;
-        "flower-type": string;
-        "flower-description": string; 
-        "flower-lore": string; 
-        "plume-name": string;
-        "plume-type": string;
-        "plume-description": string; 
-        "plume-lore": string;
-        "sands-name": string;
-        "sands-type": string;
-        "sands-description": string;
-        "sands-lore": string;
-        "goblet-name": string;
-        "goblet-type": string;
-        "goblet-description": string;
-        "flower-image"?: File;
-        "plume-image"?: File;
-        "sands-image"?: File;
-        "goblet-lore": string;
-        "circlet-name": string;
-        "circlet-type": string;
-        "circlet-description": string;
-        "circlet-lore": string;
-        "goblet-image"?: File;
-        "circlet-image"?: File;
+      "result-lang": Language;
+      name: string;
+      rarityList: string[] | string;
+      effect2Pc: string;
+      effect4Pc: string;
+      "flower-name": string;
+      "flower-type": string;
+      "flower-description": string;
+      "flower-lore": string;
+      "plume-name": string;
+      "plume-type": string;
+      "plume-description": string;
+      "plume-lore": string;
+      "sands-name": string;
+      "sands-type": string;
+      "sands-description": string;
+      "sands-lore": string;
+      "goblet-name": string;
+      "goblet-type": string;
+      "goblet-description": string;
+      "flower-image"?: File;
+      "plume-image"?: File;
+      "sands-image"?: File;
+      "goblet-lore": string;
+      "circlet-name": string;
+      "circlet-type": string;
+      "circlet-description": string;
+      "circlet-lore": string;
+      "goblet-image"?: File;
+      "circlet-image"?: File;
     }
 
     export interface FormDataWeapon {
       "result-lang": Language;
-      "name": string;
+      name: string;
       "weapon-base-atk": string;
       "weapon-base-stat": string;
-      "subStatus": string;
-      "type": string;
-      "lore": string;
-      "rarity": string;
+      subStatus: string;
+      type: string;
+      lore: string;
+      rarity: string;
       "passive-name": string;
       "weapon-ref-r1": string;
       "weapon-ref-r2": string;
@@ -115,9 +115,8 @@ namespace FormUtils {
       "ascend-6-count-3": string;
       "ascend-6-material-4": string;
       "ascend-6-count-4": string;
-      "image"?: File;
+      image?: File;
     }
-    
 
     type Language = "Indonesian" | "English";
 
@@ -297,12 +296,12 @@ namespace FormUtils {
     }
 
     export interface Genshin {
-      processMaterial: (formData: FormData) => Promise<Result>;
-      proccessArtifact: (formData: FormData) => Promise<Result>;
-      processWeapon: (formData: FormData) => Promise<Result>;
-      proccessCharacter: (formData: FormData) => Promise<Result>;
-      processTalent: (formData: FormData) => Promise<Result>;
-      processConstellation: (formData: FormData) => Promise<Result>;
+      processMaterial: (formData: FormData, user: Account.User) => Promise<Result>;
+      proccessArtifact: (formData: FormData, user: Account.User) => Promise<Result>;
+      processWeapon: (formData: FormData, user: Account.User) => Promise<Result>;
+      proccessCharacter: (formData: FormData, user: Account.User) => Promise<Result>;
+      processTalent: (formData: FormData, user: Account.User) => Promise<Result>;
+      processConstellation: (formData: FormData, user: Account.User) => Promise<Result>;
     }
   }
 }

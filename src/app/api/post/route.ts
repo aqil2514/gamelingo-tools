@@ -2,6 +2,7 @@ import { evertale } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
 import { Weapon } from "@/models/Evertale/Weapons";
 import { Post } from "@/models/General/Post";
+import { getUser } from "@/utils/api";
 import { genshin } from "@/utils/formUtils";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -68,35 +69,38 @@ export async function POST(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const game = searchParams.get("game") as General.Game["game"];
   const category = searchParams.get("category") as General.Game["category"];
+  const user = await getUser();
+
+  if (!user) return NextResponse.json({ msg: "Anda belum login" }, { status: 401 });
 
   if (game === "Genshin Impact") {
     if (category === "Material") {
-      const process = await genshin.processMaterial(formData);
+      const process = await genshin.processMaterial(formData, user);
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: process.msg, process }, { status: 200 });
     } else if (category === "Artifact") {
-      const process = await genshin.proccessArtifact(formData);
+      const process = await genshin.proccessArtifact(formData, user);
       if (process.status === 422) return NextResponse.json({ msg: process.msg, process }, { status: 422 });
 
       return NextResponse.json({ msg: process.msg, process }, { status: 200 });
     } else if (category === "Weapon") {
-      const process = await genshin.processWeapon(formData);
+      const process = await genshin.processWeapon(formData, user);
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah data senjata berhasil", process }, { status: 200 });
     } else if (category === "Character") {
-      const process = await genshin.proccessCharacter(formData);
+      const process = await genshin.proccessCharacter(formData, user);
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah data karakter berhasil", process }, { status: 200 });
     } else if (category === "Talent") {
-      const process = await genshin.processTalent(formData);
+      const process = await genshin.processTalent(formData, user);
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah talent karakter berhasil", process }, { status: 200 });
     } else if (category === "Constellations") {
-      const process = await genshin.processConstellation(formData);
+      const process = await genshin.processConstellation(formData, user);
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah talent karakter berhasil", process }, { status: 200 });

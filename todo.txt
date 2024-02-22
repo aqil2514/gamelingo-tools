@@ -1,4 +1,0 @@
-sitemap.xml 
-Admin mobile responsive 
-Write Content mobile responsive
-Write content fetch api

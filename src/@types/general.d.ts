@@ -5,9 +5,10 @@ namespace General {
     image: string;
   }
 
-  export interface PostDocument extends Document {
+  export interface PostDocument {
+    _id?: string;
     title: string;
-    lang: "English" | "Indonesian";
+    lang: "English" | "Indonesian" | "English & Indonesian";
     game: {
       name: "Evertale" | "Genshin Impact" | "Mobile Legends";
       topic: "Character" | "Weapon" | "Accessory" | "Artifact" | "Material";
@@ -15,7 +16,9 @@ namespace General {
     content: ObjectId;
     author: string;
     tags: string[];
-    comment: Comment[];
+    comment?: Comment[];
+    createdAt?: Date;
+    updatedAt?: Date;
   }
 
   export interface Comment {
@@ -46,12 +49,12 @@ namespace General {
 
   export type Game = Evertale | GenshinImpact;
 
-  interface Evertale {
+  export interface Evertale {
     game: "Evertale";
     category: "Weapon" | "Character" | "Accessory";
   }
 
-  interface GenshinImpact {
+  export interface GenshinImpact {
     game: "Genshin Impact";
     category: "Artifact" | "Character" | "Material" | "Weapon" | "Talent" | "Constellations";
   }
