@@ -1,10 +1,9 @@
 import { evertale } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
 import { Weapon } from "@/models/Evertale/Weapons";
-import Post from "@/models/General/Post";
+import { Post } from "@/models/General/Post";
 import { genshin } from "@/utils/formUtils";
 import { ObjectId } from "mongodb";
-import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

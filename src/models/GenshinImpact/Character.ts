@@ -2,7 +2,8 @@ import mongoose, { Schema } from "mongoose";
 import { genshinConnection } from "@/lib/mongoose";
 import { TalentEN, TalentID } from "./Talent";
 import { ConstellationEN, ConstellationID } from "./Constellation";
-import { ENWeapon } from "./Weapon";
+import { ENWeapon, IDWeapon } from "./Weapon";
+import { ENArtifact, IDArtifact } from "./Artifact";
 
 const CharacterSchema = new Schema<GenshinImpact.Character>(
   {
@@ -24,12 +25,36 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
     },
     image: { type: String, required: true },
     build: {
-      weapon: { type: Schema.Types.ObjectId, required: false, ref: ENWeapon },
-      substitude: { type: [Schema.Types.ObjectId], required: false, ref: ENWeapon },
-      bestArtifact: { type: Schema.Types.ObjectId, required: false },
+      weapon: {
+        type: Schema.Types.ObjectId,
+        required: false,
+        ref: function (this: GenshinImpact.Character) {
+          if (this.lang === "Indonesian") return IDWeapon;
+          return ENWeapon;
+        },
+      },
+      substitude: {
+        type: [Schema.Types.ObjectId],
+        required: false,
+        ref: function (this: GenshinImpact.Character) {
+          if (this.lang === "Indonesian") return IDWeapon;
+          return ENWeapon;
+        },
+      },
+      bestArtifact: {
+        type: Schema.Types.ObjectId,
+        required: false,
+        ref: function (this: GenshinImpact.Character) {
+          if (this.lang === "Indonesian") return IDArtifact;
+          return ENArtifact;
+        },
+      },
       artifactStatus: { type: [Schema.Types.ObjectId], required: false },
       prioritySubStat: { type: [Schema.Types.ObjectId], required: false },
-      team: { type: [Schema.Types.ObjectId], required: false },
+      team: {
+        type: [Schema.Types.ObjectId],
+        required: false,
+      },
     },
     talent: {
       type: Schema.Types.ObjectId,
