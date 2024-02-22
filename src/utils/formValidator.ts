@@ -144,76 +144,18 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     if (!data.description) return { status: false, msg: "Deskripsi karakter belum ada" };
     if (!data.ascendStatus) return { status: false, msg: "Ascend status karakter belum ada" };
 
-    if (!data["ascend-1-material-1"]) return { status: false, msg: "Ascend 1 Material 1  belum ada" };
-    if (!data["ascend-1-count-1"]) return { status: false, msg: "Ascend 1 Count 1  belum ada" };
-    if (!data["ascend-1-material-2"]) return { status: false, msg: "Ascend 1 Material 2  belum ada" };
-    if (!data["ascend-1-count-2"]) return { status: false, msg: "Ascend 1 Count 2  belum ada" };
-    if (!data["ascend-1-material-3"]) return { status: false, msg: "Ascend 1 Material 3  belum ada" };
-    if (!data["ascend-1-count-3"]) return { status: false, msg: "Ascend 1 Count 3  belum ada" };
-    if (!data["ascend-1-material-4"]) return { status: false, msg: "Ascend 1 Material 4  belum ada" };
-    if (!data["ascend-1-count-4"]) return { status: false, msg: "Ascend 1 Count 4  belum ada" };
-
-    if (!data["ascend-2-material-1"]) return { status: false, msg: "Ascend 2 Material 1  belum ada" };
-    if (!data["ascend-2-count-1"]) return { status: false, msg: "Ascend 2 Count 1  belum ada" };
-    if (!data["ascend-2-material-2"]) return { status: false, msg: "Ascend 2 Material 2  belum ada" };
-    if (!data["ascend-2-count-2"]) return { status: false, msg: "Ascend 2 Count 2  belum ada" };
-    if (!data["ascend-2-material-3"]) return { status: false, msg: "Ascend 2 Material 3  belum ada" };
-    if (!data["ascend-2-count-3"]) return { status: false, msg: "Ascend 2 Count 3  belum ada" };
-    if (!data["ascend-2-material-4"]) return { status: false, msg: "Ascend 2 Material 4  belum ada" };
-    if (!data["ascend-2-count-4"]) return { status: false, msg: "Ascend 2 Count 4  belum ada" };
-    if (!data["ascend-2-material-5"]) return { status: false, msg: "Ascend 2 Material 5  belum ada" };
-    if (!data["ascend-2-count-5"]) return { status: false, msg: "Ascend 2 Count 5  belum ada" };
-
-    if (!data["ascend-3-material-1"]) return { status: false, msg: "Ascend 3 Material 1  belum ada" };
-    if (!data["ascend-3-count-1"]) return { status: false, msg: "Ascend 3 Count 1  belum ada" };
-    if (!data["ascend-3-material-2"]) return { status: false, msg: "Ascend 3 Material 2  belum ada" };
-    if (!data["ascend-3-count-2"]) return { status: false, msg: "Ascend 3 Count 2  belum ada" };
-    if (!data["ascend-3-material-3"]) return { status: false, msg: "Ascend 3 Material 3  belum ada" };
-    if (!data["ascend-3-count-3"]) return { status: false, msg: "Ascend 3 Count 3  belum ada" };
-    if (!data["ascend-3-material-4"]) return { status: false, msg: "Ascend 3 Material 4  belum ada" };
-    if (!data["ascend-3-count-4"]) return { status: false, msg: "Ascend 3 Count 4  belum ada" };
-    if (!data["ascend-3-material-5"]) return { status: false, msg: "Ascend 3 Material 5  belum ada" };
-    if (!data["ascend-3-count-5"]) return { status: false, msg: "Ascend 3 Count 5  belum ada" };
-
-    if (!data["ascend-4-material-1"]) return { status: false, msg: "Ascend 4 Material 1  belum ada" };
-    if (!data["ascend-4-count-1"]) return { status: false, msg: "Ascend 4 Count 1  belum ada" };
-    if (!data["ascend-4-material-2"]) return { status: false, msg: "Ascend 4 Material 2  belum ada" };
-    if (!data["ascend-4-count-2"]) return { status: false, msg: "Ascend 4 Count 2  belum ada" };
-    if (!data["ascend-4-material-3"]) return { status: false, msg: "Ascend 4 Material 3  belum ada" };
-    if (!data["ascend-4-count-3"]) return { status: false, msg: "Ascend 4 Count 3  belum ada" };
-    if (!data["ascend-4-material-4"]) return { status: false, msg: "Ascend 4 Material 4  belum ada" };
-    if (!data["ascend-4-count-4"]) return { status: false, msg: "Ascend 4 Count 4  belum ada" };
-    if (!data["ascend-4-material-5"]) return { status: false, msg: "Ascend 4 Material 5  belum ada" };
-    if (!data["ascend-4-count-5"]) return { status: false, msg: "Ascend 4 Count 5  belum ada" };
-
-    if (!data["ascend-5-material-1"]) return { status: false, msg: "Ascend 5 Material 1  belum ada" };
-    if (!data["ascend-5-count-1"]) return { status: false, msg: "Ascend 5 Count 1  belum ada" };
-    if (!data["ascend-5-material-2"]) return { status: false, msg: "Ascend 5 Material 2  belum ada" };
-    if (!data["ascend-5-count-2"]) return { status: false, msg: "Ascend 5 Count 2  belum ada" };
-    if (!data["ascend-5-material-3"]) return { status: false, msg: "Ascend 5 Material 3  belum ada" };
-    if (!data["ascend-5-count-3"]) return { status: false, msg: "Ascend 5 Count 3  belum ada" };
-    if (!data["ascend-5-material-4"]) return { status: false, msg: "Ascend 5 Material 4  belum ada" };
-    if (!data["ascend-5-count-4"]) return { status: false, msg: "Ascend 5 Count 4  belum ada" };
-    if (!data["ascend-5-material-5"]) return { status: false, msg: "Ascend 5 Material 5  belum ada" };
-    if (!data["ascend-5-count-5"]) return { status: false, msg: "Ascend 5 Count 5  belum ada" };
-
-    if (!data["ascend-6-material-1"]) return { status: false, msg: "Ascend 6 Material 1  belum ada" };
-    if (!data["ascend-6-count-1"]) return { status: false, msg: "Ascend 6 Count 1  belum ada" };
-    if (!data["ascend-6-material-2"]) return { status: false, msg: "Ascend 6 Material 2  belum ada" };
-    if (!data["ascend-6-count-2"]) return { status: false, msg: "Ascend 6 Count 2  belum ada" };
-    if (!data["ascend-6-material-3"]) return { status: false, msg: "Ascend 6 Material 3  belum ada" };
-    if (!data["ascend-6-count-3"]) return { status: false, msg: "Ascend 6 Count 3  belum ada" };
-    if (!data["ascend-6-material-4"]) return { status: false, msg: "Ascend 6 Material 4  belum ada" };
-    if (!data["ascend-6-count-4"]) return { status: false, msg: "Ascend 6 Count 4  belum ada" };
-    if (!data["ascend-6-material-5"]) return { status: false, msg: "Ascend 6 Material 5  belum ada" };
-    if (!data["ascend-6-count-5"]) return { status: false, msg: "Ascend 6 Count 5  belum ada" };
+    for (const key in data) {
+      if (key.startsWith("ascend")) {
+        if (!data[key as keyof FormUtils.Genshin.FormDataCharacter]) return { status: false, msg: "Ada data yang belum diisi" };
+      }
+    }
 
     if (!data["character-voice-chinese"]) return { status: false, msg: "Actor voice Chinese belum diisi" };
     if (!data["character-voice-english"]) return { status: false, msg: "Actor voice English belum diisi" };
     if (!data["character-voice-japanese"]) return { status: false, msg: "Actor voice Japanese belum diisi" };
     if (!data["character-voice-korean"]) return { status: false, msg: "Actor voice Korean belum diisi" };
 
-    const allowedElement: GenshinImpact.Character["element"][] = ["Anemo", "Cryo", "Dendro", "Geo", "Hydro", "Pyro"];
+    const allowedElement: GenshinImpact.Character["element"][] = ["Anemo", "Cryo", "Dendro", "Geo", "Hydro", "Pyro", "Electro"];
     const allowedWeapon: GenshinImpact.Character["weapon"][] = ["Bow", "Catalyst", "Claymore", "Polearm", "Sword"];
     const allowedGender: GenshinImpact.Character["gender"][] = ["Female", "Male", "Perempuan", "Pria"];
     const allowedRegion: GenshinImpact.Character["region"][] = ["Fontain", "Inazuma", "Liyue", "Mondstadt", "Sumeru"];
@@ -231,7 +173,7 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     if (!data.region) return { status: false, msg: "Region belum diisi" };
     if (!allowedRegion.includes(data.region as GenshinImpact.Character["region"])) return { status: false, msg: "Region tidak diizinkan" };
 
-    if (data.image?.name !== "undefined") {
+    if (data.image && data.image.name !== "undefined") {
       const imageValidation = file.validationImage(data.image as File);
       if (!imageValidation.status) return { msg: imageValidation.msg, status: false };
 
@@ -241,6 +183,12 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
           msg: "Nama file tidak mencakup nama karakter. Apa ini file yang benar?",
         };
       }
+
+      const newFile = new File([data.image], `${data.name}.${data.image.type.split("/")[1]}`, {
+        type: data.image.type,
+      });
+
+      data.image = newFile;
     } else if (data?.image?.name === "undefined") {
       return { status: false, msg: "Gambar belum dipilih" };
     }

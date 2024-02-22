@@ -7,7 +7,7 @@ namespace GenshinImpact {
     ascendStatus: string;
     ascendMaterial?: AscendMaterial;
     rarity: string;
-    element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo";
+    element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro";
     weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";
     gender: "Female" | "Male" | "Perempuan" | "Pria";
     region: "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontain";
