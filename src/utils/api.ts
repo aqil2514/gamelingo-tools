@@ -139,12 +139,12 @@ export const register: ApiUtils.RegisterApi = {
 
       await sendMail.verification(email, verifData.code);
 
-      // await User.create({
-      //   username: insertData.username,
-      //   name: insertData.name,
-      //   avatar: null,
-      //   post: [],
-      // });
+      await User.create({
+        username: insertData.username,
+        name: insertData.name,
+        avatar: null,
+        post: [],
+      });
 
       return {
         status: true,
