@@ -48,8 +48,11 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === "google") {
+        // Apakah data user di DB Supabase dan Mongo ada?
         const isThere = await supabase.from("userslogin").select("*").eq("email", profile?.email);
+        const isThereMongo = await MongoUser.findOne({});
 
+        // Jika tidak ada, buat data baru di Supabase
         if (!isThere || !isThere.data || isThere.data.length === 0 || !isThere.data[0]) {
           await supabase.from("userslogin").insert([
             {
@@ -61,10 +64,15 @@ export const authOptions: AuthOptions = {
               account_verified: true,
             },
           ]);
+        }
+
+        //Jika tidak ada, buat data baru di MongoDB
+        if (!isThereMongo) {
           await MongoUser.create({
             name: profile?.name,
             username: "Belum Disetting",
             avatar: profile?.image,
+            email: profile?.image,
             post: [],
           });
         }
@@ -73,9 +81,9 @@ export const authOptions: AuthOptions = {
 
         const userData: Account.UsersLogin = isThere.data![0];
 
-        // if (!userData.oauthid) {
-        //   await supabase.from("userslogin").update({ oauthid: profile?.sub }).eq("email", userData.email);
-        // }
+        if (!userData.oauthid) {
+          await supabase.from("userslogin").update({ oauthid: profile?.sub }).eq("email", userData.email);
+        }
       }
       return true;
     },

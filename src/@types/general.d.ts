@@ -42,6 +42,7 @@ namespace General {
   export interface User {
     _id?: ObjectId;
     username: string;
+    email: string;
     name: string;
     avatar: string;
     post: ObjectId;
