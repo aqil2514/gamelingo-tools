@@ -50,7 +50,9 @@ export const authOptions: AuthOptions = {
       if (account?.provider === "google") {
         // Apakah data user di DB Supabase dan Mongo ada?
         const isThere = await supabase.from("userslogin").select("*").eq("email", profile?.email);
-        const isThereMongo = await MongoUser.findOne({});
+        const isThereMongo = await MongoUser.findOne({ email: profile?.email });
+
+        console.log(isThereMongo);
 
         // Jika tidak ada, buat data baru di Supabase
         if (!isThere || !isThere.data || isThere.data.length === 0 || !isThere.data[0]) {
@@ -72,7 +74,7 @@ export const authOptions: AuthOptions = {
             name: profile?.name,
             username: "Belum Disetting",
             avatar: profile?.image,
-            email: profile?.image,
+            email: profile?.email,
             post: [],
           });
         }
