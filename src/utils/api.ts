@@ -432,7 +432,7 @@ export async function getUser() {
     role: data.role,
     email: data.email,
     image: data.image,
-    isNoPassword: data.password ? true : false,
+    passwordExisting: data.password ? true : false,
   };
   return userData;
 }

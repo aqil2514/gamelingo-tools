@@ -19,7 +19,7 @@ namespace Account {
     role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
     email: string;
     image: string;
-    isNoPassword?: boolean;
+    passwordExisting?: boolean;
   }
 
   export interface VerifCode {

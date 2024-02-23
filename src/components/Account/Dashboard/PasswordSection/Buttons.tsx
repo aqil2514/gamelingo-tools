@@ -14,7 +14,7 @@ interface PasswordState {
 export default function Buttons({ password, data }: { password: PasswordState; data: Account.User }) {
   const { state, dispatch } = useDashboardData();
   const router = useRouter();
-  const url: Route = data.isNoPassword ? "/api/users/reset-password" : "/api/users/dashboard";
+  const url: Route = data.passwordExisting ? "/api/users/dashboard" : "/api/users/reset-password";
 
   const passwordExistData = {
     oldPassword: password.oldPassword,
@@ -30,7 +30,7 @@ export default function Buttons({ password, data }: { password: PasswordState; d
     email: data.email,
   };
 
-  const reqData = data.isNoPassword ? noPasswordData : passwordExistData;
+  const reqData = data.passwordExisting ? passwordExistData : noPasswordData;
 
   async function clickHandler() {
     try {

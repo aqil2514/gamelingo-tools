@@ -13,7 +13,7 @@ export default function PasswordManage({ data }: { data: Account.User }) {
   const [password, setPassword] = React.useState<PasswordState>({ oldPassword: "", newPassword: "", confirmNewPassword: "" });
   return (
     <>
-      {!data.isNoPassword && (
+      {!data.passwordExisting && (
         <Input
           forId="old-password"
           type="password"
