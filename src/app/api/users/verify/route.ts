@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { DB, supabase } from "@/lib/supabase";
 import { sendMail, verifDataBuilder, verification } from "@/utils/api";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -6,10 +6,10 @@ export async function PUT(req: Request) {
   const { UID, oldEmail, email, putType } = await req.json();
 
   if (putType === "code") {
-    const isThere = await supabase.from("verificationcode").select().eq("email", email);
+    const isThere = await supabase.from(DB.code).select().eq("email", email);
     if (!isThere || !isThere.data || isThere.data.length === 0) {
       const verifData: Account.VerifCode = verifDataBuilder(email);
-      await supabase.from("verificationcode").insert(verifData).select();
+      await supabase.from(DB.code).insert(verifData).select();
 
       await sendMail.verification(email, verifData.code);
 
@@ -17,7 +17,7 @@ export async function PUT(req: Request) {
     }
     const code = verification.generate();
 
-    await supabase.from("verificationcode").update({ code, createdat: new Date() }).eq("email", email);
+    await supabase.from(DB.code).update({ code, createdat: new Date() }).eq("email", email);
 
     await sendMail.verification(email, code);
 
@@ -28,11 +28,11 @@ export async function PUT(req: Request) {
 
     await sendMail.verification(email, code);
 
-    await supabase.from("verificationcode").update({ code }).eq("uid", UID);
+    await supabase.from(DB.code).update({ code }).eq("uid", UID);
 
-    await supabase.from("userslogin").update({ email }).eq("email", oldEmail);
+    await supabase.from(DB.user).update({ email }).eq("email", oldEmail);
 
-    await supabase.from("verificationcode").update({ email }).eq("email", oldEmail);
+    await supabase.from(DB.code).update({ email }).eq("email", oldEmail);
 
     return NextResponse.json({ msg: `Email telah diganti dari ${oldEmail} menjadi ${email}. Silahkan kirim ulang kode` });
   }

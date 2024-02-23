@@ -1,6 +1,6 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { supabase } from "@/lib/supabase";
+import { DB, supabase } from "@/lib/supabase";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { Adapter } from "next-auth/adapters";
 import { AuthOptions, User } from "next-auth";
@@ -19,7 +19,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         if (!credentials) throw new Error("No credentials");
 
-        const isThere = await supabase.from("userslogin").select("*").eq("username", credentials.username);
+        const isThere = await supabase.from(DB.user).select("*").eq("username", credentials.username);
         if (!isThere || !isThere.data || isThere.data.length === 0) return null;
 
         const userData: Account.UsersLogin = isThere.data[0];
@@ -49,14 +49,14 @@ export const authOptions: AuthOptions = {
     async signIn({ account, profile }) {
       if (account?.provider === "google") {
         // Apakah data user di DB Supabase dan Mongo ada?
-        const isThere = await supabase.from("userslogin").select("*").eq("email", profile?.email);
+        const isThere = await supabase.from(DB.user).select("*").eq("email", profile?.email);
         const isThereMongo = await MongoUser.findOne({ email: profile?.email });
 
         const userId = crypto.randomUUID();
 
         // Jika tidak ada, buat data baru di Supabase
         if (!isThere || !isThere.data || isThere.data.length === 0 || !isThere.data[0]) {
-          await supabase.from("userslogin").insert([
+          await supabase.from(DB.user).insert([
             {
               id: userId,
               name: profile?.name,
@@ -87,7 +87,7 @@ export const authOptions: AuthOptions = {
           const userData: Account.UsersLogin = isThere.data[0];
 
           if (!userData.oauthid) {
-            await supabase.from("userslogin").update({ oauthid: profile?.sub }).eq("email", userData.email);
+            await supabase.from(DB.user).update({ oauthid: profile?.sub }).eq("email", userData.email);
           }
         }
       }
@@ -107,7 +107,7 @@ export const authOptions: AuthOptions = {
         }
       }
       if (account?.provider === "google") {
-        const isThere = await supabase.from("userslogin").select("*").eq("email", profile?.email);
+        const isThere = await supabase.from(DB.user).select("*").eq("email", profile?.email);
         if (!isThere || !isThere.data || isThere.data.length === 0 || !isThere.data[0]) throw new Error("Ooppss. Something error");
 
         const userData: Account.UsersLogin = isThere.data![0];

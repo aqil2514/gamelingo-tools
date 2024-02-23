@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import Verification from "@/components/Account/Verification";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { DB, supabase } from "@/lib/supabase";
 
 export const metadata: Metadata = {
   title: "Account Verification",
@@ -18,7 +18,7 @@ export default async function Verify({ params }: ParamsProp) {
 
   const { UID } = params;
 
-  const verification = await supabase.from("verificationcode").select("*").like("uid", UID);
+  const verification = await supabase.from(DB.code).select("*").like("uid", UID);
 
   if (!verification || !verification.data || verification.data?.length === 0) return <p>Tidak ada data tersebut</p>;
 

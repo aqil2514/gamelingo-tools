@@ -13,7 +13,7 @@ export default function PasswordManage({ data }: { data: Account.User }) {
   const [password, setPassword] = React.useState<PasswordState>({ oldPassword: "", newPassword: "", confirmNewPassword: "" });
   return (
     <>
-      {!data.passwordExisting && (
+      {data.passwordExisting ? (
         <Input
           forId="old-password"
           type="password"
@@ -23,6 +23,8 @@ export default function PasswordManage({ data }: { data: Account.User }) {
           onChange={(e) => setPassword({ ...password, oldPassword: e.target.value })}
           variant={VariantClass.dashboard}
         />
+      ) : (
+        <p className="text-white font-bold font-poppins text-center">Anda belum setting password</p>
       )}
       <Input forId="new-password" type="password" disabled={state.isEditing} label="Password Baru" value={password.newPassword} onChange={(e) => setPassword({ ...password, newPassword: e.target.value })} variant={VariantClass.dashboard} />
       <Input

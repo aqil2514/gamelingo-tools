@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Verify from "./verify";
-import { supabase } from "@/lib/supabase";
+import { DB, supabase } from "@/lib/supabase";
 
 export const metadata: Metadata = {
   title: "Reset Password",
@@ -11,7 +11,7 @@ interface ParamsProps {
 }
 
 export default async function ResetPassword({ params }: { params: ParamsProps }) {
-  const data = await supabase.from("password_purify").select("email, createdat").eq("uid", params.UID);
+  const data = await supabase.from(DB.purifyPassword).select("email, createdat").eq("uid", params.UID);
   if (!data || !data.data || data.data.length === 0)
     return (
       <div className="bg-zinc-900 min-h-screen py-20 w-full">
@@ -29,7 +29,7 @@ export default async function ResetPassword({ params }: { params: ParamsProps })
   const createdDateUTC = createdDate.getTime();
 
   if (currentTimeUTC > createdDateUTC + 5 * 60 * 1000) {
-    await supabase.from("password_purify").delete().eq("email", email);
+    await supabase.from(DB.purifyPassword).delete().eq("email", email);
     return (
       <div className="bg-zinc-900 min-h-screen py-20 w-full">
         <h1 className="font-nova-square text-white font-bold text-center text-5xl">Link sudah kadaluarsa</h1>
@@ -37,7 +37,7 @@ export default async function ResetPassword({ params }: { params: ParamsProps })
     );
   }
 
-  await supabase.from("password_purify").delete().eq("email", email);
+  await supabase.from(DB.purifyPassword).delete().eq("email", email);
 
   return (
     <div className="bg-zinc-900 min-h-screen py-20 w-full">

@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { DB, supabase } from "@/lib/supabase";
 import { dashboard, login, register, sendMail, verifDataBuilder } from "@/utils/api";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    await supabase.from("userslogin").update({ password: hashedPassword }).eq("username", username);
+    await supabase.from(DB.user).update({ password: hashedPassword }).eq("username", username);
 
     return NextResponse.json({ msg: "Password berhasil diubah" }, { status: 200 });
   }
@@ -37,7 +37,7 @@ export async function PUT(req: NextRequest) {
 
   if (data.email !== oldData.email) {
     const verifData: Account.VerifCode = verifDataBuilder(data.email);
-    await supabase.from("verificationcode").insert(verifData).select();
+    await supabase.from(DB.code).insert(verifData).select();
 
     await sendMail.verification(data.email, verifData.code);
 
