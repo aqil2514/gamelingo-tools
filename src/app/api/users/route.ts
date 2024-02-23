@@ -1,6 +1,8 @@
 // import { checkUser, checkEmail, updateUser } from "@/lib/prisma/users";
 import { NextRequest, NextResponse } from "next/server";
 import { login, register } from "@/utils/api";
+import { DB, supabase } from "@/lib/supabase";
+import { User } from "@/models/General/User";
 
 export async function POST(req: NextRequest) {
   const reqBody = (await req.json()) as Route.Request.Users;
@@ -48,4 +50,13 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ msg: "Login berhasil" } as Route.Response.Users, { status: 200 });
   }
+}
+
+export async function DELETE(req: NextRequest) {
+  const { id } = await req.json();
+
+  await supabase.from(DB.user).delete().eq("id", id);
+  await User.findOneAndDelete({ userId: id });
+
+  return NextResponse.json({ msg: "Data berhasil dihapus" }, { status: 200 });
 }
