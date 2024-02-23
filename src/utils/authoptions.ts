@@ -65,6 +65,7 @@ export const authOptions: AuthOptions = {
               oauthid: profile?.sub,
               role: "Pengguna",
               account_verified: true,
+              passwordExist: false,
             },
           ]);
         }
