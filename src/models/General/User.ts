@@ -4,6 +4,7 @@ import { generalConnection } from "@/lib/mongoose";
 
 const UserSchema = new Schema<General.User>(
   {
+    userId: { type: String, required: true },
     username: { type: String, required: true },
     name: { type: String, required: true },
     avatar: { type: String, required: false },

@@ -52,12 +52,13 @@ export const authOptions: AuthOptions = {
         const isThere = await supabase.from("userslogin").select("*").eq("email", profile?.email);
         const isThereMongo = await MongoUser.findOne({ email: profile?.email });
 
-        console.log(isThereMongo);
+        const userId = crypto.randomUUID();
 
         // Jika tidak ada, buat data baru di Supabase
         if (!isThere || !isThere.data || isThere.data.length === 0 || !isThere.data[0]) {
           await supabase.from("userslogin").insert([
             {
+              id: userId,
               name: profile?.name,
               image: profile?.image,
               email: profile?.email,
@@ -72,6 +73,7 @@ export const authOptions: AuthOptions = {
         if (!isThereMongo) {
           await MongoUser.create({
             name: profile?.name,
+            userId,
             username: "Belum Disetting",
             avatar: profile?.image,
             email: profile?.email,

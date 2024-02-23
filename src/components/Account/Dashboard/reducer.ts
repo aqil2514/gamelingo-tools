@@ -18,7 +18,8 @@ export interface DataState {
   editMode: boolean;
   isEditing: boolean;
   isChanged: boolean;
-  popUpActive: boolean;passwordSection:boolean;
+  popUpActive: boolean;
+  passwordSection: boolean;
 }
 
 export interface StateAction {
@@ -55,11 +56,11 @@ export function reducer(state: DataState, action: StateAction) {
     case StateActionKind.HIDE_POPUP_EMAIL: {
       return { ...state, popUpActive: false };
     }
-    case StateActionKind.SHOW_PASSWORD_SECTION:{
-      return{...state, passwordSection:true};
+    case StateActionKind.SHOW_PASSWORD_SECTION: {
+      return { ...state, passwordSection: true };
     }
-    case StateActionKind.HIDE_PASSWORD_SECTION:{
-      return{...state, passwordSection:false};
+    case StateActionKind.HIDE_PASSWORD_SECTION: {
+      return { ...state, passwordSection: false };
     }
   }
 }
@@ -72,6 +73,6 @@ export function INITIAL_STATE(data: Account.User): DataState {
     isEditing: false,
     isChanged: false,
     popUpActive: false,
-    passwordSection:false,
+    passwordSection: false,
   };
 }

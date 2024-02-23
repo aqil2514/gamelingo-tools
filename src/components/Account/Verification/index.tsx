@@ -29,6 +29,7 @@ export default function Verification({ initData }: { initData: Account.VerifCode
 
       setTimeout(() => {
         pElement.remove();
+        router.replace("/login");
       }, 3000);
     } catch (error) {
       console.error(error);
