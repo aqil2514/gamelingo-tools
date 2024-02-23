@@ -415,14 +415,25 @@ export async function getUser() {
 
   if (!session) return null;
 
+  // TODO : Nanti akalin solusi yang lebih aman lagi
+
   const user = await supabase
     .from("userslogin")
-    .select("username, email, name, role, id, image")
+    .select("username, email, password, name, role, id, image")
     .eq("id", (session?.user as Account.User)?.id);
 
   if (!user || !user.data || !user.data[0]) return null;
 
-  const userData = user.data[0] as Account.User;
+  const data = user.data[0];
+  const userData: Account.User = {
+    username: data.username,
+    id: data.id,
+    name: data.name,
+    role: data.role,
+    email: data.email,
+    image: data.image,
+    isNoPassword: data.password ? true : false,
+  };
   return userData;
 }
 

@@ -3,6 +3,7 @@ import { useDashboardData } from "..";
 import { StateActionKind } from "../reducer";
 import { notif } from "@/utils/fe";
 import { useRouter } from "next/navigation";
+import { Route } from "next";
 
 interface PasswordState {
   oldPassword: string;
@@ -10,20 +11,31 @@ interface PasswordState {
   confirmNewPassword: string;
 }
 
-export default function Buttons({ password }: { password: PasswordState }) {
+export default function Buttons({ password, data }: { password: PasswordState; data: Account.User }) {
   const { state, dispatch } = useDashboardData();
   const router = useRouter();
+  const url: Route = data.isNoPassword ? "/api/users/reset-password" : "/api/users/dashboard";
+
+  const passwordExistData = {
+    oldPassword: password.oldPassword,
+    newPassword: password.newPassword,
+    confirmNewPassword: password.confirmNewPassword,
+    username: state.data.username,
+    action: "change-password",
+  };
+
+  const noPasswordData = {
+    newPassword: password.newPassword,
+    confirmNewPassword: password.confirmNewPassword,
+    email: data.email,
+  };
+
+  const reqData = data.isNoPassword ? noPasswordData : passwordExistData;
 
   async function clickHandler() {
     try {
       dispatch({ type: StateActionKind.IS_EDITING_START });
-      const res = await axios.post("/api/users/dashboard", {
-        oldPassword: password.oldPassword,
-        newPassword: password.newPassword,
-        confirmNewPassword: password.confirmNewPassword,
-        username: state.data.username,
-        action: "change-password",
-      });
+      const res = await axios.post(url, reqData);
 
       notif(res.data.msg, "green", "confirm-password-change", "before");
       setTimeout(() => {

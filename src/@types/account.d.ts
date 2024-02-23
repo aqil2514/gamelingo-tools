@@ -19,6 +19,7 @@ namespace Account {
     role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
     email: string;
     image: string;
+    isNoPassword?: boolean;
   }
 
   export interface VerifCode {
@@ -44,7 +45,7 @@ namespace Account {
     typeAction: "login";
   }
 
-  export interface AdminUserOutput{
+  export interface AdminUserOutput {
     id: string | undefined;
     oauthid: string | undefined;
     image: string | undefined;
@@ -54,11 +55,11 @@ namespace Account {
     role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
     account_verified: boolean | undefined;
     createdat: Date | undefined;
-}
+  }
 
-export interface PasswordPurify{
-  email: string;
-  uid:string;
-  createdat: string;
-}
+  export interface PasswordPurify {
+    email: string;
+    uid: string;
+    createdat: string;
+  }
 }

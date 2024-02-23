@@ -26,7 +26,7 @@ export default function Dashboard({ data }: DashboardProps) {
     <DashboardContext.Provider value={{ state, dispatch }}>
       {!state.passwordSection && <BasicInfo />}
       {state.popUpActive && <PopupEmail />}
-      {state.passwordSection && <PasswordManage />}
+      {state.passwordSection && <PasswordManage data={data} />}
     </DashboardContext.Provider>
   );
 }

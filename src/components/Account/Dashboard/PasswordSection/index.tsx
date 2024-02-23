@@ -8,12 +8,22 @@ interface PasswordState {
   newPassword: string;
   confirmNewPassword: string;
 }
-export default function PasswordManage() {
+export default function PasswordManage({ data }: { data: Account.User }) {
   const { state } = useDashboardData();
   const [password, setPassword] = React.useState<PasswordState>({ oldPassword: "", newPassword: "", confirmNewPassword: "" });
   return (
     <>
-      <Input forId="old-password" type="password" disabled={state.isEditing} label="Password Lama" value={password.oldPassword} onChange={(e) => setPassword({ ...password, oldPassword: e.target.value })} variant={VariantClass.dashboard} />
+      {!data.isNoPassword && (
+        <Input
+          forId="old-password"
+          type="password"
+          disabled={state.isEditing}
+          label="Password Lama"
+          value={password.oldPassword}
+          onChange={(e) => setPassword({ ...password, oldPassword: e.target.value })}
+          variant={VariantClass.dashboard}
+        />
+      )}
       <Input forId="new-password" type="password" disabled={state.isEditing} label="Password Baru" value={password.newPassword} onChange={(e) => setPassword({ ...password, newPassword: e.target.value })} variant={VariantClass.dashboard} />
       <Input
         forId="confirm-new-password"
@@ -24,7 +34,7 @@ export default function PasswordManage() {
         onChange={(e) => setPassword({ ...password, confirmNewPassword: e.target.value })}
         variant={VariantClass.dashboard}
       />
-      <Buttons password={password} />
+      <Buttons password={password} data={data} />
     </>
   );
 }
