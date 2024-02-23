@@ -104,9 +104,7 @@ export const authOptions: AuthOptions = {
       }
       if (account?.provider === "google") {
         const isThere = await supabase.from("userslogin").select("*").eq("email", profile?.email);
-        console.log(isThere);
-        console.log(params);
-        // if (!isThere || !isThere.data || isThere.data.length === 0 || !isThere.data[0]) throw new Error("Ooppss. Something error");
+        if (!isThere || !isThere.data || isThere.data.length === 0 || !isThere.data[0]) throw new Error("Ooppss. Something error");
 
         const userData: Account.UsersLogin = isThere.data![0];
         return {
