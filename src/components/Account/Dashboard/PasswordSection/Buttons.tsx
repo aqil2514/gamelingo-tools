@@ -25,8 +25,8 @@ export default function Buttons({ password, data }: { password: PasswordState; d
   };
 
   const noPasswordData = {
-    newPassword: password.newPassword,
-    confirmNewPassword: password.confirmNewPassword,
+    password: password.newPassword,
+    confirmPassword: password.confirmNewPassword,
     email: data.email,
   };
 
