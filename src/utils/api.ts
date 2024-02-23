@@ -142,6 +142,7 @@ export const register: ApiUtils.RegisterApi = {
       await User.create({
         username: insertData.username,
         name: insertData.name,
+        email: insertData.email,
         avatar: null,
         post: [],
       });
