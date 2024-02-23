@@ -22,6 +22,8 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   const { password, confirmPassword, email } = await req.json();
 
+  console.log(password, confirmPassword, email);
+
   const passwordValidation = register.passwordValidation(password, confirmPassword);
   if (!passwordValidation.status) return NextResponse.json({ msg: passwordValidation.msg }, { status: 422 });
 
