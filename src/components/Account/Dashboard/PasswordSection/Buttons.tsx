@@ -36,6 +36,7 @@ export default function Buttons({ password, data }: { password: PasswordState; d
     try {
       dispatch({ type: StateActionKind.IS_EDITING_START });
       const res = data.passwordExisting ? await axios.post(url, reqData) : await axios.put(url, reqData);
+      console.log(reqData);
 
       notif(res.data.msg, "green", "confirm-password-change", "before");
       setTimeout(() => {
