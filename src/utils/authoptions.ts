@@ -60,13 +60,13 @@ export const authOptions: AuthOptions = {
               role: "Pengguna",
               account_verified: true,
             },
-            await MongoUser.create({
-              name: profile?.name,
-              username: "Belum Disetting",
-              avatar: profile?.image,
-              post: [],
-            }),
           ]);
+          await MongoUser.create({
+            name: profile?.name,
+            username: "Belum Disetting",
+            avatar: profile?.image,
+            post: [],
+          });
         }
 
         // TODO : Fix bagian sini. Entah mongoose atau apalah yang salah.
