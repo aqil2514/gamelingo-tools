@@ -247,6 +247,8 @@ export const dashboard: ApiUtils.DashboardApi = {
     try {
       await supabase.from("userslogin").update(data).eq("id", data.id);
 
+      await User.findOneAndUpdate({ userId: data.id }, data);
+
       return { status: true };
     } catch (error) {
       return { status: false, msg: "Terjadi kesalahan", error };
