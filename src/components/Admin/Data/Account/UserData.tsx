@@ -1,12 +1,15 @@
 "use client";
 
+import Button, { VariantClass } from "@/components/general/Button";
+import { Input, VariantClass as InputClass } from "@/components/general/Input";
 import { notif } from "@/utils/fe";
 import axios from "axios";
 import { Route } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import ContextMenu, { EditMenu } from "./ContextMenu";
 
-interface ContextMenuState {
+export interface ContextMenuState {
   x: number;
   y: number;
   isActive: boolean;
@@ -14,8 +17,8 @@ interface ContextMenuState {
 }
 export default function UserData({ data }: { data: Account.AdminUserOutput[] }) {
   const [contextMenu, setContextMenu] = useState<ContextMenuState>({} as ContextMenuState);
+  const [editMenu, setEditMenu] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router = useRouter();
   useEffect(() => {
     const clickFunction = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -32,37 +35,6 @@ export default function UserData({ data }: { data: Account.AdminUserOutput[] }) 
       window.removeEventListener("click", clickFunction);
     };
   }, [contextMenu]);
-
-  async function copyHandler() {
-    if (contextMenu.target) {
-      await navigator.clipboard.writeText(contextMenu.target?.innerText);
-      notif("Berhasil copy data", "green", "table-user-data", "before");
-    }
-  }
-
-  async function deleteHandler() {
-    const id = contextMenu.target?.getAttribute("data-id");
-    const username = data.find((d) => d.id === id)?.username;
-    if (username === "aqil2514") return notif("Tidak dapat menghapus diri anda sendiri", "red", "table-user-data", "before");
-    const allow = confirm(`Yakin ingin hapus user dengan username ${username}?`);
-    if (!allow) return notif("Aksi dibatalkan", "green", "table-user-data", "before");
-    const url: Route = "/api/users";
-    try {
-      setIsLoading(true);
-
-      const res = await axios.delete(url, {
-        data: {
-          id,
-        },
-      });
-
-      notif(res.data.msg, "green", "table-user-data", "before");
-      router.refresh();
-    } catch (error) {
-    } finally {
-      setIsLoading(false);
-    }
-  }
 
   return (
     <div className="px-4">
@@ -97,19 +69,10 @@ export default function UserData({ data }: { data: Account.AdminUserOutput[] }) 
           ))}
         </tbody>
       </table>
-      {contextMenu.isActive && (
-        <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
-          <ul>
-            <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={copyHandler}>
-              Copy Content
-            </li>
-            <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={deleteHandler}>
-              Delete Data
-            </li>
-            <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2">Edit Data</li>
-          </ul>
-        </div>
-      )}
+
+      {contextMenu.isActive && <ContextMenu setEditMenu={setEditMenu} setIsLoading={setIsLoading} contextMenu={contextMenu} data={data} />}
+
+      {editMenu && <EditMenu setEditMenu={setEditMenu} contextMenu={contextMenu} />}
     </div>
   );
 }

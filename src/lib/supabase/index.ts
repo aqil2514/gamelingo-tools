@@ -7,7 +7,7 @@ export enum DB {
 }
 
 export enum UserSelect {
-  basic = "username, email, name, role, id, image, passwordExist",
+  basic = "id, oauthid, image, name, username, email, role, account_verified, passwordExist, createdat",
 }
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;

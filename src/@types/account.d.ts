@@ -54,6 +54,7 @@ namespace Account {
     email: string;
     role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
     account_verified: boolean | undefined;
+    passwordExist: boolean | undefined;
     createdat: Date | undefined;
   }
 
