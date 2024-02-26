@@ -218,25 +218,32 @@ export const admin: FormUtils.Account.AccountFormApi = {
 
     const organizedData = adminOrganizing.user(formData);
 
-    await supabase
-      .from(DB.user)
-      .update({
-        email: organizedData.email,
-        name: organizedData.name,
-        passwordExisting: organizedData.passwordExisting,
-        account_verified: organizedData.account_verified,
-        role: organizedData.role,
-        image: organizedData.image,
-      } as Account.User)
-      .eq("id", organizedData.id);
-    await User.findOneAndUpdate(
-      { userId: organizedData.id },
-      {
-        username: organizedData.username,
-        email: organizedData.email,
-        name: organizedData.name,
-      }
-    );
+    try {
+      await supabase
+        .from(DB.user)
+        .update({
+          email: organizedData.email,
+          name: organizedData.name,
+          passwordExisting: organizedData.passwordExisting,
+          account_verified: organizedData.account_verified,
+          role: organizedData.role,
+          image: organizedData.image,
+        } as Account.User)
+        .eq("id", organizedData.id);
+      await User.findOneAndUpdate(
+        { userId: organizedData.id },
+        {
+          username: organizedData.username,
+          email: organizedData.email,
+          name: organizedData.name,
+        }
+      );
+      console.log("Ganti sukses")
+    } catch (error) {
+      
+      console.log("Ganti gagal:", error)
+    }
+
 
     return { status: 200, organizedData };
   },
