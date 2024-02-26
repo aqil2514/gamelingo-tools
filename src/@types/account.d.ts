@@ -7,7 +7,7 @@ namespace Account {
     image?: string;
     oauthid?: string;
     email: string;
-    role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
+    role: "General Admin" | "Admin" | "Admin of Genshin Impact" | "Admin of Evertale" | "Moderator" | "User";
     account_verified?: boolean;
     passwordExist?: boolean;
     createdAt?: string;
@@ -17,7 +17,7 @@ namespace Account {
     id: string;
     name: string;
     username: string;
-    role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
+    role: "General Admin" | "Admin" | "Admin of Genshin Impact" | "Admin of Evertale" | "Moderator" | "User";
     email: string;
     image: string;
     account_verified?: boolean;
@@ -54,7 +54,7 @@ namespace Account {
     name: string;
     username: string;
     email: string;
-    role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
+    role: "General Admin" | "Admin" | "Admin of Genshin Impact" | "Admin of Evertale" | "User" | "Moderator";
     account_verified: boolean;
     passwordExist: boolean;
     createdat: string;

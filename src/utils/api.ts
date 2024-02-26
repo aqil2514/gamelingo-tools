@@ -121,14 +121,26 @@ export const register: ApiUtils.RegisterApi = {
   },
   addAccount: async (username, password, name, email) => {
     const hashedPassword = await bcrypt.hash(password, 10);
+    const userId = crypto.randomUUID();
 
     const insertData: Account.UsersLogin = {
+      id: userId,
       username,
       name,
       password: hashedPassword,
       email,
-      role: "Pengguna",
+      passwordExist: true,
+      role: "User",
     };
+
+    await User.create({
+      userId,
+      username,
+      name,
+      email,
+      role: "User",
+      passwordExist: true,
+    });
 
     const verifData: Account.VerifCode = verifDataBuilder(email);
 
@@ -460,18 +472,21 @@ export const admin: ApiUtils.AdminApi = {
     if (!res || !res.data || res.data.length === 0) return null;
 
     const resData = res.data;
-    const data = resData.map((d: Account.UsersLogin) => ({
-      id: d.id,
-      oauthid: d.oauthid,
-      image: d.image,
-      name: d.name,
-      username: d.username,
-      email: d.email,
-      role: d.role,
-      account_verified: d.account_verified,
-      createdat: d.createdAt,
-      passwordExist: d.passwordExist,
-    } as Account.AdminUserOutput));
+    const data = resData.map(
+      (d: Account.UsersLogin) =>
+        ({
+          id: d.id,
+          oauthid: d.oauthid,
+          image: d.image,
+          name: d.name,
+          username: d.username,
+          email: d.email,
+          role: d.role,
+          account_verified: d.account_verified,
+          createdat: d.createdAt,
+          passwordExist: d.passwordExist,
+        } as Account.AdminUserOutput)
+    );
 
     return data;
   },

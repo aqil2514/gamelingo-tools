@@ -271,7 +271,7 @@ export const adminValidator: ApiUtils.AdminValidatorApi = {
     const oldData = user.data[0];
 
     for (const key in data) {
-      if (key !== "account-verified" && key !== "password-exist" && key !== "image") {
+      if (key !== "account-verified" && key !== "password-exist" && key !== "image" && key !== "oauth-id") {
         if (!data[key as keyof FormUtils.Account.FormDataUser]) return { status: false, msg: `${key.charAt(0).toUpperCase() + key.slice(1)} belum diisi` };
       }
     }

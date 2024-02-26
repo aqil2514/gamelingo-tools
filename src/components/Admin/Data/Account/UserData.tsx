@@ -1,11 +1,5 @@
 "use client";
 
-import Button, { VariantClass } from "@/components/general/Button";
-import { Input, VariantClass as InputClass } from "@/components/general/Input";
-import { notif } from "@/utils/fe";
-import axios from "axios";
-import { Route } from "next";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ContextMenu, { EditMenu } from "./ContextMenu";
 

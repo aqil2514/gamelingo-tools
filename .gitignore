@@ -15,6 +15,9 @@
 /src/app/api/migrations
 postgres.session.sql
 
+#debug
+/error.txt
+
 #environment
 .env
 /backup

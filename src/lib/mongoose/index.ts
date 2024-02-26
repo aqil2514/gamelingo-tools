@@ -1,7 +1,31 @@
-import mongoose, { ConnectOptions, Connection } from "mongoose";
+import mongoose, { Connection } from "mongoose";
 
-export const evertaleConnection: Connection = mongoose.createConnection(`${process.env.MONGODB_URI_EVERTALE}`);
+// Membuat koneksi evertale
+let evertaleConnection: Connection | undefined;
+try {
+  evertaleConnection = mongoose.createConnection(`${process.env.MONGODB_URI_EVERTALE}`);
+  console.log("Koneksi evertale berhasil dibuat.");
+} catch (error) {
+  console.error("Kesalahan saat membuat koneksi evertale:", error);
+}
 
-export const genshinConnection: Connection = mongoose.createConnection(`${process.env.MONGODB_URI_GENSHIN}`);
+// Membuat koneksi genshin
+let genshinConnection: Connection | undefined;
+try {
+  genshinConnection = mongoose.createConnection(`${process.env.MONGODB_URI_GENSHIN}`);
+  console.log("Koneksi genshin berhasil dibuat.");
+} catch (error) {
+  console.error("Kesalahan saat membuat koneksi genshin:", error);
+}
 
-export const generalConnection: Connection = mongoose.createConnection(`${process.env.MONGODB_URI_GENERAL}`);
+// Membuat koneksi general
+let generalConnection: Connection | undefined;
+try {
+  generalConnection = mongoose.createConnection(`${process.env.MONGODB_URI_GENERAL}`);
+  console.log("Koneksi general berhasil dibuat.");
+} catch (error) {
+  console.error("Kesalahan saat membuat koneksi general:", error);
+}
+
+// Mengekspor koneksi yang berhasil dibuat
+export { evertaleConnection, genshinConnection, generalConnection };

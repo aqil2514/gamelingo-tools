@@ -27,9 +27,9 @@ export default function Verification({ initData }: { initData: Account.VerifCode
 
       buttonRef.current?.before(pElement);
 
+      router.refresh();
       setTimeout(() => {
         pElement.remove();
-        router.replace("/login");
       }, 3000);
     } catch (error) {
       console.error(error);
@@ -82,8 +82,8 @@ export default function Verification({ initData }: { initData: Account.VerifCode
 
       buttonRef.current!.before(pElement);
 
+      router.replace("/login");
       setTimeout(() => {
-        router.replace("/login");
         pElement.remove();
       }, 3000);
     } catch (error) {
