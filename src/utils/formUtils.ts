@@ -219,7 +219,7 @@ export const admin: FormUtils.Account.AccountFormApi = {
     const organizedData = adminOrganizing.user(formData);
 
     try {
-      await supabase
+      const supabaseRes = await supabase
         .from(DB.user)
         .update({
           email: organizedData.email,
@@ -229,7 +229,14 @@ export const admin: FormUtils.Account.AccountFormApi = {
           role: organizedData.role,
           image: organizedData.image,
         } as Account.User)
-        .eq("id", organizedData.id);
+        .eq("id", organizedData.id)
+        .select();
+
+      console.log(supabaseRes.data);
+      console.log(supabaseRes.error);
+      console.log(supabaseRes.status);
+      console.log(supabaseRes.statusText);
+      console.log(supabaseRes.count);
       await User.findOneAndUpdate(
         { userId: organizedData.id },
         {
@@ -238,12 +245,10 @@ export const admin: FormUtils.Account.AccountFormApi = {
           name: organizedData.name,
         }
       );
-      console.log("Ganti sukses")
+      console.log("Ganti sukses");
     } catch (error) {
-      
-      console.log("Ganti gagal:", error)
+      console.log("Ganti gagal:", error);
     }
-
 
     return { status: 200, organizedData };
   },
