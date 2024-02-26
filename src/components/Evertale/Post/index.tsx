@@ -6,8 +6,6 @@ import useSWR from "swr";
 import CharPost from "./CharPost";
 import WeapPost from "./WeapPost";
 
-// TODO : Tampilin data ke halamannya jangan dari api chars, tapi dari api Post ///////////
-
 const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
 const Post = ({ type, UID }: { type: "chars" | "weapon"; UID: string }) => {

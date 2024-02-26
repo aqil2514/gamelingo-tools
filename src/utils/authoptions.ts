@@ -82,8 +82,6 @@ export const authOptions: AuthOptions = {
           });
         }
 
-        // TODO : Fix bagian sini. Entah mongoose atau apalah yang salah.
-
         if (isThere.data && isThere.data[0]) {
           const userData: Account.UsersLogin = isThere.data[0];
 

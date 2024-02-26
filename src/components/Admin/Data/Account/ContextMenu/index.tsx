@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { Input, VariantClass as InputClass } from "@/components/general/Input";
 import Button, { VariantClass } from "@/components/general/Button";
 import Loading from "@/components/general/Loading";
-import { allowedRole } from "@/components/general/Data";
+import { adminId, allowedRole } from "@/components/general/Data";
 
 interface ContextMenuProps {
   contextMenu: ContextMenuState;
@@ -28,8 +28,7 @@ export default function ContextMenu({ contextMenu, setEditMenu, setIsLoading, da
   async function deleteHandler() {
     const id = contextMenu.target?.getAttribute("data-id");
     const username = data.find((d) => d.id === id)?.username;
-    // TODO: Validasi backend ajah
-    if (username === "aqil2514") return notif("Tidak dapat menghapus diri anda sendiri", "red", "table-user-data", "before");
+    if (id === adminId) return notif("Tidak dapat menghapus diri anda sendiri", "red", "table-user-data", "before");
     const allow = confirm(`Yakin ingin hapus user dengan username ${username}?`);
     if (!allow) return notif("Aksi dibatalkan", "green", "table-user-data", "before");
     const url: Route = "/api/users";
@@ -45,6 +44,10 @@ export default function ContextMenu({ contextMenu, setEditMenu, setIsLoading, da
       notif(res.data.msg, "green", "table-user-data", "before");
       router.refresh();
     } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 422) notif(error.response.data.msg, "red", "table-user-data", "before");
+      }
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

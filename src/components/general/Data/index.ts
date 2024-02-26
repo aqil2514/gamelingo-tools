@@ -34,4 +34,5 @@ export const homeIcon: homeIconsType[] = [
  *
  */
 
+export const adminId = "bf9abc1d-c04b-4dcf-9484-9ff5c099e3c5";
 export const allowedRole = ["General Admin", "Admin", "Admin of Genshin Impact", "Admin of Evertale", "Moderator", "User"];

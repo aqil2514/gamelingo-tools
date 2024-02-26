@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { login, register } from "@/utils/api";
 import { DB, UserSelect, supabase } from "@/lib/supabase";
 import { User } from "@/models/General/User";
+import { adminId } from "@/components/general/Data";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -78,6 +79,8 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const { id } = await req.json();
+
+  if (id === adminId) return NextResponse.json({ msg: "Anda tidak dapat menghapus General Admin" }, { status: 422 });
 
   await supabase.from(DB.user).delete().eq("id", id);
   await User.findOneAndDelete({ userId: id });

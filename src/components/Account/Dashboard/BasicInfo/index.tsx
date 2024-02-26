@@ -2,7 +2,6 @@ import React from "react";
 import { useDashboardData } from "..";
 import { StateActionKind } from "../reducer";
 import { Input, VariantClass } from "@/components/general/Input";
-import { mainRoleData } from "../../Data";
 import Buttons from "./Buttons";
 
 export default function BasicInfo() {
@@ -45,11 +44,6 @@ export default function BasicInfo() {
         onChange={(e) => dispatch({ type: StateActionKind.EDIT_DATA, payload: { id: e.target.id, value: e.target.value } })}
       />
       {state.editMode && <p className="font-poppins text-white text-base">Hanya admin yang dapat mengedit role</p>}
-      <datalist id="main-role-data">
-        {mainRoleData.map((role) => (
-          <option value={role} key={role} />
-        ))}
-      </datalist>
       <Buttons />
     </>
   );
