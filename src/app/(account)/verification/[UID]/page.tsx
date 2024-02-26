@@ -20,7 +20,10 @@ export default async function Verify({ params }: ParamsProp) {
 
   const verification = await supabase.from(DB.code).select("*").like("uid", UID);
 
-  if (!verification || !verification.data || verification.data?.length === 0) return <p>Tidak ada data tersebut</p>;
+  if (!verification || !verification.data || verification.data?.length === 0) {
+    alert("Tidak ada data tersebut");
+    redirect("/login");
+  }
 
   const data: Account.VerifCode = verification?.data[0];
 

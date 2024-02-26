@@ -82,9 +82,9 @@ export default function Verification({ initData }: { initData: Account.VerifCode
 
       buttonRef.current!.before(pElement);
 
-      router.replace("/login");
       setTimeout(() => {
         pElement.remove();
+        location.replace("/login");
       }, 3000);
     } catch (error) {
       if (isAxiosError(error)) {

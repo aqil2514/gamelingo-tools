@@ -27,7 +27,7 @@ export default function RegisterForm() {
       });
 
       notif(data.msg, "green", "submit-button", "before");
-      router.replace(`/verification/${data.UID}`);
+      location.replace(`/verification/${data.UID}`);
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) return notif(error.response?.data.msg, "red", error.response?.data.ref, "after");

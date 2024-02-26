@@ -8,6 +8,8 @@ import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 import { Post } from "@/models/General/Post";
+import { DB, supabase } from "@/lib/supabase";
+import { User } from "@/models/General/User";
 
 /**
  *
@@ -215,6 +217,16 @@ export const admin: FormUtils.Account.AccountFormApi = {
     if (!validation.status) return { status: 422, msg: validation.msg };
 
     const organizedData = adminOrganizing.user(formData);
+
+    await supabase.from(DB.user).update(organizedData).eq("id", organizedData.id);
+    await User.findOneAndUpdate(
+      { userId: organizedData.id },
+      {
+        username: organizedData.username,
+        email: organizedData.email,
+        name: organizedData.name,
+      }
+    );
 
     return { status: 200, organizedData };
   },
