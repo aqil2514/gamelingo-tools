@@ -1,7 +1,7 @@
 import mongoose, { Connection } from "mongoose";
 
 // Membuat koneksi evertale
-let evertaleConnection: Connection | undefined;
+let evertaleConnection: Connection;
 try {
   evertaleConnection = mongoose.createConnection(`${process.env.MONGODB_URI_EVERTALE}`);
   console.log("Koneksi evertale berhasil dibuat.");
@@ -10,7 +10,7 @@ try {
 }
 
 // Membuat koneksi genshin
-let genshinConnection: Connection | undefined;
+let genshinConnection: Connection;
 try {
   genshinConnection = mongoose.createConnection(`${process.env.MONGODB_URI_GENSHIN}`);
   console.log("Koneksi genshin berhasil dibuat.");
@@ -19,7 +19,7 @@ try {
 }
 
 // Membuat koneksi general
-let generalConnection: Connection | undefined;
+let generalConnection: Connection;
 try {
   generalConnection = mongoose.createConnection(`${process.env.MONGODB_URI_GENERAL}`);
   console.log("Koneksi general berhasil dibuat.");
