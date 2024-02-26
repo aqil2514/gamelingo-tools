@@ -18,7 +18,7 @@ export default function UserData({ data }: { data: Account.AdminUserOutput[] }) 
       const target = e.target as HTMLElement;
       if (contextMenu.isActive) setContextMenu({ ...contextMenu, isActive: false, target: null });
 
-      if (target.tagName.toLowerCase() !== "td" && target.tagName.toLowerCase() !== "th") return;
+      if (target.tagName.toLowerCase() !== "td") return;
 
       setContextMenu({ x: e.clientX, y: e.clientY, isActive: !contextMenu.isActive, target: e.target as HTMLElement });
     };

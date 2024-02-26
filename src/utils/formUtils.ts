@@ -218,7 +218,17 @@ export const admin: FormUtils.Account.AccountFormApi = {
 
     const organizedData = adminOrganizing.user(formData);
 
-    await supabase.from(DB.user).update(organizedData).eq("id", organizedData.id);
+    await supabase
+      .from(DB.user)
+      .update({
+        email: organizedData.email,
+        name: organizedData.name,
+        passwordExisting: organizedData.passwordExisting,
+        account_verified: organizedData.account_verified,
+        role: organizedData.role,
+        image: organizedData.image,
+      } as Account.User)
+      .eq("id", organizedData.id);
     await User.findOneAndUpdate(
       { userId: organizedData.id },
       {
