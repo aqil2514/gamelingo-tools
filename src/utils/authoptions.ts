@@ -63,7 +63,7 @@ export const authOptions: AuthOptions = {
               image: profile?.image,
               email: profile?.email,
               oauthid: profile?.sub,
-              role: "Pengguna",
+              role: "User",
               account_verified: true,
               passwordExist: false,
             },
