@@ -7,6 +7,14 @@ import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
 import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
+import { DB, UserSelect, supabase } from "@/lib/supabase";
+import { allowedRole } from "@/components/general/Data";
+
+/**
+ *
+ * Genshin Validator
+ *
+ */
 
 export const genshinValidator: ApiUtils.GenshinValidatorApi = {
   async material(data) {
@@ -245,5 +253,31 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     }
 
     return { status: true, data };
+  },
+};
+
+/**
+ *
+ * Admin Validator
+ *
+ */
+
+export const adminValidator: ApiUtils.AdminValidatorApi = {
+  async user(data) {
+    const user = await supabase.from(DB.user).select("id").eq("id", data["user-id"]);
+
+    if (user.data?.length === 0 || !user.data || !user.data[0]) return { status: false, msg: "Terjadi kesalahan pada pengambilan data user" };
+
+    const oldData = user.data[0];
+
+    for (const key in data) {
+      if (key !== "account-verified" && key !== "password-exist" && key !== "image") {
+        if (!data[key as keyof FormUtils.Account.FormDataUser]) return { status: false, msg: `${key.charAt(0).toUpperCase() + key.slice(1)} belum diisi` };
+      }
+    }
+
+    if (!allowedRole.includes(data.role)) return { status: false, msg: "Role tidak diizinkan" };
+
+    return { status: true };
   },
 };

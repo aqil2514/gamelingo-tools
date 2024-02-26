@@ -1,13 +1,19 @@
 import { IDMaterial, ENMaterial } from "@/models/GenshinImpact/Material";
 import { file } from "./api";
-import { genshinValidator } from "./formValidator";
-import { genshinOrganizing } from "./organizeData";
+import { adminValidator, genshinValidator } from "./formValidator";
+import { adminOrganizing, genshinOrganizing } from "./organizeData";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
 import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 import { Post } from "@/models/General/Post";
+
+/**
+ *
+ * Genshin Impact Form Utils
+ *
+ */
 
 export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData, user) => {
@@ -194,6 +200,23 @@ export const genshin: FormUtils.Genshin.Genshin = {
     }
 
     return { status: 200, data: organizedData };
+  },
+};
+
+/**
+ *
+ * Admin AccountFormApi utils
+ *
+ */
+
+export const admin: FormUtils.Account.AccountFormApi = {
+  async processUser(formData) {
+    const validation = await adminValidator.user(formData);
+    if (!validation.status) return { status: 422, msg: validation.msg };
+
+    const organizedData = adminOrganizing.user(formData);
+
+    return { status: 200, organizedData };
   },
 };
 

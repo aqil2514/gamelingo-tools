@@ -1,10 +1,9 @@
 namespace FormUtils {
+  interface Result {
+    msg?: string;
+    status: number;
+  }
   namespace Genshin {
-    interface Result {
-      msg?: string;
-      status: number;
-    }
-
     export interface FormDataMaterial {
       "result-lang": Language;
       name: string;
@@ -302,6 +301,24 @@ namespace FormUtils {
       proccessCharacter: (formData: FormData, user: Account.User) => Promise<Result>;
       processTalent: (formData: FormData, user: Account.User) => Promise<Result>;
       processConstellation: (formData: FormData, user: Account.User) => Promise<Result>;
+    }
+  }
+
+  namespace Account {
+    export interface FormDataUser {
+      name: string;
+      username: string;
+      email: string;
+      role: string;
+      image: string;
+      "user-id": string;
+      "oauth-id": string;
+      "password-exist": string;
+      "account-verified": string;
+    }
+
+    export interface AccountFormApi {
+      processUser: (FormData: FormDataUser) => Promise<Result>;
     }
   }
 }

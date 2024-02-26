@@ -27,3 +27,11 @@ export const homeIcon: homeIconsType[] = [
     url: "/mlbb",
   },
 ];
+
+/**
+ *
+ * Admin Data
+ *
+ */
+
+export const allowedRole = ["General Admin", "Admin", "Admin of Genshin Impact", "Admin of Evertale", "Moderator", "User"];

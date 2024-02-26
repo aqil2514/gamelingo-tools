@@ -9,7 +9,8 @@ namespace Account {
     email: string;
     role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
     account_verified?: boolean;
-    createdAt?: Date;
+    passwordExist?: boolean;
+    createdAt?: string;
   }
 
   export interface User {
@@ -19,6 +20,7 @@ namespace Account {
     role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
     email: string;
     image: string;
+    account_verified?: boolean;
     passwordExisting?: boolean;
   }
 
@@ -46,16 +48,16 @@ namespace Account {
   }
 
   export interface AdminUserOutput {
-    id: string | undefined;
-    oauthid: string | undefined;
-    image: string | undefined;
-    name: string | undefined;
+    id: string;
+    oauthid?: string;
+    image?: string;
+    name: string;
     username: string;
     email: string;
     role: "Pengguna" | "Moderator" | "Admin" | "General Admin";
-    account_verified: boolean | undefined;
-    passwordExist: boolean | undefined;
-    createdat: Date | undefined;
+    account_verified: boolean;
+    passwordExist: boolean;
+    createdat: string;
   }
 
   export interface PasswordPurify {

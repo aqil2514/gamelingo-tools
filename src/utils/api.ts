@@ -470,7 +470,8 @@ export const admin: ApiUtils.AdminApi = {
       role: d.role,
       account_verified: d.account_verified,
       createdat: d.createdAt,
-    }));
+      passwordExist: d.passwordExist,
+    } as Account.AdminUserOutput));
 
     return data;
   },

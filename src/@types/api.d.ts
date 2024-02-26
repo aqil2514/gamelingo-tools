@@ -76,4 +76,8 @@ namespace ApiUtils {
     talent: (data: FormUtils.Genshin.FormDataTalent) => Promise<ResultApiwithData>;
     constellation: (data: FormUtils.Genshin.FormDataConstellation) => Promise<ResultApiwithData>;
   }
+
+  export interface AdminValidatorApi {
+    user: (data: FormUtils.Account.FormDataUser) => Promise<ResultApiwithData>;
+  }
 }
