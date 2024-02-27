@@ -8,7 +8,7 @@ export enum LINKSTYLE {
   ACTIVE_LINK = "font-semibold text-base block bg-white text-zinc-800 px-2 rounded-[0_1rem_1rem_0] transition duration-200 my-2",
 }
 
-export default function NavMenu() {
+export default function NavMenu({ user }: { user: Account.User }) {
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const field = searchParams.get("field") as string;
@@ -20,7 +20,7 @@ export default function NavMenu() {
       <details className="px-1" open={pathName === "/admin/data"}>
         <summary className="text-white font-mclaren font-semibold text-xl">Data</summary>
 
-        <AccountLink field={field} subfield={subfield} />
+        {user.role === "General Admin" && <AccountLink field={field} subfield={subfield} />}
 
         <EvertaleLink field={field} subfield={subfield} />
       </details>
