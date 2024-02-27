@@ -13,10 +13,11 @@ interface ContextMenuProps {
   contextMenu: ContextMenuState;
   setEditMenu: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setDetailMenu: React.Dispatch<React.SetStateAction<boolean>>;
   data: Account.AdminUserOutput[];
 }
 
-export default function ContextMenu({ contextMenu, setEditMenu, setIsLoading, data }: ContextMenuProps) {
+export default function ContextMenu({ contextMenu, setEditMenu, setIsLoading, setDetailMenu, data }: ContextMenuProps) {
   const router = useRouter();
   async function copyHandler() {
     if (contextMenu.target) {
@@ -56,6 +57,9 @@ export default function ContextMenu({ contextMenu, setEditMenu, setIsLoading, da
   return (
     <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
       <ul>
+        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setDetailMenu(true)}>
+          Details
+        </li>
         <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={copyHandler}>
           Copy Content
         </li>
@@ -82,7 +86,7 @@ export function EditMenu({ contextMenu, setEditMenu }: { contextMenu: ContextMen
   const router = useRouter();
   useEffect(() => {
     if (contextMenu.target) {
-      const url: Route = `/api/users?userId=${contextMenu.target?.getAttribute("data-id")}`;
+      const url: Route = `/api/users?userId=${contextMenu.target?.getAttribute("data-id")}&db=supabase`;
       axios(url).then((res) => setData(res.data.data));
     }
   }, [contextMenu]);
@@ -150,15 +154,15 @@ export function EditMenu({ contextMenu, setEditMenu }: { contextMenu: ContextMen
             defaultValue={new Date(data.createdat)?.toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
           />
 
+          <input type="checkbox" disabled={isDisabled} name="password-exist" id="password-exist" defaultChecked={data.passwordExist} />
           <label htmlFor="password-exist" className="text-white font-bold font-poppins mx-4">
             Password Exist
           </label>
-          <input type="checkbox" disabled={isDisabled} name="password-exist" id="password-exist" defaultChecked={data.passwordExist} />
 
+          <input type="checkbox" disabled={isDisabled} name="account-verified" id="account-verified" defaultChecked={data.account_verified} />
           <label htmlFor="account-verified" className="text-white font-bold font-poppins mx-4">
             Account Verified
           </label>
-          <input type="checkbox" disabled={isDisabled} name="account-verified" id="account-verified" defaultChecked={data.account_verified} />
 
           <div id="buttons" className="flex justify-center gap-4">
             <Button type="button" disabled={isDisabled} className={VariantClass.danger} onClick={() => setEditMenu(false)}>
@@ -175,6 +179,62 @@ export function EditMenu({ contextMenu, setEditMenu }: { contextMenu: ContextMen
             ))}
           </datalist>
         </form>
+      )}
+    </div>
+  );
+}
+
+/**
+ *
+ * Detail Menu
+ *
+ */
+
+export function DetailMenu({ contextMenu, setDetailMenu }: { contextMenu: ContextMenuState; setDetailMenu: React.Dispatch<React.SetStateAction<boolean>> }) {
+  const [data, setData] = useState<Account.UserFromMongoDB>({} as Account.UserFromMongoDB);
+  useEffect(() => {
+    if (contextMenu.target) {
+      const url: Route = `/api/users?userId=${contextMenu.target?.getAttribute("data-id")}&db=mongodb`;
+      axios(url).then((res) => setData(res.data.data));
+    }
+  }, [contextMenu]);
+
+  return (
+    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
+      {Object.keys(data).length === 0 ? (
+        <Loading loading={1} textOn text="Mengambil data user..." />
+      ) : (
+        <>
+          <p className="font-poppins text-white">
+            <strong className="font-bold">User Id : </strong>
+            {data.userId}
+          </p>
+          <p className="font-poppins text-white">
+            <strong className="font-bold">Username : </strong>
+            {data.username}
+          </p>
+          <p className="font-poppins text-white">
+            <strong className="font-bold">Nama : </strong>
+            {data.name}
+          </p>
+          <p className="font-poppins text-white">
+            <strong className="font-bold">Email : </strong>
+            {data.email}
+          </p>
+          <p className="font-poppins text-white">
+            <strong className="font-bold">Jumlah Postingan : </strong>
+            {data.post.length}
+          </p>
+          <p className="font-poppins text-white">
+            <strong className="font-bold">Dibuat pada : </strong>
+            {new Date(data.createdat).toLocaleString("id-ID", { day: "2-digit", weekday: "long", month: "2-digit", year: "2-digit" })}
+          </p>
+          <div id="buttons" className="flex justify-center gap-4">
+            <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>
+              Kembali
+            </Button>
+          </div>
+        </>
       )}
     </div>
   );

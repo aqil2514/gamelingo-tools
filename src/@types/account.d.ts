@@ -60,6 +60,21 @@ namespace Account {
     createdat: string;
   }
 
+  export interface UserFromMongoDB {
+    username: string;
+    name: string;
+    image?: string;
+    post: Post[];
+    createdat: string;
+    email: string;
+    userId: string;
+  }
+
+  interface Post {
+    postId: string;
+    title: string;
+  }
+
   export interface PasswordPurify {
     email: string;
     uid: string;

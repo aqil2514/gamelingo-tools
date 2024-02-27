@@ -5,28 +5,49 @@ import { DB, UserSelect, supabase } from "@/lib/supabase";
 import { User } from "@/models/General/User";
 import { adminId } from "@/components/general/Data";
 
+type DBSelect = "mongodb" | "supabase" | undefined;
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const userId = searchParams.get("userId");
+  const db = searchParams.get("db") as DBSelect;
 
   if (!userId) return NextResponse.json({ userId: "Tidak ada user id" }, { status: 200 });
+  if (!db) throw new Error("Database belum dipilih");
 
-  const user = await supabase.from(DB.user).select(UserSelect.basic).eq("id", userId);
-  if (!user.data || !user.data[0]) return NextResponse.json({ userId: "Tidak ditemukan" }, { status: 200 });
-  const data: Account.AdminUserOutput = {
-    id: userId,
-    username: user.data[0].username,
-    name: user.data[0].name,
-    email: user.data[0].email,
-    role: user.data[0].role,
-    passwordExist: user.data[0].passwordExist,
-    image: user.data[0].image,
-    createdat: user.data[0].createdat,
-    account_verified: user.data[0].account_verified,
-    oauthid: user.data[0].oauthid,
-  };
+  if (db === "supabase") {
+    const user = await supabase.from(DB.user).select(UserSelect.basic).eq("id", userId);
+    if (!user.data || !user.data[0]) return NextResponse.json({ userId: "Tidak ditemukan" }, { status: 200 });
+    const data: Account.AdminUserOutput = {
+      id: userId,
+      username: user.data[0].username,
+      name: user.data[0].name,
+      email: user.data[0].email,
+      role: user.data[0].role,
+      passwordExist: user.data[0].passwordExist,
+      image: user.data[0].image,
+      createdat: user.data[0].createdat,
+      account_verified: user.data[0].account_verified,
+      oauthid: user.data[0].oauthid,
+    };
 
-  return NextResponse.json({ data, user }, { status: 200 });
+    return NextResponse.json({ data, user }, { status: 200 });
+  } else if (db === "mongodb") {
+    const user = (await User.findOne({ userId }).populate("post")) as General.User;
+    const postData = user.post.map((post: General.PostDocument) => ({
+      title: post.title,
+      postId: post._id,
+    }));
+    const data: Account.UserFromMongoDB = {
+      userId: user.userId,
+      username: user.username,
+      name: user.name,
+      email: user.email,
+      post: postData,
+      createdat: user.createdat as string,
+    };
+
+    return NextResponse.json({ data }, { status: 200 });
+  }
 }
 
 export async function POST(req: NextRequest) {

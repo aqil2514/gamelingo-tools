@@ -47,6 +47,9 @@ namespace General {
     name: string;
     avatar: string;
     post: ObjectId;
+    createdat?: string;
+    updatedat?: string;
+    __v?: number;
   }
 
   export type Game = Evertale | GenshinImpact;

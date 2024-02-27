@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ContextMenu, { EditMenu } from "./ContextMenu";
+import ContextMenu, { DetailMenu, EditMenu } from "./ContextMenu";
 
 export interface ContextMenuState {
   x: number;
@@ -12,6 +12,7 @@ export interface ContextMenuState {
 export default function UserData({ data }: { data: Account.AdminUserOutput[] }) {
   const [contextMenu, setContextMenu] = useState<ContextMenuState>({} as ContextMenuState);
   const [editMenu, setEditMenu] = useState<boolean>(false);
+  const [detailMenu, setDetailMenu] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
     const clickFunction = (e: MouseEvent) => {
@@ -64,9 +65,11 @@ export default function UserData({ data }: { data: Account.AdminUserOutput[] }) 
         </tbody>
       </table>
 
-      {contextMenu.isActive && <ContextMenu setEditMenu={setEditMenu} setIsLoading={setIsLoading} contextMenu={contextMenu} data={data} />}
+      {contextMenu.isActive && <ContextMenu setDetailMenu={setDetailMenu} setEditMenu={setEditMenu} setIsLoading={setIsLoading} contextMenu={contextMenu} data={data} />}
 
       {editMenu && <EditMenu setEditMenu={setEditMenu} contextMenu={contextMenu} />}
+
+      {detailMenu && <DetailMenu setDetailMenu={setDetailMenu} contextMenu={contextMenu} />}
     </div>
   );
 }
