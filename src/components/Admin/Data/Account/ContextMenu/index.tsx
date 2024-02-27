@@ -1,24 +1,21 @@
 import { notif } from "@/utils/fe";
-import { ContextMenuState } from "../UserData";
 import { Route } from "next";
 import axios, { isAxiosError } from "axios";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Input, VariantClass as InputClass } from "@/components/general/Input";
 import Button, { VariantClass } from "@/components/general/Button";
 import Loading from "@/components/general/Loading";
 import { adminId, allowedRole } from "@/components/general/Data";
+import ContextProvider, { useMenuContextData } from "./ContextProvider";
 
-interface ContextMenuProps {
-  contextMenu: ContextMenuState;
-  setEditMenu: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setDetailMenu: React.Dispatch<React.SetStateAction<boolean>>;
-  data: Account.AdminUserOutput[];
-}
+/**
+ *
+ * Context Menu
+ *
+ */
 
-export default function ContextMenu({ contextMenu, setEditMenu, setIsLoading, setDetailMenu, data }: ContextMenuProps) {
-  const router = useRouter();
+export default function ContextMenu({ passData }: { passData: any }) {
+  const { contextMenu, setIsLoading, router, setDetailMenu, setEditMenu } = useMenuContextData();
   async function copyHandler() {
     if (contextMenu.target) {
       await navigator.clipboard.writeText(contextMenu.target?.innerText);
@@ -27,6 +24,8 @@ export default function ContextMenu({ contextMenu, setEditMenu, setIsLoading, se
   }
 
   async function deleteHandler() {
+    const data: Account.AdminUserOutput[] = passData;
+
     const id = contextMenu.target?.getAttribute("data-id");
     const username = data.find((d) => d.id === id)?.username;
     if (id === adminId) return notif("Tidak dapat menghapus diri anda sendiri", "red", "table-user-data", "before");
@@ -55,22 +54,24 @@ export default function ContextMenu({ contextMenu, setEditMenu, setIsLoading, se
   }
 
   return (
-    <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
-      <ul>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setDetailMenu(true)}>
-          Details
-        </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={copyHandler}>
-          Copy Content
-        </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={deleteHandler}>
-          Delete Data
-        </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setEditMenu(true)}>
-          Edit Data
-        </li>
-      </ul>
-    </div>
+    <ContextProvider>
+      <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
+        <ul>
+          <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setDetailMenu(true)}>
+            Details
+          </li>
+          <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={copyHandler}>
+            Copy Content
+          </li>
+          <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={deleteHandler}>
+            Delete Data
+          </li>
+          <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setEditMenu(true)}>
+            Edit Data
+          </li>
+        </ul>
+      </div>
+    </ContextProvider>
   );
 }
 
@@ -80,10 +81,9 @@ export default function ContextMenu({ contextMenu, setEditMenu, setIsLoading, se
  *
  */
 
-export function EditMenu({ contextMenu, setEditMenu }: { contextMenu: ContextMenuState; setEditMenu: React.Dispatch<React.SetStateAction<boolean>> }) {
+export function EditMenu() {
   const [data, setData] = useState<Account.AdminUserOutput>({} as Account.AdminUserOutput);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router = useRouter();
+  const { router, contextMenu, setIsLoading, setEditMenu, isLoading } = useMenuContextData();
   useEffect(() => {
     if (contextMenu.target) {
       const url: Route = `/api/users?userId=${contextMenu.target?.getAttribute("data-id")}&db=supabase`;
@@ -122,65 +122,67 @@ export function EditMenu({ contextMenu, setEditMenu }: { contextMenu: ContextMen
   const isDisabled = isLoading;
 
   return (
-    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
-      {Object.keys(data).length === 0 ? (
-        <Loading loading={1} textOn text="Mengambil data user..." />
-      ) : (
-        <form method="post" onSubmit={submitHandler}>
-          <input type="hidden" name="user-id" defaultValue={data.id} />
+    <ContextProvider>
+      <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
+        {Object.keys(data).length === 0 ? (
+          <Loading loading={1} textOn text="Mengambil data user..." />
+        ) : (
+          <form method="post" onSubmit={submitHandler}>
+            <input type="hidden" name="user-id" defaultValue={data.id} />
 
-          <input type="hidden" name="oauth-id" defaultValue={data.oauthid} />
+            <input type="hidden" name="oauth-id" defaultValue={data.oauthid} />
 
-          <Input variant={InputClass.dashboard} forId="userId" disabled label="User Id" defaultValue={data.id} />
+            <Input variant={InputClass.dashboard} forId="userId" disabled label="User Id" defaultValue={data.id} />
 
-          <Input variant={InputClass.dashboard} forId="oauthId" disabled label="Oauth Id" defaultValue={data.oauthid} />
+            <Input variant={InputClass.dashboard} forId="oauthId" disabled label="Oauth Id" defaultValue={data.oauthid} />
 
-          <Input variant={InputClass.dashboard} disabled={isDisabled} name="name" forId="username" label="Name" defaultValue={data.name} />
+            <Input variant={InputClass.dashboard} disabled={isDisabled} name="name" forId="username" label="Name" defaultValue={data.name} />
 
-          <Input variant={InputClass.dashboard} disabled={isDisabled} name="username" forId="username" label="Username" defaultValue={data.username} />
+            <Input variant={InputClass.dashboard} disabled={isDisabled} name="username" forId="username" label="Username" defaultValue={data.username} />
 
-          <Input variant={InputClass.dashboard} disabled={isDisabled} name="email" forId="email" label="Email" defaultValue={data.email} />
+            <Input variant={InputClass.dashboard} disabled={isDisabled} name="email" forId="email" label="Email" defaultValue={data.email} />
 
-          <Input variant={InputClass.dashboard} disabled={isDisabled} name="role" forId="role" label="Role" defaultValue={data.role} list="data-role-user" />
+            <Input variant={InputClass.dashboard} disabled={isDisabled} name="role" forId="role" label="Role" defaultValue={data.role} list="data-role-user" />
 
-          <Input variant={InputClass.dashboard} disabled={isDisabled} name="image" forId="image" label="Image" defaultValue={data.image} />
+            <Input variant={InputClass.dashboard} disabled={isDisabled} name="image" forId="image" label="Image" defaultValue={data.image} />
 
-          <Input
-            variant={InputClass.dashboard}
-            name="created-at"
-            forId="createdat"
-            disabled
-            label="Created"
-            defaultValue={new Date(data.createdat)?.toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
-          />
+            <Input
+              variant={InputClass.dashboard}
+              name="created-at"
+              forId="createdat"
+              disabled
+              label="Created"
+              defaultValue={new Date(data.createdat)?.toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
+            />
 
-          <input type="checkbox" disabled={isDisabled} name="password-exist" id="password-exist" defaultChecked={data.passwordExist} />
-          <label htmlFor="password-exist" className="text-white font-bold font-poppins mx-4">
-            Password Exist
-          </label>
+            <input type="checkbox" disabled={isDisabled} name="password-exist" id="password-exist" defaultChecked={data.passwordExist} />
+            <label htmlFor="password-exist" className="text-white font-bold font-poppins mx-4">
+              Password Exist
+            </label>
 
-          <input type="checkbox" disabled={isDisabled} name="account-verified" id="account-verified" defaultChecked={data.account_verified} />
-          <label htmlFor="account-verified" className="text-white font-bold font-poppins mx-4">
-            Account Verified
-          </label>
+            <input type="checkbox" disabled={isDisabled} name="account-verified" id="account-verified" defaultChecked={data.account_verified} />
+            <label htmlFor="account-verified" className="text-white font-bold font-poppins mx-4">
+              Account Verified
+            </label>
 
-          <div id="buttons" className="flex justify-center gap-4">
-            <Button type="button" disabled={isDisabled} className={VariantClass.danger} onClick={() => setEditMenu(false)}>
-              Batal
-            </Button>
-            <Button className={VariantClass.submit} disabled={isDisabled}>
-              {isDisabled ? "Submitting..." : "Submit"}
-            </Button>
-          </div>
+            <div id="buttons" className="flex justify-center gap-4">
+              <Button type="button" disabled={isDisabled} className={VariantClass.danger} onClick={() => setEditMenu(false)}>
+                Batal
+              </Button>
+              <Button className={VariantClass.submit} disabled={isDisabled}>
+                {isDisabled ? "Submitting..." : "Submit"}
+              </Button>
+            </div>
 
-          <datalist id="data-role-user">
-            {allowedRole.map((role) => (
-              <option key={role} value={role} />
-            ))}
-          </datalist>
-        </form>
-      )}
-    </div>
+            <datalist id="data-role-user">
+              {allowedRole.map((role) => (
+                <option key={role} value={role} />
+              ))}
+            </datalist>
+          </form>
+        )}
+      </div>
+    </ContextProvider>
   );
 }
 
@@ -190,8 +192,9 @@ export function EditMenu({ contextMenu, setEditMenu }: { contextMenu: ContextMen
  *
  */
 
-export function DetailMenu({ contextMenu, setDetailMenu }: { contextMenu: ContextMenuState; setDetailMenu: React.Dispatch<React.SetStateAction<boolean>> }) {
+export function DetailMenu() {
   const [data, setData] = useState<Account.UserFromMongoDB>({} as Account.UserFromMongoDB);
+  const { contextMenu, setDetailMenu } = useMenuContextData();
   useEffect(() => {
     if (contextMenu.target) {
       const url: Route = `/api/users?userId=${contextMenu.target?.getAttribute("data-id")}&db=mongodb`;
@@ -200,42 +203,44 @@ export function DetailMenu({ contextMenu, setDetailMenu }: { contextMenu: Contex
   }, [contextMenu]);
 
   return (
-    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
-      {Object.keys(data).length === 0 ? (
-        <Loading loading={1} textOn text="Mengambil data user..." />
-      ) : (
-        <>
-          <p className="font-poppins text-white">
-            <strong className="font-bold">User Id : </strong>
-            {data.userId}
-          </p>
-          <p className="font-poppins text-white">
-            <strong className="font-bold">Username : </strong>
-            {data.username}
-          </p>
-          <p className="font-poppins text-white">
-            <strong className="font-bold">Nama : </strong>
-            {data.name}
-          </p>
-          <p className="font-poppins text-white">
-            <strong className="font-bold">Email : </strong>
-            {data.email}
-          </p>
-          <p className="font-poppins text-white">
-            <strong className="font-bold">Jumlah Postingan : </strong>
-            {data.post.length}
-          </p>
-          <p className="font-poppins text-white">
-            <strong className="font-bold">Dibuat pada : </strong>
-            {new Date(data.createdAt)?.toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
-          </p>
-          <div id="buttons" className="flex justify-center gap-4">
-            <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>
-              Kembali
-            </Button>
-          </div>
-        </>
-      )}
-    </div>
+    <ContextProvider>
+      <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
+        {Object.keys(data).length === 0 ? (
+          <Loading loading={1} textOn text="Mengambil data user..." />
+        ) : (
+          <>
+            <p className="font-poppins text-white">
+              <strong className="font-bold">User Id : </strong>
+              {data.userId}
+            </p>
+            <p className="font-poppins text-white">
+              <strong className="font-bold">Username : </strong>
+              {data.username}
+            </p>
+            <p className="font-poppins text-white">
+              <strong className="font-bold">Nama : </strong>
+              {data.name}
+            </p>
+            <p className="font-poppins text-white">
+              <strong className="font-bold">Email : </strong>
+              {data.email}
+            </p>
+            <p className="font-poppins text-white">
+              <strong className="font-bold">Jumlah Postingan : </strong>
+              {data.post.length}
+            </p>
+            <p className="font-poppins text-white">
+              <strong className="font-bold">Dibuat pada : </strong>
+              {new Date(data.createdAt)?.toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
+            </p>
+            <div id="buttons" className="flex justify-center gap-4">
+              <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>
+                Kembali
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
+    </ContextProvider>
   );
 }

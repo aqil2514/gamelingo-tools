@@ -1,21 +1,36 @@
-export default function PasswordPurifyData({
-  data,
-}: {
-  data: Account.PasswordPurify[];
-}) {
+import { useEffect, useState } from "react";
+import { ContextMenuState } from "./UserData";
+
+export default function PasswordPurifyData({ data }: { data: Account.PasswordPurify[] }) {
+  const [contextMenu, setContextMenu] = useState<ContextMenuState>({} as ContextMenuState);
+  const [editMenu, setEditMenu] = useState<boolean>(false);
+  const [detailMenu, setDetailMenu] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  useEffect(() => {
+    const clickFunction = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (contextMenu.isActive) setContextMenu({ ...contextMenu, isActive: false, target: null });
+
+      if (target.tagName.toLowerCase() !== "td") return;
+
+      setContextMenu({ x: e.clientX, y: e.clientY, isActive: !contextMenu.isActive, target: e.target as HTMLElement });
+    };
+
+    window.addEventListener("click", clickFunction);
+
+    return () => {
+      window.removeEventListener("click", clickFunction);
+    };
+  }, [contextMenu]);
   return (
     <div className="px-4">
-      <table className="border-2 border-white text-white mx-auto my-4 w-full">
+      <table id="table-password-purify" className="border-2 border-white text-white mx-auto my-4 w-full">
         <thead>
           <tr>
             <th className="font-bold capitalize border-2 border-white">#</th>
             <th className="font-bold capitalize border-2 border-white">id</th>
-            <th className="font-bold capitalize border-2 border-white">
-              email
-            </th>
-            <th className="font-bold capitalize border-2 border-white">
-              craetedat
-            </th>
+            <th className="font-bold capitalize border-2 border-white">email</th>
+            <th className="font-bold capitalize border-2 border-white">craetedat</th>
           </tr>
         </thead>
         {data.length === 0 ? (
@@ -33,19 +48,13 @@ export default function PasswordPurifyData({
                 <td className="text-center border-2 border-white">{i + 1}</td>
                 <td className="text-center border-2 border-white">{d.uid}</td>
                 <td className="text-center border-2 border-white">{d.email}</td>
-                <td className="text-center border-2 border-white">
-                  {d.createdat}
-                </td>
-                <td className="text-center border-2 border-white py-2">
-                  <button className="bg-green-700 hover:bg-green-600 px-2 rounded font-bold text-white">
-                    Detail
-                  </button>
-                </td>
+                <td className="text-center border-2 border-white">{new Date(d.createdat).toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}</td>
               </tr>
             ))}
           </tbody>
         )}
       </table>
+      {/* {contextMenu.isActive && Contexz} */}
     </div>
   );
 }
