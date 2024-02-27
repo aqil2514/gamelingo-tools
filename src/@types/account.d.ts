@@ -29,7 +29,7 @@ namespace Account {
     email: string;
     uid: string;
     code: string;
-    createAt?: Date;
+    createdat?: string;
   }
 
   export interface RegisterForm {

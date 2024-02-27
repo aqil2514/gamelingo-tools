@@ -1,12 +1,9 @@
 import { notif } from "@/utils/fe";
 import { Route } from "next";
 import axios, { isAxiosError } from "axios";
-import React, { useEffect, useState } from "react";
-import { Input, VariantClass as InputClass } from "@/components/general/Input";
-import Button, { VariantClass } from "@/components/general/Button";
-import Loading from "@/components/general/Loading";
-import { adminId, allowedRole } from "@/components/general/Data";
-import ContextProvider, { useMenuContextData } from "./ContextProvider";
+import { adminId } from "@/components/general/Data";
+import { useMenuContextData } from "./ContextProvider";
+import { ContextSelectFieldProps } from "./interface";
 
 /**
  *
@@ -14,8 +11,21 @@ import ContextProvider, { useMenuContextData } from "./ContextProvider";
  *
  */
 
-export default function ContextMenu({ passData }: { passData: any }) {
-  const { contextMenu, setIsLoading, router, setDetailMenu, setEditMenu } = useMenuContextData();
+export default function ContextMenu({ field, subfield, passData }: ContextSelectFieldProps) {
+  if (field === "account") {
+    if (subfield === "userslogin") return <UserContextMenu data={passData} />;
+    else if (subfield === "verificationcode") return <CodeContextMenu data={passData} />;
+  }
+}
+
+/**
+ *
+ * Account Field Section
+ *
+ */
+
+const UserContextMenu = ({ data }: { data: Account.AdminUserOutput[] }) => {
+  const { contextMenu, setIsDeleting, router, setDetailMenu, setEditMenu } = useMenuContextData();
   async function copyHandler() {
     if (contextMenu.target) {
       await navigator.clipboard.writeText(contextMenu.target?.innerText);
@@ -24,8 +34,6 @@ export default function ContextMenu({ passData }: { passData: any }) {
   }
 
   async function deleteHandler() {
-    const data: Account.AdminUserOutput[] = passData;
-
     const id = contextMenu.target?.getAttribute("data-id");
     const username = data.find((d) => d.id === id)?.username;
     if (id === adminId) return notif("Tidak dapat menghapus diri anda sendiri", "red", "table-user-data", "before");
@@ -33,7 +41,7 @@ export default function ContextMenu({ passData }: { passData: any }) {
     if (!allow) return notif("Aksi dibatalkan", "green", "table-user-data", "before");
     const url: Route = "/api/users";
     try {
-      setIsLoading(true);
+      setIsDeleting(true);
 
       const res = await axios.delete(url, {
         data: {
@@ -49,198 +57,83 @@ export default function ContextMenu({ passData }: { passData: any }) {
       }
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setIsDeleting(false);
     }
   }
 
   return (
-    <ContextProvider>
-      <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
-        <ul>
-          <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setDetailMenu(true)}>
-            Details
-          </li>
-          <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={copyHandler}>
-            Copy Content
-          </li>
-          <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={deleteHandler}>
-            Delete Data
-          </li>
-          <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setEditMenu(true)}>
-            Edit Data
-          </li>
-        </ul>
-      </div>
-    </ContextProvider>
+    <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
+      <ul>
+        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setDetailMenu(true)}>
+          Details
+        </li>
+        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={copyHandler}>
+          Copy Content
+        </li>
+        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={deleteHandler}>
+          Delete Data
+        </li>
+        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setEditMenu(true)}>
+          Edit Data
+        </li>
+      </ul>
+    </div>
   );
-}
+};
 
-/**
- *
- * EDIT MENU
- *
- */
+const CodeContextMenu = ({ data }: { data: Account.VerifCode[] }) => {
+  const { contextMenu, setIsDeleting, router, setDetailMenu, setEditMenu } = useMenuContextData();
 
-export function EditMenu() {
-  const [data, setData] = useState<Account.AdminUserOutput>({} as Account.AdminUserOutput);
-  const { router, contextMenu, setIsLoading, setEditMenu, isLoading } = useMenuContextData();
-  useEffect(() => {
+  async function copyHandler() {
     if (contextMenu.target) {
-      const url: Route = `/api/users?userId=${contextMenu.target?.getAttribute("data-id")}&db=supabase`;
-      axios(url).then((res) => setData(res.data.data));
+      await navigator.clipboard.writeText(contextMenu.target?.innerText);
+      notif("Berhasil copy data", "green", "table-code-data", "before");
     }
-  }, [contextMenu]);
+  }
 
-  async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
+  async function deleteHandler() {
+    const id = contextMenu.target?.getAttribute("data-id");
+    const email = data.find((d) => d.uid === id)?.email;
 
+    const allow = confirm(`Yakin ingin hapus user dengan verification code untuk alamat email ${email}?`);
+    if (!allow) return notif("Aksi dibatalkan", "green", "table-code-data", "before");
+    const url: Route = "/api/users/verify";
     try {
-      setIsLoading(true);
-      const res = await axios.putForm("/api/admin/user", formData);
+      setIsDeleting(true);
 
-      console.info(res);
+      const res = await axios.delete(url, {
+        data: {
+          id,
+        },
+      });
 
-      notif(res.data.msg, "green", "buttons", "before");
-      setTimeout(() => {
-        setEditMenu(false);
-        router.refresh();
-      }, 3000);
+      notif(res.data.msg, "green", "table-code-data", "before");
+      router.refresh();
     } catch (error) {
       if (isAxiosError(error)) {
-        if (error.response?.status === 422) {
-          notif(error.response.data.msg, "red", "buttons", "before");
-        }
+        if (error.response?.status === 422) notif(error.response.data.msg, "red", "table-code-data", "before");
       }
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setIsDeleting(false);
     }
   }
-
-  const isDisabled = isLoading;
-
   return (
-    <ContextProvider>
-      <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
-        {Object.keys(data).length === 0 ? (
-          <Loading loading={1} textOn text="Mengambil data user..." />
-        ) : (
-          <form method="post" onSubmit={submitHandler}>
-            <input type="hidden" name="user-id" defaultValue={data.id} />
-
-            <input type="hidden" name="oauth-id" defaultValue={data.oauthid} />
-
-            <Input variant={InputClass.dashboard} forId="userId" disabled label="User Id" defaultValue={data.id} />
-
-            <Input variant={InputClass.dashboard} forId="oauthId" disabled label="Oauth Id" defaultValue={data.oauthid} />
-
-            <Input variant={InputClass.dashboard} disabled={isDisabled} name="name" forId="username" label="Name" defaultValue={data.name} />
-
-            <Input variant={InputClass.dashboard} disabled={isDisabled} name="username" forId="username" label="Username" defaultValue={data.username} />
-
-            <Input variant={InputClass.dashboard} disabled={isDisabled} name="email" forId="email" label="Email" defaultValue={data.email} />
-
-            <Input variant={InputClass.dashboard} disabled={isDisabled} name="role" forId="role" label="Role" defaultValue={data.role} list="data-role-user" />
-
-            <Input variant={InputClass.dashboard} disabled={isDisabled} name="image" forId="image" label="Image" defaultValue={data.image} />
-
-            <Input
-              variant={InputClass.dashboard}
-              name="created-at"
-              forId="createdat"
-              disabled
-              label="Created"
-              defaultValue={new Date(data.createdat)?.toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
-            />
-
-            <input type="checkbox" disabled={isDisabled} name="password-exist" id="password-exist" defaultChecked={data.passwordExist} />
-            <label htmlFor="password-exist" className="text-white font-bold font-poppins mx-4">
-              Password Exist
-            </label>
-
-            <input type="checkbox" disabled={isDisabled} name="account-verified" id="account-verified" defaultChecked={data.account_verified} />
-            <label htmlFor="account-verified" className="text-white font-bold font-poppins mx-4">
-              Account Verified
-            </label>
-
-            <div id="buttons" className="flex justify-center gap-4">
-              <Button type="button" disabled={isDisabled} className={VariantClass.danger} onClick={() => setEditMenu(false)}>
-                Batal
-              </Button>
-              <Button className={VariantClass.submit} disabled={isDisabled}>
-                {isDisabled ? "Submitting..." : "Submit"}
-              </Button>
-            </div>
-
-            <datalist id="data-role-user">
-              {allowedRole.map((role) => (
-                <option key={role} value={role} />
-              ))}
-            </datalist>
-          </form>
-        )}
-      </div>
-    </ContextProvider>
+    <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
+      <ul>
+        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setDetailMenu(true)}>
+          Details
+        </li>
+        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={copyHandler}>
+          Copy Content
+        </li>
+        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={deleteHandler}>
+          Delete Data
+        </li>
+        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setEditMenu(true)}>
+          Edit Data
+        </li>
+      </ul>
+    </div>
   );
-}
-
-/**
- *
- * Detail Menu
- *
- */
-
-export function DetailMenu() {
-  const [data, setData] = useState<Account.UserFromMongoDB>({} as Account.UserFromMongoDB);
-  const { contextMenu, setDetailMenu } = useMenuContextData();
-  useEffect(() => {
-    if (contextMenu.target) {
-      const url: Route = `/api/users?userId=${contextMenu.target?.getAttribute("data-id")}&db=mongodb`;
-      axios(url).then((res) => setData(res.data.data));
-    }
-  }, [contextMenu]);
-
-  return (
-    <ContextProvider>
-      <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
-        {Object.keys(data).length === 0 ? (
-          <Loading loading={1} textOn text="Mengambil data user..." />
-        ) : (
-          <>
-            <p className="font-poppins text-white">
-              <strong className="font-bold">User Id : </strong>
-              {data.userId}
-            </p>
-            <p className="font-poppins text-white">
-              <strong className="font-bold">Username : </strong>
-              {data.username}
-            </p>
-            <p className="font-poppins text-white">
-              <strong className="font-bold">Nama : </strong>
-              {data.name}
-            </p>
-            <p className="font-poppins text-white">
-              <strong className="font-bold">Email : </strong>
-              {data.email}
-            </p>
-            <p className="font-poppins text-white">
-              <strong className="font-bold">Jumlah Postingan : </strong>
-              {data.post.length}
-            </p>
-            <p className="font-poppins text-white">
-              <strong className="font-bold">Dibuat pada : </strong>
-              {new Date(data.createdAt)?.toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
-            </p>
-            <div id="buttons" className="flex justify-center gap-4">
-              <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>
-                Kembali
-              </Button>
-            </div>
-          </>
-        )}
-      </div>
-    </ContextProvider>
-  );
-}
+};

@@ -17,11 +17,12 @@ interface ContextMenuProps {
   editMenu: boolean;
   isLoading: boolean;
   detailMenu: boolean;
+  isDeleting: boolean;
   setEditMenu: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   router: AppRouterInstance;
-  data: any[];
 }
 
 const ContextMenu = createContext<ContextMenuProps>({} as ContextMenuProps);
@@ -31,10 +32,10 @@ export default function ContextProvider({ children }: { children: React.ReactNod
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [detailMenu, setDetailMenu] = useState<boolean>(false);
   const [editMenu, setEditMenu] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const router = useRouter();
-  let data: any[] = [];
 
-  return <ContextMenu.Provider value={{ contextMenu, setContextMenu, isLoading, setIsLoading, detailMenu, setDetailMenu, editMenu, setEditMenu, router, data }}>{children}</ContextMenu.Provider>;
+  return <ContextMenu.Provider value={{ contextMenu, setContextMenu, isLoading, setIsLoading, detailMenu, setDetailMenu, editMenu, setEditMenu, router, isDeleting, setIsDeleting }}>{children}</ContextMenu.Provider>;
 }
 
 export function useMenuContextData() {

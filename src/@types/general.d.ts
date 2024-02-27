@@ -63,4 +63,11 @@ namespace General {
     game: "Genshin Impact";
     category: "Artifact" | "Character" | "Material" | "Weapon" | "Talent" | "Constellations";
   }
+
+  export type AdminQuery = UserAdminQuery;
+
+  interface UserAdminQuery {
+    field: "account";
+    subfield: "userslogin" | "password_purify" | "verificationcode";
+  }
 }

@@ -2,7 +2,21 @@ import { DB, supabase } from "@/lib/supabase";
 import { sendMail, verifDataBuilder, verification } from "@/utils/api";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PUT(req: Request) {
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const id = searchParams.get("uniqueId");
+
+  if (!id) throw new Error("Id tidak ada");
+
+  const codeInfo = await supabase.from(DB.code).select("*").eq("uid", id);
+  if (!codeInfo.data || !codeInfo.data[0]) return NextResponse.json({ msg: "Informasi tidak ditemukan" }, { status: 404 });
+
+  const data = codeInfo.data[0];
+
+  return NextResponse.json({ data }, { status: 200 });
+}
+
+export async function PUT(req: NextRequest) {
   const { UID, oldEmail, email, putType } = await req.json();
 
   if (putType === "code") {
@@ -54,4 +68,12 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ msg: compareResult.msg }, { status: 200 });
   }
+}
+
+export async function DELETE(req: NextRequest) {
+  const { id } = await req.json();
+
+  await supabase.from(DB.code).delete().eq("uid", id);
+
+  return NextResponse.json({ msg: "Data berhasil dihapus" }, { status: 200 });
 }
