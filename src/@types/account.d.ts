@@ -65,7 +65,7 @@ namespace Account {
     name: string;
     image?: string;
     post: Post[];
-    createdat: string;
+    createdAt: string;
     email: string;
     userId: string;
   }

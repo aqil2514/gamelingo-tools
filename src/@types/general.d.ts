@@ -47,8 +47,8 @@ namespace General {
     name: string;
     avatar: string;
     post: ObjectId;
-    createdat?: string;
-    updatedat?: string;
+    createdAt?: string;
+    updatedAt?: string;
     __v?: number;
   }
 

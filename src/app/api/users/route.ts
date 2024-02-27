@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
       name: user.name,
       email: user.email,
       post: postData,
-      createdat: user.createdat as string,
+      createdAt: user.createdAt as string,
     };
 
     return NextResponse.json({ data }, { status: 200 });

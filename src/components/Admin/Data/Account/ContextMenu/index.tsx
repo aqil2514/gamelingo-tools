@@ -227,7 +227,7 @@ export function DetailMenu({ contextMenu, setDetailMenu }: { contextMenu: Contex
           </p>
           <p className="font-poppins text-white">
             <strong className="font-bold">Dibuat pada : </strong>
-            {new Date(data.createdat)?.toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
+            {new Date(data.createdAt)?.toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
           </p>
           <div id="buttons" className="flex justify-center gap-4">
             <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>
