@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useMenuContextData } from "../ContextMenu/ContextProvider";
 import ContextMenu from "../ContextMenu";
 import DetailMenu from "../ContextMenu/DetaiMenu";
+import EditMenu from "../ContextMenu/EditMenu";
 
 export default function CodeData({ data }: { data: Account.VerifCode[] }) {
   const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu } = useMenuContextData();
@@ -64,6 +65,8 @@ export default function CodeData({ data }: { data: Account.VerifCode[] }) {
       {contextMenu.isActive && data.length !== 0 && <ContextMenu field="account" subfield="verificationcode" passData={data} />}
 
       {detailMenu && <DetailMenu field="account" subfield="verificationcode" />}
+
+      {editMenu && <EditMenu field="account" subfield="verificationcode" />}
     </div>
   );
 }

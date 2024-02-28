@@ -11,6 +11,7 @@ import { Route } from "next";
 import Loading from "@/components/general/Loading";
 import Button, { VariantClass } from "@/components/general/Button";
 import { ContextSelectFieldProps } from "./interface";
+import { dateOptions, dateOptionsWithTime } from "./config";
 
 export default function DetailMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "account") {
@@ -57,7 +58,7 @@ const UserDetail = () => {
           </p>
           <p className="font-poppins text-white">
             <strong className="font-bold">Dibuat pada : </strong>
-            {new Date(data.createdAt)?.toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
+            {new Date(data.createdAt)?.toLocaleDateString("id-ID", dateOptions)}
           </p>
           <div id="buttons" className="flex justify-center gap-4">
             <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>
@@ -98,7 +99,7 @@ const CodeDetail = () => {
           </p>
           <p className="font-poppins text-white">
             <strong className="font-bold">Dibuat pada : </strong>
-            {new Date(data.createdat as string).toLocaleString("id-ID", { hour: "2-digit", minute: "2-digit", day: "2-digit", weekday: "long", month: "long", year: "numeric" })}
+            {new Date(data.createdat as string).toLocaleString("id-ID", dateOptionsWithTime)}
           </p>
           <p className="font-poppins text-white">
             <strong className="font-bold">Email : </strong>
