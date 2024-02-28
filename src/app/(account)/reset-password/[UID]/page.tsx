@@ -37,7 +37,7 @@ export default async function ResetPassword({ params }: { params: ParamsProps })
     );
   }
 
-  // await supabase.from(DB.purifyPassword).delete().eq("email", email);
+  await supabase.from(DB.purifyPassword).delete().eq("email", email);
 
   return (
     <div className="bg-zinc-900 min-h-screen py-20 w-full">
