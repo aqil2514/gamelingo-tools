@@ -32,16 +32,6 @@ export function linkBuilder() {
   return uid;
 }
 
-/**
- * Mengecek dan mengembalikan Base URL
- */
-export function getBaseUrl() {
-  const isLocal = process.env.NODE_ENV === "development";
-  const baseUrl = isLocal ? "http://localhost:3000" : "https://gamelingo-tools.vercel.app";
-
-  return baseUrl;
-}
-
 const transporter = createTransport({
   host: process.env.SMTP_SERVER,
   port: Number(process.env.SMTP_PORT),

@@ -28,6 +28,8 @@ export const homeIcon: homeIconsType[] = [
   },
 ];
 
+export const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://gamelingo-tools.vercel.app";
+
 /**
  *
  * Admin Data

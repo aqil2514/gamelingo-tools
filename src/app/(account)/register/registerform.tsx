@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { notif } from "@/utils/fe";
+import { baseUrl } from "@/components/general/Data";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState<false | true>(false);
@@ -16,6 +17,7 @@ export default function RegisterForm() {
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
+      // Check: Fix ini. Pesan tidak muncul dan halaman tidak beralih
       setLoading(true);
       const { data } = await axios.post("/api/users", {
         name: (document.getElementById("name") as HTMLInputElement)?.value,
@@ -27,7 +29,7 @@ export default function RegisterForm() {
       });
 
       notif(data.msg, "green", "submit-button", "before");
-      location.replace(`/verification/${data.UID}`);
+      window.location.replace(new URL(`/verification/${data.UID}`, baseUrl).href);
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) return notif(error.response?.data.msg, "red", error.response?.data.ref, "after");

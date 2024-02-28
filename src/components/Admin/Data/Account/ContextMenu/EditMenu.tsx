@@ -14,13 +14,11 @@ import { Input, VariantClass as InputClass } from "@/components/general/Input";
 import Button, { VariantClass } from "@/components/general/Button";
 import { allowedRole } from "@/components/general/Data";
 import { ContextSelectFieldProps } from "./interface";
-import { dateOptionsWithTime } from "./config";
 
 export default function EditMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "account") {
     if (subfield === "userslogin") return <UserEdit />;
     else if (subfield === "verificationcode") return <CodeEdit />;
-    // TODO: Atur untuk codeeditnya
   }
 }
 
@@ -130,7 +128,7 @@ const UserEdit = () => {
 const CodeEdit = () => {
   const [data, setData] = useState<Account.VerifCode>({} as Account.VerifCode);
   const [date, setDate] = useState<string>("");
-  const { router, contextMenu, setIsLoading, setEditMenu, isLoading } = useMenuContextData();
+  const { contextMenu, setIsLoading, setEditMenu, isLoading } = useMenuContextData();
   useEffect(() => {
     if (contextMenu.target) {
       const url: Route = `/api/users/verify?uniqueId=${contextMenu.target?.getAttribute("data-id")}`;

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { getBaseUrl, linkBuilder, register, resetPassword, sendMail } from "@/utils/api";
+import { linkBuilder, register, resetPassword, sendMail } from "@/utils/api";
 import { DB, supabase } from "@/lib/supabase";
+import { baseUrl } from "@/components/general/Data";
 
 export async function POST(req: NextRequest) {
   const { email } = await req.json();
@@ -10,8 +11,7 @@ export async function POST(req: NextRequest) {
   if (!emailValidation.status) return NextResponse.json({ msg: emailValidation.msg }, { status: 422 });
 
   const uidLink = linkBuilder();
-  const urlBase = getBaseUrl();
-  const uniqueLink = `${urlBase}/reset-password/${uidLink}`;
+  const uniqueLink = `${baseUrl}/reset-password/${uidLink}`;
 
   await sendMail.purify(email, uniqueLink);
 

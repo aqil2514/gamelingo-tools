@@ -3,6 +3,7 @@ import axios, { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { INITIAL_STATE, StateActionKind, reducer } from "./reducer";
+import { baseUrl } from "@/components/general/Data";
 
 export default function Verification({ initData }: { initData: Account.VerifCode }) {
   const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
@@ -67,6 +68,7 @@ export default function Verification({ initData }: { initData: Account.VerifCode
 
   async function clickHandler() {
     try {
+      // CHECK: Fix ini. Halaman tidak beralih ketika verifcode berhasil
       dispatch({ type: StateActionKind.LOADING_START });
 
       const res = await axios.post("/api/users/verify", {
@@ -84,7 +86,7 @@ export default function Verification({ initData }: { initData: Account.VerifCode
 
       setTimeout(() => {
         pElement.remove();
-        location.replace("/login");
+        window.location.replace(new URL("/login", baseUrl).href);
       }, 3000);
     } catch (error) {
       if (isAxiosError(error)) {

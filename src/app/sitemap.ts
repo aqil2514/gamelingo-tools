@@ -1,7 +1,6 @@
+import { baseUrl } from "@/components/general/Data";
 import { Post } from "@/models/General/Post";
 import { MetadataRoute } from "next";
-
-const baseUrl = "https://gamelingo-tools.vercel.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const allPost = (await Post.find()) as General.PostDocument[];

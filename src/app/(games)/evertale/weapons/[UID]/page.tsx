@@ -3,6 +3,7 @@ import axios from "axios";
 import { Metadata } from "next";
 import SuggestedPost from "@/components/Evertale/Post/SuggestedPost";
 import PostList from "@/components/Evertale/Post/SuggestedPost/PostList";
+import { baseUrl } from "@/components/general/Data";
 
 type props = {
   params: { UID: string };
@@ -12,15 +13,14 @@ export async function generateMetadata({ params }: props): Promise<Metadata> {
   try {
     const { UID } = params;
     const isLocal = process.env.NODE_ENV === "development";
-    const baseURL = isLocal ? "http://localhost:3000" : "https://gamelingo-tools.vercel.app";
-    const ApiURL = `${baseURL}/api/post?UID=${UID}`;
+    const ApiURL = `${baseUrl}/api/post?UID=${UID}`;
 
     const response = await axios.get(ApiURL);
     const data = response.data.post.content;
 
     return {
       title: data.weapName,
-      metadataBase: new URL(baseURL),
+      metadataBase: new URL(baseUrl),
       openGraph: {
         title: data.weapName,
         description: `Information about ${data.weapName}`,

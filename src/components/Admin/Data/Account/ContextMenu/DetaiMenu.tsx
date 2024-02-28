@@ -12,6 +12,8 @@ import Loading from "@/components/general/Loading";
 import Button, { VariantClass } from "@/components/general/Button";
 import { ContextSelectFieldProps } from "./interface";
 import { dateOptions, dateOptionsWithTime } from "./config";
+import { Clipboard, ClipboardCheck } from "react-bootstrap-icons";
+import { baseUrl } from "@/components/general/Data";
 
 export default function DetailMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "account") {
@@ -73,6 +75,7 @@ const UserDetail = () => {
 
 const CodeDetail = () => {
   const [data, setData] = useState<Account.VerifCode>({} as Account.VerifCode);
+  const [copied, setCopied] = useState<boolean>(false);
   const { contextMenu, setDetailMenu } = useMenuContextData();
 
   useEffect(() => {
@@ -82,26 +85,44 @@ const CodeDetail = () => {
     }
   }, [contextMenu]);
 
+  async function linkCopyHandler() {
+    await navigator.clipboard.writeText(`${baseUrl}/verification/${data.uid}?code=${data.code}`);
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 5000);
+  }
+
   return (
-    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
+    <div className="min-w-[50%] max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
       {Object.keys(data).length === 0 ? (
         <Loading loading={1} textOn text="Mengambil data user..." />
       ) : (
         <>
-          <h1 className="text-center text-white font-bold font-merienda">Verification Code for {data.email}</h1>
-          <p className="font-poppins text-white">
+          <h1 className="text-center text-white font-bold font-merienda my-4 text-3xl">Verification Code for {data.email}</h1>
+          <div className="font-poppins text-white text-lg">
+            <div className="flex gap-4 my-4">
+              <strong className="font-bold">Kode Registrasi : </strong>
+              {!copied && <Clipboard className="my-auto cursor-pointer transition duration-200 hover:text-black" title="Copy Link" onClick={linkCopyHandler} />}
+              {copied && <ClipboardCheck className="my-auto cursor-default" title="Copy Link" />}
+              {copied && <p className="my-auto text-green-500 font-bold cursor-default"> Link berhasil dicopy</p>}
+            </div>
+            <p className="border border-white rounded py-2 text-center">{data.uid}</p>
+          </div>
+          <p className="font-poppins text-white text-lg">
             <strong className="font-bold">Email : </strong>
             {data.email}
           </p>
-          <p className="font-poppins text-white">
+          <p className="font-poppins text-white text-lg">
             <strong className="font-bold">Code : </strong>
             {data.code}
           </p>
-          <p className="font-poppins text-white">
+          <p className="font-poppins text-white text-lg">
             <strong className="font-bold">Dibuat pada : </strong>
             {new Date(data.createdat as string).toLocaleString("id-ID", dateOptionsWithTime)}
           </p>
-          <p className="font-poppins text-white">
+          <p className="font-poppins text-white text-lg">
             <strong className="font-bold">Email : </strong>
             {data.email}
           </p>
@@ -110,7 +131,6 @@ const CodeDetail = () => {
             <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>
               Kembali
             </Button>
-            {/* TODO: tambahin tombol agar ketika diklik, langsung mengarah ke halama verificationcode & codenya otomatis terisi  */}
           </div>
         </>
       )}
