@@ -365,7 +365,7 @@ export const sendMail: ApiUtils.SendmailApi = {
       ${
         uid
           ? `<a href="${baseUrl}/verification/${uid}?code=${verificationCode}">
-        <button style="background-color:#007bff; border:none; border-radius: 0.5rem; padding: 0.5rem; font-size:1.3rem; color:white">Reset Password</button>
+        <button style="background-color:#007bff; border:none; border-radius: 0.5rem; padding: 0.5rem; font-size:1.3rem; color:white">Verifikasi Akun</button>
       </a>`
           : ``
       }
