@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
     if (!compareResult?.status) {
       return NextResponse.json({ msg: compareResult?.msg }, { status: 422 });
     }
+    return NextResponse.json({ msg: "Verification code berhasil. Mengalihkan..." }, { status: 200 });
   } else if (action === "change-email") {
     const compareResult = await verification.compare(code, newEmail, action, email);
     if (!compareResult?.status) {
