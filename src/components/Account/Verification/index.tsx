@@ -1,7 +1,7 @@
 "use client";
 import axios, { isAxiosError } from "axios";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
 import { INITIAL_STATE, StateActionKind, reducer } from "./reducer";
 import { baseUrl } from "@/components/general/Data";
 
@@ -9,6 +9,14 @@ export default function Verification({ initData }: { initData: Account.VerifCode
   const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
   const buttonRef = React.useRef<null | HTMLButtonElement>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
+
+  useEffect(() => {
+    if (code) {
+      (document.getElementById("code") as HTMLInputElement).value = code;
+    }
+  }, [code]);
 
   async function resendHandler() {
     try {
