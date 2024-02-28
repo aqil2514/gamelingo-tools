@@ -123,15 +123,6 @@ export const register: ApiUtils.RegisterApi = {
       role: "User",
     };
 
-    await User.create({
-      userId,
-      username,
-      name,
-      email,
-      role: "User",
-      passwordExist: true,
-    });
-
     const verifData: Account.VerifCode = verifDataBuilder(email);
 
     try {
@@ -142,6 +133,7 @@ export const register: ApiUtils.RegisterApi = {
       await sendMail.verification(email, verifData.code);
 
       await User.create({
+        userId,
         username: insertData.username,
         name: insertData.name,
         email: insertData.email,
