@@ -44,7 +44,7 @@ namespace ApiUtils {
   }
 
   export interface SendmailApi {
-    verification: (email: string, verificationCode: string) => Promise<void>;
+    verification: (email: string, verificationCode: string, name: string, uid: string) => Promise<void>;
     purify: (email: string, uniqueLink: string) => Promise<void>;
   }
 

@@ -9,6 +9,7 @@ import { Route } from "next";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import { User } from "@/models/General/User";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
+import { baseUrl } from "@/components/general/Data";
 
 /** Membuat verifikasi data untuk disimpan ke Database */
 export function verifDataBuilder(email: string) {
@@ -131,7 +132,7 @@ export const register: ApiUtils.RegisterApi = {
 
       await supabase.from(DB.code).insert(verifData).select();
 
-      await sendMail.verification(email, verifData.code);
+      await sendMail.verification(email, verifData.code, name, verifData.uid);
 
       await User.create({
         userId,
@@ -338,7 +339,7 @@ export const sendMail: ApiUtils.SendmailApi = {
    * @param email - Email tujuan
    * @param verificationCode - Kode yang akan dikirim
    */
-  async verification(email, verificationCode) {
+  async verification(email, verificationCode, name, uid) {
     await new Promise((resolve, reject) => {
       transporter.verify((error, success) => {
         if (error) {
@@ -351,11 +352,26 @@ export const sendMail: ApiUtils.SendmailApi = {
       });
     });
 
-    const mailData = {
+    const mailData: MailOptions = {
       from: "clevergaming68@gmail.com",
       to: email,
       subject: "Email Verification",
-      html: `<p>Your Verification Code: ${verificationCode}</p>`,
+      html: `<div style="width:100%;background-color:#333; min-height:10px; padding:1rem; font-family: sans-serif; text-align:center;">
+      <h1 style="color: white; text-decoration: underline;">GameLingo Tools</h1>
+      <p style="color: orange; font-weight:bold">Halo ${name}! Sedikit lagi anda akan menjadi bagian dari GameLingo Tools.</p>
+      <p style="color: orange; font-weight:bold">Ini adalah kode verifikasi Anda :</p>
+      <p style="border:2px solid white; border-radius: 1rem; width: 200px; margin: 0.2rem auto; padding: 1rem; font-weight: 900; color: white">${verificationCode}</p>
+      <p style="color: orange; font-weight:bold">Anda juga bisa langsung menekan tombol berikut:</p>
+      <a href="${baseUrl}/verification/${uid}?code=${verificationCode}">
+        <button style="background-color:#007bff; border:none; border-radius: 0.5rem; padding: 0.5rem; font-size:1.3rem; color:white">Reset Password</button>
+      </a>
+      <p style="color: orange; font-weight:bold">Ayo selesaikan verifikasi email dan jadilah bagian dari GameLingo Tools sekarang juga.</p>
+      
+      <p style="color: white; font-weight:bold; text-align:left;"> Hormat Kami,</p>
+      <br/>
+      <br/>
+      <p style="color: white; font-weight:bold; text-align:left;"> Admin GameLingo Tools</p>
+    </div>`,
     };
 
     await new Promise((resolve, reject) => {
