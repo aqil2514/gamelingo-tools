@@ -4,8 +4,8 @@ import AccountLink from "./AccountLink";
 import EvertaleLink from "./EvertaleLink";
 
 export enum LINKSTYLE {
-  NONACTIVE_LINK = "text-white font-semibold text-base block hover:bg-white hover:text-zinc-800 px-2 rounded-[0_1rem_1rem_0] transition duration-200 my-2",
-  ACTIVE_LINK = "font-semibold text-base block bg-white text-zinc-800 px-2 rounded-[0_1rem_1rem_0] transition duration-200 my-2",
+  NONACTIVE_LINK = "text-white font-semibold text-base block hover:bg-white hover:text-zinc-800 px-2 rounded-[0_1rem_1rem_0] transition duration-200 my-2 cursor-pointer",
+  ACTIVE_LINK = "font-semibold text-base block cursor-default bg-white text-zinc-800 px-2 rounded-[0_1rem_1rem_0] transition duration-200 my-2",
 }
 
 export default function NavMenu({ user }: { user: Account.User }) {
