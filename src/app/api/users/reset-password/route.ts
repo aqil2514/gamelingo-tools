@@ -4,6 +4,20 @@ import { linkBuilder, register, resetPassword, sendMail } from "@/utils/api";
 import { DB, supabase } from "@/lib/supabase";
 import { baseUrl } from "@/components/general/Data";
 
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const id = searchParams.get("uniqueId");
+
+  if (!id) throw new Error("Id tidak ada");
+
+  const purifyInfo = await supabase.from(DB.purifyPassword).select("*").eq("uid", id);
+  if (!purifyInfo.data || !purifyInfo.data[0]) return NextResponse.json({ msg: "Informasi tidak ditemukan" }, { status: 404 });
+
+  const data = purifyInfo.data[0];
+
+  return NextResponse.json({ data }, { status: 200 });
+}
+
 export async function POST(req: NextRequest) {
   const { email } = await req.json();
 
@@ -22,8 +36,6 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   const { password, confirmPassword, email } = await req.json();
 
-  console.log(password, confirmPassword, email);
-
   const passwordValidation = register.passwordValidation(password, confirmPassword);
   if (!passwordValidation.status) return NextResponse.json({ msg: passwordValidation.msg }, { status: 422 });
 
@@ -32,4 +44,12 @@ export async function PUT(req: NextRequest) {
   await supabase.from(DB.user).update({ password: hashedPassword, passwordExist: true }).eq("email", email);
 
   return NextResponse.json({ msg: "Password berhasil dibuat" }, { status: 200 });
+}
+
+export async function DELETE(req: NextRequest) {
+  const { id } = await req.json();
+
+  await supabase.from(DB.purifyPassword).delete().eq("uid", id);
+
+  return NextResponse.json({ msg: "Data berhasil dihapus" }, { status: 200 });
 }

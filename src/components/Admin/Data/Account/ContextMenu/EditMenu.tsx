@@ -147,9 +147,6 @@ const CodeEdit = () => {
     }
   }, [contextMenu, data]);
 
-  console.log(data);
-  console.log(date);
-
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.target as HTMLFormElement;

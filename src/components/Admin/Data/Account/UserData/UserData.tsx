@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import ContextMenu from "../ContextMenu";
 import { useMenuContextData } from "../ContextMenu/ContextProvider";
 import EditMenu from "../ContextMenu/EditMenu";
-import DetailMenu from "../ContextMenu/DetaiMenu";
+import DetailMenu from "../ContextMenu/DetailMenu";
 
 export default function UserDataTable({ data }: { data: Account.AdminUserOutput[] }) {
   const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu } = useMenuContextData();

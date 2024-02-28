@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { LINKSTYLE } from ".";
 import { useRouter } from "next/navigation";
 

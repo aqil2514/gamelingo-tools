@@ -2,11 +2,9 @@ import { useEffect } from "react";
 import { useMenuContextData } from "../ContextMenu/ContextProvider";
 import ContextMenu from "../ContextMenu";
 import DetailMenu from "../ContextMenu/DetailMenu";
-import EditMenu from "../ContextMenu/EditMenu";
 
-export default function CodeData({ data }: { data: Account.VerifCode[] }) {
-  const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu } = useMenuContextData();
-
+export default function PasswordPurifyData({ data }: { data: Account.PasswordPurify[] }) {
+  const { contextMenu, setContextMenu, detailMenu } = useMenuContextData();
   useEffect(() => {
     const clickFunction = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -26,20 +24,19 @@ export default function CodeData({ data }: { data: Account.VerifCode[] }) {
 
   return (
     <div className="px-4">
-      {isDeleting && <p className="font-bold text-amber-500">Menghapus Data...</p>}
-
-      <table id="table-code-data" className="border-2 border-white text-white mx-auto my-4 w-full">
+      <table id="table-password-purify" className="border-2 border-white text-white mx-auto my-4 w-full">
         <thead>
           <tr>
             <th className="font-bold capitalize cursor-default border-2 border-white">#</th>
+            <th className="font-bold capitalize cursor-default border-2 border-white">id</th>
             <th className="font-bold capitalize cursor-default border-2 border-white">email</th>
-            <th className="font-bold capitalize cursor-default border-2 border-white">code</th>
+            <th className="font-bold capitalize cursor-default border-2 border-white">craetedat</th>
           </tr>
         </thead>
         {data.length === 0 ? (
           <tbody>
             <tr>
-              <td colSpan={3} className="text-center cursor-pointer hover:bg-zinc-600 border-2 border-white">
+              <td colSpan={4} className="text-center cursor-pointer hover:bg-zinc-600 border-2 border-white">
                 No Data
               </td>
             </tr>
@@ -52,21 +49,23 @@ export default function CodeData({ data }: { data: Account.VerifCode[] }) {
                   {i + 1}
                 </td>
                 <td className="text-center cursor-pointer hover:bg-zinc-600 border-2 border-white" data-id={d.uid}>
+                  {d.uid}
+                </td>
+                <td className="text-center cursor-pointer hover:bg-zinc-600 border-2 border-white" data-id={d.uid}>
                   {d.email}
                 </td>
                 <td className="text-center cursor-pointer hover:bg-zinc-600 border-2 border-white" data-id={d.uid}>
-                  {d.code}
+                  {new Date(d.createdat).toLocaleDateString("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric" })}
                 </td>
               </tr>
             ))}
           </tbody>
         )}
       </table>
-      {contextMenu.isActive && data.length !== 0 && <ContextMenu field="account" subfield="verificationcode" passData={data} />}
 
-      {detailMenu && <DetailMenu field="account" subfield="verificationcode" />}
+      {contextMenu.isActive && Object.keys(data).length !== 0 && <ContextMenu field="account" subfield="password_purify" />}
 
-      {editMenu && <EditMenu field="account" subfield="verificationcode" />}
+      {detailMenu && <DetailMenu field="account" subfield="password_purify" />}
     </div>
   );
 }
