@@ -39,7 +39,7 @@ export async function PUT(req: NextRequest) {
     const verifData: Account.VerifCode = verifDataBuilder(data.email);
     await supabase.from(DB.code).insert(verifData).select();
 
-    await sendMail.verification(data.email, verifData.code);
+    await sendMail.verification(data.email, verifData.code, data.name, verifData.uid);
 
     return NextResponse.json({ popupEmail: true }, { status: 200 });
   }

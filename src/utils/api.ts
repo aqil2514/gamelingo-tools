@@ -362,9 +362,13 @@ export const sendMail: ApiUtils.SendmailApi = {
       <p style="color: orange; font-weight:bold">Ini adalah kode verifikasi Anda :</p>
       <p style="border:2px solid white; border-radius: 1rem; width: 200px; margin: 0.2rem auto; padding: 1rem; font-weight: 900; color: white">${verificationCode}</p>
       <p style="color: orange; font-weight:bold">Anda juga bisa langsung menekan tombol berikut:</p>
-      <a href="${baseUrl}/verification/${uid}?code=${verificationCode}">
+      ${
+        uid
+          ? `<a href="${baseUrl}/verification/${uid}?code=${verificationCode}">
         <button style="background-color:#007bff; border:none; border-radius: 0.5rem; padding: 0.5rem; font-size:1.3rem; color:white">Reset Password</button>
-      </a>
+      </a>`
+          : ``
+      }
       <p style="color: orange; font-weight:bold">Ayo selesaikan verifikasi email dan jadilah bagian dari GameLingo Tools sekarang juga.</p>
       
       <p style="color: white; font-weight:bold; text-align:left;"> Hormat Kami,</p>
