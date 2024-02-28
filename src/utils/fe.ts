@@ -1,3 +1,5 @@
+import { useSession as getSession } from "next-auth/react";
+
 /** Tampilkan pesan dari server
  * @constructor
  * @param {string} msg - Pesan yang akan ditampilkan
@@ -19,4 +21,16 @@ export function notif(msg: string, color: string, refElement: string, location: 
   setTimeout(() => {
     pElement.remove();
   }, time);
+}
+
+/**
+ *
+ * Sebuah utils untuk mengambil sesi user
+ *
+ */
+export function getClientUser(): Account.UserSession {
+  const session = getSession();
+  const user = session.data?.user as Account.UserSession;
+
+  return user;
 }

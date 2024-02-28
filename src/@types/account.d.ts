@@ -13,6 +13,14 @@ namespace Account {
     createdAt?: string;
   }
 
+  export interface UserSession {
+    name: string;
+    id: string;
+    image: string;
+    email: string;
+    role: Account.User["role"];
+  }
+
   export interface User {
     id: string;
     name: string;

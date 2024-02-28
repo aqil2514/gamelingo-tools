@@ -1,5 +1,11 @@
 import type { Route } from "next";
 
+/**
+ *
+ * Home Section Data
+ *
+ */
+
 interface homeIconsType {
   id: string;
   name: string;
@@ -32,9 +38,65 @@ export const baseUrl = process.env.NODE_ENV === "development" ? "http://localhos
 
 /**
  *
- * Admin Data
+ * Admin Section Data
  *
  */
 
+// <<<<<
+// Interface
+// >>>>>
+interface AccountLink {
+  label: string;
+  subfield: General.UserAdminQuery["subfield"];
+}
+
+interface EvertaleLink {
+  label: string;
+  subfield: General.GameEvertaleQuery["subfield"];
+}
+
 export const adminId = "bf9abc1d-c04b-4dcf-9484-9ff5c099e3c5";
 export const allowedRole = ["General Admin", "Admin", "Admin of Genshin Impact", "Admin of Evertale", "Moderator", "User"];
+
+// Dipakai pada src\components\Layout\Admin\NavMenu\AccountLink.tsx
+// subfield_AL = Subfield Account Link Data
+export const subField_AL: AccountLink[] = [
+  {
+    label: "User",
+    subfield: "userslogin",
+  },
+  {
+    label: "Password Purify",
+    subfield: "password_purify",
+  },
+  {
+    label: "Verification Code",
+    subfield: "verificationcode",
+  },
+];
+
+// Dipakai pada src\components\Layout\Admin\NavMenu\EvertaleLink.tsx
+// subfield_EL = Subfield Evertale Link Data
+
+export const subfield_EL: EvertaleLink[] = [
+  {
+    label: "Characters",
+    subfield: "chars",
+  },
+  {
+    label: "Leader Skills",
+    subfield: "leaderskills",
+  },
+  {
+    label: "Passive Skills",
+    subfield: "passives",
+  },
+  {
+    label: "Type Skills",
+    subfield: "typeskills",
+  },
+  {
+    label: "Weapons",
+    subfield: "weapons",
+  },
+];

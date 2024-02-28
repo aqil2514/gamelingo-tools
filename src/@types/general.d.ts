@@ -64,10 +64,15 @@ namespace General {
     category: "Artifact" | "Character" | "Material" | "Weapon" | "Talent" | "Constellations";
   }
 
-  export type AdminQuery = UserAdminQuery;
+  export type AdminQuery = UserAdminQuery | GameEvertaleQuery;
 
   interface UserAdminQuery {
     field: "account";
     subfield: "userslogin" | "password_purify" | "verificationcode";
+  }
+
+  interface GameEvertaleQuery {
+    field: "evertale";
+    subfield: "chars" | "leaderskills" | "passives" | "typeskills" | "weapons";
   }
 }

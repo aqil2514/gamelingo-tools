@@ -443,16 +443,12 @@ export async function getUser() {
 
   if (!session) return null;
 
-  // TODO : Nanti akalin solusi yang lebih aman lagi
-
   const user = await supabase
     .from(DB.user)
     .select(UserSelect.basic)
     .eq("id", (session?.user as Account.User)?.id);
 
   if (!user || !user.data || !user.data[0]) return null;
-
-  // fixThis
 
   const data = user.data[0];
   const userData: Account.User = {

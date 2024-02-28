@@ -22,7 +22,7 @@ export default function NavMenu({ user }: { user: Account.User }) {
 
         {user.role === "General Admin" && <AccountLink field={field} subfield={subfield} />}
 
-        <EvertaleLink field={field} subfield={subfield} />
+        {user.role === "Admin of Evertale" || (user.role === "General Admin" && <EvertaleLink field={field} subfield={subfield} />)}
       </details>
     </div>
   );
