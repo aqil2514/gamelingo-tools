@@ -14,8 +14,10 @@ export default function AdminData({ field, subfield }: { field: string; subfield
 
   if (!data || isLoading) return <Loading loading={1} textOn />;
 
+  // SOON : Buat pagination
+
   if (error) return <Error />;
 
-  if(field === "account") return <AccountData subfield={subfield} data={data.data} />
-  if(field ==="evertale") return <EvertaleData subfield={subfield} data={data.data}/>
+  if (field === "account") return <AccountData subfield={subfield} data={data.data} />;
+  if (field === "evertale") return <EvertaleData subfield={subfield} data={data.data} />;
 }

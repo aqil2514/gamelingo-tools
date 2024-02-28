@@ -110,7 +110,7 @@ export default function TableMapping({
 //           i,
 //         });
 
-//         // TODO : FIX BAGIAN SEPERTI KASUS XIANYUN
+//         // SOON : FIX BAGIAN SEPERTI KASUS XIANYUN
 //         return (
 //           <td key={num} className="bg-slate-700 hover:bg-slate-600 hover:cursor-pointer border border-slate-800">
 //             <p className="text-white font-bold font-poppins p-4 ">
