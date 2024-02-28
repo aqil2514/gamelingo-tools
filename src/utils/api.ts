@@ -8,6 +8,7 @@ import Character from "@/models/Evertale/Characters";
 import { Route } from "next";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import { User } from "@/models/General/User";
+import { MailOptions } from "nodemailer/lib/sendmail-transport";
 
 /** Membuat verifikasi data untuk disimpan ke Database */
 export function verifDataBuilder(email: string) {
@@ -382,11 +383,24 @@ export const sendMail: ApiUtils.SendmailApi = {
       });
     });
 
-    const mailData = {
+    const mailData: MailOptions = {
       from: "clevergaming68@gmail.com",
       to: email,
       subject: "Reset Password",
-      html: `<p>Click the link to:<br /> <a href="${uniqueLink}"> Purify your Password </a></p>`,
+      html: `<div style="width:100%;background-color:#333; min-height:10px; padding:1rem; font-family: sans-serif; text-align:center;">
+      <h1 style="color: white; text-decoration: underline;">GameLingo Tools</h1>
+      <p style="color: orange; font-weight:bold">Anda terlihat kesulitan untuk memasuki akun anda.</p>
+      <p style="color: orange; font-weight:bold"> Tekan tombol di bawah ini dan Anda akan diarahkan ke halaman reset password</p>
+      <a href="${uniqueLink}">
+        <button style="background-color:#007bff; border:none; border-radius: 0.5rem; padding: 0.5rem; font-size:1.3rem; color:white">Reset Password</button>
+      </a>
+      <p style="color: red; font-weight:bold"> Harap diingat link ini hanya bisa digunakan sekali dan akan langsung expired ketika diklik!</p>
+      <p style="color: orange; font-weight:bold"> Semoga ini dapat membantu Anda ^_^</p>
+      <p style="color: white; font-weight:bold; text-align:left;"> Hormat Kami,</p>
+      <br/>
+      <br/>
+      <p style="color: white; font-weight:bold; text-align:left;"> Admin GameLingo Tools</p>
+    </div>`,
     };
 
     await new Promise((resolve, reject) => {
