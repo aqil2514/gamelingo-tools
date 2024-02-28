@@ -29,7 +29,10 @@ export async function POST(req: NextRequest) {
 
   await sendMail.purify(email, uniqueLink);
 
-  await supabase.from(DB.purifyPassword).insert({ email, uid: uidLink });
+  const isThere = await supabase.from(DB.purifyPassword).select("*").eq("email", email);
+  if (!isThere || isThere.data?.length === 0) await supabase.from(DB.purifyPassword).insert({ email, uid: uidLink });
+
+  await supabase.from(DB.purifyPassword).update({ uid: uidLink }).eq("email", email);
   return NextResponse.json({ msg: `Email verifikasi telah dikirim ke ${email}` }, { status: 200 });
 }
 
