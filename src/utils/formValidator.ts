@@ -18,6 +18,15 @@ import { allowedRole } from "@/components/general/Data";
 
 export const genshinValidator: ApiUtils.GenshinValidatorApi = {
   async material(data) {
+    // <<<<< Local Variabel >>>>>
+    const checkData: Record<string, string> = {
+      name: "Nama",
+      typeMaterial: "Tipe material",
+      lore: "Lore",
+      rarity: "Rarity",
+    };
+
+    // <<<<< Apakah di dalam database ada material yang serupa? >>>>>
     if (data["result-lang"] === "English") {
       const isThere = await ENMaterial.findOne({ name: data.name });
       if (isThere) return { status: false, msg: "Material is there" };
@@ -26,15 +35,21 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       if (isThere) return { status: false, msg: "Material sudah ada" };
     }
 
-    if (!data.name) return { status: false, msg: "Nama material belum diisi" };
-    if (!data.typeMaterial) return { status: false, msg: "Tipe material belum diisi" };
-    if (!data.lore) return { status: false, msg: "Lore material belum diisi" };
-    if (!data.rarity) return { status: false, msg: "Rarity material belum diisi" };
+    // <<<<< Validation >>>>>
+    for (const key in data) {
+      // Apakah data terkait sudah diisi?
+      if (key === "name" || key === "typeMaterial" || key === "lore" || key === "rarity") {
+        if (!data[key]) return { status: false, msg: `${checkData[key]} material belum diisi.` };
+      }
+    }
 
+    // <<<<< Apakah ada gambar yang dikirim dari client side? >>>>>
     if (data.image && data.image.name) {
-      if (!data.image.name.toLowerCase().includes(data.name.toLowerCase())) return { status: false, msg: "Image harus sesuai namanya." };
-      if (data.image.size > 1 * 1024 * 1024) return { status: false, msg: "Image harus kurang dari 1 MB" };
-      if (data.image.type !== "image/png" && data.image.type !== "image/webp") return { status: false, msg: "Image harus bertipe PNG atau WEBP" };
+      // Jika ada, lakukan validasi
+      const validation = file.validationImage(data.image, { validateName: true, validationName: data.name });
+      if (!validation.status) return { status: false, msg: validation.msg };
+
+      // Buat file
       const newFile = new File([data.image], `${data.name}.${data.image.type.split("/")[1]}`, {
         type: data.image.type,
       });

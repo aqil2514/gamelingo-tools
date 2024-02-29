@@ -1,3 +1,9 @@
+/**
+ *
+ * API FOR SERVER SIDE
+ *
+ */
+
 import { DB, UserSelect, supabase } from "@/lib/supabase";
 import { z } from "zod";
 import bcrypt from "bcrypt";
@@ -518,9 +524,49 @@ export const admin: ApiUtils.AdminApi = {
 };
 
 // File Handler Api
+
+export interface ImageValidationConfig {
+  /**
+   * Ekstensi atau format yang diizinkan.
+   *
+   * Default: ["webp", "png"]
+   */
+  allowedExtension?: AllowedExtension[];
+  /**
+   * Validasi nama?
+   *
+   * Default: false
+   */
+  validateName?: boolean;
+  /**
+   * Jika validasi nama digunakan, apa namanya?
+   *
+   * Jika tidak diisi, akan mengembalikan error;
+   */
+  validationName?: string;
+}
+
+interface ValidationResult {
+  status: boolean;
+  msg?: string;
+  file?: File;
+}
+
+type AllowedExtension = "webp" | "png" | "jpg" | "gif";
 export const file = {
   /**
-   * Validasi file banyak gambar sekaligus
+   * Validasi file banyak gambar sekaligus.
+   *
+   * Apa saja yang divalidasi?
+   * - Format yang diizinkan
+   * - Ukuran gambar maksimal 1MB
+   * - Apakah namanya sesuai dengan yang diharapkan
+   *
+   * Config option:
+   *
+   * - allowedExtension: Array of String
+   * - validateName: boolean
+   * - validationName: string
    *
    * @param files Kumpulan file yang akan divalidasi
    * @returns Hasil validasi
@@ -551,26 +597,51 @@ export const file = {
   /**
    * Validasi file gambar
    *
+   * Apa saja yang divalidasi?
+   * - Format yang diizinkan
+   * - Ukuran gambar maksimal 1MB
+   * - Apakah namanya sesuai dengan yang diharapkan
+   *
+   * Config option:
+   *
+   * - allowedExtension: array of sring
+   * - validateName: boolean
+   * - validationName: string
+   *
    * @param file  file yang akan divalidasi
+   * @param config Konfigurasi validasi
    * @returns Hasil validasi
    */
-  validationImage: (file: File) => {
-    const allowedExtension = ["webp", "png"];
-    const maxSizeInBytes = 1 * 1024 * 1024;
+  validationImage: (file: File, config?: ImageValidationConfig): ValidationResult => {
+    // <<<<< Cek apa saja config yang ditentukan >>>>>
+    const allowedExtension = config?.allowedExtension ? config.allowedExtension : ["webp", "png"];
+    const validateName = config?.validateName ? config.validateName : false;
 
+    // <<<<< Variabel Local >>>>>
+    const maxSizeInBytes = 1 * 1024 * 1024;
     const extension = file.type.split("/")[1];
 
+    // <<<<< Validation >>>>>
+
+    // Apakah formatnya sesuai dengan yang diminta?
     if (!allowedExtension.includes(extension)) {
       return {
         status: false,
-        msg: "Gambar harus format webp atau png",
+        msg: `Format gambar tidak diizinkan. Format yang diizinkan : ${allowedExtension.join(", ")}`,
       };
     }
+    // Apakah ukuran gambar tidak lebih dari 1MB?
     if (file.size > maxSizeInBytes) {
       return {
         status: false,
         msg: "Maksimal ukuran gambar 1MB",
       };
+    }
+    // Apakah nama gambar sesuai dengan nama data?
+    if (validateName) {
+      const name = config?.validationName;
+      if (!name) throw new Error("Nama belum ditentukan");
+      if (!file.name.toLowerCase().includes(name.toLowerCase())) return { status: false, msg: "Nama Image harus sesuai dengan nama data." };
     }
 
     return { status: true, file };
@@ -635,27 +706,5 @@ export const file = {
       console.error(error);
       throw error;
     }
-  },
-};
-
-// Form Data Handler
-
-// Form Data Helpers
-
-const genshinFormData = {
-  material: (formData: FormData) => {
-    const name = formData.get("name") as GenshinImpact.Material["name"];
-    const lore = formData.get("lore") as GenshinImpact.Material["lore"];
-    const gainedFrom = formData.get("gainedFrom") as GenshinImpact.Material["gainedFrom"];
-    const rarity = formData.get("rarity") as GenshinImpact.Material["rarity"];
-    const typeMaterial = formData.get("typeMaterial") as GenshinImpact.Material["typeMaterial"];
-    const image = formData.getAll("image") as File[];
-
-    return { name, lore, gainedFrom, rarity, typeMaterial, image };
-  },
-  artifact: (formData: FormData) => {
-    const data = Object.fromEntries(formData.entries());
-
-    console.log(data);
   },
 };

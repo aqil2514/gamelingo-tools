@@ -19,31 +19,37 @@ import { User } from "@/models/General/User";
 
 export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData, user) => {
+    // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Material";
+    let imageUrl: string = "";
 
+    // <<<<< Ambil Data >>>>>
     const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataMaterial;
 
+    // <<<<< Validasi >>>>>
     const validation = await genshinValidator.material(data);
     if (!validation.status) return { status: 422, msg: validation.msg };
 
-    let imageUrl: string = "";
-    if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
-      imageUrl = uploadFile.secure_url;
-    }
+    // <<<<< Upload Email jika ada >>>>>
+    // if (validation.data.image) {
+    //   const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
+    //   imageUrl = uploadFile.secure_url;
+    // }
 
+    // <<<<< Penyusunan Data >>>>>
     const organizedData = genshinOrganizing.material(validation.data, imageUrl);
 
-    if (data["result-lang"] === "Indonesian") {
-      const material = await IDMaterial.create(organizedData);
+    // <<<<< Tambah ke Database >>>>>
+    // if (data["result-lang"] === "Indonesian") {
+    //   const material = await IDMaterial.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
-    } else if (data["result-lang"] === "English") {
-      const material = await ENMaterial.create(organizedData);
+    //   await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+    // } else if (data["result-lang"] === "English") {
+    //   const material = await ENMaterial.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
-    }
+    //   await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+    // }
 
     return {
       msg: "Data material berhasil ditambah",
@@ -159,24 +165,25 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     // Ambil Data
     const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataTalent;
+    console.log(data);
 
     // Validasi
-    const validation = await genshinValidator.talent(data);
-    if (!validation.status) return { status: 422, msg: validation.msg };
+    // const validation = await genshinValidator.talent(data);
+    // if (!validation.status) return { status: 422, msg: validation.msg };
 
-    const organizedData = genshinOrganizing.talent(data);
+    // const organizedData = genshinOrganizing.talent(data);
 
-    if (data["result-lang"] === "Indonesian") {
-      const talent = await TalentID.create(organizedData);
+    // if (data["result-lang"] === "Indonesian") {
+    //   const talent = await TalentID.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, talent, user, data["character-name"]);
-    } else if (data["result-lang"] === "English") {
-      const talent = await TalentEN.create(organizedData);
+    //   await addPost(data, data["result-lang"], game, category, talent, user, data["character-name"]);
+    // } else if (data["result-lang"] === "English") {
+    //   const talent = await TalentEN.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, talent, user, data["character-name"]);
-    }
+    //   await addPost(data, data["result-lang"], game, category, talent, user, data["character-name"]);
+    // }
 
-    return { status: 200, data: organizedData };
+    return { status: 200, data };
   },
   async processConstellation(formData, user) {
     const game: General.Game["game"] = "Genshin Impact";

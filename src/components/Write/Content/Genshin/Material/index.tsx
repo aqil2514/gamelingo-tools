@@ -57,13 +57,13 @@ export default function Material() {
             />
             <p className="text-white font-bold">Tambah tanda &quot;,&quot; sebagai pemisah.</p>
             <ImageInput changeHandler={(e) => changeHandler(e, setFileName, setPreviewLink)} fileName={fileName} previewLink={previewLink} setFileName={setFileName} setPreviewLink={setPreviewLink} />
-            <Button className={ButtonClass.submit} id="material-button-submit">
-              {isLoading ? "Submitting..." : "Submit"}
-            </Button>
           </>
         ) : (
           <p className="text-white font-bold font-poppins">No Data Selected</p>
         )}
+        <Button className={ButtonClass.submit} id="material-button-submit">
+          {isLoading ? "Submitting..." : "Submit"}
+        </Button>
       </form>
 
       <datalist id="material-type-list">

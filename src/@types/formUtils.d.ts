@@ -301,6 +301,12 @@ namespace FormUtils {
     }
 
     export interface Genshin {
+      /**
+       * Proses material Genshin Impact
+       * @param formData Form Data
+       * @param user Info User
+       * @returns Berhasil atau gagal
+       */
       processMaterial: (formData: FormData, user: Account.User) => Promise<Result>;
       proccessArtifact: (formData: FormData, user: Account.User) => Promise<Result>;
       processWeapon: (formData: FormData, user: Account.User) => Promise<Result>;

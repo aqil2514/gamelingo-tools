@@ -2,6 +2,14 @@ import { Input, VariantClass } from "@/components/general/Input";
 import Textarea, { TextareaStyle } from "@/components/general/Textarea";
 import React from "react";
 import { CombatStatus, tableMappingConfig, useTableConfig } from "./config";
+import Image from "next/image";
+
+interface PreviewLinksState {
+  linkcombat1: string;
+  linkcombat2: string;
+  linkcombat3: string;
+  linkcombatsp: string;
+}
 
 export default function TableMapping({
   talent,
@@ -12,6 +20,7 @@ export default function TableMapping({
   setTalent: React.Dispatch<React.SetStateAction<GenshinImpact.ApiResponseTalent>>;
   index: "combat1" | "combat2" | "combat3" | "combatsp";
 }) {
+  const [previewLinks, setPreviewLinks] = React.useState<PreviewLinksState>({} as PreviewLinksState);
   const label = React.useMemo(() => {
     const labels = talent[index]?.attributes?.labels;
     const mapLabels = labels?.map((label) => label.split("|"));
@@ -28,26 +37,69 @@ export default function TableMapping({
     combatsp: "Sprint",
   };
 
+  function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    const target = e.target as HTMLInputElement;
+    const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
+    const files = target.files;
+
+    if (!files || files?.length === 0 || !files[0]) return;
+
+    const imageLink = URL.createObjectURL(files[0]);
+
+    setPreviewLinks({ ...previewLinks, [previewLink]: imageLink });
+  }
+
+  function deleteHandler(e: React.MouseEvent<HTMLParagraphElement>) {
+    const target = e.target as HTMLParagraphElement;
+    const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
+    const input = target.nextSibling?.nextSibling as HTMLInputElement;
+
+    if (input.files?.length !== 0) {
+      input.value = "";
+      setPreviewLinks({ ...previewLinks, [previewLink]: "" });
+    }
+  }
+
   return (
     <>
       <h2 className="text-white font-semibold font-poppins">{title[index]}</h2>
 
-      <Input
-        forId="talent-combat-1-name"
-        label="Talent Name"
-        name={`${index}-name`}
-        variant={VariantClass.dashboard}
-        onChange={(e) =>
-          setTalent({
-            ...talent,
-            [index]: { ...talent[index], name: e.target.value },
-          })
-        }
-        value={talent[index]?.name}
-      />
+      <div className="grid grid-cols-[200px_auto] gap-4 my-4">
+        <label
+          htmlFor={`talent-${index}-icon`}
+          className="relative m-auto border border-dashed group border-white rounded-md w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden"
+        >
+          {previewLinks[`link${index}` as keyof PreviewLinksState] ? (
+            <>
+              <span className="font-bold text-red-600 top-2 group: right-2 cursor-pointer z-20 absolute" onClick={deleteHandler} data-previewLink={`link${index}`}>
+                X
+              </span>
+              <Image src={previewLinks[`link${index}` as keyof PreviewLinksState]} fill sizes="auto" alt={`${index}-icon`} className="w-auto group-hover:scale-125 transition duration-500" />
+            </>
+          ) : (
+            <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
+          )}
+
+          <input type="file" name={`talent-${index}-icon`} data-previewLink={`link${index}`} id={`talent-${index}-icon`} className="hidden" onChange={changeHandler} />
+        </label>
+
+        <Input
+          forId={`talent-${index}-name`}
+          label="Talent Name"
+          name={`${index}-name`}
+          variant={VariantClass.dashboard}
+          onChange={(e) =>
+            setTalent({
+              ...talent,
+              [index]: { ...talent[index], name: e.target.value },
+            })
+          }
+          value={talent[index]?.name}
+        />
+      </div>
 
       <Textarea
-        forId="talent-combat-1-info"
+        forId={`talent-${index}-info`}
         label="Talent Info"
         className={TextareaStyle.variant_1}
         onChange={(e) =>
@@ -75,7 +127,7 @@ export default function TableMapping({
 //             <td className="bg-slate-700 hover:bg-slate-600 hover:cursor-pointer border border-slate-800">Nama Skill</td>
 //             {talent[index]?.attributes?.parameters?.param1.map((value, i) => (
 //               <td key={value} className="bg-slate-700 hover:bg-slate-600 hover:cursor-pointer border border-slate-800">
-//                 {index === "combatsp" ? "Info" : `Level ${i + 1}`}
+//                 {index === "combatsp" ? "Info" : `Level ${index}`}
 //               </td>
 //             ))}
 //           </tr>
