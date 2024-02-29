@@ -232,11 +232,31 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     return { status: true, data };
   },
   async constellation(data) {
+    const images: File[] = [];
+
     if (!data.charName) return { status: false, msg: "Nama karakter belum diisi" };
 
     for (const key in data) {
       if (key.startsWith("c") || key.startsWith("d")) {
         if (!data[key as keyof FormUtils.Genshin.FormDataConstellation]) return { status: false, msg: `Data masih ada yang kosong` };
+      }
+      if (key.includes("icon")) {
+        let image = data[key as keyof FormUtils.Genshin.FormDataConstellation] as FormUtils.Genshin.FormDataConstellation["constellation-1-icon"];
+        if (image?.name === "undefined" && image?.type === "application/octet-stream") {
+          data[key as "constellation-1-icon"] = undefined;
+        }
+        if (data[key as "constellation-1-icon"]) {
+          const image = data[key as "constellation-1-icon"] as File;
+          const splitName = key.split("-");
+          const firstName = splitName[0].charAt(0).toUpperCase() + splitName[0].slice(1);
+          const secondName = splitName[1];
+          const lastName = splitName[2].charAt(0).toUpperCase() + splitName[2].slice(1);
+          const fileName = `${firstName}-${secondName}-${lastName}`;
+
+          const newFile = new File([image], `${data.charName}-${fileName}.${image.type.split("/")[1]}`, { type: image.type });
+
+          images.push(newFile);
+        }
       }
     }
 
@@ -244,15 +264,15 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       const isThere = await ConstellationEN.findOne({
         charName: data.charName,
       });
-      if (isThere) return { status: false, msg: "Yelan is there in Database." };
+      if (isThere) return { status: false, msg: `${data.charName} is there in Database.` };
     } else if (data["result-lang"] === "Indonesian") {
       const isThere = await ConstellationID.findOne({
         charName: data.charName,
       });
-      if (isThere) return { status: false, msg: "Yelan sudah ada di Database." };
+      if (isThere) return { status: false, msg: `${data.charName} sudah ada di Database.` };
     }
 
-    return { status: true, data };
+    return { status: true, data, images };
   },
 };
 

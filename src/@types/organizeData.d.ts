@@ -5,7 +5,7 @@ namespace OrganizeData {
     weapon: (data: FormUtils.Genshin.FormDataWeapon, imageUrl: string) => GenshinImpact.Weapon;
     character: (data: FormUtils.Genshin.FormDataCharacter, imageUrl: string) => GenshinImpact.Character;
     talent: (data: FormUtils.Genshin.FormDataTalent) => GenshinImpact.Talent;
-    constellation: (data: FormUtils.Genshin.FormDataConstellation) => GenshinImpact.Constellation;
+    constellation: (data: FormUtils.Genshin.FormDataConstellation, imageUrl: string[]) => GenshinImpact.Constellation;
   }
 
   export interface Admin {

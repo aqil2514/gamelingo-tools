@@ -533,33 +533,39 @@ export const genshinOrganizing: OrganizeData.Genshin = {
 
     return finalData;
   },
-  constellation(data) {
+  constellation(data, imageUrl) {
     const finalData: GenshinImpact.Constellation = {
       charName: data.charName,
       constellation: {
         c1: {
           name: data.c1,
           description: data.d1,
+          icon: imageUrl.find((img) => img.includes("Constellation-1")),
         },
         c2: {
           name: data.c2,
           description: data.d2,
+          icon: imageUrl.find((img) => img.includes("Constellation-2")),
         },
         c3: {
           name: data.c3,
           description: data.d3,
+          icon: imageUrl.find((img) => img.includes("Constellation-3")),
         },
         c4: {
           name: data.c4,
           description: data.d4,
+          icon: imageUrl.find((img) => img.includes("Constellation-4")),
         },
         c5: {
           name: data.c5,
           description: data.d5,
+          icon: imageUrl.find((img) => img.includes("Constellation-5")),
         },
         c6: {
           name: data.c6,
           description: data.d6,
+          icon: imageUrl.find((img) => img.includes("Constellation-6")),
         },
       },
     };

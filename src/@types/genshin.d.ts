@@ -504,6 +504,7 @@ namespace GenshinImpact {
   interface BasicInfo {
     name: string;
     description: string;
+    icon?: string;
   }
 
   export interface Weapon {

@@ -292,6 +292,12 @@ namespace FormUtils {
       d5: string;
       c6: string;
       d6: string;
+      "constellation-1-icon"?: File;
+      "constellation-2-icon"?: File;
+      "constellation-3-icon"?: File;
+      "constellation-4-icon"?: File;
+      "constellation-5-icon"?: File;
+      "constellation-6-icon"?: File;
     }
 
     export interface Genshin {

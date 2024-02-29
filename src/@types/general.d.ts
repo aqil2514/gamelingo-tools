@@ -11,7 +11,7 @@ namespace General {
     lang: "English" | "Indonesian" | "English & Indonesian";
     game: {
       name: "Evertale" | "Genshin Impact" | "Mobile Legends";
-      topic: "Character" | "Weapon" | "Accessory" | "Artifact" | "Material";
+      topic: "Character" | "Weapon" | "Accessory" | "Artifact" | "Material" | "Constellations";
     };
     content: ObjectId;
     author: string;
