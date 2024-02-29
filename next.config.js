@@ -3,9 +3,7 @@ const nextConfig = {
   experimental: {
     typedRoutes: true,
     serverActions: {
-      allowedOrigins: [
-        "ideal-space-guacamole-7gv49w64gx4c9j4-3000.app.github.dev",
-      ],
+      allowedOrigins: ["ideal-space-guacamole-7gv49w64gx4c9j4-3000.app.github.dev"],
     },
   },
   images: {
@@ -31,6 +29,7 @@ const nextConfig = {
       { protocol: "https", hostname: "placehold.jp", port: "" },
       { protocol: "https", hostname: "webstatic.hoyoverse.com", port: "" },
       { protocol: "https", hostname: "upload-os-bbs.mihoyo.com", port: "" },
+      { protocol: "https", hostname: "fastcdn.hoyoverse.com", port: "" },
     ],
   },
 };

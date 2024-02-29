@@ -1,8 +1,6 @@
 import React from "react";
 import { apiURL, submitFormHandler } from "../genshinUtils";
-import Button, {
-  VariantClass as ButtonStyle,
-} from "@/components/general/Button";
+import Button, { VariantClass as ButtonStyle } from "@/components/general/Button";
 import { Input, VariantClass } from "@/components/general/Input";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -17,56 +15,23 @@ import SwiperSlideData from "../Components/SwiperSlideData";
 
 export default function CharacterForm() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [character, setCharacter] =
-    React.useState<GenshinImpact.ApiResponseCharacter>(
-      {} as GenshinImpact.ApiResponseCharacter,
-    );
+  const [character, setCharacter] = React.useState<GenshinImpact.ApiResponseCharacter>({} as GenshinImpact.ApiResponseCharacter);
   const [fileName, setFileName] = React.useState<string>("");
   const [previewLink, setPreviewLink] = React.useState<string>("");
 
-  const characterExists =
-    Object.keys(character).length !== 0 && character.costs;
+  const characterExists = Object.keys(character).length !== 0 && character.costs;
 
   return (
-    <form
-      onSubmit={(e) =>
-        submitFormHandler(
-          e,
-          "/api/post",
-          setIsLoading,
-          "Genshin Impact",
-          "Character",
-          "character-button-submit",
-        )
-      }
-      className="my-4"
-    >
-      <FetchApi
-        elementId="character-name"
-        msgNoInput="Belum ada input data"
-        msgNoData="Tidak ada karakter yang dimaksud"
-        refElement="character-name"
-        setData={setCharacter}
-        query="characters"
-      />
+    <form onSubmit={(e) => submitFormHandler(e, "/api/post", setIsLoading, "Genshin Impact", "Character", "character-button-submit")} className="my-4">
+      <FetchApi elementId="character-name" msgNoInput="Belum ada input data" msgNoData="Tidak ada karakter yang dimaksud" refElement="character-name" setData={setCharacter} query="characters" />
 
-      <Input
-        forId="character-name"
-        name="name"
-        value={character.name}
-        onChange={(e) => setCharacter({ ...character, name: e.target.value })}
-        variant={VariantClass.dashboard}
-        disabled={isLoading}
-        label="Character Name"
-      />
+      <Input forId="character-name" name="name" value={character.name} onChange={(e) => setCharacter({ ...character, name: e.target.value })} variant={VariantClass.dashboard} disabled={isLoading} label="Character Name" />
 
       <Input
         forId="character-description"
         name="description"
         value={character.description}
-        onChange={(e) =>
-          setCharacter({ ...character, description: e.target.value })
-        }
+        onChange={(e) => setCharacter({ ...character, description: e.target.value })}
         variant={VariantClass.dashboard}
         disabled={isLoading}
         label="Character Description"
@@ -76,26 +41,18 @@ export default function CharacterForm() {
         forId="character-ascend-status"
         name="ascendStatus"
         value={character.substatText}
-        onChange={(e) =>
-          setCharacter({ ...character, substatText: e.target.value })
-        }
+        onChange={(e) => setCharacter({ ...character, substatText: e.target.value })}
         variant={VariantClass.dashboard}
         disabled={isLoading}
         label="Character Ascend Status"
       />
 
       <div className="border-2 border-white rounded-lg p-4 my-4">
-        <h1 className="text-white font-semibold font-poppins text-center">
-          Material Ascend
-        </h1>
+        <h1 className="text-white font-semibold font-poppins text-center">Material Ascend</h1>
 
         <div className="my-2">
           {characterExists ? (
-            <Swiper
-              slidesPerView={1}
-              modules={[Pagination]}
-              pagination={{ clickable: true }}
-            >
+            <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
               <SwiperSlide>
                 <SwiperSlideData character={character} keyValue="ascend1" />
               </SwiperSlide>
@@ -121,17 +78,13 @@ export default function CharacterForm() {
               </SwiperSlide>
             </Swiper>
           ) : (
-            <p className="text-white font-semibold font-poppins text-center">
-              Belum pilih data
-            </p>
+            <p className="text-white font-semibold font-poppins text-center">Belum pilih data</p>
           )}
         </div>
       </div>
 
       <div className="border-2 border-white rounded-lg p-4 my-4">
-        <h1 className="text-white font-semibold font-poppins text-center">
-          Character Voice
-        </h1>
+        <h1 className="text-white font-semibold font-poppins text-center">Character Voice</h1>
         <Input
           forId="character-voice-chinese"
           name="character-voice-chinese"
@@ -198,9 +151,7 @@ export default function CharacterForm() {
         name="rarity"
         type="number"
         value={character.rarity}
-        onChange={(e) =>
-          setCharacter({ ...character, rarity: Number(e.target.value) })
-        }
+        onChange={(e) => setCharacter({ ...character, rarity: Number(e.target.value) })}
         variant={VariantClass.dashboard}
         disabled={isLoading}
         label="Character Rarity"
@@ -211,9 +162,7 @@ export default function CharacterForm() {
         name="element"
         type="text"
         value={character.elementText}
-        onChange={(e) =>
-          setCharacter({ ...character, elementText: e.target.value })
-        }
+        onChange={(e) => setCharacter({ ...character, elementText: e.target.value })}
         variant={VariantClass.dashboard}
         disabled={isLoading}
         label="Character Element"
@@ -224,9 +173,7 @@ export default function CharacterForm() {
         name="weapon"
         type="text"
         value={character.weaponText}
-        onChange={(e) =>
-          setCharacter({ ...character, weaponText: e.target.value })
-        }
+        onChange={(e) => setCharacter({ ...character, weaponText: e.target.value })}
         variant={VariantClass.dashboard}
         disabled={isLoading}
         label="Character Weapon"
@@ -257,28 +204,13 @@ export default function CharacterForm() {
       {character?.images?.cover1 && (
         <div className="relative">
           <p className="font-bold text-white font-poppins">Image from API</p>
-          <Image
-            src={character.images.cover1}
-            alt={character.images.filenameIcon}
-            width={500}
-            height={500}
-            className="w-auto h-auto block mx-auto"
-          />
+          <Image src={character.images.cover1} alt={character.images.filenameIcon} width={500} height={500} className="w-auto h-auto block mx-auto" />
 
-          <p className="font-poppins font-semibold text-white my-2">
-            Jika ingin menggunakan gambar dari API, download dulu gambarnya lalu
-            upload kembali di bawah.
-          </p>
+          <p className="font-poppins font-semibold text-white my-2">Jika ingin menggunakan gambar dari API, download dulu gambarnya lalu upload kembali di bawah.</p>
         </div>
       )}
 
-      <ImageInput
-        changeHandler={(e) => changeHandler(e, setFileName, setPreviewLink)}
-        setFileName={setFileName}
-        setPreviewLink={setPreviewLink}
-        fileName={fileName}
-        previewLink={previewLink}
-      />
+      <ImageInput changeHandler={(e) => changeHandler(e, setFileName, setPreviewLink)} setFileName={setFileName} setPreviewLink={setPreviewLink} fileName={fileName} previewLink={previewLink} />
 
       <Button id="character-button-submit" className={ButtonStyle.submit}>
         {isLoading ? "Submitting..." : "Submit"}

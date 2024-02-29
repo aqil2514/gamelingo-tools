@@ -1,6 +1,5 @@
 import { genshinConnection } from "@/lib/mongoose";
-import { ObjectId } from "mongodb";
-import mongoose, { Schema } from "mongoose";
+import { Schema } from "mongoose";
 
 const TalentSubSchema = new Schema<GenshinImpact.TalentSkill>(
   {
