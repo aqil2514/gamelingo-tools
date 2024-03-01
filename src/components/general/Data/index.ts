@@ -42,9 +42,7 @@ export const baseUrl = process.env.NODE_ENV === "development" ? "http://localhos
  *
  */
 
-// <<<<<
-// Interface
-// >>>>>
+// <<<<< Interface >>>>>
 interface AccountLink {
   label: string;
   subfield: General.UserAdminQuery["subfield"];
@@ -55,6 +53,12 @@ interface EvertaleLink {
   subfield: General.GameEvertaleQuery["subfield"];
 }
 
+interface GenshinLink {
+  label: string;
+  subfield: General.GameGenshinQuery["subfield"];
+}
+
+// <<<<< Export Variabel >>>>>
 export const adminId = "bf9abc1d-c04b-4dcf-9484-9ff5c099e3c5";
 export const allowedRole = ["General Admin", "Admin", "Admin of Genshin Impact", "Admin of Evertale", "Moderator", "User"];
 
@@ -98,5 +102,35 @@ export const subfield_EL: EvertaleLink[] = [
   {
     label: "Weapons",
     subfield: "weapons",
+  },
+];
+
+// Dipakai pada src\components\Layout\Admin\NavMenu\GenshinLink.tsx
+// subfield_GIL = Subfield Genshin Impact Link Data
+
+export const subfield_GIL: GenshinLink[] = [
+  {
+    label: "Artifact",
+    subfield: "Artifact",
+  },
+  {
+    label: "Characters",
+    subfield: "Character",
+  },
+  {
+    label: "Constellations",
+    subfield: "Constellations",
+  },
+  {
+    label: "Material",
+    subfield: "Material",
+  },
+  {
+    label: "Talent",
+    subfield: "Talent",
+  },
+  {
+    label: "Weapon",
+    subfield: "Weapon",
   },
 ];

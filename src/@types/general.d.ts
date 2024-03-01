@@ -64,7 +64,7 @@ namespace General {
     category: "Artifact" | "Character" | "Material" | "Weapon" | "Talent" | "Constellations";
   }
 
-  export type AdminQuery = UserAdminQuery | GameEvertaleQuery;
+  export type AdminQuery = UserAdminQuery | GameEvertaleQuery | GameGenshinQuery;
 
   interface UserAdminQuery {
     field: "account";
@@ -74,5 +74,10 @@ namespace General {
   interface GameEvertaleQuery {
     field: "evertale";
     subfield: "chars" | "leaderskills" | "passives" | "typeskills" | "weapons";
+  }
+
+  interface GameGenshinQuery {
+    field: "genshin-impact";
+    subfield: GenshinImpact["category"];
   }
 }
