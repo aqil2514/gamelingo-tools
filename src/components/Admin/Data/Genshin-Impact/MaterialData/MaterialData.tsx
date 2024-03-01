@@ -4,7 +4,7 @@ import { useMenuContextData } from "../../../ContextMenu/ContextProvider";
 import EditMenu from "../../../ContextMenu/EditMenu";
 import DetailMenu from "../../../ContextMenu/DetailMenu";
 
-export default function UserDataTable({ data }: { data: Account.AdminUserOutput[] }) {
+export default function MaterialDataTable({ data }: { data: Account.AdminUserOutput[] }) {
   const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu } = useMenuContextData();
 
   useEffect(() => {

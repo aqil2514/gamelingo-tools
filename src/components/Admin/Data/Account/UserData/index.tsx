@@ -1,6 +1,6 @@
 "use client";
 
-import ContextProvider from "../ContextMenu/ContextProvider";
+import ContextProvider from "../../../ContextMenu/ContextProvider";
 import UserDataTable from "./UserData";
 
 export default function UserData({ data }: { data: Account.AdminUserOutput[] }) {

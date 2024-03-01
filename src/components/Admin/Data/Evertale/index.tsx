@@ -9,17 +9,16 @@ import LeaderSkillData from "./LeaderSkillData";
 import PassiveSkillData from "./PassiveSkillData";
 import TypeSkillData from "./TypeSkillData";
 import WeaponsData from "./WeaponData";
+import { authorizationToken, fetcherWithAuth } from "@/components/general/Data";
 
 interface EvertaleDataProps {
   subfield: string;
   field: string;
 }
 
-const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
-
 export default function EvertaleData({ subfield, field }: EvertaleDataProps) {
   const url: Route = `/api/admin?field=${field}&subfield=${subfield}`;
-  const { data, isLoading, error } = useSWR(url, fetcher);
+  const { data, isLoading, error } = useSWR(url, (url) => fetcherWithAuth(url, authorizationToken));
 
   if (!data || isLoading) return <Loading loading={1} textOn />;
   if (error) return <Error />;

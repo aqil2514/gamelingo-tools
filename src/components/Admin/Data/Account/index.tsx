@@ -7,12 +7,13 @@ import useSWR from "swr";
 import UserData from "./UserData";
 import VerificationCode from "./VerificationCode";
 import PasswordPurify from "./PasswordPurify";
+import { authorizationToken, fetcherWithAuth } from "@/components/general/Data";
 
-const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 export default function AccountData({ subfield, field }: { subfield: string; field: string }) {
   const url: Route = `/api/admin?field=${field}&subfield=${subfield}`;
-  const { data, isLoading, error } = useSWR(url, fetcher);
+  const res = useSWR(url, (url) => fetcherWithAuth(url, authorizationToken));
 
+  const { data, isLoading, error } = res;
   if (!data || isLoading) return <Loading loading={1} textOn />;
 
   // SOON : Buat pagination

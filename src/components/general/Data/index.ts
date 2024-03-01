@@ -2,6 +2,24 @@ import type { Route } from "next";
 
 /**
  *
+ * General Data
+ *
+ */
+
+// Fetcher for useSWR
+export const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
+export const fetcherWithAuth = async (url: string, token: string) => {
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.json();
+};
+
+/**
+ *
  * Home Section Data
  *
  */
@@ -60,6 +78,7 @@ interface GenshinLink {
 
 // <<<<< Export Variabel >>>>>
 export const adminId = "bf9abc1d-c04b-4dcf-9484-9ff5c099e3c5";
+export const authorizationToken = process.env.AUTHORIZATIONTOKEN as string;
 export const allowedRole = ["General Admin", "Admin", "Admin of Genshin Impact", "Admin of Evertale", "Moderator", "User"];
 
 // Dipakai pada src\components\Layout\Admin\NavMenu\AccountLink.tsx

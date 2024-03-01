@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useMenuContextData } from "../ContextMenu/ContextProvider";
-import ContextMenu from "../ContextMenu";
-import DetailMenu from "../ContextMenu/DetailMenu";
+import { useMenuContextData } from "../../../ContextMenu/ContextProvider";
+import ContextMenu from "../../../ContextMenu";
+import DetailMenu from "../../../ContextMenu/DetailMenu";
 
 export default function PasswordPurifyData({ data }: { data: Account.PasswordPurify[] }) {
   const { contextMenu, setContextMenu, detailMenu } = useMenuContextData();

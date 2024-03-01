@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useMenuContextData } from "../ContextMenu/ContextProvider";
-import ContextMenu from "../ContextMenu";
-import DetailMenu from "../ContextMenu/DetailMenu";
-import EditMenu from "../ContextMenu/EditMenu";
+import { useMenuContextData } from "../../../ContextMenu/ContextProvider";
+import ContextMenu from "../../../ContextMenu";
+import DetailMenu from "../../../ContextMenu/DetailMenu";
+import EditMenu from "../../../ContextMenu/EditMenu";
 
 export default function CodeData({ data }: { data: Account.VerifCode[] }) {
   const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu } = useMenuContextData();
