@@ -13,6 +13,7 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       lore: data.lore,
       gainedFrom: typeof data.gainedFrom === "string" ? data.gainedFrom.split(", ") : data.gainedFrom,
       image: imageUrl ? imageUrl : undefined,
+      test: "test",
     };
     return finalData;
   },

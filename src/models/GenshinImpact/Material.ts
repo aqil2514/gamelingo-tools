@@ -9,6 +9,7 @@ const MaterialSchema = new Schema<GenshinImpact.Material>(
     lore: { type: String, rerquired: true },
     gainedFrom: { type: [String], requried: false },
     image: { type: String, required: false },
+    test: { type: String, required: false },
   },
   { timestamps: true, strict: false }
 );
