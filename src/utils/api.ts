@@ -262,10 +262,6 @@ export const dashboard: ApiUtils.DashboardApi = {
  * Verification API Utils
  */
 export const verification: ApiUtils.VerificationApi = {
-  /**
-   * Menghasilkan kode unik angka
-   * @returns Result berupa kode unik angka sebanyak 6 digit
-   */
   generate: () => {
     const length = 6;
     let result = "";
@@ -277,14 +273,7 @@ export const verification: ApiUtils.VerificationApi = {
 
     return result;
   },
-  /**
-   * Komparasi kode
-   * @param code - kode yang diinput
-   * @param email - email yang digunakan
-   * @param action = aksi yang digunakan
-   * @param newEmail = email tambahan
-   * @returns Hasil
-   */
+
   compare: async (code, email, action, newEmail) => {
     // Periksa apakah 'code' adalah angka
     if (isNaN(Number(code))) {
@@ -340,11 +329,6 @@ export const verification: ApiUtils.VerificationApi = {
 
 /** Sendmail API Utils */
 export const sendMail: ApiUtils.SendmailApi = {
-  /**
-   * Mengirim kode verifikasi ke email
-   * @param email - Email tujuan
-   * @param verificationCode - Kode yang akan dikirim
-   */
   async verification(email, verificationCode, name, uid) {
     await new Promise((resolve, reject) => {
       transporter.verify((error, success) => {
@@ -469,11 +453,10 @@ export async function getUser() {
   return userData;
 }
 
+/**
+ * Reset Password Utils
+ */
 export const resetPassword: ApiUtils.ResetPasswordApi = {
-  /**
-   * Konfirmasi email
-   * @param email = Email yang menjadi pemulihan
-   */
   async checkEmail(email) {
     const isThere = await supabase.from(DB.user).select("email").eq("email", email);
     if (!isThere || !isThere.data || isThere.data.length === 0) return { status: false, msg: "Email tidak ditemukan" };
@@ -525,53 +508,12 @@ export const admin: ApiUtils.AdminApi = {
 
 // File Handler Api
 
-export interface ImageValidationConfig {
-  /**
-   * Ekstensi atau format yang diizinkan.
-   *
-   * Default: ["webp", "png"]
-   */
-  allowedExtension?: AllowedExtension[];
-  /**
-   * Validasi nama?
-   *
-   * Default: false
-   */
-  validateName?: boolean;
-  /**
-   * Jika validasi nama digunakan, apa namanya?
-   *
-   * Jika tidak diisi, akan mengembalikan error;
-   */
-  validationName?: string;
-}
+/**
+ * File API UTILS
+ */
 
-interface ValidationResult {
-  status: boolean;
-  msg?: string;
-  file?: File;
-}
-
-type AllowedExtension = "webp" | "png" | "jpg" | "gif";
-export const file = {
-  /**
-   * Validasi file banyak gambar sekaligus.
-   *
-   * Apa saja yang divalidasi?
-   * - Format yang diizinkan
-   * - Ukuran gambar maksimal 1MB
-   * - Apakah namanya sesuai dengan yang diharapkan
-   *
-   * Config option:
-   *
-   * - allowedExtension: Array of String
-   * - validateName: boolean
-   * - validationName: string
-   *
-   * @param files Kumpulan file yang akan divalidasi
-   * @returns Hasil validasi
-   */
-  validationImageArray: (files: File[]) => {
+export const file: ApiUtils.FileApi = {
+  validationImageArray: (files, config) => {
     const allowedExtension = ["webp", "png"];
     const maxSizeInBytes = 1 * 1024 * 1024;
 
@@ -594,25 +536,7 @@ export const file = {
 
     return { status: true, files };
   },
-  /**
-   * Validasi file gambar
-   *
-   * Apa saja yang divalidasi?
-   * - Format yang diizinkan
-   * - Ukuran gambar maksimal 1MB
-   * - Apakah namanya sesuai dengan yang diharapkan
-   *
-   * Config option:
-   *
-   * - allowedExtension: array of sring
-   * - validateName: boolean
-   * - validationName: string
-   *
-   * @param file  file yang akan divalidasi
-   * @param config Konfigurasi validasi
-   * @returns Hasil validasi
-   */
-  validationImage: (file: File, config?: ImageValidationConfig): ValidationResult => {
+  validationImage: (file, config) => {
     // <<<<< Cek apa saja config yang ditentukan >>>>>
     const allowedExtension = config?.allowedExtension ? config.allowedExtension : ["webp", "png"];
     const validateName = config?.validateName ? config.validateName : false;
@@ -630,6 +554,7 @@ export const file = {
         msg: `Format gambar tidak diizinkan. Format yang diizinkan : ${allowedExtension.join(", ")}`,
       };
     }
+
     // Apakah ukuran gambar tidak lebih dari 1MB?
     if (file.size > maxSizeInBytes) {
       return {
@@ -637,6 +562,7 @@ export const file = {
         msg: "Maksimal ukuran gambar 1MB",
       };
     }
+
     // Apakah nama gambar sesuai dengan nama data?
     if (validateName) {
       const name = config?.validationName;
@@ -646,15 +572,7 @@ export const file = {
 
     return { status: true, file };
   },
-  /**
-   * Upload File Gambar ke Cloudinary
-   *
-   * @param files Array File yang ingin diupload
-   * @param game Game apa? Digunakan untuk main folder
-   * @param category Category apa? Digunakan untuk sub folder
-   * @returns {Promise<CloudinaryAPI.Image[]>} Kumpulan informasi tentang data yang diupload
-   */
-  uploadImage: async (files: File[], game: string, category: string): Promise<UploadApiResponse[]> => {
+  uploadImage: async (files, game, category) => {
     try {
       const uploadPromises = files.map(async (file) => {
         try {
@@ -686,7 +604,7 @@ export const file = {
       throw error;
     }
   },
-  uploadSingleImage: async (file: File, game: string, category: string): Promise<UploadApiResponse> => {
+  uploadSingleImage: async (file, game, category) => {
     try {
       const fileBuffer = await file.arrayBuffer();
       const format = file.name.split(".");

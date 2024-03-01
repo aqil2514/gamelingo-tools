@@ -219,19 +219,29 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     return { status: true, data };
   },
   async talent(data) {
+    // <<<<< Local Variabel >>>>>
+    const images: File[] = [];
+    // <<<<< Validation >>>>>
+
+    // Apakah nama sudah diisi?
     if (!data["character-name"]) return { status: false, msg: "Nama karakter belum diisi" };
 
+    /// ***** Periksa semua talent sekaligus *****
     for (let i = 1; i <= 3; i++) {
+      /// Apakah nama talent sudah diisi?
       if (!data[`combat${i}-name` as keyof FormUtils.Genshin.FormDataTalent]) return { status: false, msg: `Data Nama Talent ${i} belum diisi` };
 
+      // Apakah deskripsinya sudah diisi?
       if (!data[`combat${i}-description` as keyof FormUtils.Genshin.FormDataTalent]) return { status: false, msg: `Data Deskripsi Talent ${i} belum diisi` };
 
+      // Apakah Nama pasifnya sudah diisi?
       if (!data[`passive${i}-name` as keyof FormUtils.Genshin.FormDataTalent])
         return {
           status: false,
           msg: `Data Nama passive Talent ${i} belum diisi`,
         };
 
+      // Apakah deskripsi pasif suda diisi?
       if (!data[`passive${i}-description` as keyof FormUtils.Genshin.FormDataTalent])
         return {
           status: false,
@@ -239,12 +249,40 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
         };
     }
 
+    // ***** Periksa banyak data sekaligus *****
     for (const key in data) {
+      // ##### Periksa semua data yang diawali dengan lvl #####
       if (key.startsWith("lvl")) {
+        // Apakah data sudah diisi?
         if (!data[key as keyof FormUtils.Genshin.FormDataTalent]) return { status: false, msg: `Data masih ada yang kosong` };
       }
+      // ##### Image Validation #####
+      if (key.includes("icon")) {
+        type IconImage = Pick<FormUtils.Genshin.FormDataTalent, "talent-combat1-icon" | "talent-combat2-icon" | "talent-combat3-icon" | "talent-combatsp-icon" | "talent-passive1-icon" | "talent-passive2-icon" | "talent-passive3-icon">;
+
+        // Ubah jadi Undefined jika namanya adalah "undefined"
+        if (data[key as keyof IconImage]?.name === "undefined" && data[key as keyof IconImage]?.type === "application/octet-stream") {
+          data[key as keyof IconImage] = undefined;
+        }
+        // Jika bukan, lakukan validasi
+        else if (data[key as keyof IconImage]?.name !== "undefined" && data[key as keyof IconImage]?.type !== "application/octet-stream") {
+          const validation = file.validationImage(data[key as keyof IconImage] as File, { validateName: true, validationName: data["character-name"] });
+          if (!validation.status) return { status: false, msg: validation.msg };
+
+          const filePart = data[key as keyof IconImage] as File;
+          const firstName = data["character-name"];
+          const secondName = key.split("-")[1].charAt(0).toUpperCase() + key.split("-")[1].slice(1);
+          const thirdName = filePart.type.split("/")[1];
+          const fileName = `${firstName}-${secondName}.${thirdName}`;
+
+          const newFile = new File([filePart], fileName, { type: filePart?.type });
+
+          images.push(newFile);
+        }
+      }
     }
-    return { status: true, data };
+
+    return { status: true, data, images };
   },
   async constellation(data) {
     const images: File[] = [];

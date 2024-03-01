@@ -275,6 +275,13 @@ namespace FormUtils {
       "lvl10-count-4": number;
       "lvl10-material-5": string;
       "lvl10-count-5": number;
+      "talent-combat1-icon"?: File;
+      "talent-combat2-icon"?: File;
+      "talent-combat3-icon"?: File;
+      "talent-combatsp-icon"?: File;
+      "talent-passive1-icon"?: File;
+      "talent-passive2-icon"?: File;
+      "talent-passive3-icon"?: File;
     }
 
     export interface FormDataConstellation {

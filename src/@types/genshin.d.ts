@@ -452,15 +452,15 @@ namespace GenshinImpact {
     id?: string;
     charName: string;
     combats: {
-      combat1: TalentSkill;
-      combat2: TalentSkill;
-      combat3: TalentSkill;
-      combatsp?: TalentSkill;
+      combat1: BasicInfo;
+      combat2: BasicInfo;
+      combat3: BasicInfo;
+      combatsp?: BasicInfo;
     };
     passives: {
-      passive1: TalentSkill;
-      passive2: TalentSkill;
-      passive3: TalentSkill;
+      passive1: BasicInfo;
+      passive2: BasicInfo;
+      passive3: BasicInfo;
     };
     costs: {
       lvl2: UpgradeMaterialItem[];
@@ -473,11 +473,6 @@ namespace GenshinImpact {
       lvl9: UpgradeMaterialItem[];
       lvl10: UpgradeMaterialItem[];
     };
-  }
-
-  interface TalentSkill {
-    name: string;
-    description: string;
   }
 
   interface TalentStatus {
@@ -501,6 +496,14 @@ namespace GenshinImpact {
     };
   }
 
+  /**
+   * Tipe data yang sering digunakan
+   *
+   * Terdapat:
+   * - name : string
+   * - description : string
+   * - icon : string (optional)
+   */
   interface BasicInfo {
     name: string;
     description: string;

@@ -160,18 +160,25 @@ export const genshin: FormUtils.Genshin.Genshin = {
     return { status: 200, organizedData };
   },
   async processTalent(formData, user) {
+    // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
-    const category: General.Game["category"] = "Character";
+    const category: General.Game["category"] = "Talent";
+    const images: string[] = [];
 
-    // Ambil Data
+    // <<<<< Ambil Data >>>>>
     const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataTalent;
-    console.log(data);
 
-    // Validasi
-    // const validation = await genshinValidator.talent(data);
-    // if (!validation.status) return { status: 422, msg: validation.msg };
+    // <<<<< Validasi >>>>>
+    const validation = await genshinValidator.talent(data);
+    if (!validation.status) return { status: 422, msg: validation.msg };
 
-    // const organizedData = genshinOrganizing.talent(data);
+    // <<<<< Upload Image >>>>>
+    if (validation.images && validation.images?.length !== 0) {
+      const uploadImage = await file.uploadImage(validation.images, game, category);
+      images.push(uploadImage.map((img) => img.secure_url)[0]);
+    }
+
+    const organizedData = genshinOrganizing.talent(data, images);
 
     // if (data["result-lang"] === "Indonesian") {
     //   const talent = await TalentID.create(organizedData);
@@ -183,7 +190,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
     //   await addPost(data, data["result-lang"], game, category, talent, user, data["character-name"]);
     // }
 
-    return { status: 200, data };
+    return { status: 200, data: organizedData };
   },
   async processConstellation(formData, user) {
     const game: General.Game["game"] = "Genshin Impact";

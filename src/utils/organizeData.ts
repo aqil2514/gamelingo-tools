@@ -343,27 +343,31 @@ export const genshinOrganizing: OrganizeData.Genshin = {
 
     return finalData;
   },
-  talent(data) {
+  talent(data, imageUrl) {
     const finalData: GenshinImpact.Talent = {
       charName: data["character-name"],
       combats: {
         combat1: {
           name: data["combat1-name"],
           description: data["combat1-description"],
+          icon: imageUrl.find((img) => img.includes("Combat1")),
         },
         combat2: {
           name: data["combat2-name"],
           description: data["combat2-description"],
+          icon: imageUrl.find((img) => img.includes("Combat2")),
         },
         combat3: {
           name: data["combat3-name"],
           description: data["combat3-description"],
+          icon: imageUrl.find((img) => img.includes("Combat3")),
         },
         combatsp:
           data["combatsp-name"] && data["combatsp-description"]
             ? {
                 name: data["combatsp-name"],
                 description: data["combatsp-description"],
+                icon: imageUrl.find((img) => img.includes("Combatsp")),
               }
             : undefined,
       },
@@ -371,14 +375,17 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         passive1: {
           name: data["passive1-name"],
           description: data["passive1-description"],
+          icon: imageUrl.find((img) => img.includes("Passive1")),
         },
         passive2: {
           name: data["passive2-name"],
           description: data["passive2-description"],
+          icon: imageUrl.find((img) => img.includes("Passive2")),
         },
         passive3: {
           name: data["passive3-name"],
           description: data["passive3-description"],
+          icon: imageUrl.find((img) => img.includes("Passive3")),
         },
       },
       costs: {

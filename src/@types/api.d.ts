@@ -44,7 +44,17 @@ namespace ApiUtils {
   }
 
   export interface SendmailApi {
+    /**
+     * Mengirim kode verifikasi ke email
+     * @param email - Email tujuan
+     * @param verificationCode - Kode yang akan dikirim
+     */
     verification: (email: string, verificationCode: string, name?: string, uid?: string) => Promise<void>;
+    /**
+     * Mengirim unik link ke email
+     * @param email Email tujuan
+     * @param uniqueLink Unique link yang akan dikirim
+     */
     purify: (email: string, uniqueLink: string) => Promise<void>;
   }
 
@@ -55,16 +65,38 @@ namespace ApiUtils {
   }
 
   export interface VerificationApi {
+    /**
+     * Menghasilkan kode unik angka
+     * @returns Result berupa kode unik angka sebanyak 6 digit
+     */
     generate: () => string;
+    /**
+     * Komparasi kode
+     * @param code - kode yang diinput
+     * @param email - email yang digunakan
+     * @param action = aksi yang digunakan. Action yang tersedia:  "verify-account" | "change-email"
+     * @param newEmail = email tambahan
+     * @returns Hasil
+     */
     compare: (code: string, email: string, action: "verify-account" | "change-email", newEmail?: string) => Promise<ResultApi>;
   }
 
   export interface ResetPasswordApi {
+    /**
+     * Konfirmasi email
+     * @param email = Email yang menjadi pemulihan
+     */
     checkEmail: (email: string) => Promise<ResultApi>;
   }
 
   export interface AdminApi {
+    /**
+     * Mendapatkan user
+     */
     getUser: () => Promise<Account.AdminUserOutput[] | null>;
+    /**
+     * Mendapatkan karakter Evertale
+     */
     getEvertaleCharacter: () => Promise<Evertale.Character.QuickInfo[] | null>;
   }
 
@@ -79,5 +111,129 @@ namespace ApiUtils {
 
   export interface AdminValidatorApi {
     user: (data: FormUtils.Account.FormDataUser) => Promise<ResultApiwithData>;
+  }
+
+  // <<<<< File Section >>>>>
+
+  // Helper
+  interface FileValidationResult {
+    status: boolean;
+    msg?: string;
+    file?: File;
+  }
+
+  interface UploadApiResponse {
+    public_id: string;
+    version: number;
+    signature: string;
+    width: number;
+    height: number;
+    format: string;
+    resource_type: "image" | "video" | "raw" | "auto";
+    created_at: string;
+    tags: Array<string>;
+    pages: number;
+    bytes: number;
+    type: string;
+    etag: string;
+    placeholder: boolean;
+    url: string;
+    secure_url: string;
+    access_mode: string;
+    original_filename: string;
+    moderation: Array<string>;
+    access_control: Array<string>;
+    context: object; //won't change since it's response, we need to discuss documentation team about it before implementing.
+    metadata: object; //won't change since it's response, we need to discuss documentation team about it before implementing.
+    colors?: [string, number][];
+
+    [futureKey: string]: any;
+  } // This interface from Cloudinary API
+
+  export interface ImageValidationConfig {
+    /**
+     * Ekstensi atau format yang diizinkan.
+     *
+     * Default: ["webp", "png"]
+     */
+    allowedExtension?: AllowedExtension[];
+    /**
+     * Validasi nama?
+     *
+     * Default: false
+     */
+    validateName?: boolean;
+    /**
+     * Jika validasi nama digunakan, apa namanya?
+     *
+     * Jika tidak diisi, akan mengembalikan error;
+     */
+    validationName?: string;
+  }
+
+  type AllowedExtension = "webp" | "png" | "jpg" | "gif";
+
+  // Method
+
+  export interface FileApi {
+    /**
+     * Validasi file gambar
+     *
+     * Apa saja yang divalidasi?
+     * - Format yang diizinkan
+     * - Ukuran gambar maksimal 1MB
+     * - Apakah namanya sesuai dengan yang diharapkan
+     *
+     * Config option:
+     *
+     * - allowedExtension: array of sring
+     * - validateName: boolean
+     * - validationName: string
+     *
+     * @param file  file yang akan divalidasi
+     * @param config Konfigurasi validasi
+     * @returns Hasil validasi
+     */
+    validationImageArray: (files: File[], config?: ImageValidationConfig) => FileValidationResult;
+
+    /**
+     * Validasi file gambar
+     *
+     * Apa saja yang divalidasi?
+     * - Format yang diizinkan
+     * - Ukuran gambar maksimal 1MB
+     * - Apakah namanya sesuai dengan yang diharapkan
+     *
+     * Config option:
+     *
+     * - allowedExtension: array of sring
+     * - validateName: boolean
+     * - validationName: string
+     *
+     * @param file  file yang akan divalidasi
+     * @param config Konfigurasi validasi
+     * @returns Hasil validasi
+     */
+    validationImage: (file: File, config?: ImageValidationConfig) => FileValidationResult;
+
+    /**
+     * Upload File Gambar ke Cloudinary
+     *
+     * @param files Array File yang ingin diupload
+     * @param game Game apa? Digunakan untuk main folder
+     * @param category Category apa? Digunakan untuk sub folder
+     * @returns {Promise<CloudinaryAPI.Image[]>} Kumpulan informasi tentang data yang diupload
+     */
+    uploadImage: (files: File[], game: General.Game["game"], category: General.Game["category"]) => Promise<UploadApiResponse[]>;
+
+    /**
+     * Upload File Gambar ke Cloudinary
+     *
+     * @param files File yang ingin diupload
+     * @param game Game apa? Digunakan untuk main folder
+     * @param category Category apa? Digunakan untuk sub folder
+     * @returns {Promise<CloudinaryAPI.Image[]>} Kumpulan informasi tentang data yang diupload
+     */
+    uploadSingleImage: (file: File, game: General.Game["game"], category: General.Game["category"]) => Promise<UploadApiResponse>;
   }
 }
