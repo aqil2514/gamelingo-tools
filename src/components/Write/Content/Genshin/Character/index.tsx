@@ -1,5 +1,5 @@
 import React from "react";
-import { apiURL, submitFormHandler } from "../genshinUtils";
+import { SubmitConfig_GI, apiURL, submitFormHandler } from "../genshinUtils";
 import Button, { VariantClass as ButtonStyle } from "@/components/general/Button";
 import { Input, VariantClass } from "@/components/general/Input";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -21,8 +21,16 @@ export default function CharacterForm() {
 
   const characterExists = Object.keys(character).length !== 0 && character.costs;
 
+  const submitConfig: SubmitConfig_GI = {
+    url: "/api/post",
+    setIsLoading: setIsLoading,
+    game: "Genshin Impact",
+    category: "Character",
+    ref: "artifact-button-submit",
+    callbackUrl: "/admin/data?field=genshin-impact&subfield=Character",
+  };
   return (
-    <form onSubmit={(e) => submitFormHandler(e, "/api/post", setIsLoading, "Genshin Impact", "Character", "character-button-submit")} className="my-4">
+    <form onSubmit={(e) => submitFormHandler(e, submitConfig)} className="my-4">
       <FetchApi elementId="character-name" msgNoInput="Belum ada input data" msgNoData="Tidak ada karakter yang dimaksud" refElement="character-name" setData={setCharacter} query="characters" />
 
       <Input forId="character-name" name="name" value={character.name} onChange={(e) => setCharacter({ ...character, name: e.target.value })} variant={VariantClass.dashboard} disabled={isLoading} label="Character Name" />

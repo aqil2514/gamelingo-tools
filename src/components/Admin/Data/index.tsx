@@ -1,5 +1,6 @@
 import AccountData from "./Account";
 import EvertaleData from "./Evertale";
+import GenshinImpactData from "./Genshin-Impact";
 
 export default function AdminData({ field, subfield, user }: { field: string; subfield: string; user: Account.User }) {
   if (field === "account") {
@@ -17,7 +18,7 @@ export default function AdminData({ field, subfield, user }: { field: string; su
   if (field === "genshin-impact") {
     if (user.role !== "Admin of Genshin Impact" && user.role !== "General Admin") return <p className="text-white mx-4 font-poppins font-bold">Maaf, anda belum mendapat izin untuk melihat data game ini</p>;
 
-    return <EvertaleData field={field} subfield={subfield} />;
+    return <GenshinImpactData field={field} subfield={subfield as General.AdminQuery["subfield"]} />;
   }
 
   // TODO: GenshinData

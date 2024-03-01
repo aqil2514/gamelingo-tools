@@ -3,9 +3,11 @@ import ContextMenu from "../../../ContextMenu";
 import { useMenuContextData } from "../../../ContextMenu/ContextProvider";
 import EditMenu from "../../../ContextMenu/EditMenu";
 import DetailMenu from "../../../ContextMenu/DetailMenu";
+import { TD_Style, TH_Style, Table_Style } from "@/components/Admin/Resources";
+import Button, { VariantClass } from "@/components/general/Button";
 
-export default function MaterialDataTable({ data }: { data: Account.AdminUserOutput[] }) {
-  const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu } = useMenuContextData();
+export default function MaterialDataTable({ data }: { data: GenshinImpact.MaterialTable[] }) {
+  const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu, router } = useMenuContextData();
 
   useEffect(() => {
     const clickFunction = (e: MouseEvent) => {
@@ -27,34 +29,41 @@ export default function MaterialDataTable({ data }: { data: Account.AdminUserOut
   return (
     <div className="px-4">
       {isDeleting && <p className="font-bold text-amber-500">Menghapus Data...</p>}
-      <table id="table-user-data" className="border-2 border-white text-white mx-auto my-4 w-full">
+      <Button className={VariantClass.submit} onClick={() => router.push("/write?game=genshin-impact&category=Material")}>
+        Tambah Data
+      </Button>
+      <table id="table-material-data" className={Table_Style.style1}>
         <thead>
           <tr>
-            <th className="font-bold capitalize cursor-default border-2 border-white">#</th>
-            <th className="font-bold capitalize cursor-default border-2 border-white">name</th>
-            <th className="font-bold capitalize cursor-default border-2 border-white">username</th>
-            <th className="font-bold capitalize cursor-default border-2 border-white">role</th>
-            <th className="font-bold capitalize cursor-default border-2 border-white">verified</th>
+            <th className={TH_Style.style1}>#</th>
+            <th className={TH_Style.style1}>name</th>
+            <th className={TH_Style.style1}>rarity</th>
+            <th className={TH_Style.style1}>type Material</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((d, i: number) => (
-            <tr key={`${d.id}`} className="py-2">
-              <td className="text-center cursor-pointer hover:bg-zinc-600 border-2 border-white">{i + 1}</td>
-              <td className="text-center cursor-pointer hover:bg-zinc-600 border-2 border-white" data-id={d.id}>
-                {d.name}
-              </td>
-              <td className="text-center cursor-pointer hover:bg-zinc-600 border-2 border-white" data-id={d.id}>
-                {d.username}
-              </td>
-              <td className="text-center cursor-pointer hover:bg-zinc-600 border-2 border-white" data-id={d.id}>
-                {d.role}
-              </td>
-              <td className="text-center cursor-pointer hover:bg-zinc-600 border-2 border-white" data-id={d.id}>
-                {d.account_verified ? "True" : "False"}
+          {Object.keys(data).length === 0 ? (
+            <tr className="py-2">
+              <td className={TD_Style.style1} colSpan={4}>
+                No Data
               </td>
             </tr>
-          ))}
+          ) : (
+            data.map((d, i: number) => (
+              <tr key={`${d._id}`} className="py-2">
+                <td className={TD_Style.style1}>{i + 1}</td>
+                <td className={TD_Style.style1} data-id={d._id}>
+                  {d.name}
+                </td>
+                <td className={TD_Style.style1} data-id={d._id}>
+                  {d.rarity}
+                </td>
+                <td className={TD_Style.style1} data-id={d._id}>
+                  {d.typeMaterial}
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { submitFormHandler } from "../genshinUtils";
+import { SubmitConfig_GI, submitFormHandler } from "../genshinUtils";
 import Button, { VariantClass as ButtonStyle } from "@/components/general/Button";
 import { Input, VariantClass } from "@/components/general/Input";
 import { FetchApi } from "../genshinComponents";
@@ -27,9 +27,16 @@ export default function TalentForm() {
   const [talent, setTalent] = React.useState<GenshinImpact.ApiResponseTalent>({} as GenshinImpact.ApiResponseTalent);
 
   const dataExist = Object.keys(talent).length !== 0 && talent.combat1;
-
+  const submitConfig: SubmitConfig_GI = {
+    url: "/api/post",
+    setIsLoading: setIsLoading,
+    game: "Genshin Impact",
+    category: "Talent",
+    ref: "artifact-button-submit",
+    callbackUrl: "/admin/data?field=genshin-impact&subfield=Talent",
+  };
   return (
-    <form onSubmit={(e) => submitFormHandler(e, "/api/post", setIsLoading, "Genshin Impact", "Talent", "talent-button-submit")}>
+    <form onSubmit={(e) => submitFormHandler(e, submitConfig)} className="my-4">
       <FetchApi elementId="character-name" msgNoData="Tidak ada karakter yang dimaksud" msgNoInput="Nama karakter belum diisi" refElement="character-name" query="talents" setData={setTalent} />
 
       <Input forId="character-name" name="character-name" label="Character Name" variant={VariantClass.dashboard} onChange={(e) => setTalent({ ...talent, name: e.target.value })} value={talent?.name} />

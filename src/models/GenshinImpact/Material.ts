@@ -5,7 +5,7 @@ const MaterialSchema = new Schema<GenshinImpact.Material>(
   {
     name: { type: String, required: true, unique: true },
     typeMaterial: { type: String, required: true },
-    rarity: { type: String, required: true },
+    rarity: { type: String, required: false },
     lore: { type: String, rerquired: true },
     gainedFrom: { type: [String], requried: false },
     image: { type: String, required: false },

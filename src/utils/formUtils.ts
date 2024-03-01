@@ -31,7 +31,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const validation = await genshinValidator.material(data);
     if (!validation.status) return { status: 422, msg: validation.msg };
 
-    // <<<<< Upload Email jika ada >>>>>
+    // <<<<< Upload Gambar jika ada >>>>>
     if (validation.data.image) {
       const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
       imageUrl = uploadFile.secure_url;

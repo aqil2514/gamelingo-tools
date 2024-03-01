@@ -550,7 +550,11 @@ namespace GenshinImpact {
     lore: string;
     gainedFrom: string[] | string;
     image?: string;
+    createdAt?: string;
+    updatedAt?: string;
   }
+
+  export type MaterialTable = Pick<Material, "name" | "typeMaterial" | "rarity" | "_id">;
 
   export interface Artifact {
     _id?: string;

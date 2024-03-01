@@ -18,6 +18,7 @@ interface EvertaleRoutes {
 const fieldTitle: Record<string, string> = {
   account: "Account",
   evertale: "Evertale",
+  "genshin-impact": "Genshin Impact",
 };
 
 const subFieldTitle: Record<string, string> = {
@@ -29,6 +30,7 @@ const subFieldTitle: Record<string, string> = {
   weapons: "Weapons",
   passives: "Passive Skills",
   typeskills: "Type Skills",
+  Material: "Material",
 };
 
 export function generateMetadata({ searchParams }: { searchParams: SearchParamsProps }): Metadata {

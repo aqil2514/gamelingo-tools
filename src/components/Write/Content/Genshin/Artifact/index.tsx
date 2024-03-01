@@ -1,5 +1,5 @@
 import React from "react";
-import { submitFormHandler } from "../genshinUtils";
+import { SubmitConfig_GI, submitFormHandler } from "../genshinUtils";
 import { Input, VariantClass } from "@/components/general/Input";
 import Button, { VariantClass as ButtonClass } from "@/components/general/Button";
 import { FetchApi } from "../genshinComponents";
@@ -18,8 +18,17 @@ export default function ArtifactForm() {
   const [artifact, setArtifact] = React.useState<GenshinImpact.ApiResponseArtifacts>({} as GenshinImpact.ApiResponseArtifacts);
 
   const dataExist = artifact.rarityList;
+
+  const submitConfig: SubmitConfig_GI = {
+    url: "/api/post",
+    setIsLoading: setIsLoading,
+    game: "Genshin Impact",
+    category: "Artifact",
+    ref: "artifact-button-submit",
+    callbackUrl: "/admin/data?field=genshin-impact&subfield=Artifact",
+  };
   return (
-    <form onSubmit={(e) => submitFormHandler(e, "/api/post", setIsLoading, "Genshin Impact", "Artifact", "artifact-button-submit")} className="my-4">
+    <form onSubmit={(e) => submitFormHandler(e, submitConfig)} className="my-4">
       <FetchApi elementId="name" msgNoInput="Artifact belum diinput" msgNoData="Data Artifact tidak ada" refElement="name" query="artifacts" setData={setArtifact} />
       <Input forId="name" value={artifact?.name} onChange={(e) => setArtifact({ ...artifact, name: e.target.value })} required name="name" variant={VariantClass.dashboard} label="Artifact Name" />
 

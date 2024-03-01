@@ -1,5 +1,5 @@
 import React from "react";
-import { submitFormHandler } from "../genshinUtils";
+import { SubmitConfig_GI, submitFormHandler } from "../genshinUtils";
 import Button, { VariantClass as ButtonStyle } from "@/components/general/Button";
 import { Input, VariantClass } from "@/components/general/Input";
 import Textarea, { TextareaStyle } from "@/components/general/Textarea";
@@ -30,9 +30,19 @@ export default function WeaponForm() {
   }
 
   const dataExist = Object.keys(weapon).length > 1;
+
+  const submitConfig: SubmitConfig_GI = {
+    url: "/api/post",
+    setIsLoading: setIsLoading,
+    game: "Genshin Impact",
+    category: "Weapon",
+    ref: "artifact-button-submit",
+    callbackUrl: "/admin/data?field=genshin-impact&subfield=Weapon",
+  };
+
   return (
     <>
-      <form className="my-4" onSubmit={(e) => submitFormHandler(e, "/api/post", setIsLoading, "Genshin Impact", "Weapon", "weapon-button-submit")}>
+      <form onSubmit={(e) => submitFormHandler(e, submitConfig)} className="my-4">
         <FetchApi elementId="weapon-name" refElement="weapon-name" msgNoData="Weapon tidak ditemukan" query="weapons" msgNoInput="Masukkan Nama Weapon" setData={setWeapon} />
         <Input disabled={isLoading} forId="weapon-name" name="name" value={weapon.name} onChange={(e) => setWeapon({ ...weapon, name: e.target.value })} label="Weapon Name" variant={VariantClass.dashboard} />
 

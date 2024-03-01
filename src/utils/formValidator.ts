@@ -44,7 +44,7 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     }
 
     // <<<<< Apakah ada gambar yang dikirim dari client side? >>>>>
-    if (data.image && data.image.name) {
+    if (data.image && data.image?.name !== "undefined" && data.image?.type !== "application/octet-stream") {
       // Jika ada, lakukan validasi
       const validation = file.validationImage(data.image, { validateName: true, validationName: data.name });
       if (!validation.status) return { status: false, msg: validation.msg };

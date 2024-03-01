@@ -1,5 +1,5 @@
 import React from "react";
-import { submitFormHandler } from "../genshinUtils";
+import { SubmitConfig_GI, submitFormHandler } from "../genshinUtils";
 import { Input, VariantClass } from "@/components/general/Input";
 import Button, { VariantClass as ButtonStyle } from "@/components/general/Button";
 import { FetchApi } from "../genshinComponents";
@@ -44,8 +44,17 @@ export default function ConstellationsForm() {
   }
 
   const dataExist = constellation.c1;
+
+  const submitConfig: SubmitConfig_GI = {
+    url: "/api/post",
+    setIsLoading: setIsLoading,
+    game: "Genshin Impact",
+    category: "Constellations",
+    ref: "artifact-button-submit",
+    callbackUrl: "/admin/data?field=genshin-impact&subfield=Constellations",
+  };
   return (
-    <form onSubmit={(e) => submitFormHandler(e, "/api/post", setIsLoading, "Genshin Impact", "Constellations", "constellation-submit-button")} className="my-4">
+    <form onSubmit={(e) => submitFormHandler(e, submitConfig)} className="my-4">
       <FetchApi elementId="charName" msgNoInput="Karakter belum ditambah" msgNoData="Data karakter tidak ada" refElement="charName" query="constellations" setData={setConstellation} />
 
       <Input forId="charName" name="charName" value={constellation.name} onChange={(e) => setConstellation({ ...constellation, name: e.target.value })} label="Character Name" variant={VariantClass.dashboard} />

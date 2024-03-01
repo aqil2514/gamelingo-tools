@@ -4,6 +4,7 @@ import axios, { isAxiosError } from "axios";
 import { adminId } from "@/components/general/Data";
 import { useMenuContextData } from "./ContextProvider";
 import { ContextSelectFieldProps } from "./interface";
+import { LI_Style } from "../Resources";
 
 /**
  *
@@ -16,14 +17,12 @@ export default function ContextMenu({ field, subfield, passData }: ContextSelect
     if (subfield === "userslogin") return <UserContextMenu data={passData} />;
     else if (subfield === "verificationcode") return <CodeContextMenu data={passData} />;
     else if (subfield === "password_purify") return <PasswordPurifyContextMenu data={passData} />;
+  } else if (field === "genshin-impact") {
+    if (subfield === "Material") return <GIMaterialContextMenu data={passData} />;
   }
 }
 
-/**
- *
- * Account Field Section
- *
- */
+// <<<<< User Context Menu Section >>>>>
 
 const UserContextMenu = ({ data }: { data: Account.AdminUserOutput[] }) => {
   const { contextMenu, setIsDeleting, router, setDetailMenu, setEditMenu } = useMenuContextData();
@@ -65,16 +64,16 @@ const UserContextMenu = ({ data }: { data: Account.AdminUserOutput[] }) => {
   return (
     <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
       <ul>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setDetailMenu(true)}>
+        <li className={LI_Style.style1} onClick={() => setDetailMenu(true)}>
           Details
         </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={copyHandler}>
+        <li className={LI_Style.style1} onClick={copyHandler}>
           Copy Content
         </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={deleteHandler}>
+        <li className={LI_Style.style1} onClick={deleteHandler}>
           Delete Data
         </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setEditMenu(true)}>
+        <li className={LI_Style.style1} onClick={() => setEditMenu(true)}>
           Edit Data
         </li>
       </ul>
@@ -122,16 +121,16 @@ const CodeContextMenu = ({ data }: { data: Account.VerifCode[] }) => {
   return (
     <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
       <ul>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setDetailMenu(true)}>
+        <li className={LI_Style.style1} onClick={() => setDetailMenu(true)}>
           Details
         </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={copyHandler}>
+        <li className={LI_Style.style1} onClick={copyHandler}>
           Copy Content
         </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={deleteHandler}>
+        <li className={LI_Style.style1} onClick={deleteHandler}>
           Delete Data
         </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setEditMenu(true)}>
+        <li className={LI_Style.style1} onClick={() => setEditMenu(true)}>
           Edit Data
         </li>
       </ul>
@@ -179,14 +178,76 @@ const PasswordPurifyContextMenu = ({ data }: { data: Account.PasswordPurify[] })
   return (
     <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
       <ul>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={() => setDetailMenu(true)}>
+        <li className={LI_Style.style1} onClick={() => setDetailMenu(true)}>
           Details
         </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={copyHandler}>
+        <li className={LI_Style.style1} onClick={copyHandler}>
           Copy Content
         </li>
-        <li className="text-white rounded-md transition duration-200 font-semibold text-base font-mclaren px-2 hover:bg-white hover:text-black cursor-pointer my-2" onClick={deleteHandler}>
+        <li className={LI_Style.style1} onClick={deleteHandler}>
           Delete Data
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+// <<<<< Genhsin Impact Context Menu Section >>>>>
+
+const GIMaterialContextMenu = ({ data }: { data: GenshinImpact.Material[] }) => {
+  const { contextMenu, setIsDeleting, router, setDetailMenu, setEditMenu } = useMenuContextData();
+  async function copyHandler() {
+    if (contextMenu.target) {
+      await navigator.clipboard.writeText(contextMenu.target?.innerText);
+      notif("Berhasil copy data", "green", "table-user-data", "before");
+    }
+  }
+
+  async function deleteHandler() {
+    const id = contextMenu.target?.getAttribute("data-id");
+    const name = data.find((d) => d._id === id)?.name;
+
+    const allow = confirm(`Yakin ingin hapus data material dengan nama ${name}?`);
+    if (!allow) return notif("Aksi dibatalkan", "green", "table-material-data", "before");
+    const url = "api/gamelingo/genshin-impact";
+    try {
+      setIsDeleting(true);
+
+      const res = await axios.delete(url, {
+        headers: {
+          "DB-Content": "Material",
+        },
+        data: {
+          id,
+        },
+      });
+
+      notif(res.data.msg, "green", "table-material-data", "before");
+      router.refresh();
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 422) notif(error.response.data.msg, "red", "table-material-data", "before");
+      }
+      console.error(error);
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
+  return (
+    <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
+      <ul>
+        <li className={LI_Style.style1} onClick={() => setDetailMenu(true)}>
+          Details
+        </li>
+        <li className={LI_Style.style1} onClick={copyHandler}>
+          Copy Content
+        </li>
+        <li className={LI_Style.style1} onClick={deleteHandler}>
+          Delete Data
+        </li>
+        <li className={LI_Style.style1} onClick={() => setEditMenu(true)}>
+          Edit Data
         </li>
       </ul>
     </div>

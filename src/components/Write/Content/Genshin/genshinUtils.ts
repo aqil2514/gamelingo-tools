@@ -3,6 +3,24 @@ import axios from "axios";
 import { Route } from "next";
 import React from "react";
 
+/** Konfigurasi untuk submifFormHandler */
+export interface SubmitConfig_GI {
+  /** url endpoint. Ini yang akan dijadikan sebagai url server */
+  url: Route;
+  /** Set isLoading. Digunakan untuk UX Loading ketika mengirim data */
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  /** Data game yang dikirim */
+  game: General.Game["game"];
+  /** Topik atau kategorinya */
+  category: General.Game["category"];
+  /** Ini bertujuan untuk penampilan pesan */
+  ref: string;
+  /** Ganti halaman setelah input data berhasil */
+  callbackUrl?: Route;
+  /** Ganti halaman setelah input data berhasil */
+  moveLocation?: boolean;
+}
+
 export const apiURL = "https://genshin-db-api.vercel.app/api/v5";
 
 export function getFormData(e: React.FormEvent<HTMLFormElement>) {
@@ -26,7 +44,11 @@ export function getFormData(e: React.FormEvent<HTMLFormElement>) {
   return data;
 }
 
-export async function submitFormHandler(e: React.FormEvent<HTMLFormElement>, url: Route, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>, game: General.Game["game"], category: General.Game["category"], ref: string) {
+/**
+ * Menangani submit form untuk bagian Genshin Impact
+ */
+export async function submitFormHandler(e: React.FormEvent<HTMLFormElement>, config: SubmitConfig_GI) {
+  const { setIsLoading, url, game, category, ref, callbackUrl, moveLocation } = config;
   e.preventDefault();
 
   const formData = new FormData(e.target as HTMLFormElement);
@@ -44,6 +66,8 @@ export async function submitFormHandler(e: React.FormEvent<HTMLFormElement>, url
 
     notif(res.data.msg, "green", ref, "before");
     console.log(res.data);
+
+    if (callbackUrl && moveLocation) location.href = callbackUrl;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 422) {

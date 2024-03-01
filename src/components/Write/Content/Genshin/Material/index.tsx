@@ -2,22 +2,33 @@
 
 import { Input, VariantClass } from "@/components/general/Input";
 import React from "react";
-import { submitFormHandler } from "../genshinUtils";
+import { SubmitConfig_GI, submitFormHandler } from "../genshinUtils";
 import ImageInput, { changeHandler } from "@/components/general/ImageInput";
 import Button, { VariantClass as ButtonClass } from "@/components/general/Button";
 import { FetchApi } from "../genshinComponents";
 
 export default function Material() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [moveLocation, setMoveLocation] = React.useState<boolean>(true);
   const [previewLink, setPreviewLink] = React.useState<string>("");
   const [fileName, setFileName] = React.useState<string>("");
   const [material, setMaterial] = React.useState<GenshinImpact.ApiResponseMaterial>({} as GenshinImpact.ApiResponseMaterial);
 
   const dataExisting = Object.keys(material).length > 1;
 
+  const submitConfig: SubmitConfig_GI = {
+    url: "/api/post",
+    setIsLoading: setIsLoading,
+    game: "Genshin Impact",
+    category: "Material",
+    ref: "material-button-submit",
+    callbackUrl: "/admin/data?field=genshin-impact&subfield=Material",
+    moveLocation,
+  };
+
   return (
     <>
-      <form onSubmit={(e) => submitFormHandler(e, "/api/post", setIsLoading, "Genshin Impact", "Material", "material-button-submit")} id="form-material-genshin" className="my-4">
+      <form onSubmit={(e) => submitFormHandler(e, submitConfig)} id="form-material-genshin" className="my-4">
         <FetchApi elementId="material-name" msgNoInput="Material belum dipilih" msgNoData="Data material tidak ada" refElement="material-name" query="materials" setData={setMaterial} />
         <Input disabled={isLoading} forId="material-name" name="name" label="Material Name" value={material.name} onChange={(e) => setMaterial({ ...material, name: e.target.value })} variant={VariantClass.dashboard} />
         {dataExisting ? (
@@ -61,9 +72,14 @@ export default function Material() {
         ) : (
           <p className="text-white font-bold font-poppins">No Data Selected</p>
         )}
-        <Button className={ButtonClass.submit} id="material-button-submit">
-          {isLoading ? "Submitting..." : "Submit"}
-        </Button>
+
+        <div className="flex gap-4" id="material-button-submit">
+          <Button className={ButtonClass.submit}>{isLoading ? "Submitting..." : "Submit"}</Button>
+          <label htmlFor="move-location" className="text-white font-bold font-poppins my-auto">
+            <input type="checkbox" id="move-location" className="mx-2" checked={moveLocation} onChange={() => setMoveLocation(!moveLocation)} />
+            Lihat Data setelah selesai ditambah
+          </label>
+        </div>
       </form>
 
       <datalist id="material-type-list">
