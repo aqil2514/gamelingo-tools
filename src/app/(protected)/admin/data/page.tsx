@@ -1,5 +1,7 @@
 import AdminData from "@/components/Admin/Data";
+import { getUser } from "@/utils/api";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 type SearchParamsProps = AccountRoutes | EvertaleRoutes;
 
@@ -35,13 +37,17 @@ export function generateMetadata({ searchParams }: { searchParams: SearchParamsP
   };
 }
 
-export default function Data({ searchParams }: { searchParams: SearchParamsProps }) {
+export default async function Data({ searchParams }: { searchParams: SearchParamsProps }) {
+  const user = await getUser();
+
+  if (!user) redirect("/");
+
   return (
     <div className="py-20">
       <h1 className="font-nova-square text-white font-bold text-center text-5xl capitalize">
         {fieldTitle[searchParams.field]} : {subFieldTitle[searchParams.subfield]}
       </h1>
-      <AdminData field={searchParams.field} subfield={searchParams.subfield} />
+      <AdminData field={searchParams.field} subfield={searchParams.subfield} user={user} />
     </div>
   );
 }
