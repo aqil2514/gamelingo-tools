@@ -32,24 +32,24 @@ export const genshin: FormUtils.Genshin.Genshin = {
     if (!validation.status) return { status: 422, msg: validation.msg };
 
     // <<<<< Upload Email jika ada >>>>>
-    // if (validation.data.image) {
-    //   const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
-    //   imageUrl = uploadFile.secure_url;
-    // }
+    if (validation.data.image) {
+      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
+      imageUrl = uploadFile.secure_url;
+    }
 
     // <<<<< Penyusunan Data >>>>>
     const organizedData = genshinOrganizing.material(validation.data, imageUrl);
 
     // <<<<< Tambah ke Database >>>>>
-    // if (data["result-lang"] === "Indonesian") {
-    //   const material = await IDMaterial.create(organizedData);
+    if (data["result-lang"] === "Indonesian") {
+      const material = await IDMaterial.create(organizedData);
 
-    //   await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
-    // } else if (data["result-lang"] === "English") {
-    //   const material = await ENMaterial.create(organizedData);
+      await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+    } else if (data["result-lang"] === "English") {
+      const material = await ENMaterial.create(organizedData);
 
-    //   await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
-    // }
+      await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+    }
 
     return {
       msg: "Data material berhasil ditambah",
