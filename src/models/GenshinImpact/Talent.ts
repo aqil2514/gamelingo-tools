@@ -1,10 +1,11 @@
 import { genshinConnection } from "@/lib/mongoose";
 import { Schema } from "mongoose";
 
-const TalentSubSchema = new Schema<GenshinImpact.TalentSkill>(
+const TalentSubSchema = new Schema<GenshinImpact.BasicInfo>(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
+    icon: { type: String, required: false },
   },
   { _id: false }
 );
