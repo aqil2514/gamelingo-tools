@@ -77,7 +77,7 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
       },
     },
   },
-  { timestamps: true }
+  { timestamps: true, strict: false }
 );
 
 export const CharacterID = genshinConnection.models.id_character || genshinConnection.model("id_character", CharacterSchema);

@@ -1,10 +1,11 @@
 import { genshinConnection } from "@/lib/mongoose";
-import mongoose, { Schema } from "mongoose";
+import { Schema } from "mongoose";
 
 const BasicInfo = new Schema<GenshinImpact.BasicInfo>(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
+    icon: { type: String, required: false },
   },
   { _id: false }
 );
@@ -21,7 +22,7 @@ const ConstellationSchema = new Schema<GenshinImpact.Constellation>(
       c6: BasicInfo,
     },
   },
-  { timestamps: true }
+  { timestamps: true, strict: false }
 );
 
 export const ConstellationID = genshinConnection.models.id_constellation || genshinConnection.model("id_constellation", ConstellationSchema);

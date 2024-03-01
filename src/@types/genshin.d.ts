@@ -550,7 +550,6 @@ namespace GenshinImpact {
     lore: string;
     gainedFrom: string[] | string;
     image?: string;
-    test?: string;
   }
 
   export interface Artifact {

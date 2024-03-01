@@ -39,7 +39,7 @@ const WeaponSchema = new Schema<GenshinImpact.Weapon>(
     rarity: { type: String, required: true },
     image: { type: String, required: false },
   },
-  { timestamps: true }
+  { timestamps: true, strict: false }
 );
 
 export const IDWeapon = genshinConnection.models.id_weapon || genshinConnection.model("id_weapon", WeaponSchema);

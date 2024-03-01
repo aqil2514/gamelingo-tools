@@ -1,7 +1,5 @@
 import { genshinConnection } from "@/lib/mongoose";
-import { genshin } from "@/utils/formUtils";
-import { ObjectId } from "mongodb";
-import mongoose, { Schema } from "mongoose";
+import { Schema } from "mongoose";
 
 const SubArtifactSchema = new Schema<GenshinImpact.ArtifactSub>(
   {
@@ -13,7 +11,7 @@ const SubArtifactSchema = new Schema<GenshinImpact.ArtifactSub>(
   },
   {
     _id: false,
-  },
+  }
 );
 
 const ArtifactSchema = new Schema<GenshinImpact.Artifact>(
@@ -31,19 +29,10 @@ const ArtifactSchema = new Schema<GenshinImpact.Artifact>(
   },
   {
     timestamps: true,
-  },
+    strict: false,
+  }
 );
 
-export const IDArtifact =
-  genshinConnection.models.id_artifact ||
-  genshinConnection.model<GenshinImpact.Artifact>(
-    "id_artifact",
-    ArtifactSchema,
-  );
+export const IDArtifact = genshinConnection.models.id_artifact || genshinConnection.model<GenshinImpact.Artifact>("id_artifact", ArtifactSchema);
 
-export const ENArtifact =
-  genshinConnection.models.en_artifact ||
-  genshinConnection.model<GenshinImpact.Artifact>(
-    "en_artifact",
-    ArtifactSchema,
-  );
+export const ENArtifact = genshinConnection.models.en_artifact || genshinConnection.model<GenshinImpact.Artifact>("en_artifact", ArtifactSchema);
