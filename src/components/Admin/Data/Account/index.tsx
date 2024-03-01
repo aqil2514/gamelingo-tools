@@ -1,9 +1,25 @@
+"use client";
+
+import Error from "@/components/general/Error";
+import Loading from "@/components/general/Loading";
+import { Route } from "next";
+import useSWR from "swr";
 import UserData from "./UserData";
 import VerificationCode from "./VerificationCode";
 import PasswordPurify from "./PasswordPurify";
 
-export default function AccountData({ subfield, data }: { subfield: string; data: any }) {
-  if (subfield === "userslogin") return <UserData data={data as Account.AdminUserOutput[]} />;
-  else if (subfield === "password_purify") return <PasswordPurify data={data as Account.PasswordPurify[]} />;
-  else if (subfield === "verificationcode") return <VerificationCode data={data as Account.VerifCode[]} />;
+const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
+export default function AccountData({ subfield, field }: { subfield: string; field: string }) {
+  const url: Route = `/api/admin?field=${field}&subfield=${subfield}`;
+  const { data, isLoading, error } = useSWR(url, fetcher);
+
+  if (!data || isLoading) return <Loading loading={1} textOn />;
+
+  // SOON : Buat pagination
+
+  if (error) return <Error />;
+
+  if (subfield === "userslogin") return <UserData data={data.data as Account.AdminUserOutput[]} />;
+  else if (subfield === "password_purify") return <PasswordPurify data={data.data as Account.PasswordPurify[]} />;
+  else if (subfield === "verificationcode") return <VerificationCode data={data.data as Account.VerifCode[]} />;
 }
