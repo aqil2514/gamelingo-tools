@@ -24,10 +24,10 @@ export default function Buttons({ verif, setVerif }: { verif: VerifState; setVer
         email: state.data.email,
       });
 
-      notif(res.data.msg, "green", "verif-code-buttons", "before");
+      notif(res.data.msg, { color: "green", refElement: "verif-code-buttons", location: "before" });
     } catch (error) {
       if (isAxiosError(error)) {
-        notif("Terjadi kesalahan", "red", "verif-code-buttons", "before");
+        notif("Terjadi kesalahan", { color: "red", refElement: "verif-code-buttons", location: "before" });
         console.error(error);
       }
     } finally {
@@ -46,7 +46,7 @@ export default function Buttons({ verif, setVerif }: { verif: VerifState; setVer
         action: "change-email",
       });
 
-      notif(res.data.msg, "green", "verif-code-buttons", "before");
+      notif(res.data.msg, { color: "green", refElement: "verif-code-buttons", location: "before" });
       setTimeout(() => {
         dispatch({ type: StateActionKind.HIDE_POPUP_EMAIL });
         router.refresh();
@@ -54,7 +54,7 @@ export default function Buttons({ verif, setVerif }: { verif: VerifState; setVer
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) {
-          notif(error.response?.data.msg, "red", "verif-code-buttons", "before");
+          notif(error.response?.data.msg, { color: "red", refElement: "verif-code-buttons", location: "before" });
         }
       }
       console.error(error);

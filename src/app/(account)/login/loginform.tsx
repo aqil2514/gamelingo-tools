@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Google } from "react-bootstrap-icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { notif } from "@/utils/fe";
+import { NotifConfig, notif } from "@/utils/fe";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -33,6 +33,12 @@ export default function LoginForm() {
       }
     } catch (error) {
       if (isAxiosError(error)) {
+        const notifConfigError: NotifConfig = {
+          color: "red",
+          refElement: "login-button",
+          location: "before",
+        };
+
         if (error.response?.status === 422 && error.response.data.UID) {
           const verifNow = confirm(error.response.data.msg);
           if (!verifNow) return router.refresh();
@@ -40,7 +46,7 @@ export default function LoginForm() {
           return router.replace(`/verification/${error.response.data.UID}`);
         }
         if (error.response?.status === 422) {
-          notif(error.response.data.msg, "red", "login-button", "before");
+          notif(error.response.data.msg, notifConfigError);
         }
         console.error(error);
       }

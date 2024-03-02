@@ -43,7 +43,7 @@ const UserEdit = () => {
 
       console.info(res);
 
-      notif(res.data.msg, "green", "buttons", "before");
+      notif(res.data.msg, { color: "green", refElement: "buttons", location: "before" });
       setTimeout(() => {
         setEditMenu(false);
         router.refresh();
@@ -51,7 +51,7 @@ const UserEdit = () => {
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) {
-          notif(error.response.data.msg, "red", "buttons", "before");
+          notif(error.response.data.msg, { color: "red", refElement: "buttons", location: "before" });
         }
       }
       console.error(error);
@@ -169,7 +169,7 @@ const CodeEdit = () => {
         putType: getPutType(code, oldCode, email, oldEmail),
       });
 
-      notif(res.data.msg, "green", "buttons", "before");
+      notif(res.data.msg, { color: "green", refElement: "buttons", location: "before" });
       setTimeout(() => {
         setEditMenu(false);
         window.location.reload();
@@ -177,7 +177,7 @@ const CodeEdit = () => {
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) {
-          notif(error.response.data.msg, "red", "buttons", "before");
+          notif(error.response.data.msg, { color: "red", refElement: "buttons", location: "before" });
         }
       }
       console.error(error);

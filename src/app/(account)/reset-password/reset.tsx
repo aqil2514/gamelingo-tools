@@ -15,11 +15,11 @@ export default function ResetForm() {
         email,
       });
 
-      notif(data.msg, "green", "button-send", "before");
+      notif(data.msg, { color: "green", refElement: "button-send", location: "before" });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 422) {
-          notif(error.response.data.msg, "red", "button-send", "before");
+          notif(error.response.data.msg, { color: "red", refElement: "button-send", location: "before" });
         }
       }
       console.error(error);

@@ -3,7 +3,7 @@ import axios, { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { notif } from "@/utils/fe";
+import { NotifConfig, notif } from "@/utils/fe";
 import { baseUrl } from "@/components/general/Data";
 
 export default function RegisterForm() {
@@ -15,6 +15,12 @@ export default function RegisterForm() {
   }, []);
 
   async function handlerSubmit(e: React.FormEvent<HTMLFormElement>) {
+    const notifConfigSuccess: NotifConfig = {
+      color: "green",
+      refElement: "submit-button",
+      location: "before",
+    };
+
     e.preventDefault();
     try {
       // Check: Fix ini. Pesan tidak muncul dan halaman tidak beralih
@@ -28,11 +34,16 @@ export default function RegisterForm() {
         typeAction: "register",
       });
 
-      notif(data.msg, "green", "submit-button", "before");
+      notif(data.msg, notifConfigSuccess);
       window.location.replace(new URL(`/verification/${data.UID}`, baseUrl).href);
     } catch (error) {
       if (isAxiosError(error)) {
-        if (error.response?.status === 422) return notif(error.response?.data.msg, "red", error.response?.data.ref, "after");
+        const notifConfigError: NotifConfig = {
+          color: "red",
+          refElement: error.response?.data.ref,
+          location: "after",
+        };
+        if (error.response?.status === 422) return notif(error.response?.data.msg, notifConfigError);
 
         console.error(error);
       }

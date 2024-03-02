@@ -29,16 +29,16 @@ const UserContextMenu = ({ data }: { data: Account.AdminUserOutput[] }) => {
   async function copyHandler() {
     if (contextMenu.target) {
       await navigator.clipboard.writeText(contextMenu.target?.innerText);
-      notif("Berhasil copy data", "green", "table-user-data", "before");
+      notif("Berhasil copy data", { color: "green", refElement: "table-user-data", location: "before" });
     }
   }
 
   async function deleteHandler() {
     const id = contextMenu.target?.getAttribute("data-id");
     const username = data.find((d) => d.id === id)?.username;
-    if (id === adminId) return notif("Tidak dapat menghapus diri anda sendiri", "red", "table-user-data", "before");
+    if (id === adminId) return notif("Tidak dapat menghapus diri anda sendiri", { color: "red", refElement: "table-user-data", location: "before" });
     const allow = confirm(`Yakin ingin hapus user dengan username ${username}?`);
-    if (!allow) return notif("Aksi dibatalkan", "green", "table-user-data", "before");
+    if (!allow) return notif("Aksi dibatalkan", { color: "green", refElement: "table-user-data", location: "before" });
     const url: Route = "/api/users";
     try {
       setIsDeleting(true);
@@ -49,11 +49,11 @@ const UserContextMenu = ({ data }: { data: Account.AdminUserOutput[] }) => {
         },
       });
 
-      notif(res.data.msg, "green", "table-user-data", "before");
+      notif(res.data.msg, { color: "green", refElement: "table-user-data", location: "before" });
       router.refresh();
     } catch (error) {
       if (isAxiosError(error)) {
-        if (error.response?.status === 422) notif(error.response.data.msg, "red", "table-user-data", "before");
+        if (error.response?.status === 422) notif(error.response.data.msg, { color: "red", refElement: "table-user-data", location: "before" });
       }
       console.error(error);
     } finally {
@@ -87,7 +87,7 @@ const CodeContextMenu = ({ data }: { data: Account.VerifCode[] }) => {
   async function copyHandler() {
     if (contextMenu.target) {
       await navigator.clipboard.writeText(contextMenu.target?.innerText);
-      notif("Berhasil copy data", "green", "table-code-data", "before");
+      notif("Berhasil copy data", { color: "green", refElement: "table-code-data", location: "before" });
     }
   }
 
@@ -96,7 +96,7 @@ const CodeContextMenu = ({ data }: { data: Account.VerifCode[] }) => {
     const email = data.find((d) => d.uid === id)?.email;
 
     const allow = confirm(`Yakin ingin hapus user dengan verification code untuk alamat email ${email}?`);
-    if (!allow) return notif("Aksi dibatalkan", "green", "table-code-data", "before");
+    if (!allow) return notif("Aksi dibatalkan", { color: "green", refElement: "table-code-data", location: "before" });
     const url: Route = "/api/users/verify";
     try {
       setIsDeleting(true);
@@ -107,11 +107,11 @@ const CodeContextMenu = ({ data }: { data: Account.VerifCode[] }) => {
         },
       });
 
-      notif(res.data.msg, "green", "table-code-data", "before");
+      notif(res.data.msg, { color: "green", refElement: "table-code-data", location: "before" });
       router.refresh();
     } catch (error) {
       if (isAxiosError(error)) {
-        if (error.response?.status === 422) notif(error.response.data.msg, "red", "table-code-data", "before");
+        if (error.response?.status === 422) notif(error.response.data.msg, { color: "red", refElement: "table-code-data", location: "before" });
       }
       console.error(error);
     } finally {
@@ -144,7 +144,7 @@ const PasswordPurifyContextMenu = ({ data }: { data: Account.PasswordPurify[] })
   async function copyHandler() {
     if (contextMenu.target) {
       await navigator.clipboard.writeText(contextMenu.target?.innerText);
-      notif("Berhasil copy data", "green", "table-code-data", "before");
+      notif("Berhasil copy data", { color: "green", refElement: "table-code-data", location: "before" });
     }
   }
 
@@ -153,7 +153,7 @@ const PasswordPurifyContextMenu = ({ data }: { data: Account.PasswordPurify[] })
     const email = data.find((d) => d.uid === id)?.email;
 
     const allow = confirm(`Yakin ingin hapus user dengan verification code untuk alamat email ${email}?`);
-    if (!allow) return notif("Aksi dibatalkan", "green", "table-code-data", "before");
+    if (!allow) return notif("Aksi dibatalkan", { color: "green", refElement: "table-code-data", location: "before" });
     const url: Route = "/api/users/reset-password";
     try {
       setIsDeleting(true);
@@ -164,11 +164,11 @@ const PasswordPurifyContextMenu = ({ data }: { data: Account.PasswordPurify[] })
         },
       });
 
-      notif(res.data.msg, "green", "table-code-data", "before");
+      notif(res.data.msg, { color: "green", refElement: "table-code-data", location: "before" });
       router.refresh();
     } catch (error) {
       if (isAxiosError(error)) {
-        if (error.response?.status === 422) notif(error.response.data.msg, "red", "table-code-data", "before");
+        if (error.response?.status === 422) notif(error.response.data.msg, { color: "red", refElement: "table-code-data", location: "before" });
       }
       console.error(error);
     } finally {
@@ -199,7 +199,7 @@ const GIMaterialContextMenu = ({ data }: { data: GenshinImpact.Material[] }) => 
   async function copyHandler() {
     if (contextMenu.target) {
       await navigator.clipboard.writeText(contextMenu.target?.innerText);
-      notif("Berhasil copy data", "green", "table-user-data", "before");
+      notif("Berhasil copy data", { color: "green", refElement: "table-user-data", location: "before" });
     }
   }
 
@@ -208,7 +208,7 @@ const GIMaterialContextMenu = ({ data }: { data: GenshinImpact.Material[] }) => 
     const name = data.find((d) => d._id === id)?.name;
 
     const allow = confirm(`Yakin ingin hapus data material dengan nama ${name}?`);
-    if (!allow) return notif("Aksi dibatalkan", "green", "table-material-data", "before");
+    if (!allow) return notif("Aksi dibatalkan", { color: "green", refElement: "table-material-data", location: "before" });
     const url = "api/gamelingo/genshin-impact";
     try {
       setIsDeleting(true);
@@ -222,11 +222,11 @@ const GIMaterialContextMenu = ({ data }: { data: GenshinImpact.Material[] }) => 
         },
       });
 
-      notif(res.data.msg, "green", "table-material-data", "before");
+      notif(res.data.msg, { color: "green", refElement: "table-material-data", location: "before" });
       router.refresh();
     } catch (error) {
       if (isAxiosError(error)) {
-        if (error.response?.status === 422) notif(error.response.data.msg, "red", "table-material-data", "before");
+        if (error.response?.status === 422) notif(error.response.data.msg, { color: "red", refElement: "table-material-data", location: "before" });
       }
       console.error(error);
     } finally {

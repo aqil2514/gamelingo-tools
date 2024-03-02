@@ -20,9 +20,9 @@ export default function BackupComponents() {
       setIsLoading(true);
       const res = await axios.postForm(url, formData);
 
-      notif(res.data.msg, "green", "backup-button", "before");
+      notif(res.data.msg, { color: "green", refElement: "backup-button", location: "before" });
     } catch (error) {
-      notif("Terjadi kesalahan", "red", "backup-button", "before");
+      notif("Terjadi kesalahan", { color: "red", refElement: "backup-button", location: "before" });
       console.error(error);
     } finally {
       setIsLoading(false);

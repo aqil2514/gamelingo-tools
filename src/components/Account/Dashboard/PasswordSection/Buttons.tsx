@@ -38,14 +38,14 @@ export default function Buttons({ password, data }: { password: PasswordState; d
       const res = data.passwordExisting ? await axios.post(url, reqData) : await axios.put(url, reqData);
       console.log(reqData);
 
-      notif(res.data.msg, "green", "confirm-password-change", "before");
+      notif(res.data.msg, { color: "green", refElement: "confirm-password-change", location: "before" });
       setTimeout(() => {
         router.refresh();
       }, 3000);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 422) {
-          notif(error.response.data.msg, "red", "confirm-password-change", "before");
+          notif(error.response.data.msg, { color: "red", refElement: "confirm-password-change", location: "before" });
         }
       }
       console.error(error);

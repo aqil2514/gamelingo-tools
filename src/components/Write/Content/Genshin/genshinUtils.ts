@@ -64,16 +64,16 @@ export async function submitFormHandler(e: React.FormEvent<HTMLFormElement>, con
       },
     });
 
-    notif(res.data.msg, "green", ref, "before");
+    notif(res.data.msg, { color: "green", refElement: ref, location: "before" });
     console.log(res.data);
 
     if (callbackUrl && moveLocation) location.href = callbackUrl;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 422) {
-        notif(error.response?.data.msg, "red", ref, "before");
+        notif(error.response?.data.msg, { color: "red", refElement: ref, location: "before" });
       } else if (error.response?.status === 401) {
-        notif(error.response?.data.msg, "red", ref, "before");
+        notif(error.response?.data.msg, { color: "red", refElement: ref, location: "before" });
         setTimeout(() => {
           location.href = "/login" as Route;
         }, 3000);

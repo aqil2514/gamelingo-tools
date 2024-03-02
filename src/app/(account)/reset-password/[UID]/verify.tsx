@@ -25,14 +25,14 @@ export default function Verify({ email }: { email: string }) {
         email,
       });
 
-      notif(res.data.msg, "green", "password-button", "before");
+      notif(res.data.msg, { color: "green", refElement: "password-button", location: "before" });
       setTimeout(() => {
         router.replace("/login");
       }, 3000);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 422) {
-          notif(error.response.data.msg, "red", "password-button", "before");
+          notif(error.response.data.msg, { color: "red", refElement: "password-button", location: "before" });
         }
       }
       console.error(error);

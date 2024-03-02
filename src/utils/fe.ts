@@ -1,14 +1,34 @@
-import { useSession as getSession } from "next-auth/react";
+// <<<<< Interface >>>>>
 
-/** Tampilkan pesan dari server
- * @constructor
- * @param {string} msg - Pesan yang akan ditampilkan
- * @param {string} color - Warna teksnya (Gunakan tailwind, contoh: 'red','green', dsb)
- * @param {string} refElement - Id dari element target
- * @param {string} location - Lokasi ditempatkannya pesan. Relative ke refElement
- * @param {number} time - Opsional. Default 3000 (3 detik)
+/** Konfigurasi function Notif */
+export interface NotifConfig {
+  /**
+   * Warna yang akan digunakan untuk menampilkan pesan. Gunakan warna yang valid ada di Tailwaind
+   */
+  color: string;
+  /**
+   * Elemen referensi tempat munculnya pesan. Gunakan attribute id pada elemen yang menjadi acuan
+   */
+  refElement: string;
+  /**
+   * Lokasi munculnya di setelah atau di sebelum referensi element
+   */
+  location: "before" | "after";
+  /**
+   * Lama waktu munculnya pesan.
+   *
+   * Default: 3000 (3 Detik)
+   */
+  time?: number;
+}
+
+/**
+ * Menampilkan pesan
+ * @param msg - Pesan yang akan ditampilkan
+ * @param config - Konfigurasi penampilan pesan
  */
-export function notif(msg: string, color: string, refElement: string, location: "before" | "after", time: number = 3000) {
+export function notif(msg: string, config: NotifConfig) {
+  const { color, refElement, location, time } = config;
   const pElement = document.createElement("p");
   pElement.innerHTML = msg;
 
@@ -23,14 +43,17 @@ export function notif(msg: string, color: string, refElement: string, location: 
   }, time);
 }
 
-/**
- *
- * Sebuah utils untuk mengambil sesi user
- *
- */
-export function getClientUser(): Account.UserSession {
-  const session = getSession();
-  const user = session.data?.user as Account.UserSession;
+// export function notif(msg: string, color: string, refElement: string, location: "before" | "after", time: number = 3000) {
+//   const pElement = document.createElement("p");
+//   pElement.innerHTML = msg;
 
-  return user;
-}
+//   pElement.classList.add(`text-${color}-500`);
+//   pElement.classList.add("font-bold");
+
+//   const ref = document.getElementById(refElement);
+//   ref![location](pElement);
+
+//   setTimeout(() => {
+//     pElement.remove();
+//   }, time);
+// }
