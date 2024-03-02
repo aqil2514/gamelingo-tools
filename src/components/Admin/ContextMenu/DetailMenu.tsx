@@ -205,8 +205,10 @@ const PasswordPurifyDetail = () => {
 const GenshinMaterialDetail = () => {
   const [data, setData] = useState<GenshinImpact.Material>({} as GenshinImpact.Material);
   const { contextMenu, setDetailMenu } = useMenuContextData();
+
   const id = contextMenu.target?.getAttribute("data-id");
   const lang = contextMenu.target?.getAttribute("data-lang");
+
   useEffect(() => {
     if (contextMenu.target) {
       const url: Route = `/api/gamelingo/genshin-impact?_id=${id}&category=Material&lang=${lang}`;

@@ -235,10 +235,14 @@ const MaterialEdit = () => {
   const [data, setData] = useState<GenshinImpact.Material>({} as GenshinImpact.Material);
   const [date, setDate] = useState<string>("");
   const { contextMenu, setIsLoading, setEditMenu, isLoading } = useMenuContextData();
+  const lang = contextMenu.target?.getAttribute("data-lang");
+  const id = contextMenu.target?.getAttribute("data-id");
+  const [previewLink, setPreviewLink] = useState<string>("");
+  const [fileName, setFileName] = useState<string>("");
 
   useEffect(() => {
     if (contextMenu.target) {
-      const url: Route = `/api/users/verify?uniqueId=${contextMenu.target?.getAttribute("data-id")}`;
+      const url: Route = `/api/gamelingo/genshin-impact?_id=${id}&category=Material&lang=${lang}`;
       axios(url).then((res) => setData(res.data.data));
     }
 
@@ -247,7 +251,7 @@ const MaterialEdit = () => {
 
       setDate(`${year}-${month}-${day}T${hour}:${minutes}`);
     }
-  }, [contextMenu, data]);
+  }, [contextMenu, data, id, lang]);
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -261,10 +265,11 @@ const MaterialEdit = () => {
       });
 
       notif(res.data.msg, { color: "green", refElement: "buttons", location: "before" });
-      setTimeout(() => {
-        setEditMenu(false);
-        window.location.reload();
-      }, 3000);
+      console.log(res);
+      // setTimeout(() => {
+      //   setEditMenu(false);
+      //   window.location.reload();
+      // }, 3000);
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) {
@@ -277,10 +282,23 @@ const MaterialEdit = () => {
     }
   }
 
+  function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    const target = e.target as HTMLInputElement;
+
+    if (!target.files || (target.files && target.files.length === 0)) return (target.value = "");
+
+    const image = target.files[0];
+    const urlSrc = URL.createObjectURL(image);
+
+    setFileName(image.name);
+    setPreviewLink(urlSrc);
+  }
+
   const isDisabled = isLoading;
 
   return (
     <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
+      <h1 className="text-white text-center font-bold font-poppins">Edit Material</h1>
       {Object.keys(data).length === 0 ? (
         <Loading loading={1} textOn text="Mengambil data material..." />
       ) : (
@@ -292,10 +310,17 @@ const MaterialEdit = () => {
               className="relative m-auto border border-dashed group border-white rounded-md w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden"
               htmlFor="input-image"
             >
-              <input type="file" name="image" id="input-image" className="hidden" />
+              <input type="file" name="image" id="input-image" className="hidden" onChange={changeHandler} />
+              {/* Apakah gambar datanya ada di database ? */}
               {data.image ? (
+                // Jika ada, tampilkan data tersebut dalam komponen Image
                 <Image src={data.image} fill sizes="auto" alt={data.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
+              ) : // Jika tidak ada, cek dulu apakah gambarnya sudah disetting melalui input?
+              fileName && previewLink ? (
+                // Jika sudah disetting melalui input, tampilkan gambar tersebut dengan komponen Image
+                <Image src={previewLink} fill sizes="auto" alt={fileName + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
               ) : (
+                // Jika belum disetting melalui input, tampilkan gambar blum disetting
                 <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
               )}
             </label>
@@ -309,7 +334,7 @@ const MaterialEdit = () => {
 
           <Input variant={InputClass.dashboard} forId="material-rarity" name="rarity" disabled={isDisabled} label="Material Rarity" defaultValue={data.rarity} />
 
-          <Input variant={InputClass.dashboard} forId="gainedFrom" name="gainedFrom" disabled={isDisabled} label="Material Rarity" defaultValue={typeof data.gainedFrom === "object" ? data.gainedFrom.join(", ") : data.gainedFrom} />
+          <Input variant={InputClass.dashboard} forId="gainedFrom" name="gainedFrom" disabled={isDisabled} label="Gained From" defaultValue={typeof data.gainedFrom === "object" ? data.gainedFrom.join(", ") : data.gainedFrom} />
 
           <div>
             <label htmlFor="material-lore" className="text-white font-bold">
@@ -318,7 +343,7 @@ const MaterialEdit = () => {
             <textarea disabled={isLoading} className="w-full h-[100px] block  my-4 rounded-xl p-4 text-zinc-950 text-base font-bold font-poppins" name="lore" defaultValue={data.lore} id="material-lore"></textarea>
           </div>
 
-          <Input variant={InputClass.dashboard} type="datetime-local" disabled={isDisabled} defaultValue={date} name="createdat" forId="createdat" label="Dibuat pada" />
+          <Input variant={InputClass.dashboard} type="datetime-local" disabled defaultValue={date} name="createdat" forId="createdat" label="Dibuat pada" />
 
           <div id="buttons" className="flex justify-center gap-4">
             <Button type="button" disabled={isDisabled} className={VariantClass.danger} onClick={() => setEditMenu(false)}>

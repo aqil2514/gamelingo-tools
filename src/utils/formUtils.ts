@@ -43,30 +43,30 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const organizedData = genshinOrganizing.material(validation.data, imageUrl);
 
     // <<<<< Tambah ke Database >>>>>
-    if (action === "add") {
-      if (data["result-lang"] === "Indonesian") {
-        const material = await IDMaterial.create(organizedData);
+    // if (action === "add") {
+    //   if (data["result-lang"] === "Indonesian") {
+    //     const material = await IDMaterial.create(organizedData);
 
-        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
-      } else if (data["result-lang"] === "English") {
-        const material = await ENMaterial.create(organizedData);
+    //     await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+    //   } else if (data["result-lang"] === "English") {
+    //     const material = await ENMaterial.create(organizedData);
 
-        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
-      }
-    }
+    //     await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+    //   }
+    // }
 
-    // <<<<< Edit data dari Database >>>>>
-    else if (action === "edit") {
-      if (data["result-lang"] === "Indonesian") {
-        const material = await IDMaterial.create(organizedData);
+    // // <<<<< Edit data dari Database >>>>>
+    // else if (action === "edit") {
+    //   if (data["result-lang"] === "Indonesian") {
+    //     const material = await IDMaterial.create(organizedData);
 
-        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
-      } else if (data["result-lang"] === "English") {
-        const material = await ENMaterial.create(organizedData);
+    //     await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+    //   } else if (data["result-lang"] === "English") {
+    //     const material = await ENMaterial.create(organizedData);
 
-        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
-      }
-    }
+    //     await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+    //   }
+    // }
 
     return {
       msg: "Data material berhasil ditambah",

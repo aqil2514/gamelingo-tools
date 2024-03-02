@@ -11,7 +11,7 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       typeMaterial: data.typeMaterial,
       rarity: data.rarity,
       lore: data.lore,
-      gainedFrom: typeof data.gainedFrom === "string" ? data.gainedFrom.split(", ") : data.gainedFrom,
+      gainedFrom: typeof data.gainedFrom === "string" ? data.gainedFrom.replace(", ", ",").split(",") : data.gainedFrom,
       image: imageUrl ? imageUrl : undefined,
     };
     return finalData;
