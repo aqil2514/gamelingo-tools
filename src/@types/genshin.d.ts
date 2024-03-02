@@ -546,7 +546,7 @@ namespace GenshinImpact {
     _id?: string;
     name: string;
     typeMaterial: string;
-    rarity: string;
+    rarity?: string;
     lore: string;
     gainedFrom: string[] | string;
     image?: string;

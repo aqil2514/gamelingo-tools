@@ -205,17 +205,19 @@ const GIMaterialContextMenu = ({ data }: { data: GenshinImpact.Material[] }) => 
 
   async function deleteHandler() {
     const id = contextMenu.target?.getAttribute("data-id");
+    const lang = contextMenu.target?.getAttribute("data-lang");
     const name = data.find((d) => d._id === id)?.name;
 
     const allow = confirm(`Yakin ingin hapus data material dengan nama ${name}?`);
     if (!allow) return notif("Aksi dibatalkan", { color: "green", refElement: "table-material-data", location: "before" });
-    const url = "api/gamelingo/genshin-impact";
+    const url = "/api/gamelingo/genshin-impact";
     try {
       setIsDeleting(true);
 
       const res = await axios.delete(url, {
         headers: {
           "DB-Content": "Material",
+          "Content-Lang": lang,
         },
         data: {
           id,
@@ -227,6 +229,7 @@ const GIMaterialContextMenu = ({ data }: { data: GenshinImpact.Material[] }) => 
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) notif(error.response.data.msg, { color: "red", refElement: "table-material-data", location: "before" });
+        else if (error.response?.status === 400) notif(error.response.data.msg, { color: "red", refElement: "table-material-data", location: "before" });
       }
       console.error(error);
     } finally {

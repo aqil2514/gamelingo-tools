@@ -5,8 +5,10 @@ import EditMenu from "../../../ContextMenu/EditMenu";
 import DetailMenu from "../../../ContextMenu/DetailMenu";
 import { TD_Style, TH_Style, Table_Style } from "@/components/Admin/Resources";
 import Button, { VariantClass } from "@/components/general/Button";
+import { MaterialDataProps } from ".";
+import { LangSelection } from "../LocalComponents";
 
-export default function MaterialDataTable({ data }: { data: GenshinImpact.MaterialTable[] }) {
+export default function MaterialDataTable({ data, lang, setLang }: MaterialDataProps) {
   const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu, router } = useMenuContextData();
 
   useEffect(() => {
@@ -28,10 +30,14 @@ export default function MaterialDataTable({ data }: { data: GenshinImpact.Materi
 
   return (
     <div className="px-4">
+      <div className="flex gap-4">
+        <Button className={VariantClass.submit} onClick={() => router.push("/write?game=genshin-impact&category=Material")}>
+          Tambah Data
+        </Button>
+        <LangSelection lang={lang} setLang={setLang} />
+      </div>
+
       {isDeleting && <p className="font-bold text-amber-500">Menghapus Data...</p>}
-      <Button className={VariantClass.submit} onClick={() => router.push("/write?game=genshin-impact&category=Material")}>
-        Tambah Data
-      </Button>
       <table id="table-material-data" className={Table_Style.style1}>
         <thead>
           <tr>
@@ -52,13 +58,13 @@ export default function MaterialDataTable({ data }: { data: GenshinImpact.Materi
             data.map((d, i: number) => (
               <tr key={`${d._id}`} className="py-2">
                 <td className={TD_Style.style1}>{i + 1}</td>
-                <td className={TD_Style.style1} data-id={d._id}>
+                <td className={TD_Style.style1} data-id={d._id} data-lang={lang}>
                   {d.name}
                 </td>
-                <td className={TD_Style.style1} data-id={d._id}>
+                <td className={TD_Style.style1} data-id={d._id} data-lang={lang}>
                   {d.rarity}
                 </td>
-                <td className={TD_Style.style1} data-id={d._id}>
+                <td className={TD_Style.style1} data-id={d._id} data-lang={lang}>
                   {d.typeMaterial}
                 </td>
               </tr>
@@ -67,11 +73,11 @@ export default function MaterialDataTable({ data }: { data: GenshinImpact.Materi
         </tbody>
       </table>
 
-      {contextMenu.isActive && <ContextMenu field="account" subfield="userslogin" passData={data} />}
+      {contextMenu.isActive && <ContextMenu field="genshin-impact" subfield="Material" passData={data} />}
 
       {editMenu && <EditMenu field="account" subfield="userslogin" />}
 
-      {detailMenu && <DetailMenu field="account" subfield="userslogin" />}
+      {detailMenu && <DetailMenu field="genshin-impact" subfield="Material" />}
     </div>
   );
 }

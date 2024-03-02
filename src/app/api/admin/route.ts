@@ -3,7 +3,7 @@ import LeaderSkill from "@/models/Evertale/LeaderSkill";
 import PassiveSkill from "@/models/Evertale/PassiveSkill";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { Weapon } from "@/models/Evertale/Weapons";
-import { ENMaterial } from "@/models/GenshinImpact/Material";
+import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
 import { admin } from "@/utils/api";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const field = searchParams.get("field") as General.AdminQuery["field"];
   const subfield = searchParams.get("subfield") as General.AdminQuery["subfield"];
+  const lang = searchParams.get("lang") as General.PostDocument["lang"];
   const authorization = req.headers.get("Authorization")?.replace("Bearer ", "");
 
   if (!authorization && authorization !== process.env.AUTHORIZATIONTOKEN) return NextResponse.json({ msg: "Aksi dibatasi" }, { status: 401 });
@@ -41,7 +42,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ data }, { status: 200 });
   } else if (field === "genshin-impact") {
     let data;
-    if (subfield === "Material") data = await ENMaterial.find();
+    if (subfield === "Material") {
+      if (lang === "English") data = await ENMaterial.find();
+      if (lang === "Indonesian") data = await IDMaterial.find();
+    }
 
     return NextResponse.json({ data }, { status: 200 });
   }

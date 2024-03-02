@@ -5,6 +5,7 @@ import Loading from "@/components/general/Loading";
 import { Route } from "next";
 import useSWR from "swr";
 import MaterialData from "./MaterialData";
+import { useState } from "react";
 
 interface GenshinImpactDataProps {
   field: General.AdminQuery["field"];
@@ -12,11 +13,13 @@ interface GenshinImpactDataProps {
 }
 
 export default function GenshinImpactData({ field, subfield }: GenshinImpactDataProps) {
-  const url: Route = `/api/admin?field=${field}&subfield=${subfield}`;
+  const [lang, setLang] = useState<General.PostDocument["lang"]>("English");
+
+  const url: Route = `/api/admin?field=${field}&subfield=${subfield}&lang=${lang}`;
   const { data, isLoading, error } = useSWR(url, (url) => fetcherWithAuth(url, authorizationToken));
 
   if (!data || isLoading) return <Loading loading={1} textOn />;
   if (error) return <Error />;
 
-  if (subfield === "Material") return <MaterialData data={data.data} />;
+  if (subfield === "Material") return <MaterialData data={data.data} lang={lang} setLang={setLang} />;
 }
