@@ -18,7 +18,9 @@ import { User } from "@/models/General/User";
  */
 
 export const genshin: FormUtils.Genshin.Genshin = {
-  processMaterial: async (formData, user) => {
+  processMaterial: async (formData, user, config) => {
+    if (!config) throw new Error("Konfigurasi diperlukan");
+    const { action } = config;
     // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Material";
@@ -41,14 +43,29 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const organizedData = genshinOrganizing.material(validation.data, imageUrl);
 
     // <<<<< Tambah ke Database >>>>>
-    if (data["result-lang"] === "Indonesian") {
-      const material = await IDMaterial.create(organizedData);
+    if (action === "add") {
+      if (data["result-lang"] === "Indonesian") {
+        const material = await IDMaterial.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
-    } else if (data["result-lang"] === "English") {
-      const material = await ENMaterial.create(organizedData);
+        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+      } else if (data["result-lang"] === "English") {
+        const material = await ENMaterial.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+      }
+    }
+
+    // <<<<< Edit data dari Database >>>>>
+    else if (action === "edit") {
+      if (data["result-lang"] === "Indonesian") {
+        const material = await IDMaterial.create(organizedData);
+
+        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+      } else if (data["result-lang"] === "English") {
+        const material = await ENMaterial.create(organizedData);
+
+        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+      }
     }
 
     return {

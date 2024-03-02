@@ -1,5 +1,7 @@
 import { Post } from "@/models/General/Post";
 import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
+import { getUser } from "@/utils/api";
+import { genshin } from "@/utils/formUtils";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -42,4 +44,17 @@ export async function DELETE(req: NextRequest) {
   }
 
   return NextResponse.json({ msg: "Hapus data berhasil" }, { status: 200 });
+}
+
+export async function PUT(req: NextRequest) {
+  const formData = await req.formData();
+  const category = req.headers.get("Data-Category") as General.GameGenshinQuery["subfield"] | null;
+  const user = await getUser();
+
+  if (!category) return NextResponse.json({ msg: "Category belum diisi" }, { status: 400 });
+  if (!user) return NextResponse.json({ msg: "Anda belum login" }, { status: 401 });
+
+  if (category === "Material") {
+    const process = genshin.processMaterial(formData, user);
+  }
 }

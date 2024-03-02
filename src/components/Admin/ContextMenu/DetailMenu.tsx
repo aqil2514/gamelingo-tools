@@ -14,6 +14,7 @@ import { ContextSelectFieldProps } from "./interface";
 import { dateOptions, dateOptionsWithTime } from "./config";
 import { Clipboard, ClipboardCheck } from "react-bootstrap-icons";
 import { baseUrl } from "@/components/general/Data";
+import Image from "next/image";
 
 export default function DetailMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "account") {
@@ -220,12 +221,23 @@ const GenshinMaterialDetail = () => {
       ) : (
         <>
           <div>
-            <h1 className="font-mclaren text-white text-center font-bold mb-4">{data.name}</h1>
+            <h1 className="font-mclaren text-white text-center font-bold ">{data.name}</h1>
             <p className="font-mclaren text-white text-sm text-center font-bold mb-4">{typeof data.createdAt === "string" ? new Date(data.createdAt).toLocaleDateString("id-ID", dateOptions) : ""}</p>
+          </div>
+          <div className="relative m-auto border border-dashed group border-white rounded-md w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden">
+            {data.image ? (
+              <Image src={data.image} fill sizes="auto" alt={data.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
+            ) : (
+              <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
+            )}
           </div>
           <p className="font-poppins text-white">
             <strong className="font-bold">Material Name : </strong>
             {data.name}
+          </p>
+          <p className="font-poppins text-white">
+            <strong className="font-bold">Material Type : </strong>
+            {data.typeMaterial}
           </p>
           <p className="font-poppins text-white">
             <strong className="font-bold">Rarity : </strong>

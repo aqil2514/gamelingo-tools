@@ -543,14 +543,14 @@ namespace GenshinImpact {
   }
 
   export interface Material {
-    _id?: string;
+    readonly _id?: string;
     name: string;
     typeMaterial: string;
     rarity?: string;
     lore: string;
     gainedFrom: string[] | string;
     image?: string;
-    createdAt?: string;
+    readonly createdAt?: string;
     updatedAt?: string;
   }
 

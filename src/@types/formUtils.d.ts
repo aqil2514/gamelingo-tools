@@ -307,6 +307,15 @@ namespace FormUtils {
       "constellation-6-icon"?: File;
     }
 
+    export interface ProcessGenshinConfig {
+      /**
+       * Aksi yang diinginkan?
+       *
+       * Default :"Add"
+       *  */
+      action: "add" | "edit";
+    }
+
     export interface Genshin {
       /**
        * Proses material Genshin Impact
@@ -314,7 +323,7 @@ namespace FormUtils {
        * @param user Info User
        * @returns Berhasil atau gagal
        */
-      processMaterial: (formData: FormData, user: Account.User) => Promise<Result>;
+      processMaterial: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
       proccessArtifact: (formData: FormData, user: Account.User) => Promise<Result>;
       processWeapon: (formData: FormData, user: Account.User) => Promise<Result>;
       proccessCharacter: (formData: FormData, user: Account.User) => Promise<Result>;

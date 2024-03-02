@@ -75,7 +75,7 @@ export default function MaterialDataTable({ data, lang, setLang }: MaterialDataP
 
       {contextMenu.isActive && <ContextMenu field="genshin-impact" subfield="Material" passData={data} />}
 
-      {editMenu && <EditMenu field="account" subfield="userslogin" />}
+      {editMenu && <EditMenu field="genshin-impact" subfield="Material" />}
 
       {detailMenu && <DetailMenu field="genshin-impact" subfield="Material" />}
     </div>

@@ -30,6 +30,7 @@ export default function Material() {
     <>
       <form onSubmit={(e) => submitFormHandler(e, submitConfig)} id="form-material-genshin" className="my-4">
         <FetchApi elementId="material-name" msgNoInput="Material belum dipilih" msgNoData="Data material tidak ada" refElement="material-name" query="materials" setData={setMaterial} />
+
         <Input disabled={isLoading} forId="material-name" name="name" label="Material Name" value={material.name} onChange={(e) => setMaterial({ ...material, name: e.target.value })} variant={VariantClass.dashboard} />
         {dataExisting ? (
           <>
