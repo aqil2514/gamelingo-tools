@@ -13,8 +13,7 @@ import SwiperSlideData from "./SwiperSlideData";
 
 export default function ArtifactForm() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [fileName, setFileName] = React.useState<string>("");
-  const [previewLink, setPreviewLink] = React.useState<string>("");
+  const [moveLocation, setMoveLocation] = React.useState<boolean>(true);
   const [artifact, setArtifact] = React.useState<GenshinImpact.ApiResponseArtifacts>({} as GenshinImpact.ApiResponseArtifacts);
 
   const dataExist = artifact.rarityList;
@@ -26,6 +25,7 @@ export default function ArtifactForm() {
     category: "Artifact",
     ref: "artifact-button-submit",
     callbackUrl: "/admin/data?field=genshin-impact&subfield=Artifact",
+    moveLocation,
   };
   return (
     <form onSubmit={(e) => submitFormHandler(e, submitConfig)} className="my-4">
@@ -80,9 +80,13 @@ export default function ArtifactForm() {
         <p className="text-white font-bold font-poppins">No Data Selected</p>
       )}
 
-      <Button className={ButtonClass.submit} id="artifact-button-submit">
-        {isLoading ? "Submitting..." : "Submit"}
-      </Button>
+      <div className="flex gap-4" id="artifact-button-submit">
+        <Button className={ButtonClass.submit}>{isLoading ? "Submitting..." : "Submit"}</Button>
+        <label htmlFor="move-location" className="text-white font-bold font-poppins my-auto">
+          <input type="checkbox" id="move-location" className="mx-2" checked={moveLocation} onChange={() => setMoveLocation(!moveLocation)} />
+          Lihat Data setelah selesai ditambah
+        </label>
+      </div>
     </form>
   );
 }

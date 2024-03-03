@@ -75,12 +75,12 @@ export async function POST(req: NextRequest) {
 
   if (game === "Genshin Impact") {
     if (category === "Material") {
-      const process = await genshin.processMaterial(formData, user);
+      const process = await genshin.processMaterial(formData, user, { action: "add" });
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: process.msg, process }, { status: 200 });
     } else if (category === "Artifact") {
-      const process = await genshin.proccessArtifact(formData, user);
+      const process = await genshin.proccessArtifact(formData, user, { action: "add" });
       if (process.status === 422) return NextResponse.json({ msg: process.msg, process }, { status: 422 });
 
       return NextResponse.json({ msg: process.msg, process }, { status: 200 });

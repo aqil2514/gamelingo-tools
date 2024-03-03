@@ -21,6 +21,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData, user, config) => {
     if (!config) throw new Error("Konfigurasi diperlukan");
     const { action, oldId, lang } = config;
+
     // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Material";
@@ -55,17 +56,17 @@ export const genshin: FormUtils.Genshin.Genshin = {
       }
     }
 
-    // // <<<<< Edit data dari Database >>>>>
+    // <<<<< Edit data dari Database >>>>>
     else if (action === "edit") {
       if (!oldId) throw new Error("Old ID diperlukan");
       if (lang === "Indonesian") {
         const material = await IDMaterial.findByIdAndUpdate(oldId, organizedData);
 
-        await post.editPost(data, oldId,{ lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
       } else if (lang === "English") {
         const material = await ENMaterial.findByIdAndUpdate(oldId, organizedData);
-        
-        await post.editPost(data, oldId,{ lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
       }
     }
 
@@ -75,7 +76,11 @@ export const genshin: FormUtils.Genshin.Genshin = {
       data: organizedData,
     };
   },
-  async proccessArtifact(formData, user) {
+  async proccessArtifact(formData, user, config) {
+    if (!config) throw new Error("Konfigurasi diperlukan");
+    const { action, oldId, lang } = config;
+
+    // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Artifact";
 
@@ -97,16 +102,31 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const organizedData = genshinOrganizing.artifact(validation.data, imageUrl);
 
     // Tambah ke database
-    if (data["result-lang"] === "Indonesian") {
-      const artifact = await IDArtifact.create(organizedData);
+    if (action === "add") {
+      if (data["result-lang"] === "Indonesian") {
+        const artifact = await IDArtifact.create(organizedData);
 
-      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: artifact, user });
-    } else if (data["result-lang"] === "English") {
-      const artifact = await ENArtifact.create(organizedData);
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: artifact, user });
+      } else if (data["result-lang"] === "English") {
+        const artifact = await ENArtifact.create(organizedData);
 
-      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: artifact, user });
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: artifact, user });
+      }
     }
 
+    // <<<<< Edit data dari Database >>>>>
+    else if (action === "edit") {
+      if (!oldId) throw new Error("Old ID diperlukan");
+      if (lang === "Indonesian") {
+        const material = await IDArtifact.findByIdAndUpdate(oldId, organizedData);
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+      } else if (lang === "English") {
+        const material = await ENArtifact.findByIdAndUpdate(oldId, organizedData);
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+      }
+    }
     return {
       msg: "Tambah data artefak berhasil",
       status: 200,

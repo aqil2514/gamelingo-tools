@@ -31,6 +31,7 @@ const subFieldTitle: Record<string, string> = {
   passives: "Passive Skills",
   typeskills: "Type Skills",
   Material: "Material",
+  Artifact: "Artifact",
 };
 
 export function generateMetadata({ searchParams }: { searchParams: SearchParamsProps }): Metadata {

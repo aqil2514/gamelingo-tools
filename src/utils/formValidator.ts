@@ -61,11 +61,13 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     return { status: true, data };
   },
   async artifact(data) {
+    // <<<<< Local Variabel >>>>>
     const types: string[] = ["flower", "plume", "sands", "goblet", "circlet"];
     const images: File[] = [];
 
     if (!data.name) return { status: false, msg: "Name artifact harus diisi" };
 
+    // <<<<< Apakah di dalam database ada material yang serupa? >>>>>
     if (data["result-lang"] === "Indonesian") {
       const isThere = await IDArtifact.findOne({ name: data.name });
       if (isThere)
@@ -89,7 +91,8 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       if (!data[`${type}-type` as keyof FormUtils.Genshin.FormDataArtifact]) return { status: false, msg: `${type} type harus diisi` };
       if (!data[`${type}-description` as keyof FormUtils.Genshin.FormDataArtifact]) return { status: false, msg: `${type} description harus diisi` };
       if (!data[`${type}-lore` as keyof FormUtils.Genshin.FormDataArtifact]) return { status: false, msg: `${type} lore harus diisi` };
-      if (!image?.name) {
+      console.log(image);
+      if (!image || (image && image?.name !== "undefined" && image?.type !== "application/octet-stream")) {
         (data[`${type}-image` as keyof FormUtils.Genshin.FormDataArtifact] as File | undefined) = undefined;
       } else {
         if (!image.name.includes(`${type}`))

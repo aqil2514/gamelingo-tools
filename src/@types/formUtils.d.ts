@@ -318,23 +318,32 @@ namespace FormUtils {
       /**
        * Berlaku jika action adalah edit
        */
-      oldId: string | null;
+      oldId?: string | null;
 
       /**
        * Bahasa pada data?
        */
-      lang: General.PostDocument["lang"]
+      lang?: General.PostDocument["lang"];
     }
 
     export interface Genshin {
       /**
        * Proses material Genshin Impact
-       * @param formData Form Data
-       * @param user Info User
+       * @param formData - Form Data
+       * @param user - Info User
+       * @param config - Konfigurasi Material
        * @returns Berhasil atau gagal
        */
       processMaterial: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
-      proccessArtifact: (formData: FormData, user: Account.User) => Promise<Result>;
+
+      /**
+       * Proses Artifact Genshin Impact
+       * @param formData - Form Data
+       * @param user - Info User
+       * @param config - Konfigurasi Artifact
+       * @returns Berhasil atau gagal
+       */
+      proccessArtifact: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
       processWeapon: (formData: FormData, user: Account.User) => Promise<Result>;
       proccessCharacter: (formData: FormData, user: Account.User) => Promise<Result>;
       processTalent: (formData: FormData, user: Account.User) => Promise<Result>;
