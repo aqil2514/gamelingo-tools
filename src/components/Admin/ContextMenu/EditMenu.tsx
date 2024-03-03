@@ -25,6 +25,7 @@ export default function EditMenu({ field, subfield }: ContextSelectFieldProps) {
   }
   if (field === "genshin-impact") {
     if (subfield === "Material") return <GIMaterialEdit />;
+    if (subfield === "Artifact") return <GIArtifactEdit />;
   }
 }
 
