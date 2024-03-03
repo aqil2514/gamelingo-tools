@@ -258,10 +258,12 @@ const MaterialEdit = () => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
 
+    const _id = formData.get("id") as string;
+
     try {
       setIsLoading(true);
       const res = await axios.putForm("/api/gamelingo/genshin-impact" as Route, formData, {
-        headers: { "Data-Category": "Material" },
+        headers: { "Data-Category": "Material", "Old-Id": _id },
       });
 
       notif(res.data.msg, { color: "green", refElement: "buttons", location: "before" });
@@ -290,8 +292,8 @@ const MaterialEdit = () => {
       setFileName("");
       setPreviewLink("");
 
-      return 
-    };
+      return;
+    }
 
     const image = target.files[0];
     const urlSrc = URL.createObjectURL(image);
@@ -304,7 +306,9 @@ const MaterialEdit = () => {
 
   return (
     <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
-      <h1 id="test" className="text-white text-center font-bold font-poppins">Edit Material</h1>
+      <h1 id="test" className="text-white text-center font-bold font-poppins">
+        Edit Material
+      </h1>
       {Object.keys(data).length === 0 ? (
         <Loading loading={1} textOn text="Mengambil data material..." />
       ) : (

@@ -20,7 +20,7 @@ import { User } from "@/models/General/User";
 export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData, user, config) => {
     if (!config) throw new Error("Konfigurasi diperlukan");
-    const { action } = config;
+    const { action, oldId } = config;
     // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Material";
@@ -47,24 +47,25 @@ export const genshin: FormUtils.Genshin.Genshin = {
       if (data["result-lang"] === "Indonesian") {
         const material = await IDMaterial.create(organizedData);
 
-        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
       } else if (data["result-lang"] === "English") {
         const material = await ENMaterial.create(organizedData);
 
-        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
       }
     }
 
     // // <<<<< Edit data dari Database >>>>>
     else if (action === "edit") {
+      if (!oldId) throw new Error("Old ID diperlukan");
       if (data["result-lang"] === "Indonesian") {
-        const material = await IDMaterial.create(organizedData);
+        const material = await IDMaterial.findByIdAndUpdate(oldId, organizedData);
 
-        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+        // await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
       } else if (data["result-lang"] === "English") {
-        const material = await ENMaterial.create(organizedData);
+        const material = await ENMaterial.findByIdAndUpdate(oldId, organizedData);
 
-        await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+        // await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
       }
     }
 
@@ -99,11 +100,11 @@ export const genshin: FormUtils.Genshin.Genshin = {
     if (data["result-lang"] === "Indonesian") {
       const artifact = await IDArtifact.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, artifact, user, data.name);
+      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: artifact, user });
     } else if (data["result-lang"] === "English") {
       const artifact = await ENArtifact.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, artifact, user, data.name);
+      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: artifact, user });
     }
 
     return {
@@ -136,11 +137,11 @@ export const genshin: FormUtils.Genshin.Genshin = {
     if (data["result-lang"] === "Indonesian") {
       const weapon = await IDWeapon.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, weapon, user, data.type);
+      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
     } else if (data["result-lang"] === "English") {
       const weapon = await ENWeapon.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, weapon, user, data.type);
+      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
     }
     return { status: 200, data: organizedData };
   },
@@ -167,11 +168,11 @@ export const genshin: FormUtils.Genshin.Genshin = {
     if (data["result-lang"] === "English") {
       const character = await CharacterEN.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, character, user, data.element);
+      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
     } else if (data["result-lang"] === "Indonesian") {
       const character = await CharacterID.create(organizedData);
 
-      await addPost(data, data["result-lang"], game, category, character, user, data.element);
+      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
     }
 
     return { status: 200, organizedData };
@@ -286,29 +287,61 @@ export const admin: FormUtils.Account.AccountFormApi = {
   },
 };
 
-/**
- * Untuk menambahkan post
- * @param data  - Data yang dari form
- * @param lang - Bahasa dari data yang ditambahkan
- * @param gameName - Nama game
- * @param gameTopic - Topic atau kategorinya
- * @param parent - Mongoose Create document
- * @param user - User
- * @param firstTag - Tag Pertama
- */
+const post: FormUtils.Post.PostAPI = {
+  async addPost(data, config) {
+    // <<<<< Variabel from config >>>>>
+    const { lang, gameName, gameTopic, parent, user, autoTag = true, tag } = config;
 
-async function addPost(data: any, lang: General.PostDocument["lang"], gameName: General.PostDocument["game"]["name"], gameTopic: General.PostDocument["game"]["topic"], parent: any, user: Account.User, firstTag: string) {
-  const postData: General.PostDocument = {
-    title: data.name,
-    lang: lang,
-    game: {
-      name: gameName,
-      topic: gameTopic,
-    },
-    content: parent._id,
-    author: user.name,
-    tags: [firstTag, gameName, gameTopic],
-  };
+    if (!autoTag && (!tag || tag.length === 0)) throw new Error("Tag harus diberikan jika autoTag disetting false");
 
-  await Post.create(postData);
-}
+    const postData: General.PostDocument = {
+      title: data.name,
+      lang: lang,
+      game: {
+        name: gameName,
+        topic: gameTopic,
+      },
+      content: parent._id,
+      author: user.name,
+      tags: autoTag ? [gameName, gameTopic] : tag ?? [],
+    };
+
+    await Post.create(postData);
+  },
+  async editPost(data, oldId, config) {
+    // <<<<< Variabel from config >>>>>
+    const { lang, gameName, gameTopic, parent, user, autoTag = true, tag } = config;
+
+    if (!autoTag && (!tag || tag.length === 0)) throw new Error("Tag harus diberikan jika autoTag disetting false");
+
+    const postData: General.PostDocument = {
+      title: data.name,
+      lang: lang,
+      game: {
+        name: gameName,
+        topic: gameTopic,
+      },
+      content: parent._id,
+      author: user.name,
+      tags: autoTag ? [gameName, gameTopic] : tag ?? [],
+    };
+
+    await Post.findOneAndUpdate({ content: oldId }, postData);
+  },
+};
+
+// async function addPost(data: any, lang: General.PostDocument["lang"], gameName: General.PostDocument["game"]["name"], gameTopic: General.PostDocument["game"]["topic"], parent: any, user: Account.User, firstTag: string) {
+//   const postData: General.PostDocument = {
+//     title: data.name,
+//     lang: lang,
+//     game: {
+//       name: gameName,
+//       topic: gameTopic,
+//     },
+//     content: parent._id,
+//     author: user.name,
+//     tags: [firstTag, gameName, gameTopic],
+//   };
+
+//   await Post.create(postData);
+// }

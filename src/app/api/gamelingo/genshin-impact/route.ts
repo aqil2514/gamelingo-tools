@@ -49,13 +49,14 @@ export async function DELETE(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   const formData = await req.formData();
   const category = req.headers.get("Data-Category") as General.GameGenshinQuery["subfield"] | null;
+  const dataId = req.headers.get("Old-Id");
   const user = await getUser();
 
   if (!category) return NextResponse.json({ msg: "Category belum diisi" }, { status: 400 });
   if (!user) return NextResponse.json({ msg: "Anda belum login" }, { status: 401 });
 
   if (category === "Material") {
-    const process = await genshin.processMaterial(formData, user, { action: "edit" });
+    const process = await genshin.processMaterial(formData, user, { action: "edit", oldId: dataId });
     if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
     return NextResponse.json({ msg: "Data material berhasil diubah", process }, { status: 200 });

@@ -314,6 +314,11 @@ namespace FormUtils {
        * Default :"Add"
        *  */
       action: "add" | "edit";
+
+      /**
+       * Berlaku jika action adalah edit
+       */
+      oldId: string | null;
     }
 
     export interface Genshin {
@@ -347,6 +352,71 @@ namespace FormUtils {
 
     export interface AccountFormApi {
       processUser: (FormData: FormDataUser) => Promise<Result>;
+    }
+  }
+
+  namespace Post {
+    /** Konfigurasi untuk Post API */
+    export interface ProcessPostConfig {
+      /**
+       * Bahasa yang digunakan:
+       *
+       * "English" | "Indonesian" | "English & Indonesian"*/
+      lang: General.PostDocument["lang"];
+
+      /**
+       * Nama game ?
+       *
+       * "Evertale" | "Genshin Impact" | "Mobile Legends"
+       */
+      gameName: General.PostDocument["game"]["name"];
+
+      /**
+       * Topik game yang dibahas ?
+       *
+       */
+      gameTopic: General.PostDocument["game"]["topic"];
+
+      /**
+       * Variabel yang digunakan untuk tambah data, contoh:
+       *
+       * const Test = await Model.create(data)
+       */
+      parent: any;
+      /**
+       * Data user yang menambahkan data
+       */
+
+      user: Account.User;
+
+      /**
+       * Tag otomatis
+       *
+       * Default: true
+       */
+      autoTag?: boolean;
+
+      /**
+       * Tag yang ditambahkan;
+       *
+       */
+      tag?: string[];
+    }
+
+    export interface PostAPI {
+      /**
+       * Menambahkan data ke Collection Mongoose Post
+       * @param data Data yang akan ditambahkan
+       * @param config Konfigurasi penambahan postingan
+       */
+      addPost: (data: any, config: ProcessPostConfig) => Promise<void>;
+      /**
+       * Mengubah data yang ada di Collection Mongoose Post
+       * @param data Data yang ingin diubah
+       * @param oldId Id lama
+       * @param config Konfigurasi
+       */
+      editPost: (data: any, oldId: string, config: ProcessPostConfig) => Promise<Void>;
     }
   }
 }
