@@ -1,7 +1,7 @@
 "use client";
 
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useRouter } from "next/navigation";
+import { ReadonlyURLSearchParams, useRouter, useSearchParams } from "next/navigation";
 import React, { createContext, useContext, useState } from "react";
 
 interface ContextMenuState {
@@ -23,6 +23,7 @@ interface ContextMenuProps {
   setDetailMenu: React.Dispatch<React.SetStateAction<boolean>>;
   setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   router: AppRouterInstance;
+  searchParams : ReadonlyURLSearchParams;
 }
 
 const ContextMenu = createContext<ContextMenuProps>({} as ContextMenuProps);
@@ -34,8 +35,9 @@ export default function ContextProvider({ children }: { children: React.ReactNod
   const [editMenu, setEditMenu] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const router = useRouter();
+  const searchParams = useSearchParams()
 
-  return <ContextMenu.Provider value={{ contextMenu, setContextMenu, isLoading, setIsLoading, detailMenu, setDetailMenu, editMenu, setEditMenu, router, isDeleting, setIsDeleting }}>{children}</ContextMenu.Provider>;
+  return <ContextMenu.Provider value={{ contextMenu, setContextMenu, isLoading, setIsLoading, detailMenu, setDetailMenu, editMenu, setEditMenu, router, isDeleting, setIsDeleting,searchParams }}>{children}</ContextMenu.Provider>;
 }
 
 export function useMenuContextData() {

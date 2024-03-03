@@ -20,7 +20,7 @@ import { User } from "@/models/General/User";
 export const genshin: FormUtils.Genshin.Genshin = {
   processMaterial: async (formData, user, config) => {
     if (!config) throw new Error("Konfigurasi diperlukan");
-    const { action, oldId } = config;
+    const { action, oldId, lang } = config;
     // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Material";
@@ -58,14 +58,14 @@ export const genshin: FormUtils.Genshin.Genshin = {
     // // <<<<< Edit data dari Database >>>>>
     else if (action === "edit") {
       if (!oldId) throw new Error("Old ID diperlukan");
-      if (data["result-lang"] === "Indonesian") {
+      if (lang === "Indonesian") {
         const material = await IDMaterial.findByIdAndUpdate(oldId, organizedData);
 
-        // await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
-      } else if (data["result-lang"] === "English") {
+        await post.editPost(data, oldId,{ lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+      } else if (lang === "English") {
         const material = await ENMaterial.findByIdAndUpdate(oldId, organizedData);
-
-        // await addPost(data, data["result-lang"], game, category, material, user, data.typeMaterial);
+        
+        await post.editPost(data, oldId,{ lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
       }
     }
 

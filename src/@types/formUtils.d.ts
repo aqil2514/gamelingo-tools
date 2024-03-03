@@ -319,6 +319,11 @@ namespace FormUtils {
        * Berlaku jika action adalah edit
        */
       oldId: string | null;
+
+      /**
+       * Bahasa pada data?
+       */
+      lang: General.PostDocument["lang"]
     }
 
     export interface Genshin {

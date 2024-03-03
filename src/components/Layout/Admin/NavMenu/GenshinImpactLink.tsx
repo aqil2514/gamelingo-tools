@@ -11,7 +11,7 @@ export default function GenshinImpactLink({ field, subfield }: { field: string; 
       <ul className="px-4">
         {subfield_GIL.map((sub) => (
           <li key={sub.subfield}>
-            <p onClick={() => router.replace(`/admin/data?field=genshin-impact&subfield=${sub.subfield}`)} className={field === "genshin-impact" && subfield === sub.subfield ? LINKSTYLE.ACTIVE_LINK : LINKSTYLE.NONACTIVE_LINK}>
+            <p onClick={() => router.replace(`/admin/data?field=genshin-impact&subfield=${sub.subfield}&lang=English`)} className={field === "genshin-impact" && subfield === sub.subfield ? LINKSTYLE.ACTIVE_LINK : LINKSTYLE.NONACTIVE_LINK}>
               {sub.label}
             </p>
           </li>

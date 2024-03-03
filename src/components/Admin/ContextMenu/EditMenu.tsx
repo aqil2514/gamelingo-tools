@@ -234,7 +234,8 @@ const CodeEdit = () => {
 const MaterialEdit = () => {
   const [data, setData] = useState<GenshinImpact.Material>({} as GenshinImpact.Material);
   const [date, setDate] = useState<string>("");
-  const { contextMenu, setIsLoading, setEditMenu, isLoading } = useMenuContextData();
+  const { contextMenu, setIsLoading, setEditMenu, isLoading, searchParams } = useMenuContextData();
+  const langParams = searchParams.get("lang");
   const lang = contextMenu.target?.getAttribute("data-lang");
   const id = contextMenu.target?.getAttribute("data-id");
   const [previewLink, setPreviewLink] = useState<string>("");
@@ -263,20 +264,26 @@ const MaterialEdit = () => {
     try {
       setIsLoading(true);
       const res = await axios.putForm("/api/gamelingo/genshin-impact" as Route, formData, {
-        headers: { "Data-Category": "Material", "Old-Id": _id },
+        headers: { "Data-Category": "Material", "Old-Id": _id, "Content-Lang": langParams },
       });
 
       notif(res.data.msg, { color: "green", refElement: "buttons", location: "before" });
       console.log(res);
-      // setTimeout(() => {
-      //   setEditMenu(false);
-      //   window.location.reload();
-      // }, 3000);
+      setTimeout(() => {
+        setEditMenu(false);
+        window.location.reload();
+      }, 3000);
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) {
           notif(error.response.data.msg, { color: "red", refElement: "buttons", location: "before" });
-        }
+        } 
+        if (error.response?.status === 400) {
+          notif(error.response.data.msg, { color: "red", refElement: "buttons", location: "before" });
+        } 
+        if (error.response?.status === 401) {
+          notif(error.response.data.msg, { color: "red", refElement: "buttons", location: "before" });
+        } 
       }
       console.error(error);
     } finally {
