@@ -92,7 +92,7 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       if (!data[`${type}-description` as keyof FormUtils.Genshin.FormDataArtifact]) return { status: false, msg: `${type} description harus diisi` };
       if (!data[`${type}-lore` as keyof FormUtils.Genshin.FormDataArtifact]) return { status: false, msg: `${type} lore harus diisi` };
       console.log(image);
-      if (!image || (image && image?.name !== "undefined" && image?.type !== "application/octet-stream")) {
+      if (!image || (image && image?.name !== "undefined") || (!image.name && image?.type !== "application/octet-stream")) {
         (data[`${type}-image` as keyof FormUtils.Genshin.FormDataArtifact] as File | undefined) = undefined;
       } else {
         if (!image.name.includes(`${type}`))
