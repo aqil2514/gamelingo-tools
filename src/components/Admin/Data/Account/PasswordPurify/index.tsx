@@ -1,4 +1,4 @@
-import ContextProvider from "../../../ContextMenu/ContextProvider";
+import ContextProvider from "../../../../Providers/Admin/ContextProvider";
 import PasswordPurifyData from "./Data";
 
 export default function PasswordPurify({ data }: { data: Account.PasswordPurify[] }) {

@@ -1,3 +1,4 @@
+import { useArtifactContext } from "@/components/Providers/Game/GenshinImpact/ArtifactProvider";
 import Button, { VariantClass as ButtonClass } from "@/components/general/Button";
 import { Input, VariantClass } from "@/components/general/Input";
 import Textarea, { TextareaStyle } from "@/components/general/Textarea";
@@ -5,12 +6,14 @@ import Image from "next/image";
 import React from "react";
 
 interface SwiperSlideProps {
-  data: GenshinImpact.ApiResponseArtifacts;
-  setData: React.Dispatch<React.SetStateAction<GenshinImpact.ApiResponseArtifacts>>;
   keyValue: "flower" | "circlet" | "goblet" | "plume" | "sands";
 }
 
-export default function SwiperSlideData({ data, setData, keyValue }: SwiperSlideProps) {
+export default function SwiperSlideData({ keyValue }: SwiperSlideProps) {
+  const context = useArtifactContext();
+  const data = context.artifact;
+  const setData = context.setArtifact;
+
   const initFileName = `No Image Selected for ${keyValue}`;
   const [fileName, setFileName] = React.useState<string>(initFileName);
   const [previewLink, setPreviewLink] = React.useState<string>("");

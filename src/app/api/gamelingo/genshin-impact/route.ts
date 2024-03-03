@@ -1,4 +1,5 @@
 import { Post } from "@/models/General/Post";
+import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
 import { getUser } from "@/utils/api";
 import { genshin } from "@/utils/formUtils";
@@ -41,6 +42,15 @@ export async function DELETE(req: NextRequest) {
       await ENMaterial.findByIdAndDelete(id);
       await Post.findOneAndDelete({ content: new ObjectId(id) });
     }
+  } else if (dataType === "Artifact") {
+    if (lang === "Indonesian") {
+      await IDArtifact.findByIdAndDelete(id);
+      await Post.findOneAndDelete({ content: new ObjectId(id) });
+    }
+    if (lang === "English") {
+      await ENArtifact.findByIdAndDelete(id);
+      await Post.findOneAndDelete({ content: new ObjectId(id) });
+    }
   }
 
   return NextResponse.json({ msg: "Hapus data berhasil" }, { status: 200 });
@@ -58,7 +68,7 @@ export async function PUT(req: NextRequest) {
   if (!user) return NextResponse.json({ msg: "Anda belum login" }, { status: 401 });
 
   if (category === "Material") {
-    const process = await genshin.processMaterial(formData, user, { action: "edit", oldId: dataId,lang });
+    const process = await genshin.processMaterial(formData, user, { action: "edit", oldId: dataId, lang });
     if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
     return NextResponse.json({ msg: "Data material berhasil diubah", process }, { status: 200 });

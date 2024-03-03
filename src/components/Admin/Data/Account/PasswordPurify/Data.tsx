@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useMenuContextData } from "../../../ContextMenu/ContextProvider";
+import { useMenuContextData } from "../../../../Providers/Admin/ContextProvider";
 import ContextMenu from "../../../ContextMenu";
 import DetailMenu from "../../../ContextMenu/DetailMenu";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import ContextProvider from "../../../ContextMenu/ContextProvider";
+import ContextProvider from "../../../../Providers/Admin/ContextProvider";
 import MaterialDataTable from "./MaterialData";
 
 export interface MaterialDataProps {

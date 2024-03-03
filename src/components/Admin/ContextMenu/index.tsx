@@ -2,7 +2,7 @@ import { notif } from "@/utils/fe";
 import { Route } from "next";
 import axios, { isAxiosError } from "axios";
 import { adminId } from "@/components/general/Data";
-import { useMenuContextData } from "./ContextProvider";
+import { useMenuContextData } from "../../Providers/Admin/ContextProvider";
 import { ContextSelectFieldProps } from "./interface";
 import { LI_Style } from "../Resources";
 
@@ -19,6 +19,7 @@ export default function ContextMenu({ field, subfield, passData }: ContextSelect
     else if (subfield === "password_purify") return <PasswordPurifyContextMenu data={passData} />;
   } else if (field === "genshin-impact") {
     if (subfield === "Material") return <GIMaterialContextMenu data={passData} />;
+    else if (subfield === "Artifact") return <GIArtifactContextMenu data={passData} />;
   }
 }
 
@@ -230,6 +231,69 @@ const GIMaterialContextMenu = ({ data }: { data: GenshinImpact.Material[] }) => 
       if (isAxiosError(error)) {
         if (error.response?.status === 422) notif(error.response.data.msg, { color: "red", refElement: "table-material-data", location: "before" });
         else if (error.response?.status === 400) notif(error.response.data.msg, { color: "red", refElement: "table-material-data", location: "before" });
+      }
+      console.error(error);
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
+  return (
+    <div style={{ top: contextMenu.y + "px", left: contextMenu.x + "px" }} className="absolute z-50 bg-slate-700 rounded-xl min-h-[50px] min-w-[100px] p-4">
+      <ul>
+        <li className={LI_Style.style1} onClick={() => setDetailMenu(true)}>
+          Details
+        </li>
+        <li className={LI_Style.style1} onClick={copyHandler}>
+          Copy Content
+        </li>
+        <li className={LI_Style.style1} onClick={deleteHandler}>
+          Delete Data
+        </li>
+        <li className={LI_Style.style1} onClick={() => setEditMenu(true)}>
+          Edit Data
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+const GIArtifactContextMenu = ({ data }: { data: GenshinImpact.Artifact[] }) => {
+  const { contextMenu, setIsDeleting, router, setDetailMenu, setEditMenu } = useMenuContextData();
+  async function copyHandler() {
+    if (contextMenu.target) {
+      await navigator.clipboard.writeText(contextMenu.target?.innerText);
+      notif("Berhasil copy data", { color: "green", refElement: "table-user-data", location: "before" });
+    }
+  }
+
+  async function deleteHandler() {
+    const id = contextMenu.target?.getAttribute("data-id");
+    const lang = contextMenu.target?.getAttribute("data-lang");
+    const name = data.find((d) => d._id === id)?.name;
+
+    const allow = confirm(`Yakin ingin hapus data Artifact dengan nama ${name}?`);
+    if (!allow) return notif("Aksi dibatalkan", { color: "green", refElement: "table-artifact-data", location: "before" });
+    const url = "/api/gamelingo/genshin-impact";
+    try {
+      setIsDeleting(true);
+
+      const res = await axios.delete(url, {
+        headers: {
+          "DB-Content": "Artifact",
+          "Content-Lang": lang,
+        },
+        data: {
+          id,
+        },
+      });
+
+      notif(res.data.msg, { color: "green", refElement: "table-artifact-data", location: "before" });
+      router.refresh();
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 422) notif(error.response.data.msg, { color: "red", refElement: "table-artifact-data", location: "before" });
+        else if (error.response?.status === 400) notif(error.response.data.msg, { color: "red", refElement: "table-artifact-data", location: "before" });
       }
       console.error(error);
     } finally {

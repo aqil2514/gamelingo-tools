@@ -22,7 +22,7 @@ export default function Material() {
     game: "Genshin Impact",
     category: "Material",
     ref: "material-button-submit",
-    callbackUrl: "/admin/data?field=genshin-impact&subfield=Material",
+    callbackUrl: "/admin/data?field=genshin-impact&subfield=Material&lang=English",
     moveLocation,
   };
 

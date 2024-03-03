@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import ContextMenu from "../../../ContextMenu";
-import { useMenuContextData } from "../../../ContextMenu/ContextProvider";
+import { useMenuContextData } from "../../../../Providers/Admin/ContextProvider";
 import EditMenu from "../../../ContextMenu/EditMenu";
 import DetailMenu from "../../../ContextMenu/DetailMenu";
 import { TD_Style, TH_Style, Table_Style } from "@/components/Admin/Resources";
@@ -38,13 +38,12 @@ export default function ArtifactDataTable({ data, lang, setLang }: ArtifactDataP
       </div>
 
       {isDeleting && <p className="font-bold text-amber-500">Menghapus Data...</p>}
-      <table id="table-material-data" className={Table_Style.style1}>
+      <table id="table-artifact-data" className={Table_Style.style1}>
         <thead>
           <tr>
             <th className={TH_Style.style1}>#</th>
             <th className={TH_Style.style1}>name</th>
             <th className={TH_Style.style1}>rarity</th>
-            <th className={TH_Style.style1}>type Material</th>
           </tr>
         </thead>
         <tbody>
@@ -64,16 +63,13 @@ export default function ArtifactDataTable({ data, lang, setLang }: ArtifactDataP
                 <td className={TD_Style.style1} data-id={d._id} data-lang={lang}>
                   {d.rarityList.join(", ")}
                 </td>
-                <td className={TD_Style.style1} data-id={d._id} data-lang={lang}>
-                  {d.type}
-                </td>
               </tr>
             ))
           )}
         </tbody>
       </table>
 
-      {contextMenu.isActive && <ContextMenu field="genshin-impact" subfield="Material" passData={data} />}
+      {contextMenu.isActive && <ContextMenu field="genshin-impact" subfield="Artifact" passData={data} />}
 
       {editMenu && <EditMenu field="genshin-impact" subfield="Material" />}
 

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import ContextMenu from "../../../ContextMenu";
-import { useMenuContextData } from "../../../ContextMenu/ContextProvider";
+import { useMenuContextData } from "../../../../Providers/Admin/ContextProvider";
 import EditMenu from "../../../ContextMenu/EditMenu";
 import DetailMenu from "../../../ContextMenu/DetailMenu";
 import { TD_Style, TH_Style, Table_Style } from "@/components/Admin/Resources";

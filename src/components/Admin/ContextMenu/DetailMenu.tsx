@@ -5,7 +5,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { useMenuContextData } from "./ContextProvider";
+import { useMenuContextData } from "../../Providers/Admin/ContextProvider";
 import axios from "axios";
 import { Route } from "next";
 import Loading from "@/components/general/Loading";
