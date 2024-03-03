@@ -285,7 +285,13 @@ const MaterialEdit = () => {
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement;
 
-    if (!target.files || (target.files && target.files.length === 0)) return (target.value = "");
+    if (!target.files || (target.files && target.files.length === 0)) {
+      target.value = "";
+      setFileName("");
+      setPreviewLink("");
+
+      return 
+    };
 
     const image = target.files[0];
     const urlSrc = URL.createObjectURL(image);
@@ -298,7 +304,7 @@ const MaterialEdit = () => {
 
   return (
     <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
-      <h1 className="text-white text-center font-bold font-poppins">Edit Material</h1>
+      <h1 id="test" className="text-white text-center font-bold font-poppins">Edit Material</h1>
       {Object.keys(data).length === 0 ? (
         <Loading loading={1} textOn text="Mengambil data material..." />
       ) : (
@@ -314,11 +320,11 @@ const MaterialEdit = () => {
               {/* Apakah gambar datanya ada di database ? */}
               {data.image ? (
                 // Jika ada, tampilkan data tersebut dalam komponen Image
-                <Image src={data.image} fill sizes="auto" alt={data.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
+                <Image src={data.image} width={64} height={64} alt={data.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
               ) : // Jika tidak ada, cek dulu apakah gambarnya sudah disetting melalui input?
               fileName && previewLink ? (
                 // Jika sudah disetting melalui input, tampilkan gambar tersebut dengan komponen Image
-                <Image src={previewLink} fill sizes="auto" alt={fileName + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
+                <Image src={previewLink} width={64} height={64} alt={fileName + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
               ) : (
                 // Jika belum disetting melalui input, tampilkan gambar blum disetting
                 <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>

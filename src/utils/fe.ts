@@ -28,7 +28,7 @@ export interface NotifConfig {
  * @param config - Konfigurasi penampilan pesan
  */
 export function notif(msg: string, config: NotifConfig) {
-  const { color, refElement, location, time } = config;
+  const { color, refElement, location, time=3000 } = config;
   const pElement = document.createElement("p");
   pElement.innerHTML = msg;
 

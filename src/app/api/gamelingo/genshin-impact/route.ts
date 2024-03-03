@@ -56,7 +56,7 @@ export async function PUT(req: NextRequest) {
 
   if (category === "Material") {
     const process = await genshin.processMaterial(formData, user, { action: "edit" });
-    if (!process.status) return NextResponse.json({ msg: process.msg }, { status: 422 });
+    if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
     return NextResponse.json({ msg: "Data material berhasil diubah", process }, { status: 200 });
   }
