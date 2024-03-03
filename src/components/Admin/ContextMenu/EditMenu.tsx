@@ -277,13 +277,13 @@ const MaterialEdit = () => {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) {
           notif(error.response.data.msg, { color: "red", refElement: "buttons", location: "before" });
-        } 
+        }
         if (error.response?.status === 400) {
           notif(error.response.data.msg, { color: "red", refElement: "buttons", location: "before" });
-        } 
+        }
         if (error.response?.status === 401) {
           notif(error.response.data.msg, { color: "red", refElement: "buttons", location: "before" });
-        } 
+        }
       }
       console.error(error);
     } finally {
@@ -324,7 +324,7 @@ const MaterialEdit = () => {
 
           <div>
             <label
-              className="relative m-auto border border-dashed group border-white rounded-md w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden"
+              className="relative m-auto border border-dashed group border-white rounded-md min-h-[128px] min-w-[128px] max-h-[210px] max-w-[210px] flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden"
               htmlFor="input-image"
             >
               <input type="file" name="image" id="input-image" className="hidden" onChange={changeHandler} />
