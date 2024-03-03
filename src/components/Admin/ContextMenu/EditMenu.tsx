@@ -331,7 +331,7 @@ const MaterialEdit = () => {
               {/* Apakah gambar datanya ada di database ? */}
               {data.image ? (
                 // Jika ada, tampilkan data tersebut dalam komponen Image
-                <Image src={data.image} width={64} height={64} alt={data.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
+                <Image src={data.image} fill sizes="auto" alt={data.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
               ) : // Jika tidak ada, cek dulu apakah gambarnya sudah disetting melalui input?
               fileName && previewLink ? (
                 // Jika sudah disetting melalui input, tampilkan gambar tersebut dengan komponen Image

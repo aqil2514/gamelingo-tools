@@ -570,6 +570,8 @@ namespace GenshinImpact {
     circlet: ArtifactSub;
   }
 
+  export type ArtifactTable = Pick<Artifact, "_id" | "name" | "rarityList"> & Pick<ArtifactSub, "type">;
+
   export interface ArtifactSub {
     name: string;
     description: string;
