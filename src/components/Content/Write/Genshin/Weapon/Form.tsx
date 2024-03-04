@@ -73,6 +73,7 @@ function WriteContent() {
                   }
                   variant={VariantClass.dashboard}
                 />
+
                 <Input
                   disabled={isLoading}
                   forId="weapon-base-stat"
@@ -206,6 +207,7 @@ function WriteContent() {
 
 function EditContent() {
   const [data, setData] = useState<GenshinImpact.Weapon>({} as GenshinImpact.Weapon);
+
   const { contextMenu, isLoading } = useMenuContextData();
   const lang = contextMenu.target?.getAttribute("data-lang");
   const id = contextMenu.target?.getAttribute("data-id");
@@ -332,6 +334,35 @@ function EditContent() {
               </label>
             </div>
 
+            <div>
+                <Input
+                  disabled={isLoading}
+                  forId="weapon-base-atk"
+                  name="weapon-base-atk"
+                  label="Base Atk"
+                  defaultValue={data.baseAtk}
+                  variant={VariantClass.dashboard}
+                />
+                
+                <Input
+                  disabled={isLoading}
+                  forId="weapon-base-stat"
+                  name="weapon-base-stat"
+                  label="Base Status"
+                  defaultValue={data.baseStat}
+                  variant={VariantClass.dashboard}
+                />
+
+                <Input
+                  disabled={isLoading}
+                  forId="weapon-sub-status"
+                  name="subStatus"
+                  label="Weapon Sub Status"
+                  value={data.subStatus}
+                  variant={VariantClass.dashboard}
+                />
+              </div>
+
             <Input disabled={isLoading} forId="weapon-type" name="type" label="Weapon Type" list="weapon-type-list" defaultValue={data.type} variant={VariantClass.dashboard} />
 
             <Textarea forId="weapon-lore" name="lore" label="Weapon Lore" defaultValue={data.lore} className={TextareaStyle.variant_1} />
@@ -383,7 +414,9 @@ function EditContent() {
               </Swiper>
             </div>
 
+            {data.image ?  <></> : 
             <ImageInput changeHandler={(e) => imageHandler(e, setFileName, setPreviewLink)} fileName={fileName} setFileName={setFileName} previewLink={previewLink} setPreviewLink={setPreviewLink} />
+          }
             <EditContextButton />
           </>
         )}

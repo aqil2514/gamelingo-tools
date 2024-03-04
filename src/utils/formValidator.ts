@@ -141,7 +141,8 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       }
     }
 
-    if (data.image && data.image.name !== "undefined") {
+    if (data.image && data.image.type !== "application/octet-stream") {
+
       const validation = file.validationImage(data.image, { validateName: true, validationName: data.name });
       if (!validation.status) return { status: false, msg: validation.msg };
 

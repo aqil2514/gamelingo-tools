@@ -157,6 +157,8 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     // <<<<< Data final >>>>>
     const organizedData = genshinOrganizing.weapon(validation.data, imageUrl);
+    
+    console.log(organizedData)
 
     // <<<<< Tambah data ke Database >>>>>
     if (action === "add") {
@@ -175,13 +177,13 @@ export const genshin: FormUtils.Genshin.Genshin = {
     else if (action === "edit") {
       if (!oldId) throw new Error("Old ID diperlukan");
       if (lang === "Indonesian") {
-        const material = await IDArtifact.findByIdAndUpdate(oldId, organizedData);
+        const weapon = await IDWeapon.findByIdAndUpdate(oldId, organizedData);
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
       } else if (lang === "English") {
-        const material = await ENArtifact.findByIdAndUpdate(oldId, organizedData);
+        const weapon = await ENWeapon.findByIdAndUpdate(oldId, organizedData);
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
       }
     }
 
@@ -354,6 +356,8 @@ const post: FormUtils.Post.PostAPI = {
     // <<<<< Variabel from config >>>>>
     const { lang, gameName, gameTopic, parent, user, autoTag = true, tag } = config;
 
+    if(!parent) throw new Error ("Document parent tidak ditemukan")
+    
     if (!autoTag && (!tag || tag.length === 0)) throw new Error("Tag harus diberikan jika autoTag disetting false");
 
     const postData: General.PostDocument = {

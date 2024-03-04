@@ -11,6 +11,7 @@ import { LangSelection } from "../LocalComponents";
 export default function WeaponDataTable({ data, lang, setLang }: WeaponDataProps) {
   const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu, router } = useMenuContextData();
 
+
   useEffect(() => {
     const clickFunction = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
