@@ -4,7 +4,7 @@ import ArtifactContentForm from "./Form";
 export default function ArtifactForm() {
   return (
     <ArtifactProvider>
-      <ArtifactContentForm />
+      <ArtifactContentForm template="Write" />
     </ArtifactProvider>
   );
 }

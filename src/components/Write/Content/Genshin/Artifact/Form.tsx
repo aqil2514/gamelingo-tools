@@ -11,8 +11,21 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import SwiperSlideData from "./SwiperSlideData";
 import { useArtifactContext } from "@/components/Providers/Game/GenshinImpact/ArtifactProvider";
+import Loading from "@/components/general/Loading";
 
-export default function ArtifactContentForm() {
+interface ArtifactContentFormProps {
+  template: "Write" | "Edit";
+  data?: GenshinImpact.Artifact;
+  isDisabled?: boolean;
+  submitHandler?: React.FormEventHandler<HTMLFormElement>;
+}
+
+export default function ArtifactContentForm({ template, data, isDisabled }: ArtifactContentFormProps) {
+  if (template === "Write") return <WriteContent />;
+  else if (template === "Edit") return <EditContent data={data} isDisabled={isDisabled} />;
+}
+
+function WriteContent() {
   const { isLoading, setIsLoading, moveLocation, setMoveLocation, artifact, setArtifact } = useArtifactContext();
 
   const dataExist = artifact.rarityList;
@@ -48,6 +61,7 @@ export default function ArtifactContentForm() {
             <div>
               <Textarea forId="effect2Pc" value={artifact.effect2Pc} className={TextareaStyle.variant_1} onChange={(e) => setArtifact({ ...artifact, effect2Pc: e.target.value })} name="effect2Pc" label="2 Set Effect" />
             </div>
+
             <div>
               <Textarea forId="effect4Pc" value={artifact.effect4Pc} className={TextareaStyle.variant_1} onChange={(e) => setArtifact({ ...artifact, effect4Pc: e.target.value })} name="effect4Pc" label="4 Set Effect" />
             </div>
@@ -57,19 +71,19 @@ export default function ArtifactContentForm() {
             <div className="my-4">
               <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
                 <SwiperSlide>
-                  <SwiperSlideData keyValue="flower" />
+                  <SwiperSlideData template="Write" keyValue="flower" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperSlideData keyValue="plume" />
+                  <SwiperSlideData template="Write" keyValue="plume" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperSlideData keyValue="sands" />
+                  <SwiperSlideData template="Write" keyValue="sands" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperSlideData keyValue="goblet" />
+                  <SwiperSlideData template="Write" keyValue="goblet" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperSlideData keyValue="circlet" />
+                  <SwiperSlideData template="Write" keyValue="circlet" />
                 </SwiperSlide>
               </Swiper>
             </div>
@@ -86,6 +100,48 @@ export default function ArtifactContentForm() {
           <input type="checkbox" id="move-location" className="mx-2" checked={moveLocation} onChange={() => setMoveLocation(!moveLocation)} />
           Lihat Data setelah selesai ditambah
         </label>
+      </div>
+    </form>
+  );
+}
+
+function EditContent({ data, isDisabled, submitHandler }: Omit<ArtifactContentFormProps, "template">) {
+  if (!data || !submitHandler || Object.keys(data).length === 0) return <Loading loading={1} textOn text="Mengambil data Artifact..." />;
+
+  return (
+    <form onSubmit={submitHandler}>
+      <input type="hidden" value={data._id} name="uid" />
+
+      <Input forId="name" value={data._id} disabled variant={VariantClass.dashboard} label="UID" />
+
+      <Input forId="name" value={data.name} disabled={isDisabled} required name="name" variant={VariantClass.dashboard} label="Artifact Name" />
+
+      <Textarea forId="effect2Pc" value={data.effect2pc} className={TextareaStyle.variant_1} name="effect2Pc" label="2 Set Effect" />
+
+      <Textarea forId="effect4Pc" value={data.effect4pc} className={TextareaStyle.variant_1} name="effect4Pc" label="4 Set Effect" />
+
+      {data.effectOther && <Textarea forId="effect-other" value={data.effectOther} className={TextareaStyle.variant_1} name="effect-other" label="Other Effect" />}
+
+      <div className="border-2 border-white rounded-lg px-4 py-12 my-4">
+        <div className="my-4">
+          <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
+            <SwiperSlide>
+              <SwiperSlideData template="Edit" data={data} keyValue="flower" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <SwiperSlideData template="Edit" data={data} keyValue="plume" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <SwiperSlideData template="Edit" data={data} keyValue="sands" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <SwiperSlideData template="Edit" data={data} keyValue="goblet" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <SwiperSlideData template="Edit" data={data} keyValue="circlet" />
+            </SwiperSlide>
+          </Swiper>
+        </div>
       </div>
     </form>
   );

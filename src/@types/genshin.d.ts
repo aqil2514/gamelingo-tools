@@ -557,7 +557,7 @@ namespace GenshinImpact {
   export type MaterialTable = Pick<Material, "name" | "typeMaterial" | "rarity" | "_id">;
 
   export interface Artifact {
-    _id?: string;
+    readonly _id?: string;
     name: string;
     rarityList: string[];
     effect2pc: string;
@@ -568,7 +568,13 @@ namespace GenshinImpact {
     sands: ArtifactSub;
     goblet: ArtifactSub;
     circlet: ArtifactSub;
+    readonly createdAt?: string;
+    updatedAt?: string;
   }
+
+  export type ArtifactDoc = Pick<Artifact, "_id" | "name" | "rarityList" | "effect2pc" | "effect4pc" | "effectOther">;
+
+  export type ArtifactSubDoc = Pick<Artifact, "flowe" | "plume" | "sands" | "goblet" | "circlet">;
 
   export type ArtifactTable = Pick<Artifact, "_id" | "name" | "rarityList">;
 

@@ -385,18 +385,18 @@ const GIMaterialEdit = () => {
 };
 
 const GIArtifactEdit = () => {
-  const [data, setData] = useState<GenshinImpact.Material>({} as GenshinImpact.Material);
+  const [data, setData] = useState<GenshinImpact.Artifact>({} as GenshinImpact.Artifact);
   const [date, setDate] = useState<string>("");
   const { contextMenu, setIsLoading, setEditMenu, isLoading, searchParams } = useMenuContextData();
   const langParams = searchParams.get("lang");
   const lang = contextMenu.target?.getAttribute("data-lang");
   const id = contextMenu.target?.getAttribute("data-id");
-  const [previewLink, setPreviewLink] = useState<string>("");
-  const [fileName, setFileName] = useState<string>("");
+
+  // TODO: Akalin ini nanti ajah
 
   useEffect(() => {
     if (contextMenu.target) {
-      const url: Route = `/api/gamelingo/genshin-impact?_id=${id}&category=Material&lang=${lang}`;
+      const url: Route = `/api/gamelingo/genshin-impact?_id=${id}&category=Artifact&lang=${lang}`;
       axios(url).then((res) => setData(res.data.data));
     }
 
@@ -417,7 +417,7 @@ const GIArtifactEdit = () => {
     try {
       setIsLoading(true);
       const res = await axios.putForm("/api/gamelingo/genshin-impact" as Route, formData, {
-        headers: { "Data-Category": "Material", "Old-Id": _id, "Content-Lang": langParams },
+        headers: { "Data-Category": "Artifact", "Old-Id": _id, "Content-Lang": langParams },
       });
 
       notif(res.data.msg, { color: "green", refElement: "buttons", location: "before" });
@@ -444,24 +444,6 @@ const GIArtifactEdit = () => {
     }
   }
 
-  function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
-    const target = e.target as HTMLInputElement;
-
-    if (!target.files || (target.files && target.files.length === 0)) {
-      target.value = "";
-      setFileName("");
-      setPreviewLink("");
-
-      return;
-    }
-
-    const image = target.files[0];
-    const urlSrc = URL.createObjectURL(image);
-
-    setFileName(image.name);
-    setPreviewLink(urlSrc);
-  }
-
   const isDisabled = isLoading;
 
   return (
@@ -469,69 +451,8 @@ const GIArtifactEdit = () => {
       <h1 id="test" className="text-white text-center font-bold font-poppins">
         Edit Artifact
       </h1>
-      {Object.keys(data).length === 0 ? (
-        <Loading loading={1} textOn text="Mengambil data material..." />
-      ) : (
-        <ArtifactContentForm />
-        // <form method="post" onSubmit={submitHandler}>
-        //   <input type="hidden" name="id" defaultValue={data._id} />
 
-        //   <div>
-        //     <label
-        //       className="relative m-auto border border-dashed group border-white rounded-md min-h-[128px] min-w-[128px] max-h-[210px] max-w-[210px] flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden"
-        //       htmlFor="input-image"
-        //     >
-        //       <input type="file" name="image" id="input-image" className="hidden" onChange={changeHandler} />
-        //       {/* Apakah gambar datanya ada di database ? */}
-        //       {data.image ? (
-        //         // Jika ada, tampilkan data tersebut dalam komponen Image
-        //         <Image src={data.image} fill sizes="auto" alt={data.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
-        //       ) : // Jika tidak ada, cek dulu apakah gambarnya sudah disetting melalui input?
-        //       fileName && previewLink ? (
-        //         // Jika sudah disetting melalui input, tampilkan gambar tersebut dengan komponen Image
-        //         <Image src={previewLink} width={64} height={64} alt={fileName + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
-        //       ) : (
-        //         // Jika belum disetting melalui input, tampilkan gambar blum disetting
-        //         <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
-        //       )}
-        //     </label>
-        //   </div>
-
-        //   <Input variant={InputClass.dashboard} forId="id" disabled label="Material Id" defaultValue={data._id} />
-
-        //   <Input variant={InputClass.dashboard} forId="material-name" name="name" disabled={isDisabled} label="Material Name" defaultValue={data.name} />
-
-        //   <Input variant={InputClass.dashboard} forId="material-type" name="typeMaterial" disabled={isDisabled} label="Material Type" defaultValue={data.typeMaterial} />
-
-        //   <Input variant={InputClass.dashboard} forId="material-rarity" name="rarity" disabled={isDisabled} label="Material Rarity" defaultValue={data.rarity} />
-
-        //   <Input variant={InputClass.dashboard} forId="gainedFrom" name="gainedFrom" disabled={isDisabled} label="Gained From" defaultValue={typeof data.gainedFrom === "object" ? data.gainedFrom.join(", ") : data.gainedFrom} />
-
-        //   <div>
-        //     <label htmlFor="material-lore" className="text-white font-bold">
-        //       Material Lore :
-        //     </label>
-        //     <textarea disabled={isLoading} className="w-full h-[100px] block  my-4 rounded-xl p-4 text-zinc-950 text-base font-bold font-poppins" name="lore" defaultValue={data.lore} id="material-lore"></textarea>
-        //   </div>
-
-        //   <Input variant={InputClass.dashboard} type="datetime-local" disabled defaultValue={date} name="createdat" forId="createdat" label="Dibuat pada" />
-
-        //   <div id="buttons" className="flex justify-center gap-4">
-        //     <Button type="button" disabled={isDisabled} className={VariantClass.danger} onClick={() => setEditMenu(false)}>
-        //       Batal
-        //     </Button>
-        //     <Button className={VariantClass.submit} disabled={isDisabled}>
-        //       {isDisabled ? "Submitting..." : "Submit"}
-        //     </Button>
-        //   </div>
-
-        //   <datalist id="data-role-user">
-        //     {allowedRole.map((role) => (
-        //       <option key={role} value={role} />
-        //     ))}
-        //   </datalist>
-        // </form>
-      )}
+      <ArtifactContentForm template="Edit" data={data} isDisabled={isDisabled} submitHandler={submitHandler} />
     </div>
   );
 };
