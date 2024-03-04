@@ -8,7 +8,7 @@ export interface WeaponDataProps {
   setLang: React.Dispatch<React.SetStateAction<General.PostDocument["lang"]>>;
 }
 
-export default function MaterialData({ data, lang, setLang }: WeaponDataProps) {
+export default function WeaponData({ data, lang, setLang }: WeaponDataProps) {
   return (
     <ContextProvider>
       <WeaponDataTable data={data} lang={lang} setLang={setLang} />
