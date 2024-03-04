@@ -12,12 +12,16 @@ import { Pagination } from "swiper/modules";
 import SwiperSlideData from "./SwiperSlideData";
 import { useArtifactContext } from "@/components/Providers/Game/GenshinImpact/ArtifactProvider";
 import Loading from "@/components/general/Loading";
+import { EditContextButton } from "@/components/Admin/ContextMenu/EditMenu";
+import axios, { isAxiosError } from "axios";
+import { Route } from "next";
+import { notif } from "@/utils/fe";
+import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
 
 interface ArtifactContentFormProps {
   template: "Write" | "Edit";
   data?: GenshinImpact.Artifact;
   isDisabled?: boolean;
-  submitHandler?: React.FormEventHandler<HTMLFormElement>;
 }
 
 export default function ArtifactContentForm({ template, data, isDisabled }: ArtifactContentFormProps) {
@@ -105,17 +109,84 @@ function WriteContent() {
   );
 }
 
-function EditContent({ data, isDisabled, submitHandler }: Omit<ArtifactContentFormProps, "template">) {
+function EditContent({ data, isDisabled }: Omit<ArtifactContentFormProps, "template">) {
+  const { setIsLoading, setEditMenu, searchParams } =
+    useMenuContextData();
+    const langParams = searchParams.get("lang");
+
+
+  async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const _id = formData.get("id") as string;
+
+    try {
+      setIsLoading(true);
+      const res = await axios.putForm(
+        "/api/gamelingo/genshin-impact" as Route,
+        formData,
+        {
+          headers: {
+            "Data-Category": "Artifact",
+            "Old-Id": _id,
+            "Content-Lang": langParams,
+          },
+        }
+      );
+
+      notif(res.data.msg, {
+        color: "green",
+        refElement: "buttons",
+        location: "before",
+      });
+      
+      setTimeout(() => {
+        setEditMenu(false);
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 422) {
+          notif(error.response.data.msg, {
+            color: "red",
+            refElement: "buttons",
+            location: "before",
+          });
+        }
+        if (error.response?.status === 400) {
+          notif(error.response.data.msg, {
+            color: "red",
+            refElement: "buttons",
+            location: "before",
+          });
+        }
+        if (error.response?.status === 401) {
+          notif(error.response.data.msg, {
+            color: "red",
+            refElement: "buttons",
+            location: "before",
+          });
+        }
+      }
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={(e) => submitHandler(e)} method="post">
       {!data || Object.keys(data).length === 0 ? <Loading loading={1} textOn text="Mengambil data Artifact..." /> : (
         <>
-      <input type="hidden" defaultValue={data._id} name="uid" />
+      <input type="hidden" defaultValue={data._id} name="id" />
 
-      <Input forId="name" defaultValue={data._id} disabled variant={VariantClass.dashboard} label="UID" />
+      <Input forId="UID" defaultValue={data._id} disabled variant={VariantClass.dashboard} label="UID" />
 
       <Input forId="name" defaultValue={data.name} disabled={isDisabled} required name="name" variant={VariantClass.dashboard} label="Artifact Name" />
+      
+      <Input forId="rarityList" defaultValue={data.rarityList.join(", ")} variant={VariantClass.dashboard} name="rarityList" label="Rarity List" />
 
       <Textarea forId="effect2Pc" defaultValue={data.effect2pc} className={TextareaStyle.variant_1} name="effect2Pc" label="2 Set Effect" />
 
@@ -144,7 +215,9 @@ function EditContent({ data, isDisabled, submitHandler }: Omit<ArtifactContentFo
           </Swiper>
         </div>
       </div>
+      <EditContextButton />
         </>
+
       )}
     </form>
   );

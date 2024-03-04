@@ -300,7 +300,7 @@ export const admin: FormUtils.Account.AccountFormApi = {
         }
       );
     } catch (error) {
-      console.log("Ganti gagal:", error);
+      console.error("Ganti gagal:", error);
     }
 
     return { status: 200, organizedData };

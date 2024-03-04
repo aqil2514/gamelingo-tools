@@ -81,6 +81,6 @@ export async function PUT(req: NextRequest) {
     const process = await genshin.proccessArtifact(formData, user, { action: "edit", oldId: dataId, lang });
     if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
-    return NextResponse.json({ msg: "Data material berhasil diubah", process }, { status: 200 });
+    return NextResponse.json({ msg: "Data artifact berhasil diubah", process }, { status: 200 });
   }
 }

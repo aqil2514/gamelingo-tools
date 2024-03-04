@@ -162,7 +162,6 @@ function SwiperEdit({ keyValue, data }: Omit<SwiperSlideProps, "template">) {
   const [previewLink, setPreviewLink] = React.useState<string>("");
   const imageRef = React.useRef<HTMLInputElement>(null);
 
-  console.log(data)
 
   function imageHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const el = e.target as HTMLInputElement;

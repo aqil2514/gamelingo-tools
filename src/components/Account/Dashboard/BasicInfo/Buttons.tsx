@@ -49,7 +49,7 @@ export default function Buttons() {
             pElement.remove();
           }, 3000);
         }
-        console.log(error);
+        console.error(error);
       }
     } finally {
       dispatch({ type: StateActionKind.IS_EDITING_END });

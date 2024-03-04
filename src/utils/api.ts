@@ -333,10 +333,10 @@ export const sendMail: ApiUtils.SendmailApi = {
     await new Promise((resolve, reject) => {
       transporter.verify((error, success) => {
         if (error) {
-          console.log(error);
+          console.error(error);
           reject(error);
         } else {
-          console.log("Server is ready to take our messages");
+          console.info("Server is ready to take our messages");
           resolve(success);
         }
       });
@@ -374,7 +374,7 @@ export const sendMail: ApiUtils.SendmailApi = {
           console.error(err);
           reject(err);
         } else {
-          console.log(info);
+          console.info(info);
           resolve(info);
         }
       });
@@ -384,10 +384,10 @@ export const sendMail: ApiUtils.SendmailApi = {
     await new Promise((resolve, reject) => {
       transporter.verify((error, success) => {
         if (error) {
-          console.log(error);
+          console.error(error);
           reject(error);
         } else {
-          console.log("Server is ready to take our messages");
+          console.info("Server is ready to take our messages");
           resolve(success);
         }
       });
@@ -419,7 +419,7 @@ export const sendMail: ApiUtils.SendmailApi = {
           console.error(err);
           reject(err);
         } else {
-          console.log(info);
+          console.info(info);
           resolve(info);
         }
       });

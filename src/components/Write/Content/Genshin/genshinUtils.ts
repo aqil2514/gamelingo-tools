@@ -39,7 +39,6 @@ export function getFormData(e: React.FormEvent<HTMLFormElement>) {
   files.forEach((file) => (data[file.name] = file.files));
   data[textarea!.name] = formData.get(textarea!.name) as string;
 
-  console.log(data);
 
   return data;
 }
@@ -65,7 +64,6 @@ export async function submitFormHandler(e: React.FormEvent<HTMLFormElement>, con
     });
 
     notif(res.data.msg, { color: "green", refElement: ref, location: "before" });
-    console.log(res.data);
 
     if (callbackUrl && moveLocation) location.href = callbackUrl;
   } catch (error) {

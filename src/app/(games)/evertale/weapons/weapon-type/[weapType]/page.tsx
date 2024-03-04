@@ -9,8 +9,6 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { weapType } = params;
 
-  console.log(weapType);
-
   const firsLetter = weapType.charAt(0).toUpperCase();
   const resLetter = weapType.slice(1);
   const title = firsLetter + resLetter + " Weapons";
