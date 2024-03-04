@@ -48,7 +48,7 @@ export default function GIArtifactDetail() {
           </p>
 
           {/* Efek 2 Pcs, Efek 4 Pcs, Efek lain  */}
-          <div className="grid grid-cols-3 p-4">
+          <div className="grid grid-cols-3 p-4 border rounded-lg border-white">
             <div>
               <p className="font-poppins text-white">
                 <strong className="font-bold">Efek 2 Pcs : </strong>
@@ -71,23 +71,25 @@ export default function GIArtifactDetail() {
             )}
           </div>
 
-          <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
-            <SwiperSlide>
-              <SubArtifact data={data} keyValue="flower" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <SubArtifact data={data} keyValue="plume" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <SubArtifact data={data} keyValue="sands" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <SubArtifact data={data} keyValue="goblet" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <SubArtifact data={data} keyValue="circlet" />
-            </SwiperSlide>
-          </Swiper>
+          <div className="p-8 border border-white rounded-lg">
+            <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
+              <SwiperSlide>
+                <SubArtifact data={data} keyValue="flower" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SubArtifact data={data} keyValue="plume" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SubArtifact data={data} keyValue="sands" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SubArtifact data={data} keyValue="goblet" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <SubArtifact data={data} keyValue="circlet" />
+              </SwiperSlide>
+            </Swiper>
+          </div>
 
           <div id="buttons" className="flex justify-center gap-4">
             <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>

@@ -1,6 +1,7 @@
 import { Post } from "@/models/General/Post";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
+import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 import { getUser } from "@/utils/api";
 import { genshin } from "@/utils/formUtils";
 import { ObjectId } from "mongodb";
@@ -52,6 +53,15 @@ export async function DELETE(req: NextRequest) {
     }
     if (lang === "English") {
       await ENArtifact.findByIdAndDelete(id);
+      await Post.findOneAndDelete({ content: new ObjectId(id) });
+    }
+  } else if (dataType === "Weapon") {
+    if (lang === "Indonesian") {
+      await IDWeapon.findByIdAndDelete(id);
+      await Post.findOneAndDelete({ content: new ObjectId(id) });
+    }
+    if (lang === "English") {
+      await ENWeapon.findByIdAndDelete(id);
       await Post.findOneAndDelete({ content: new ObjectId(id) });
     }
   }

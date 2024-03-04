@@ -32,7 +32,7 @@ namespace GenshinImpact {
     team: string[];
   }
 
-  interface UpgradeMaterial {
+  export interface UpgradeMaterial {
     ascend1: UpgradeMaterialItem[];
     ascend2: UpgradeMaterialItem[];
     ascend3: UpgradeMaterialItem[];
@@ -41,7 +41,7 @@ namespace GenshinImpact {
     ascend6: UpgradeMaterialItem[];
   }
 
-  interface UpgradeMaterialItem {
+  export interface UpgradeMaterialItem {
     name: string;
     count: number;
   }
@@ -511,7 +511,7 @@ namespace GenshinImpact {
   }
 
   export interface Weapon {
-    _id?: string;
+    readonly _id?: string;
     name: string;
     type: string;
     baseAtk: string;
@@ -535,6 +535,8 @@ namespace GenshinImpact {
     rarity: string;
     image?: string;
   }
+
+  type WeaponTable = Pick<Weapon, "_id" | "name" | "type" | "rarity">;
 
   export interface Misc {
     ascendStatus: string[];
