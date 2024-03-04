@@ -22,6 +22,11 @@ export async function GET(req: NextRequest) {
     else if (lang === "Indonesian") data = await IDMaterial.findById(_id);
   }
 
+  else if (category === "Artifact") {
+    if (lang === "English") data = await ENArtifact.findById(_id);
+    else if (lang === "Indonesian") data = await IDArtifact.findById(_id);
+  }
+
   return NextResponse.json({ data }, { status: 200 });
 }
 

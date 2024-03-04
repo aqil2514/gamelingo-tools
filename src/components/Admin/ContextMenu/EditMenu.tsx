@@ -397,14 +397,15 @@ const GIArtifactEdit = () => {
   useEffect(() => {
     if (contextMenu.target) {
       const url: Route = `/api/gamelingo/genshin-impact?_id=${id}&category=Artifact&lang=${lang}`;
-      axios(url).then((res) => setData(res.data.data));
+      axios(url).then((res) => {console.log(res);setData(res.data.data)});
     }
 
-    if (Object.keys(data).length !== 0) {
-      const { year, month, day, hour, minutes } = getDate(data.createdAt as string);
 
-      setDate(`${year}-${month}-${day}T${hour}:${minutes}`);
-    }
+    // if (Object.keys(data).length !== 0) {
+    //   const { year, month, day, hour, minutes } = getDate(data.createdAt as string);
+
+    //   setDate(`${year}-${month}-${day}T${hour}:${minutes}`);
+    // }
   }, [contextMenu, data, id, lang]);
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
@@ -453,6 +454,15 @@ const GIArtifactEdit = () => {
       </h1>
 
       <ArtifactContentForm template="Edit" data={data} isDisabled={isDisabled} submitHandler={submitHandler} />
+      
+      <div id="buttons" className="flex justify-center gap-4">
+            <Button type="button" disabled={isDisabled} className={VariantClass.danger} onClick={() => setEditMenu(false)}>
+              Batal
+            </Button>
+            <Button className={VariantClass.submit} disabled={isDisabled}>
+              {isDisabled ? "Submitting..." : "Submit"}
+            </Button>
+          </div>
     </div>
   );
 };

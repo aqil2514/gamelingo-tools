@@ -106,21 +106,22 @@ function WriteContent() {
 }
 
 function EditContent({ data, isDisabled, submitHandler }: Omit<ArtifactContentFormProps, "template">) {
-  if (!data || !submitHandler || Object.keys(data).length === 0) return <Loading loading={1} textOn text="Mengambil data Artifact..." />;
 
   return (
     <form onSubmit={submitHandler}>
-      <input type="hidden" value={data._id} name="uid" />
+      {!data || Object.keys(data).length === 0 ? <Loading loading={1} textOn text="Mengambil data Artifact..." /> : (
+        <>
+      <input type="hidden" defaultValue={data._id} name="uid" />
 
-      <Input forId="name" value={data._id} disabled variant={VariantClass.dashboard} label="UID" />
+      <Input forId="name" defaultValue={data._id} disabled variant={VariantClass.dashboard} label="UID" />
 
-      <Input forId="name" value={data.name} disabled={isDisabled} required name="name" variant={VariantClass.dashboard} label="Artifact Name" />
+      <Input forId="name" defaultValue={data.name} disabled={isDisabled} required name="name" variant={VariantClass.dashboard} label="Artifact Name" />
 
-      <Textarea forId="effect2Pc" value={data.effect2pc} className={TextareaStyle.variant_1} name="effect2Pc" label="2 Set Effect" />
+      <Textarea forId="effect2Pc" defaultValue={data.effect2pc} className={TextareaStyle.variant_1} name="effect2Pc" label="2 Set Effect" />
 
-      <Textarea forId="effect4Pc" value={data.effect4pc} className={TextareaStyle.variant_1} name="effect4Pc" label="4 Set Effect" />
+      <Textarea forId="effect4Pc" defaultValue={data.effect4pc} className={TextareaStyle.variant_1} name="effect4Pc" label="4 Set Effect" />
 
-      {data.effectOther && <Textarea forId="effect-other" value={data.effectOther} className={TextareaStyle.variant_1} name="effect-other" label="Other Effect" />}
+      {data.effectOther && <Textarea forId="effect-other" defaultValue={data.effectOther} className={TextareaStyle.variant_1} name="effect-other" label="Other Effect" />}
 
       <div className="border-2 border-white rounded-lg px-4 py-12 my-4">
         <div className="my-4">
@@ -143,6 +144,8 @@ function EditContent({ data, isDisabled, submitHandler }: Omit<ArtifactContentFo
           </Swiper>
         </div>
       </div>
+        </>
+      )}
     </form>
   );
 }

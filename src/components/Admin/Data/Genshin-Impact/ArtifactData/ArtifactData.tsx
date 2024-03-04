@@ -71,7 +71,7 @@ export default function ArtifactDataTable({ data, lang, setLang }: ArtifactDataP
 
       {contextMenu.isActive && <ContextMenu field="genshin-impact" subfield="Artifact" passData={data} />}
 
-      {editMenu && <EditMenu field="genshin-impact" subfield="Material" />}
+      {editMenu && <EditMenu field="genshin-impact" subfield="Artifact" />}
 
       {detailMenu && <DetailMenu field="genshin-impact" subfield="Material" />}
     </div>
