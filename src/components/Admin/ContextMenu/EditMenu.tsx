@@ -18,6 +18,7 @@ import { getDate } from "./utils";
 
 import GIMaterialContentForm from "@/components/Content/Write/Genshin/Material/Form";
 import GIArtifactContentForm from "@/components/Content/Write/Genshin/Artifact/Form";
+import GIWeaponContentForm from "@/components/Content/Write/Genshin/Weapon/Form";
 
 export default function EditMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "account") {
@@ -27,6 +28,7 @@ export default function EditMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "genshin-impact") {
     if (subfield === "Material") return <GIMaterialContentForm template="Edit" />;
     if (subfield === "Artifact") return <GIArtifactContentForm template="Edit" />;
+    if (subfield === "Weapon") return <GIWeaponContentForm template="Edit" />;
   }
 }
 
