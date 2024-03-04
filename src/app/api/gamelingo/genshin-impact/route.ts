@@ -20,9 +20,7 @@ export async function GET(req: NextRequest) {
   if (category === "Material") {
     if (lang === "English") data = await ENMaterial.findById(_id);
     else if (lang === "Indonesian") data = await IDMaterial.findById(_id);
-  }
-
-  else if (category === "Artifact") {
+  } else if (category === "Artifact") {
     if (lang === "English") data = await ENArtifact.findById(_id);
     else if (lang === "Indonesian") data = await IDArtifact.findById(_id);
   }
@@ -74,6 +72,13 @@ export async function PUT(req: NextRequest) {
 
   if (category === "Material") {
     const process = await genshin.processMaterial(formData, user, { action: "edit", oldId: dataId, lang });
+    if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
+
+    return NextResponse.json({ msg: "Data material berhasil diubah", process }, { status: 200 });
+  }
+
+  if (category === "Artifact") {
+    const process = await genshin.proccessArtifact(formData, user, { action: "edit", oldId: dataId, lang });
     if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
     return NextResponse.json({ msg: "Data material berhasil diubah", process }, { status: 200 });
