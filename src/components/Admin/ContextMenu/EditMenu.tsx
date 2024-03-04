@@ -15,8 +15,8 @@ import Button, { VariantClass } from "@/components/general/Button";
 import { allowedRole } from "@/components/general/Data";
 import { ContextSelectFieldProps } from "./interface";
 import { getDate } from "./utils";
-import GIMaterialContentForm from "@/components/Write/Content/Genshin/Material/Form";
-import GIArtifactContentForm from "@/components/Write/Content/Genshin/Artifact/Form";
+import GIMaterialContentForm from "@/components/Content/Write/Genshin/Material/Form";
+import GIArtifactContentForm from "@/components/Content/Write/Genshin/Artifact/Form";
 
 export default function EditMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "account") {

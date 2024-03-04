@@ -1,6 +1,6 @@
-import WriteData from "@/components/Write";
-import SelectSubTemplate from "@/components/Write/SelectSubTemplate";
-import SelectTemplate from "@/components/Write/SelectTemplate";
+import WriteData from "@/components/Content/Write/Misc";
+import SelectSubTemplate from "@/components/Content/Write/Misc/SelectSubTemplate";
+import SelectTemplate from "@/components/Content/Write/Misc/SelectTemplate";
 import { Metadata } from "next";
 import { PencilSquare } from "react-bootstrap-icons";
 

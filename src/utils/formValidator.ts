@@ -142,7 +142,8 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     }
 
     if (data.image && data.image.name !== "undefined") {
-      if (data.image.size > 1 * 1024 * 1024) return { status: false, msg: "Gambar ukuran maksimal 1MB" };
+      const validation = file.validationImage(data.image, { validateName: true, validationName: data.name });
+      if (!validation.status) return { status: false, msg: validation.msg };
 
       const newFile = new File([data.image], `${data.name}.${data.image.type.split("/")[1]}`, {
         type: data.image.type,

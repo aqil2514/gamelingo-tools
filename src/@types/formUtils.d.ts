@@ -3,6 +3,7 @@ namespace FormUtils {
     msg?: string;
     status: number;
   }
+
   namespace Genshin {
     export interface FormDataMaterial {
       "result-lang": Language;
@@ -344,7 +345,15 @@ namespace FormUtils {
        * @returns Berhasil atau gagal
        */
       proccessArtifact: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
-      processWeapon: (formData: FormData, user: Account.User) => Promise<Result>;
+
+      /**
+       * Proses Weapon Genshin Impact
+       * @param formData - Form Data
+       * @param user - Info User
+       * @param config - Konfigurasi Weapon
+       * @returns Berhasil atau gagal
+       */
+      processWeapon: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
       proccessCharacter: (formData: FormData, user: Account.User) => Promise<Result>;
       processTalent: (formData: FormData, user: Account.User) => Promise<Result>;
       processConstellation: (formData: FormData, user: Account.User) => Promise<Result>;

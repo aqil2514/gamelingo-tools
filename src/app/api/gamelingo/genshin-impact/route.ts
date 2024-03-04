@@ -83,4 +83,11 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json({ msg: "Data artifact berhasil diubah", process }, { status: 200 });
   }
+
+  if (category === "Weapon") {
+    const process = await genshin.processWeapon(formData, user, { action: "edit", oldId: dataId, lang });
+    if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
+
+    return NextResponse.json({ msg: "Data weapon berhasil diubah", process }, { status: 200 });
+  }
 }

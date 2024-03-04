@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import Content from "./Content";
+import Content from "..";
 import { SubTemplateDataState } from "./Data";
 
 export default function WriteData() {
@@ -14,10 +14,7 @@ export default function WriteData() {
   return (
     <div>
       <h2 className="font-bold text-white font-poppins">
-        Write{" "}
-        <span className="capitalize underline">{game?.replace("-", " ")}</span>{" "}
-        data on <span className="capitalize underline">{category}</span>{" "}
-        category
+        Write <span className="capitalize underline">{game?.replace("-", " ")}</span> data on <span className="capitalize underline">{category}</span> category
       </h2>
 
       <Content game={game as keyof SubTemplateDataState} category={category as General.Game["category"]} />

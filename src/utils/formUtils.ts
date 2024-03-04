@@ -133,36 +133,58 @@ export const genshin: FormUtils.Genshin.Genshin = {
       data: organizedData,
     };
   },
-  async processWeapon(formData, user) {
+  async processWeapon(formData, user, config) {
+    if (!config) throw new Error("Konfigurasi diperlukan");
+    const { action, oldId, lang } = config;
+
+    // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Weapon";
 
-    // Ambil Data
+    // <<<<< Ambil Data >>>>>
     const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataWeapon;
 
-    // Validasi
+    // <<<<< Validasi >>>>>
     const validation = await genshinValidator.weapon(data);
     if (!validation.status) return { status: 422, msg: validation.msg };
 
-    // Upload Image jika ada
+    // <<<<< Upload Image jika ada >>>>>
     let imageUrl = "";
     if (validation.data.image) {
       const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
       imageUrl = uploadFile.secure_url;
     }
 
-    // data final
+    // <<<<< Data final >>>>>
     const organizedData = genshinOrganizing.weapon(validation.data, imageUrl);
 
-    if (data["result-lang"] === "Indonesian") {
-      const weapon = await IDWeapon.create(organizedData);
+    // <<<<< Tambah data ke Database >>>>>
+    if (action === "add") {
+      if (data["result-lang"] === "Indonesian") {
+        const weapon = await IDWeapon.create(organizedData);
 
-      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
-    } else if (data["result-lang"] === "English") {
-      const weapon = await ENWeapon.create(organizedData);
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
+      } else if (data["result-lang"] === "English") {
+        const weapon = await ENWeapon.create(organizedData);
 
-      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
+      }
     }
+
+    // <<<<< Edit data dari Database >>>>>
+    else if (action === "edit") {
+      if (!oldId) throw new Error("Old ID diperlukan");
+      if (lang === "Indonesian") {
+        const material = await IDArtifact.findByIdAndUpdate(oldId, organizedData);
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+      } else if (lang === "English") {
+        const material = await ENArtifact.findByIdAndUpdate(oldId, organizedData);
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+      }
+    }
+
     return { status: 200, data: organizedData };
   },
   async proccessCharacter(formData, user) {
