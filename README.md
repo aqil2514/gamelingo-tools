@@ -9,4 +9,4 @@ Ah, you can [see my site here](https://gamelingo-tools.vercel.app).
 Maintaining flow for:
 
 ### Game - Genshin Impact
-- Maintaining on [Admin Data](/src/app/(protected)/admin/README.md)
+- Maintaining on [Admin Data](/src/app/(protected)/admin/data/README.md)
