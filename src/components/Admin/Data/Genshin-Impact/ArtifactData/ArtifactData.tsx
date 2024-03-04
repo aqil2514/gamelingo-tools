@@ -73,7 +73,7 @@ export default function ArtifactDataTable({ data, lang, setLang }: ArtifactDataP
 
       {editMenu && <EditMenu field="genshin-impact" subfield="Artifact" />}
 
-      {detailMenu && <DetailMenu field="genshin-impact" subfield="Material" />}
+      {detailMenu && <DetailMenu field="genshin-impact" subfield="Artifact" />}
     </div>
   );
 }

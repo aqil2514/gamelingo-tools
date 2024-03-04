@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import SwiperSlideData from "./SwiperSlideData";
+
 import { useArtifactContext } from "@/components/Providers/Game/GenshinImpact/ArtifactProvider";
 import Loading from "@/components/general/Loading";
 import { EditContextButton } from "@/components/Admin/ContextMenu/EditMenu";
