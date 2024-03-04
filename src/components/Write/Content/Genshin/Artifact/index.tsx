@@ -1,10 +1,10 @@
 import ArtifactProvider from "@/components/Providers/Game/GenshinImpact/ArtifactProvider";
-import ArtifactContentForm from "./Form";
+import GIArtifactContentForm from "./Form";
 
 export default function ArtifactForm() {
   return (
     <ArtifactProvider>
-      <ArtifactContentForm template="Write" />
+      <GIArtifactContentForm template="Write" />
     </ArtifactProvider>
   );
 }

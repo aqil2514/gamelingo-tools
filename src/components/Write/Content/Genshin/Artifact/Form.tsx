@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitConfig_GI, submitFormHandler } from "../genshinUtils";
 import { Input, VariantClass } from "@/components/general/Input";
 import Button, { VariantClass as ButtonClass } from "@/components/general/Button";
@@ -20,13 +20,11 @@ import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider
 
 interface ArtifactContentFormProps {
   template: "Write" | "Edit";
-  data?: GenshinImpact.Artifact;
-  isDisabled?: boolean;
 }
 
-export default function ArtifactContentForm({ template, data, isDisabled }: ArtifactContentFormProps) {
+export default function GIArtifactContentForm({ template }: ArtifactContentFormProps) {
   if (template === "Write") return <WriteContent />;
-  else if (template === "Edit") return <EditContent data={data} isDisabled={isDisabled} />;
+  else if (template === "Edit") return <EditContent />;
 }
 
 function WriteContent() {
@@ -109,11 +107,22 @@ function WriteContent() {
   );
 }
 
-function EditContent({ data, isDisabled }: Omit<ArtifactContentFormProps, "template">) {
-  const { setIsLoading, setEditMenu, searchParams } =
-    useMenuContextData();
-    const langParams = searchParams.get("lang");
+function EditContent() {
+  const [data, setData] = useState<GenshinImpact.Artifact>({} as GenshinImpact.Artifact);
+  const { contextMenu, isLoading } = useMenuContextData();
+  const lang = contextMenu.target?.getAttribute("data-lang");
+  const id = contextMenu.target?.getAttribute("data-id");
 
+  useEffect(() => {
+    if (contextMenu.target) {
+      const url: Route = `/api/gamelingo/genshin-impact?_id=${id}&category=Artifact&lang=${lang}`;
+      axios(url).then((res) => {
+        setData(res.data.data);
+      });
+    }
+  }, [contextMenu, data, id, lang]);
+  const { setIsLoading, setEditMenu, searchParams } = useMenuContextData();
+  const langParams = searchParams.get("lang");
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -124,24 +133,20 @@ function EditContent({ data, isDisabled }: Omit<ArtifactContentFormProps, "templ
 
     try {
       setIsLoading(true);
-      const res = await axios.putForm(
-        "/api/gamelingo/genshin-impact" as Route,
-        formData,
-        {
-          headers: {
-            "Data-Category": "Artifact",
-            "Old-Id": _id,
-            "Content-Lang": langParams,
-          },
-        }
-      );
+      const res = await axios.putForm("/api/gamelingo/genshin-impact" as Route, formData, {
+        headers: {
+          "Data-Category": "Artifact",
+          "Old-Id": _id,
+          "Content-Lang": langParams,
+        },
+      });
 
       notif(res.data.msg, {
         color: "green",
         refElement: "buttons",
         location: "before",
       });
-      
+
       setTimeout(() => {
         setEditMenu(false);
         window.location.reload();
@@ -176,49 +181,57 @@ function EditContent({ data, isDisabled }: Omit<ArtifactContentFormProps, "templ
     }
   }
 
+  const isDisabled = isLoading;
+
   return (
-    <form onSubmit={(e) => submitHandler(e)} method="post">
-      {!data || Object.keys(data).length === 0 ? <Loading loading={1} textOn text="Mengambil data Artifact..." /> : (
-        <>
-      <input type="hidden" defaultValue={data._id} name="id" />
+    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
+      <h1 id="test" className="text-white text-center font-bold font-poppins">
+        Edit Artifact
+      </h1>
+      <form onSubmit={(e) => submitHandler(e)} method="post">
+        {!data || Object.keys(data).length === 0 ? (
+          <Loading loading={1} textOn text="Mengambil data Artifact..." />
+        ) : (
+          <>
+            <input type="hidden" defaultValue={data._id} name="id" />
 
-      <Input forId="UID" defaultValue={data._id} disabled variant={VariantClass.dashboard} label="UID" />
+            <Input forId="UID" defaultValue={data._id} disabled variant={VariantClass.dashboard} label="UID" />
 
-      <Input forId="name" defaultValue={data.name} disabled={isDisabled} required name="name" variant={VariantClass.dashboard} label="Artifact Name" />
-      
-      <Input forId="rarityList" defaultValue={data.rarityList.join(", ")} variant={VariantClass.dashboard} name="rarityList" label="Rarity List" />
+            <Input forId="name" defaultValue={data.name} disabled={isDisabled} required name="name" variant={VariantClass.dashboard} label="Artifact Name" />
 
-      <Textarea forId="effect2Pc" defaultValue={data.effect2pc} className={TextareaStyle.variant_1} name="effect2Pc" label="2 Set Effect" />
+            <Input forId="rarityList" defaultValue={data.rarityList.join(", ")} variant={VariantClass.dashboard} name="rarityList" label="Rarity List" />
 
-      <Textarea forId="effect4Pc" defaultValue={data.effect4pc} className={TextareaStyle.variant_1} name="effect4Pc" label="4 Set Effect" />
+            <Textarea forId="effect2Pc" defaultValue={data.effect2pc} className={TextareaStyle.variant_1} name="effect2Pc" label="2 Set Effect" />
 
-      {data.effectOther && <Textarea forId="effect-other" defaultValue={data.effectOther} className={TextareaStyle.variant_1} name="effect-other" label="Other Effect" />}
+            <Textarea forId="effect4Pc" defaultValue={data.effect4pc} className={TextareaStyle.variant_1} name="effect4Pc" label="4 Set Effect" />
 
-      <div className="border-2 border-white rounded-lg px-4 py-12 my-4">
-        <div className="my-4">
-          <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
-            <SwiperSlide>
-              <SwiperSlideData template="Edit" data={data} keyValue="flower" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <SwiperSlideData template="Edit" data={data} keyValue="plume" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <SwiperSlideData template="Edit" data={data} keyValue="sands" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <SwiperSlideData template="Edit" data={data} keyValue="goblet" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <SwiperSlideData template="Edit" data={data} keyValue="circlet" />
-            </SwiperSlide>
-          </Swiper>
-        </div>
-      </div>
-      <EditContextButton />
-        </>
+            {data.effectOther && <Textarea forId="effect-other" defaultValue={data.effectOther} className={TextareaStyle.variant_1} name="effect-other" label="Other Effect" />}
 
-      )}
-    </form>
+            <div className="border-2 border-white rounded-lg px-4 py-12 my-4">
+              <div className="my-4">
+                <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
+                  <SwiperSlide>
+                    <SwiperSlideData template="Edit" data={data} keyValue="flower" />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <SwiperSlideData template="Edit" data={data} keyValue="plume" />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <SwiperSlideData template="Edit" data={data} keyValue="sands" />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <SwiperSlideData template="Edit" data={data} keyValue="goblet" />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <SwiperSlideData template="Edit" data={data} keyValue="circlet" />
+                  </SwiperSlide>
+                </Swiper>
+              </div>
+            </div>
+            <EditContextButton />
+          </>
+        )}
+      </form>
+    </div>
   );
 }
