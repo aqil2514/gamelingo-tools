@@ -31,6 +31,8 @@ if (subfield === "Material") return <GIMaterialContextMenu data={passData} />;
 ... Code after
 ```
 
+4. Don't forget to send [data from server](/src/app/api/admin/route.ts)
+
 5. Make sure [API Route Get Method](/src/app/api/gamelingo/genshin-impact/route.ts) is setted up.
 
 ```

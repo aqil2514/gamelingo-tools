@@ -4,6 +4,7 @@ import PassiveSkill from "@/models/Evertale/PassiveSkill";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { Weapon } from "@/models/Evertale/Weapons";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
+import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
 import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 import { admin } from "@/utils/api";
@@ -55,6 +56,10 @@ export async function GET(req: NextRequest) {
     else if (subfield === "Weapon") {
       if (lang === "English") data = await ENWeapon.find();
       if (lang === "Indonesian") data = await IDWeapon.find();
+    }
+    else if (subfield === "Character") {
+      if (lang === "English") data = await CharacterEN.find();
+      if (lang === "Indonesian") data = await CharacterID.find();
     }
 
     return NextResponse.json({ data }, { status: 200 });

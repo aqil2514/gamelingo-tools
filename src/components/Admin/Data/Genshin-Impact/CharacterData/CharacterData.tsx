@@ -28,6 +28,7 @@ export default function CharacterDataTable({ data, lang, setLang }: CharacterDat
     };
   }, [contextMenu, setContextMenu]);
 
+
   return (
     <div className="px-4">
       <div className="flex gap-4">

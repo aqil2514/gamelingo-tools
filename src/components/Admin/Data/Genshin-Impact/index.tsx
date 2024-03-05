@@ -8,6 +8,7 @@ import MaterialData from "./MaterialData";
 import { useState } from "react";
 import ArtifactData from "./ArtifactData";
 import WeaponData from "./WeaponData";
+import CharacterData from "./CharacterData";
 
 interface GenshinImpactDataProps {
   field: General.AdminQuery["field"];
@@ -26,5 +27,5 @@ export default function GenshinImpactData({ field, subfield }: GenshinImpactData
   if (subfield === "Material") return <MaterialData data={data.data} lang={lang} setLang={setLang} />;
   if (subfield === "Artifact") return <ArtifactData data={data.data} lang={lang} setLang={setLang} />;
   if (subfield === "Weapon") return <WeaponData data={data.data} lang={lang} setLang={setLang} />;
-  if (subfield === "Character") return <WeaponData data={data.data} lang={lang} setLang={setLang} />;
+  if (subfield === "Character") return <CharacterData data={data.data} lang={lang} setLang={setLang} />;
 }

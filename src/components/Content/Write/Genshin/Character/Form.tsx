@@ -32,8 +32,8 @@ function WriteContent() {
     setIsLoading: setIsLoading,
     game: "Genshin Impact",
     category: "Character",
-    ref: "artifact-button-submit",
-    callbackUrl: "/admin/data?field=genshin-impact&subfield=Character",
+    ref: "character-button-submit",
+    callbackUrl: "/admin/data?field=genshin-impact&subfield=Character&lang=English",
     moveLocation,
   };
 
@@ -45,7 +45,7 @@ function WriteContent() {
 
       <Input
         forId="character-description"
-        name="description"
+        name="descrip               tion"
         value={character.description}
         onChange={(e) => setCharacter({ ...character, description: e.target.value })}
         variant={VariantClass.dashboard}
