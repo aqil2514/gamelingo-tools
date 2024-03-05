@@ -473,6 +473,8 @@ namespace GenshinImpact {
     build?: BuildCharacter;
     talent?: Talent[];
     constellation?: Constellation[];
+    createdAt?: string;
+    updatedAt?: string;
   }
 
   export type CharacterTable = Pick<Character, "_id" | "name" | "element" | "rarity" | "region" | "weapon">;
@@ -583,6 +585,8 @@ namespace GenshinImpact {
     ascend6: UpgradeMaterialItem[];
     rarity: string;
     image?: string;
+    createdAt?: string;
+    updatedAt?: string;
   }
 
   type WeaponTable = Pick<Weapon, "_id" | "name" | "type" | "rarity">;

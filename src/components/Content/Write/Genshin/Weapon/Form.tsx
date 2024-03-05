@@ -24,13 +24,14 @@ interface WeaponContentFormProps {
   template: "Write" | "Edit";
 }
 
-type RefinementType = keyof Pick<GenshinImpact.ApiResponseWeapon, "r1" | "r2" | "r3" | "r4" | "r5">;
+export type RefinementType = keyof Pick<GenshinImpact.ApiResponseWeapon, "r1" | "r2" | "r3" | "r4" | "r5">;
 
 export default function GIWeaponContentForm({ template }: WeaponContentFormProps) {
   if (template === "Write") return <WriteContent />;
   else if (template === "Edit") return <EditContent />;
 }
-const refinementData: RefinementType[] = ["r1", "r2", "r3", "r4", "r5"];
+
+export const refinementData: RefinementType[] = ["r1", "r2", "r3", "r4", "r5"];
 
 function WriteContent() {
   const { weapon, setWeapon, isLoading, setIsLoading, fileName, setFileName, previewLink, setPreviewLink, moveLocation, setMoveLocation } = useWeaponContext();

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 interface SwiperDataSlide {
   passData: any;
   keyValue: keyof GenshinImpact.UpgradeMaterial;
-  template: "Write" | "Edit";
+  template: "Write" | "Edit" | "Detail";
 }
 
 const keyValueMap: Record<keyof GenshinImpact.UpgradeMaterial, string> = {
@@ -44,6 +44,7 @@ function isCharacter(data: any): data is GenshinImpact.Character {
 export default function SwiperSlideData({ passData, keyValue, template }: SwiperDataSlide) {
   if (template === "Write") return <WriteContent passData={passData} keyValue={keyValue} />;
   else if (template === "Edit") return <EditContent passData={passData} keyValue={keyValue} />;
+  else if (template === "Detail") return <DetailContent passData={passData} keyValue={keyValue} />;
 }
 
 /**
@@ -100,6 +101,79 @@ const CharacterData = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">
           <React.Fragment key={`${keyValueMap[keyValue]}-material-${i + 1}`}>
             <Input forId={`${keyValueMap[keyValue]}-material-${i + 1}`} name={`${keyValueMap[keyValue]}-material-${i + 1}`} labelMarginY="0" label="Material" defaultValue={ascend.name} variant={VariantClass.dashboard} />
             <Input forId={`${keyValueMap[keyValue]}-count-${i + 1}`} name={`${keyValueMap[keyValue]}-count-${i + 1}`} labelMarginY="0" label="Count" defaultValue={ascend.count} type="number" variant={VariantClass.dashboard} />
+          </React.Fragment>
+        ))}
+      </div>
+    </>
+  );
+};
+
+/**
+ *
+ * DETAIL CONTENT
+ *
+ *  */
+
+function DetailContent({ passData, keyValue }: Omit<SwiperDataSlide, "template">) {
+  if (isWeapon(passData)) return <WeaponDetail passData={passData} keyValue={keyValue} />;
+  if (isCharacter(passData)) return <WeaponDetail passData={passData} keyValue={keyValue} />;
+}
+
+const WeaponDetail = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">) => {
+  const [data, setData] = useState<GenshinImpact.Weapon>({} as GenshinImpact.Weapon);
+
+  useEffect(() => {
+    if (isWeapon(passData)) {
+      setData(passData);
+    }
+  }, [data, passData]);
+
+  if (!data || Object.keys(data).length === 0) return <></>;
+  return (
+    <>
+      <h2 className="text-white font-semibold font-poppins">{keyValueTitle[keyValue]}</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {data[keyValue as "ascend1"].map((ascend, i: number) => (
+          <React.Fragment key={`${keyValueMap[keyValue]}-material-${i + 1}`}>
+            <p className="font-poppins text-white">
+              <strong className="font-bold">Name : </strong>
+              {ascend.name}
+            </p>
+            <p className="font-poppins text-white">
+              <strong className="font-bold">Count : </strong>
+              {ascend.count}
+            </p>
+          </React.Fragment>
+        ))}
+      </div>
+    </>
+  );
+};
+
+const CharacterDetail = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">) => {
+  const [data, setData] = useState<GenshinImpact.Character["ascendMaterial"]>({} as GenshinImpact.Character["ascendMaterial"]);
+
+  useEffect(() => {
+    if (isCharacter(passData)) {
+      setData(passData.ascendMaterial);
+    }
+  }, [data, passData]);
+
+  if (!data || Object.keys(data).length === 0) return <></>;
+  return (
+    <>
+      <h2 className="text-white font-semibold font-poppins">{keyValueTitle[keyValue]}</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {data[keyValue as "ascend1"].map((ascend, i: number) => (
+          <React.Fragment key={`${keyValueMap[keyValue]}-material-${i + 1}`}>
+            <p className="font-poppins text-white">
+              <strong className="font-bold">Name : </strong>
+              {ascend.name}
+            </p>
+            <p className="font-poppins text-white">
+              <strong className="font-bold">Count : </strong>
+              {ascend.count}
+            </p>
           </React.Fragment>
         ))}
       </div>
