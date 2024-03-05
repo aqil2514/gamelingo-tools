@@ -142,7 +142,6 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     }
 
     if (data.image && data.image.type !== "application/octet-stream") {
-
       const validation = file.validationImage(data.image, { validateName: true, validationName: data.name });
       if (!validation.status) return { status: false, msg: validation.msg };
 
@@ -200,16 +199,9 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
     if (!data.region) return { status: false, msg: "Region belum diisi" };
     if (!allowedRegion.includes(data.region as GenshinImpact.Character["region"])) return { status: false, msg: "Region tidak diizinkan" };
 
-    if (data.image && data.image.name !== "undefined") {
-      const imageValidation = file.validationImage(data.image as File);
+    if (data.image && data.image.type !== "application/octet-stream") {
+      const imageValidation = file.validationImage(data.image as File, { validateName: "including", validationName: data.name });
       if (!imageValidation.status) return { msg: imageValidation.msg, status: false };
-
-      if (!data.image?.name.toLowerCase().includes(data.name.toLowerCase())) {
-        return {
-          status: false,
-          msg: "Nama file tidak mencakup nama karakter. Apa ini file yang benar?",
-        };
-      }
 
       const newFile = new File([data.image], `${data.name}.${data.image.type.split("/")[1]}`, {
         type: data.image.type,

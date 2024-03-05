@@ -563,11 +563,30 @@ export const file: ApiUtils.FileApi = {
       };
     }
 
-    // Apakah nama gambar sesuai dengan nama data?
+    // Apakah file akan divalidasi?
+    // TODO: Fix this later
     if (validateName) {
-      const name = config?.validationName;
-      if (!name) throw new Error("Nama belum ditentukan");
-      if (!file.name.toLowerCase().includes(name.toLowerCase())) return { status: false, msg: "Nama Image harus sesuai dengan nama data." };
+      // Apakah nama gambar sesuai dengan nama data?
+      if (validateName === "exactly the same") {
+        const name = config?.validationName;
+        if (!name) throw new Error("Nama belum ditentukan");
+
+        if (!file.name.toLowerCase().includes(name.toLowerCase())) return { status: false, msg: "Nama Image harus sesuai dengan nama data." };
+      }
+      // Apakah nama gambar mengandung nama data?
+      else if (validateName === "including") {
+        const name = config?.validationName;
+        if (!name) throw new Error("Nama belum ditentukan");
+
+        if (!file.name.toLowerCase().includes(name.toLowerCase())) {
+          return {
+            status: false,
+            msg: "Nama file tidak mencakup nama karakter. Apa ini file yang benar?",
+          };
+        }
+      } else {
+        throw new Error("Pilihan tidak ada");
+      }
     }
 
     return { status: true, file };

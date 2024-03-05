@@ -26,4 +26,5 @@ export default function GenshinImpactData({ field, subfield }: GenshinImpactData
   if (subfield === "Material") return <MaterialData data={data.data} lang={lang} setLang={setLang} />;
   if (subfield === "Artifact") return <ArtifactData data={data.data} lang={lang} setLang={setLang} />;
   if (subfield === "Weapon") return <WeaponData data={data.data} lang={lang} setLang={setLang} />;
+  if (subfield === "Character") return <WeaponData data={data.data} lang={lang} setLang={setLang} />;
 }

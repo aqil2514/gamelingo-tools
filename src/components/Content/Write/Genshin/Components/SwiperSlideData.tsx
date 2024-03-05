@@ -24,20 +24,22 @@ const keyValueTitle: Record<keyof GenshinImpact.ApiResponseCharacter["costs"], s
   ascend6: "Ascend 6",
 };
 
+// TODO: SwiperSlideData jadiin satu ajah. Nanti pakek typeguardian
+
 export default function SwiperSlideData({ character, keyValue }: SwiperDataSlide) {
   const arrayData = character?.costs[keyValue];
 
   return (
     <>
       <h2 className="text-white font-semibold font-poppins">{keyValueTitle[keyValue]}</h2>
-      <div className="grid grid-cols-2 gap-4">
+      {/* <div className="grid grid-cols-2 gap-4">
         {arrayData.map((data, i: number) => (
           <React.Fragment key={`${keyValueMap[keyValue]}-material-${i + 1}`}>
             <Input forId={`${keyValueMap[keyValue]}-material-${i + 1}`} name={`${keyValueMap[keyValue]}-material-${i + 1}`} labelMarginY="0" label="Material" defaultValue={data.name} variant={VariantClass.dashboard} />
             <Input forId={`${keyValueMap[keyValue]}-count-${i + 1}`} name={`${keyValueMap[keyValue]}-count-${i + 1}`} labelMarginY="0" label="Count" defaultValue={data.count} type="number" variant={VariantClass.dashboard} />
           </React.Fragment>
         ))}
-      </div>
+      </div> */}
     </>
   );
 }

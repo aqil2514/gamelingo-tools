@@ -1,5 +1,6 @@
 import { Post } from "@/models/General/Post";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
+import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
 import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 import { getUser } from "@/utils/api";
@@ -21,14 +22,15 @@ export async function GET(req: NextRequest) {
   if (category === "Material") {
     if (lang === "English") data = await ENMaterial.findById(_id);
     else if (lang === "Indonesian") data = await IDMaterial.findById(_id);
-  } 
-  else if (category === "Artifact") {
+  } else if (category === "Artifact") {
     if (lang === "English") data = await ENArtifact.findById(_id);
     else if (lang === "Indonesian") data = await IDArtifact.findById(_id);
-  }
-  else if (category === "Weapon") {
+  } else if (category === "Weapon") {
     if (lang === "English") data = await ENWeapon.findById(_id);
     else if (lang === "Indonesian") data = await IDWeapon.findById(_id);
+  } else if (category === "Character") {
+    if (lang === "English") data = await CharacterEN.findById(_id);
+    else if (lang === "Indonesian") data = await CharacterID.findById(_id);
   }
 
   return NextResponse.json({ data }, { status: 200 });
@@ -67,6 +69,15 @@ export async function DELETE(req: NextRequest) {
     }
     if (lang === "English") {
       await ENWeapon.findByIdAndDelete(id);
+      await Post.findOneAndDelete({ content: new ObjectId(id) });
+    }
+  } else if (dataType === "Character") {
+    if (lang === "Indonesian") {
+      await CharacterID.findByIdAndDelete(id);
+      await Post.findOneAndDelete({ content: new ObjectId(id) });
+    }
+    if (lang === "English") {
+      await CharacterEN.findByIdAndDelete(id);
       await Post.findOneAndDelete({ content: new ObjectId(id) });
     }
   }

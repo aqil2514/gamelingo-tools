@@ -157,8 +157,6 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     // <<<<< Data final >>>>>
     const organizedData = genshinOrganizing.weapon(validation.data, imageUrl);
-    
-    console.log(organizedData)
 
     // <<<<< Tambah data ke Database >>>>>
     if (action === "add") {
@@ -189,18 +187,22 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     return { status: 200, data: organizedData };
   },
-  async proccessCharacter(formData, user) {
+  async proccessCharacter(formData, user, config) {
+    if (!config) throw new Error("Konfigurasi diperlukan");
+    const { action, oldId, lang } = config;
+
+    // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Character";
 
-    // Ambil Data
+    // <<<<< Ambil Data >>>>>
     const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataCharacter;
 
-    // Validasi
+    // <<<<< Validasi >>>>>
     const validation = await genshinValidator.character(data);
     if (!validation.status) return { status: 422, msg: validation.msg };
 
-    // Upload Image jika ada
+    // <<<<< Upload Image jika ada >>>>>
     let imageUrl = "";
     if (validation.data.image) {
       const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
@@ -209,18 +211,37 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     const organizedData = genshinOrganizing.character(validation.data, imageUrl);
 
-    if (data["result-lang"] === "English") {
-      const character = await CharacterEN.create(organizedData);
+    // <<<<< Tambah ke Data base >>>>
 
-      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
-    } else if (data["result-lang"] === "Indonesian") {
-      const character = await CharacterID.create(organizedData);
+    if (action === "add") {
+      if (data["result-lang"] === "English") {
+        const character = await CharacterEN.create(organizedData);
 
-      await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
+      } else if (data["result-lang"] === "Indonesian") {
+        const character = await CharacterID.create(organizedData);
+
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
+      }
+    }
+
+    // <<<<< Edit data dari Database >>>>>
+    else if (action === "edit") {
+      if (!oldId) throw new Error("Old ID diperlukan");
+      if (lang === "Indonesian") {
+        const character = await CharacterID.findByIdAndUpdate(oldId, organizedData);
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
+      } else if (lang === "English") {
+        const character = await CharacterEN.findByIdAndUpdate(oldId, organizedData);
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
+      }
     }
 
     return { status: 200, organizedData };
   },
+
   async processTalent(formData, user) {
     // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
@@ -356,8 +377,8 @@ const post: FormUtils.Post.PostAPI = {
     // <<<<< Variabel from config >>>>>
     const { lang, gameName, gameTopic, parent, user, autoTag = true, tag } = config;
 
-    if(!parent) throw new Error ("Document parent tidak ditemukan")
-    
+    if (!parent) throw new Error("Document parent tidak ditemukan");
+
     if (!autoTag && (!tag || tag.length === 0)) throw new Error("Tag harus diberikan jika autoTag disetting false");
 
     const postData: General.PostDocument = {

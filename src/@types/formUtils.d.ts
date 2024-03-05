@@ -1,24 +1,27 @@
+/**
+ * FormUtils API Declaration Typescript
+ * Please sort the type alphabetical
+ */
+
 namespace FormUtils {
-  interface Result {
-    msg?: string;
-    status: number;
+  namespace Account {
+    export interface AccountFormApi {
+      processUser: (FormData: FormDataUser) => Promise<Result>;
+    }
+    export interface FormDataUser {
+      name: string;
+      username: string;
+      email: string;
+      role: string;
+      image: string;
+      "user-id": string;
+      "oauth-id": string;
+      "password-exist": string;
+      "account-verified": string;
+    }
   }
 
   namespace Genshin {
-    export interface FormDataMaterial {
-      "result-lang": Language;
-      name: string;
-      typeMaterial: string;
-      rarity: string;
-      lore: string;
-      gainedFrom: string;
-      image?: File;
-    }
-
-    export interface FormDataArtifactKey {
-      key: "name" | "type" | "set" | "setName_1" | "setValue_1" | "setName_2" | "setValue_2" | "rarity" | "image";
-    }
-
     export interface FormDataArtifact {
       "result-lang": Language;
       name: string;
@@ -52,73 +55,9 @@ namespace FormUtils {
       "circlet-image"?: File;
     }
 
-    export interface FormDataWeapon {
-      "result-lang": Language;
-      name: string;
-      "weapon-base-atk": string;
-      "weapon-base-stat": string;
-      subStatus: string;
-      type: string;
-      lore: string;
-      rarity: string;
-      "passive-name": string;
-      "weapon-ref-r1": string;
-      "weapon-ref-r2": string;
-      "weapon-ref-r3": string;
-      "weapon-ref-r4": string;
-      "weapon-ref-r5": string;
-      "ascend-1-material-1": string;
-      "ascend-1-count-1": string;
-      "ascend-1-material-2": string;
-      "ascend-1-count-2": string;
-      "ascend-1-material-3": string;
-      "ascend-1-count-3": string;
-      "ascend-1-material-4": string;
-      "ascend-1-count-4": string;
-      "ascend-2-material-1": string;
-      "ascend-2-count-1": string;
-      "ascend-2-material-2": string;
-      "ascend-2-count-2": string;
-      "ascend-2-material-3": string;
-      "ascend-2-count-3": string;
-      "ascend-2-material-4": string;
-      "ascend-2-count-4": string;
-      "ascend-3-material-1": string;
-      "ascend-3-count-1": string;
-      "ascend-3-material-2": string;
-      "ascend-3-count-2": string;
-      "ascend-3-material-3": string;
-      "ascend-3-count-3": string;
-      "ascend-3-material-4": string;
-      "ascend-3-count-4": string;
-      "ascend-4-material-1": string;
-      "ascend-4-count-1": string;
-      "ascend-4-material-2": string;
-      "ascend-4-count-2": string;
-      "ascend-4-material-3": string;
-      "ascend-4-count-3": string;
-      "ascend-4-material-4": string;
-      "ascend-4-count-4": string;
-      "ascend-5-material-1": string;
-      "ascend-5-count-1": string;
-      "ascend-5-material-2": string;
-      "ascend-5-count-2": string;
-      "ascend-5-material-3": string;
-      "ascend-5-count-3": string;
-      "ascend-5-material-4": string;
-      "ascend-5-count-4": string;
-      "ascend-6-material-1": string;
-      "ascend-6-count-1": string;
-      "ascend-6-material-2": string;
-      "ascend-6-count-2": string;
-      "ascend-6-material-3": string;
-      "ascend-6-count-3": string;
-      "ascend-6-material-4": string;
-      "ascend-6-count-4": string;
-      image?: File;
+    export interface FormDataArtifactKey {
+      key: "name" | "type" | "set" | "setName_1" | "setValue_1" | "setName_2" | "setValue_2" | "rarity" | "image";
     }
-
-    type Language = "Indonesian" | "English";
 
     export interface FormDataCharacter {
       "result-lang": Language;
@@ -192,6 +131,39 @@ namespace FormUtils {
       weapon: string;
       gender: string;
       region: string;
+      image?: File;
+    }
+
+    export interface FormDataConstellation {
+      "result-lang": Language;
+      charName: string;
+      c1: string;
+      d1: string;
+      c2: string;
+      d2: string;
+      c3: string;
+      d3: string;
+      c4: string;
+      d4: string;
+      c5: string;
+      d5: string;
+      c6: string;
+      d6: string;
+      "constellation-1-icon"?: File;
+      "constellation-2-icon"?: File;
+      "constellation-3-icon"?: File;
+      "constellation-4-icon"?: File;
+      "constellation-5-icon"?: File;
+      "constellation-6-icon"?: File;
+    }
+
+    export interface FormDataMaterial {
+      "result-lang": Language;
+      name: string;
+      typeMaterial: string;
+      rarity: string;
+      lore: string;
+      gainedFrom: string;
       image?: File;
     }
 
@@ -285,46 +257,70 @@ namespace FormUtils {
       "talent-passive3-icon"?: File;
     }
 
-    export interface FormDataConstellation {
+    export interface FormDataWeapon {
       "result-lang": Language;
-      charName: string;
-      c1: string;
-      d1: string;
-      c2: string;
-      d2: string;
-      c3: string;
-      d3: string;
-      c4: string;
-      d4: string;
-      c5: string;
-      d5: string;
-      c6: string;
-      d6: string;
-      "constellation-1-icon"?: File;
-      "constellation-2-icon"?: File;
-      "constellation-3-icon"?: File;
-      "constellation-4-icon"?: File;
-      "constellation-5-icon"?: File;
-      "constellation-6-icon"?: File;
-    }
-
-    export interface ProcessGenshinConfig {
-      /**
-       * Aksi yang diinginkan?
-       *
-       * Default :"Add"
-       *  */
-      action: "add" | "edit";
-
-      /**
-       * Berlaku jika action adalah edit
-       */
-      oldId?: string | null;
-
-      /**
-       * Bahasa pada data?
-       */
-      lang?: General.PostDocument["lang"];
+      name: string;
+      "weapon-base-atk": string;
+      "weapon-base-stat": string;
+      subStatus: string;
+      type: string;
+      lore: string;
+      rarity: string;
+      "passive-name": string;
+      "weapon-ref-r1": string;
+      "weapon-ref-r2": string;
+      "weapon-ref-r3": string;
+      "weapon-ref-r4": string;
+      "weapon-ref-r5": string;
+      "ascend-1-material-1": string;
+      "ascend-1-count-1": string;
+      "ascend-1-material-2": string;
+      "ascend-1-count-2": string;
+      "ascend-1-material-3": string;
+      "ascend-1-count-3": string;
+      "ascend-1-material-4": string;
+      "ascend-1-count-4": string;
+      "ascend-2-material-1": string;
+      "ascend-2-count-1": string;
+      "ascend-2-material-2": string;
+      "ascend-2-count-2": string;
+      "ascend-2-material-3": string;
+      "ascend-2-count-3": string;
+      "ascend-2-material-4": string;
+      "ascend-2-count-4": string;
+      "ascend-3-material-1": string;
+      "ascend-3-count-1": string;
+      "ascend-3-material-2": string;
+      "ascend-3-count-2": string;
+      "ascend-3-material-3": string;
+      "ascend-3-count-3": string;
+      "ascend-3-material-4": string;
+      "ascend-3-count-4": string;
+      "ascend-4-material-1": string;
+      "ascend-4-count-1": string;
+      "ascend-4-material-2": string;
+      "ascend-4-count-2": string;
+      "ascend-4-material-3": string;
+      "ascend-4-count-3": string;
+      "ascend-4-material-4": string;
+      "ascend-4-count-4": string;
+      "ascend-5-material-1": string;
+      "ascend-5-count-1": string;
+      "ascend-5-material-2": string;
+      "ascend-5-count-2": string;
+      "ascend-5-material-3": string;
+      "ascend-5-count-3": string;
+      "ascend-5-material-4": string;
+      "ascend-5-count-4": string;
+      "ascend-6-material-1": string;
+      "ascend-6-count-1": string;
+      "ascend-6-material-2": string;
+      "ascend-6-count-2": string;
+      "ascend-6-material-3": string;
+      "ascend-6-count-3": string;
+      "ascend-6-material-4": string;
+      "ascend-6-count-4": string;
+      image?: File;
     }
 
     export interface Genshin {
@@ -354,31 +350,58 @@ namespace FormUtils {
        * @returns Berhasil atau gagal
        */
       processWeapon: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
-      proccessCharacter: (formData: FormData, user: Account.User) => Promise<Result>;
+
+      /**
+       * Proses Character Genshin Impact
+       * @param formData - Form Data
+       * @param user - Info User
+       * @param config - Konfigurasi Character
+       * @returns Berhasil atau gagal
+       */
+      proccessCharacter: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
       processTalent: (formData: FormData, user: Account.User) => Promise<Result>;
       processConstellation: (formData: FormData, user: Account.User) => Promise<Result>;
     }
-  }
 
-  namespace Account {
-    export interface FormDataUser {
-      name: string;
-      username: string;
-      email: string;
-      role: string;
-      image: string;
-      "user-id": string;
-      "oauth-id": string;
-      "password-exist": string;
-      "account-verified": string;
-    }
+    type Language = "Indonesian" | "English";
 
-    export interface AccountFormApi {
-      processUser: (FormData: FormDataUser) => Promise<Result>;
+    export interface ProcessGenshinConfig {
+      /**
+       * Aksi yang diinginkan?
+       *
+       * Default :"Add"
+       *  */
+      action: "add" | "edit";
+
+      /**
+       * Berlaku jika action adalah edit
+       */
+      oldId?: string | null;
+
+      /**
+       * Bahasa pada data?
+       */
+      lang?: General.PostDocument["lang"];
     }
   }
 
   namespace Post {
+    export interface PostAPI {
+      /**
+       * Menambahkan data ke Collection Mongoose Post
+       * @param data Data yang akan ditambahkan
+       * @param config Konfigurasi penambahan postingan
+       */
+      addPost: (data: any, config: ProcessPostConfig) => Promise<void>;
+      /**
+       * Mengubah data yang ada di Collection Mongoose Post
+       * @param data Data yang ingin diubah
+       * @param oldId Id lama
+       * @param config Konfigurasi
+       */
+      editPost: (data: any, oldId: string, config: ProcessPostConfig) => Promise<Void>;
+    }
+
     /** Konfigurasi untuk Post API */
     export interface ProcessPostConfig {
       /**
@@ -425,21 +448,10 @@ namespace FormUtils {
        */
       tag?: string[];
     }
+  }
 
-    export interface PostAPI {
-      /**
-       * Menambahkan data ke Collection Mongoose Post
-       * @param data Data yang akan ditambahkan
-       * @param config Konfigurasi penambahan postingan
-       */
-      addPost: (data: any, config: ProcessPostConfig) => Promise<void>;
-      /**
-       * Mengubah data yang ada di Collection Mongoose Post
-       * @param data Data yang ingin diubah
-       * @param oldId Id lama
-       * @param config Konfigurasi
-       */
-      editPost: (data: any, oldId: string, config: ProcessPostConfig) => Promise<Void>;
-    }
+  interface Result {
+    msg?: string;
+    status: number;
   }
 }
