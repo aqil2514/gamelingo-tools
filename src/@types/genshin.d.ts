@@ -127,12 +127,12 @@ namespace GenshinImpact {
       korean: string;
     };
     costs: {
-      ascend1: ApiResponseMaterial[];
-      ascend2: ApiResponseMaterial[];
-      ascend3: ApiResponseMaterial[];
-      ascend4: ApiResponseMaterial[];
-      ascend5: ApiResponseMaterial[];
-      ascend6: ApiResponseMaterial[];
+      ascend1: ApiTalentCostData[];
+      ascend2: ApiTalentCostData[];
+      ascend3: ApiTalentCostData[];
+      ascend4: ApiTalentCostData[];
+      ascend5: ApiTalentCostData[];
+      ascend6: ApiTalentCostData[];
     };
     images: {
       card: string;
@@ -457,7 +457,7 @@ namespace GenshinImpact {
     name: string;
     description: string;
     ascendStatus: string;
-    ascendMaterial?: AscendMaterial;
+    ascendMaterial?: UpgradeMaterial;
     rarity: string;
     element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro";
     weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";

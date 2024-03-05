@@ -20,6 +20,4 @@ export default function AdminData({ field, subfield, user }: { field: string; su
 
     return <GenshinImpactData field={field} subfield={subfield as General.AdminQuery["subfield"]} />;
   }
-
-  // TODO: GenshinData
 }

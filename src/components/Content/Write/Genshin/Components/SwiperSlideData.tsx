@@ -1,12 +1,13 @@
 import { Input, VariantClass } from "@/components/general/Input";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface SwiperDataSlide {
-  character: GenshinImpact.ApiResponseCharacter;
-  keyValue: keyof GenshinImpact.ApiResponseCharacter["costs"];
+  passData: any;
+  keyValue: keyof GenshinImpact.UpgradeMaterial;
+  template: "Write" | "Edit";
 }
 
-const keyValueMap: Record<keyof GenshinImpact.ApiResponseCharacter["costs"], string> = {
+const keyValueMap: Record<keyof GenshinImpact.UpgradeMaterial, string> = {
   ascend1: "ascend-1",
   ascend2: "ascend-2",
   ascend3: "ascend-3",
@@ -15,7 +16,7 @@ const keyValueMap: Record<keyof GenshinImpact.ApiResponseCharacter["costs"], str
   ascend6: "ascend-6",
 };
 
-const keyValueTitle: Record<keyof GenshinImpact.ApiResponseCharacter["costs"], string> = {
+const keyValueTitle: Record<keyof GenshinImpact.UpgradeMaterial, string> = {
   ascend1: "Ascend 1",
   ascend2: "Ascend 2",
   ascend3: "Ascend 3",
@@ -24,22 +25,131 @@ const keyValueTitle: Record<keyof GenshinImpact.ApiResponseCharacter["costs"], s
   ascend6: "Ascend 6",
 };
 
-// TODO: SwiperSlideData jadiin satu ajah. Nanti pakek typeguardian
+function isApiResponseWeapon(data: any): data is GenshinImpact.ApiResponseWeapon {
+  return "costs" in data;
+}
 
-export default function SwiperSlideData({ character, keyValue }: SwiperDataSlide) {
-  const arrayData = character?.costs[keyValue];
+function isApiResponseCharacter(data: any): data is GenshinImpact.ApiResponseCharacter {
+  return "costs" in data;
+}
+
+function isWeapon(data: any): data is GenshinImpact.Weapon {
+  return data;
+}
+
+function isCharacter(data: any): data is GenshinImpact.Character {
+  return data;
+}
+
+export default function SwiperSlideData({ passData, keyValue, template }: SwiperDataSlide) {
+  if (template === "Write") return <WriteContent passData={passData} keyValue={keyValue} />;
+  else if (template === "Edit") return <EditContent passData={passData} keyValue={keyValue} />;
+}
+
+/**
+ *
+ * EDIT CONTENT
+ *
+ */
+
+function EditContent({ passData, keyValue }: Omit<SwiperDataSlide, "template">) {
+  if (isWeapon(passData)) return <WeaponData passData={passData} keyValue={keyValue} />;
+  if (isCharacter(passData)) return <CharacterData passData={passData} keyValue={keyValue} />;
+}
+
+const WeaponData = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">) => {
+  const [data, setData] = useState<GenshinImpact.Weapon>({} as GenshinImpact.Weapon);
+
+  useEffect(() => {
+    if (isWeapon(passData)) {
+      setData(passData);
+    }
+  }, [data, passData]);
+
+  if (!data || Object.keys(data).length === 0) return <></>;
+  return (
+    <>
+      <h2 className="text-white font-semibold font-poppins">{keyValueTitle[keyValue]}</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {data[keyValue as "ascend1"].map((ascend, i: number) => (
+          <React.Fragment key={`${keyValueMap[keyValue]}-material-${i + 1}`}>
+            <Input forId={`${keyValueMap[keyValue]}-material-${i + 1}`} name={`${keyValueMap[keyValue]}-material-${i + 1}`} labelMarginY="0" label="Material" defaultValue={ascend.name} variant={VariantClass.dashboard} />
+            <Input forId={`${keyValueMap[keyValue]}-count-${i + 1}`} name={`${keyValueMap[keyValue]}-count-${i + 1}`} labelMarginY="0" label="Count" defaultValue={ascend.count} type="number" variant={VariantClass.dashboard} />
+          </React.Fragment>
+        ))}
+      </div>
+    </>
+  );
+};
+
+const CharacterData = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">) => {
+  const [data, setData] = useState<GenshinImpact.Character["ascendMaterial"]>({} as GenshinImpact.Character["ascendMaterial"]);
+
+  useEffect(() => {
+    if (isCharacter(passData)) {
+      setData(passData.ascendMaterial);
+    }
+  }, [data, passData]);
+
+  if (!data || Object.keys(data).length === 0) return <></>;
+  return (
+    <>
+      <h2 className="text-white font-semibold font-poppins">{keyValueTitle[keyValue]}</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {data[keyValue as "ascend1"].map((ascend, i: number) => (
+          <React.Fragment key={`${keyValueMap[keyValue]}-material-${i + 1}`}>
+            <Input forId={`${keyValueMap[keyValue]}-material-${i + 1}`} name={`${keyValueMap[keyValue]}-material-${i + 1}`} labelMarginY="0" label="Material" defaultValue={ascend.name} variant={VariantClass.dashboard} />
+            <Input forId={`${keyValueMap[keyValue]}-count-${i + 1}`} name={`${keyValueMap[keyValue]}-count-${i + 1}`} labelMarginY="0" label="Count" defaultValue={ascend.count} type="number" variant={VariantClass.dashboard} />
+          </React.Fragment>
+        ))}
+      </div>
+    </>
+  );
+};
+
+/**
+ *
+ * WRITE CONTENT
+ *
+ */
+
+function WriteContent({ passData, keyValue }: Omit<SwiperDataSlide, "template">) {
+  if (isApiResponseWeapon(passData)) return <ApiResponseWeaponData passData={passData} keyValue={keyValue} />;
+  else if (isApiResponseCharacter(passData)) return <ApiResponseCharData passData={passData} keyValue={keyValue} />;
+}
+
+const ApiResponseCharData = ({ passData, keyValue }: { passData: GenshinImpact.ApiResponseCharacter; keyValue: keyof GenshinImpact.UpgradeMaterial }) => {
+  const data = passData.costs[keyValue];
 
   return (
     <>
       <h2 className="text-white font-semibold font-poppins">{keyValueTitle[keyValue]}</h2>
-      {/* <div className="grid grid-cols-2 gap-4">
-        {arrayData.map((data, i: number) => (
+      <div className="grid grid-cols-2 gap-4">
+        {data.map((d, i: number) => (
           <React.Fragment key={`${keyValueMap[keyValue]}-material-${i + 1}`}>
-            <Input forId={`${keyValueMap[keyValue]}-material-${i + 1}`} name={`${keyValueMap[keyValue]}-material-${i + 1}`} labelMarginY="0" label="Material" defaultValue={data.name} variant={VariantClass.dashboard} />
-            <Input forId={`${keyValueMap[keyValue]}-count-${i + 1}`} name={`${keyValueMap[keyValue]}-count-${i + 1}`} labelMarginY="0" label="Count" defaultValue={data.count} type="number" variant={VariantClass.dashboard} />
+            <Input forId={`${keyValueMap[keyValue]}-material-${i + 1}`} name={`${keyValueMap[keyValue]}-material-${i + 1}`} labelMarginY="0" label="Material" defaultValue={d.name} variant={VariantClass.dashboard} />
+            <Input forId={`${keyValueMap[keyValue]}-count-${i + 1}`} name={`${keyValueMap[keyValue]}-count-${i + 1}`} labelMarginY="0" label="Count" defaultValue={d.count} type="number" variant={VariantClass.dashboard} />
           </React.Fragment>
         ))}
-      </div> */}
+      </div>
     </>
   );
-}
+};
+
+const ApiResponseWeaponData = ({ passData, keyValue }: { passData: GenshinImpact.ApiResponseWeapon; keyValue: keyof GenshinImpact.UpgradeMaterial }) => {
+  const data = passData.costs[keyValue];
+
+  return (
+    <>
+      <h2 className="text-white font-semibold font-poppins">{keyValueTitle[keyValue]}</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {data.map((d, i: number) => (
+          <React.Fragment key={`${keyValueMap[keyValue]}-material-${i + 1}`}>
+            <Input forId={`${keyValueMap[keyValue]}-material-${i + 1}`} name={`${keyValueMap[keyValue]}-material-${i + 1}`} labelMarginY="0" label="Material" defaultValue={d.name} variant={VariantClass.dashboard} />
+            <Input forId={`${keyValueMap[keyValue]}-count-${i + 1}`} name={`${keyValueMap[keyValue]}-count-${i + 1}`} labelMarginY="0" label="Count" defaultValue={d.count} type="number" variant={VariantClass.dashboard} />
+          </React.Fragment>
+        ))}
+      </div>
+    </>
+  );
+};

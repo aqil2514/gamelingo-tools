@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import SwiperDataSlide from "./SwiperSlideData";
+import SwiperDataSlide from "../Components/SwiperSlideData";
 import { Pagination } from "swiper/modules";
 import { useWeaponContext } from "@/components/Providers/Game/GenshinImpact/WeaponProvider";
 import ImageInput, { changeHandler as imageHandler } from "@/components/general/ImageInput";
@@ -159,22 +159,22 @@ function WriteContent() {
               <div>
                 <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" weapon={weapon} keyValue="ascend1" />
+                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend1" />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" weapon={weapon} keyValue="ascend2" />
+                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend2" />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" weapon={weapon} keyValue="ascend3" />
+                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend3" />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" weapon={weapon} keyValue="ascend4" />
+                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend4" />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" weapon={weapon} keyValue="ascend5" />
+                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend5" />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" weapon={weapon} keyValue="ascend6" />
+                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend6" />
                   </SwiperSlide>
                 </Swiper>
               </div>
@@ -335,33 +335,12 @@ function EditContent() {
             </div>
 
             <div>
-                <Input
-                  disabled={isLoading}
-                  forId="weapon-base-atk"
-                  name="weapon-base-atk"
-                  label="Base Atk"
-                  defaultValue={data.baseAtk}
-                  variant={VariantClass.dashboard}
-                />
-                
-                <Input
-                  disabled={isLoading}
-                  forId="weapon-base-stat"
-                  name="weapon-base-stat"
-                  label="Base Status"
-                  defaultValue={data.baseStat}
-                  variant={VariantClass.dashboard}
-                />
+              <Input disabled={isLoading} forId="weapon-base-atk" name="weapon-base-atk" label="Base Atk" defaultValue={data.baseAtk} variant={VariantClass.dashboard} />
 
-                <Input
-                  disabled={isLoading}
-                  forId="weapon-sub-status"
-                  name="subStatus"
-                  label="Weapon Sub Status"
-                  value={data.subStatus}
-                  variant={VariantClass.dashboard}
-                />
-              </div>
+              <Input disabled={isLoading} forId="weapon-base-stat" name="weapon-base-stat" label="Base Status" defaultValue={data.baseStat} variant={VariantClass.dashboard} />
+
+              <Input disabled={isLoading} forId="weapon-sub-status" name="subStatus" label="Weapon Sub Status" value={data.subStatus} variant={VariantClass.dashboard} />
+            </div>
 
             <Input disabled={isLoading} forId="weapon-type" name="type" label="Weapon Type" list="weapon-type-list" defaultValue={data.type} variant={VariantClass.dashboard} />
 
@@ -394,29 +373,27 @@ function EditContent() {
               <h1 className="text-white font-semibold font-poppins text-center">Material Ascend</h1>
               <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" weapon={data} keyValue="ascend1" />
+                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend1" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" weapon={data} keyValue="ascend2" />
+                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend2" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" weapon={data} keyValue="ascend3" />
+                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend3" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" weapon={data} keyValue="ascend4" />
+                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend4" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" weapon={data} keyValue="ascend5" />
+                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend5" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" weapon={data} keyValue="ascend6" />
+                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend6" />
                 </SwiperSlide>
               </Swiper>
             </div>
 
-            {data.image ?  <></> : 
-            <ImageInput changeHandler={(e) => imageHandler(e, setFileName, setPreviewLink)} fileName={fileName} setFileName={setFileName} previewLink={previewLink} setPreviewLink={setPreviewLink} />
-          }
+            {data.image ? <></> : <ImageInput changeHandler={(e) => imageHandler(e, setFileName, setPreviewLink)} fileName={fileName} setFileName={setFileName} previewLink={previewLink} setPreviewLink={setPreviewLink} />}
             <EditContextButton />
           </>
         )}
