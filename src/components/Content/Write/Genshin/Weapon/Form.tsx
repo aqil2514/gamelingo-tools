@@ -160,22 +160,22 @@ function WriteContent() {
               <div>
                 <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend1" />
+                    <SwiperDataSlide category="Weapon" template="Write" passData={weapon} keyValue="ascend1" />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend2" />
+                    <SwiperDataSlide category="Weapon" template="Write" passData={weapon} keyValue="ascend2" />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend3" />
+                    <SwiperDataSlide category="Weapon" template="Write" passData={weapon} keyValue="ascend3" />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend4" />
+                    <SwiperDataSlide category="Weapon" template="Write" passData={weapon} keyValue="ascend4" />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend5" />
+                    <SwiperDataSlide category="Weapon" template="Write" passData={weapon} keyValue="ascend5" />
                   </SwiperSlide>
                   <SwiperSlide>
-                    <SwiperDataSlide template="Write" passData={weapon} keyValue="ascend6" />
+                    <SwiperDataSlide category="Weapon" template="Write" passData={weapon} keyValue="ascend6" />
                   </SwiperSlide>
                 </Swiper>
               </div>
@@ -374,22 +374,22 @@ function EditContent() {
               <h1 className="text-white font-semibold font-poppins text-center">Material Ascend</h1>
               <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend1" />
+                  <SwiperDataSlide category="Weapon" template="Edit" passData={data} keyValue="ascend1" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend2" />
+                  <SwiperDataSlide category="Weapon" template="Edit" passData={data} keyValue="ascend2" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend3" />
+                  <SwiperDataSlide category="Weapon" template="Edit" passData={data} keyValue="ascend3" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend4" />
+                  <SwiperDataSlide category="Weapon" template="Edit" passData={data} keyValue="ascend4" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend5" />
+                  <SwiperDataSlide category="Weapon" template="Edit" passData={data} keyValue="ascend5" />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <SwiperDataSlide template="Edit" passData={data} keyValue="ascend6" />
+                  <SwiperDataSlide category="Weapon" template="Edit" passData={data} keyValue="ascend6" />
                 </SwiperSlide>
               </Swiper>
             </div>

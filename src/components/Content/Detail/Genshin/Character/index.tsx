@@ -25,7 +25,7 @@ export default function GICharacterDetail() {
 
   useEffect(() => {
     if (contextMenu.target) {
-      const url: Route = `/api/gamelingo/genshin-impact?_id=${id}&category=Weapon&lang=${lang}`;
+      const url: Route = `/api/gamelingo/genshin-impact?_id=${id}&category=Character&lang=${lang}`;
       axios(url).then((res) => setData(res.data.data));
     }
   }, [contextMenu, id, lang]);
@@ -33,13 +33,17 @@ export default function GICharacterDetail() {
   return (
     <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
       {Object.keys(data).length === 0 ? (
-        <Loading loading={1} textOn text="Mengambil data Weapon..." />
+        <Loading loading={1} textOn text="Mengambil data Character..." />
       ) : (
         <>
           <div>
             <h1 className="font-mclaren text-white text-center font-bold ">{data.name}</h1>
             <p className="font-mclaren text-white text-sm text-center font-bold mb-4">{typeof data.createdAt === "string" ? new Date(data.createdAt).toLocaleDateString("id-ID", dateOptions) : ""}</p>
           </div>
+
+        <div className="w-full p-4 my-4 flex justify-center">
+              {data.image ? <Image width={320} height={160} src={data.image} alt={data.name + " Image"} /> : <div className="border border-dashed border-white rounded-lg font-bold text-center">No Image</div>}
+            </div>
 
           <p className="font-poppins text-white">
             <strong className="font-bold">Name : </strong>
@@ -48,6 +52,7 @@ export default function GICharacterDetail() {
 
           <p className="font-poppins text-white">
             <strong className="font-bold">Description : </strong>
+            <br />
             {data.description}
           </p>
 
@@ -55,26 +60,27 @@ export default function GICharacterDetail() {
             <strong className="font-bold">Ascend Status : </strong>
             {data.ascendStatus}
           </p>
+            <br />
 
           <div className="p-8 border border-white rounded-lg">
             <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend1" />
+                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend1" />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend2" />
+                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend2" />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend3" />
+                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend3" />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend4" />
+                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend4" />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend5" />
+                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend5" />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend6" />
+                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend6" />
               </SwiperSlide>
             </Swiper>
           </div>
@@ -131,11 +137,6 @@ export default function GICharacterDetail() {
             {data.region}
           </p>
 
-          <div className="grid grid-cols-2 border-4 border-double border-white rounded-lg my-4 px-4 gap-4">
-            <div className="relative w-full p-4">
-              {data.image ? <Image fill sizes="auto" src={data.image} alt={data.name + " Image"} /> : <div className="border border-dashed border-white rounded-lg font-bold text-center">No Image</div>}
-            </div>
-          </div>
 
           <div id="buttons" className="flex justify-center gap-4">
             <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>

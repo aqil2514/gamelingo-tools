@@ -5,6 +5,7 @@ interface SwiperDataSlide {
   passData: any;
   keyValue: keyof GenshinImpact.UpgradeMaterial;
   template: "Write" | "Edit" | "Detail";
+  category: General.Game["category"]
 }
 
 const keyValueMap: Record<keyof GenshinImpact.UpgradeMaterial, string> = {
@@ -41,10 +42,10 @@ function isCharacter(data: any): data is GenshinImpact.Character {
   return data;
 }
 
-export default function SwiperSlideData({ passData, keyValue, template }: SwiperDataSlide) {
-  if (template === "Write") return <WriteContent passData={passData} keyValue={keyValue} />;
-  else if (template === "Edit") return <EditContent passData={passData} keyValue={keyValue} />;
-  else if (template === "Detail") return <DetailContent passData={passData} keyValue={keyValue} />;
+export default function SwiperSlideData({ passData, keyValue, template,category }: SwiperDataSlide) {
+  if (template === "Write") return <WriteContent category={category} passData={passData} keyValue={keyValue} />;
+  else if (template === "Edit") return <EditContent category={category} passData={passData} keyValue={keyValue} />;
+  else if (template === "Detail") return <DetailContent category={category} passData={passData} keyValue={keyValue} />;
 }
 
 /**
@@ -53,12 +54,12 @@ export default function SwiperSlideData({ passData, keyValue, template }: Swiper
  *
  */
 
-function EditContent({ passData, keyValue }: Omit<SwiperDataSlide, "template">) {
-  if (isWeapon(passData)) return <WeaponData passData={passData} keyValue={keyValue} />;
-  if (isCharacter(passData)) return <CharacterData passData={passData} keyValue={keyValue} />;
+function EditContent({ passData, keyValue, category }: Omit<SwiperDataSlide, "template">) {
+  if (isWeapon(passData) && category === "Weapon") return <WeaponData passData={passData} keyValue={keyValue} />;
+  if (isCharacter(passData && category === "Character")) return <CharacterData passData={passData} keyValue={keyValue} />;
 }
 
-const WeaponData = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">) => {
+const WeaponData = ({ passData, keyValue }: Omit<SwiperDataSlide, "template" | "category">) => {
   const [data, setData] = useState<GenshinImpact.Weapon>({} as GenshinImpact.Weapon);
 
   useEffect(() => {
@@ -83,7 +84,7 @@ const WeaponData = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">) =
   );
 };
 
-const CharacterData = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">) => {
+const CharacterData = ({ passData, keyValue }: Omit<SwiperDataSlide, "template" | "category">) => {
   const [data, setData] = useState<GenshinImpact.Character["ascendMaterial"]>({} as GenshinImpact.Character["ascendMaterial"]);
 
   useEffect(() => {
@@ -114,12 +115,12 @@ const CharacterData = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">
  *
  *  */
 
-function DetailContent({ passData, keyValue }: Omit<SwiperDataSlide, "template">) {
-  if (isWeapon(passData)) return <WeaponDetail passData={passData} keyValue={keyValue} />;
-  if (isCharacter(passData)) return <WeaponDetail passData={passData} keyValue={keyValue} />;
+function DetailContent({ passData, keyValue, category }: Omit<SwiperDataSlide, "template">) {
+  if (isWeapon(passData) && category === "Weapon") return <WeaponDetail passData={passData} keyValue={keyValue} />;
+  else if (isCharacter(passData) && category === "Character") return <CharacterDetail passData={passData} keyValue={keyValue} />;
 }
 
-const WeaponDetail = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">) => {
+const WeaponDetail = ({ passData, keyValue }: Omit<SwiperDataSlide, "template" | "category">) => {
   const [data, setData] = useState<GenshinImpact.Weapon>({} as GenshinImpact.Weapon);
 
   useEffect(() => {
@@ -150,7 +151,7 @@ const WeaponDetail = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">)
   );
 };
 
-const CharacterDetail = ({ passData, keyValue }: Omit<SwiperDataSlide, "template">) => {
+const CharacterDetail = ({ passData, keyValue }: Omit<SwiperDataSlide, "template" | "category">) => {
   const [data, setData] = useState<GenshinImpact.Character["ascendMaterial"]>({} as GenshinImpact.Character["ascendMaterial"]);
 
   useEffect(() => {
@@ -187,9 +188,9 @@ const CharacterDetail = ({ passData, keyValue }: Omit<SwiperDataSlide, "template
  *
  */
 
-function WriteContent({ passData, keyValue }: Omit<SwiperDataSlide, "template">) {
-  if (isApiResponseWeapon(passData)) return <ApiResponseWeaponData passData={passData} keyValue={keyValue} />;
-  else if (isApiResponseCharacter(passData)) return <ApiResponseCharData passData={passData} keyValue={keyValue} />;
+function WriteContent({ passData, keyValue, category }: Omit<SwiperDataSlide, "template">) {
+  if (isApiResponseWeapon(passData) && category === "Weapon") return <ApiResponseWeaponData passData={passData} keyValue={keyValue} />;
+  else if (isApiResponseCharacter(passData) && category === "Character") return <ApiResponseCharData passData={passData} keyValue={keyValue} />;
 }
 
 const ApiResponseCharData = ({ passData, keyValue }: { passData: GenshinImpact.ApiResponseCharacter; keyValue: keyof GenshinImpact.UpgradeMaterial }) => {

@@ -208,8 +208,8 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       });
 
       data.image = newFile;
-    } else if (data?.image?.name === "undefined") {
-      return { status: false, msg: "Gambar belum dipilih" };
+    } else if (data.image && data.image.type === "application/octet-stream") {
+      data.image = undefined
     }
 
     return { status: true, data };

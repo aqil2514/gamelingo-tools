@@ -17,6 +17,8 @@ import { baseUrl } from "@/components/general/Data";
 
 import GIMaterialDetail from "@/components/Content/Detail/Genshin/Material";
 import GIArtifactDetail from "@/components/Content/Detail/Genshin/Artifact";
+import GIWeaponDetail from "@/components/Content/Detail/Genshin/Weapon";
+import GICharacterDetail from "@/components/Content/Detail/Genshin/Character";
 
 export default function DetailMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "account") {
@@ -26,6 +28,8 @@ export default function DetailMenu({ field, subfield }: ContextSelectFieldProps)
   } else if (field === "genshin-impact") {
     if (subfield === "Material") return <GIMaterialDetail />;
     else if (subfield === "Artifact") return <GIArtifactDetail />;
+    else if (subfield === "Weapon") return <GIWeaponDetail />;
+    else if (subfield === "Character") return <GICharacterDetail />;
   }
 }
 

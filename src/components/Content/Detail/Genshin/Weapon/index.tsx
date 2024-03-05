@@ -46,27 +46,12 @@ export default function GIWeaponDetail() {
             {data.name}
           </p>
 
-          <p className="font-poppins text-white">
-            <strong className="font-bold">Rarity : </strong>
-            {data.rarity}
-          </p>
-
-          <p className="font-poppins text-white">
-            <strong className="font-bold">Type : </strong>
-            {data.type}
-          </p>
-
-          <p className="font-poppins text-white">
-            <br />
-            <strong className="font-bold">Description : </strong>
-            {data.lore}
-          </p>
-
           <div className="grid grid-cols-2 border-4 border-double border-white rounded-lg my-4 px-4 gap-4">
             <div className="relative w-full p-4">
-              {data.image ? <Image fill sizes="auto" src={data.image} alt={data.name + " Image"} /> : <div className="border border-dashed border-white rounded-lg font-bold text-center">No Image</div>}
+              {data.image ? <Image height={160} width={320} src={data.image} alt={data.name + " Image"} /> : <div className="border border-dashed border-white rounded-lg font-bold text-center">No Image</div>}
             </div>
-            <div>
+
+            <div className="my-auto">
               <p className="font-poppins text-white">
                 <strong className="font-bold">Base Atk : </strong>
                 {data.baseAtk}
@@ -84,6 +69,24 @@ export default function GIWeaponDetail() {
             </div>
           </div>
 
+          <p className="font-poppins text-white">
+            <strong className="font-bold">Rarity : </strong>
+            {data.rarity}
+          </p>
+
+          <p className="font-poppins text-white">
+            <strong className="font-bold">Type : </strong>
+            {data.type}
+          </p>
+
+          <p className="font-poppins text-white">
+            <strong className="font-bold">Description : </strong>
+            <br />
+            {data.lore}
+          </p>
+
+          
+
           <div className="border border-white rounded-xl p-4 my-4">
             <h3 className="text-center font-bold font-poppins text-white">Passive Weapon</h3>
 
@@ -96,13 +99,13 @@ export default function GIWeaponDetail() {
               {refinementData.map((ref) => (
                 <>
                   <input type="radio" name="ref-data" checked={ref === refPrev} onChange={(e) => setRefPrev(e.target.value as RefinementType)} value={ref} id={`${ref}-text`} />
-                  <label htmlFor={`${ref}-text`}></label>
+                  <label htmlFor={`${ref}-text`} className=" font-poppins text-white capitalize">{ref} Status</label>
                 </>
               ))}
 
               <p className="font-poppins text-white">
-                <br />
                 <strong className="font-bold capitalize">{refPrev} Description : </strong>
+                <br />
                 {data.passive[refPrev]}
               </p>
             </div>
@@ -111,22 +114,22 @@ export default function GIWeaponDetail() {
           <div className="p-8 border border-white rounded-lg">
             <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend1" />
+                <SwiperSlideData category="Weapon" template="Detail" passData={data} keyValue="ascend1" />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend2" />
+                <SwiperSlideData category="Weapon" template="Detail" passData={data} keyValue="ascend2" />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend3" />
+                <SwiperSlideData category="Weapon" template="Detail" passData={data} keyValue="ascend3" />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend4" />
+                <SwiperSlideData category="Weapon" template="Detail" passData={data} keyValue="ascend4" />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend5" />
+                <SwiperSlideData category="Weapon" template="Detail" passData={data} keyValue="ascend5" />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData template="Detail" passData={data} keyValue="ascend6" />
+                <SwiperSlideData category="Weapon" template="Detail" passData={data} keyValue="ascend6" />
               </SwiperSlide>
             </Swiper>
           </div>
