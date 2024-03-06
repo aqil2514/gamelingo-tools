@@ -359,8 +359,16 @@ namespace FormUtils {
        * @returns Berhasil atau gagal
        */
       proccessCharacter: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+
+      /**
+       * Proses Constellations Genshin Impact
+       * @param formData - Form Data
+       * @param user - Info User
+       * @param config - Konfigurasi Constellations
+       * @returns Berhasil atau gagal
+       */
+      processConstellation: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
       processTalent: (formData: FormData, user: Account.User) => Promise<Result>;
-      processConstellation: (formData: FormData, user: Account.User) => Promise<Result>;
     }
 
     type Language = "Indonesian" | "English";

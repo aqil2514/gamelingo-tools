@@ -14,11 +14,7 @@ import Loading from "@/components/general/Loading";
 import Image from "next/image";
 import { allowedRole } from "@/components/general/Data";
 
-interface MaterialContentFormProps {
-  template: "Write" | "Edit";
-}
-
-export default function GIMaterialContentForm({ template }: MaterialContentFormProps) {
+export default function GIMaterialContentForm({ template }: { template: General.ContentTemplate }) {
   if (template === "Write") return <WriteContent />;
   else if (template === "Edit") return <EditContent />;
 }

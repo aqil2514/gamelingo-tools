@@ -63,17 +63,17 @@ export const baseUrl = process.env.NODE_ENV === "development" ? "http://localhos
 // <<<<< Interface >>>>>
 interface AccountLink {
   label: string;
-  subfield: General.UserAdminQuery["subfield"];
+  subfield: General.AdminQueryUser["subfield"];
 }
 
 interface EvertaleLink {
   label: string;
-  subfield: General.GameEvertaleQuery["subfield"];
+  subfield: General.AdminQueryGameEvertale["subfield"];
 }
 
 interface GenshinLink {
   label: string;
-  subfield: General.GameGenshinQuery["subfield"];
+  subfield: General.AdminQueryGameGenshin["subfield"];
 }
 
 // <<<<< Export Variabel >>>>>

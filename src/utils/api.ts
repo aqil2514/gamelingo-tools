@@ -645,3 +645,18 @@ export const file: ApiUtils.FileApi = {
     }
   },
 };
+
+/** Type Guard Function */
+
+/** Type Guard for ensuring subfield data in api route */
+export const isSubfieldData = {
+  account(subfield: any): subfield is General.AdminQueryUser["subfield"] {
+    return subfield;
+  },
+  evertale(subfield: any): subfield is General.AdminQueryGameEvertale["subfield"] {
+    return subfield;
+  },
+  genshinImpact(subfield: any): subfield is General.AdminQueryGameGenshin["subfield"] {
+    return subfield;
+  },
+};

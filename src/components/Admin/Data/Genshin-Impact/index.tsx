@@ -9,6 +9,7 @@ import { useState } from "react";
 import ArtifactData from "./ArtifactData";
 import WeaponData from "./WeaponData";
 import CharacterData from "./CharacterData";
+import ConstellationsData from "./ConstellationsData";
 
 interface GenshinImpactDataProps {
   field: General.AdminQuery["field"];
@@ -28,4 +29,5 @@ export default function GenshinImpactData({ field, subfield }: GenshinImpactData
   if (subfield === "Artifact") return <ArtifactData data={data.data} lang={lang} setLang={setLang} />;
   if (subfield === "Weapon") return <WeaponData data={data.data} lang={lang} setLang={setLang} />;
   if (subfield === "Character") return <CharacterData data={data.data} lang={lang} setLang={setLang} />;
+  if (subfield === "Constellations") return <ConstellationsData data={data.data} lang={lang} setLang={setLang} />;
 }

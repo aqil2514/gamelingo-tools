@@ -1,36 +1,45 @@
-/**
- *
- * EDIT MENU
- *
- */
-
+// <<<<< React Import >>>>>
 import { useEffect, useState } from "react";
-import { useMenuContextData } from "../../Providers/Admin/ContextProvider";
-import axios, { isAxiosError } from "axios";
+
+// <<<<< Next Import >>>>>
 import { Route } from "next";
+
+// <<<<< Axios Import >>>>>
+import axios, { isAxiosError } from "axios";
+
+// <<<<< Utils Import >>>>>
+import { useMenuContextData } from "../../Providers/Admin/ContextProvider";
+import { isSubfieldData } from "@/utils/api";
 import { notif } from "@/utils/fe";
-import Loading from "@/components/general/Loading";
-import { Input, VariantClass as InputClass } from "@/components/general/Input";
-import Button, { VariantClass } from "@/components/general/Button";
-import { allowedRole } from "@/components/general/Data";
 import { ContextSelectFieldProps } from "./interface";
+
+// <<<<< Local Utils Import >>>>>
 import { getDate } from "./utils";
 
+// <<<<< General Components Import >>>>>
+import { Input, VariantClass as InputClass } from "@/components/general/Input";
+import { allowedRole } from "@/components/general/Data";
+import Loading from "@/components/general/Loading";
+import Button, { VariantClass } from "@/components/general/Button";
+
+// <<<<< Content Component Import >>>>>
 import GIMaterialContentForm from "@/components/Content/Write/Genshin/Material/Form";
 import GIArtifactContentForm from "@/components/Content/Write/Genshin/Artifact/Form";
 import GIWeaponContentForm from "@/components/Content/Write/Genshin/Weapon/Form";
 import GICharacterContentForm from "@/components/Content/Write/Genshin/Character/Form";
+import GIConstellationsContentForm from "@/components/Content/Write/Genshin/Constellations/Form";
 
 export default function EditMenu({ field, subfield }: ContextSelectFieldProps) {
-  if (field === "account") {
+  if (field === "account" && isSubfieldData.account(subfield)) {
     if (subfield === "userslogin") return <UserEdit />;
     else if (subfield === "verificationcode") return <CodeEdit />;
   }
-  if (field === "genshin-impact") {
+  if (field === "genshin-impact" && isSubfieldData.genshinImpact(subfield)) {
     if (subfield === "Material") return <GIMaterialContentForm template="Edit" />;
     if (subfield === "Artifact") return <GIArtifactContentForm template="Edit" />;
     if (subfield === "Weapon") return <GIWeaponContentForm template="Edit" />;
     if (subfield === "Character") return <GICharacterContentForm template="Edit" />;
+    if (subfield === "Constellations") return <GIConstellationsContentForm template="Edit" />;
   }
 }
 

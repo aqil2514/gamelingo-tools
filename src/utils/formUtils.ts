@@ -241,7 +241,61 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     return { status: 200, organizedData };
   },
+  async processConstellation(formData, user, config) {
+    if (!config) throw new Error("Konfigurasi diperlukan");
+    const { action, oldId, lang } = config;
 
+    // <<<<< Local Variabel >>>>>
+    const game: General.Game["game"] = "Genshin Impact";
+    const category: General.Game["category"] = "Constellations";
+
+    // <<<<< Ambil data >>>>>
+    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataConstellation;
+
+    // <<<<< Validasi >>>>>
+    const validation = await genshinValidator.constellation(data);
+    if (!validation.status) return { status: 422, msg: validation.msg };
+
+    let imageUrl: string[] = [];
+
+    // <<<<< Upload image >>>>>
+    if (validation.images?.length !== 0 && validation.images) {
+      const uploadFile = await file.uploadImage(validation.images, game, category);
+      imageUrl = uploadFile.map((file) => file.secure_url);
+    }
+
+    // <<<<< Susun data >>>>>
+    const organizedData = genshinOrganizing.constellation(data, imageUrl);
+
+    // <<<<< Tambah ke Data base >>>>
+
+    if (action === "add") {
+      if (data["result-lang"] === "Indonesian") {
+        const constellation = await ConstellationID.create(organizedData);
+
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user });
+      } else if (data["result-lang"] === "English") {
+        const constellation = await ConstellationEN.create(organizedData);
+
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user });
+      }
+    }
+    // <<<<< Edit data dari Database >>>>>
+    else if (action === "edit") {
+      if (!oldId) throw new Error("Old ID diperlukan");
+      if (lang === "Indonesian") {
+        const constellation = await ConstellationID.findByIdAndUpdate(oldId, organizedData);
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user });
+      } else if (lang === "English") {
+        const constellation = await ConstellationEN.findByIdAndUpdate(oldId, organizedData);
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user });
+      }
+    }
+
+    return { status: 200, data: organizedData, test: validation };
+  },
   async processTalent(formData, user) {
     // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
@@ -274,39 +328,6 @@ export const genshin: FormUtils.Genshin.Genshin = {
     // }
 
     return { status: 200, data: organizedData };
-  },
-  async processConstellation(formData, user) {
-    const game: General.Game["game"] = "Genshin Impact";
-    const category: General.Game["category"] = "Constellations";
-    //Ambil data
-    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataConstellation;
-
-    // Validasi
-    const validation = await genshinValidator.constellation(data);
-    if (!validation.status) return { status: 422, msg: validation.msg };
-
-    let imageUrl: string[] = [];
-    // Upload image
-    if (validation.images?.length !== 0 && validation.images) {
-      const uploadFile = await file.uploadImage(validation.images, game, category);
-      imageUrl = uploadFile.map((file) => file.secure_url);
-    }
-
-    // Susun data
-    const organizedData = genshinOrganizing.constellation(data, imageUrl);
-
-    // TODO: Perbarui schema Mongoose dan tambahkan icon;
-    // if (data["result-lang"] === "Indonesian") {
-    //   const constellation = await ConstellationID.create(organizedData);
-
-    //   await addPost(data, data["result-lang"], game, category, constellation, user, data.charName);
-    // } else if (data["result-lang"] === "English") {
-    //   const constellation = await ConstellationEN.create(organizedData);
-
-    //   await addPost(data, data["result-lang"], game, category, constellation, user, data.charName);
-    // }
-
-    return { status: 200, data: organizedData, test: validation };
   },
 };
 

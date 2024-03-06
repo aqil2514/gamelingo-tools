@@ -2,8 +2,7 @@
 // PLEASE SORT THE DATA BY ALPHABETICAL
 
 namespace GenshinImpact {
-  export interface Artifact {
-    readonly _id?: string;
+  export interface Artifact extends General.MongoDBDocument {
     name: string;
     rarityList: string[];
     effect2pc: string;
@@ -14,8 +13,6 @@ namespace GenshinImpact {
     sands: ArtifactSub;
     goblet: ArtifactSub;
     circlet: ArtifactSub;
-    readonly createdAt?: string;
-    updatedAt?: string;
   }
 
   export type ArtifactDoc = Pick<Artifact, "_id" | "name" | "rarityList" | "effect2pc" | "effect4pc" | "effectOther">;
@@ -451,8 +448,7 @@ namespace GenshinImpact {
     team: string[];
   }
 
-  export interface Character {
-    _id?: string;
+  export interface Character extends General.MongoDBDocument {
     lang: "Indonesian" | "English";
     name: string;
     description: string;
@@ -473,14 +469,11 @@ namespace GenshinImpact {
     build?: BuildCharacter;
     talent?: Talent[];
     constellation?: Constellation[];
-    createdAt?: string;
-    updatedAt?: string;
   }
 
   export type CharacterTable = Pick<Character, "_id" | "name" | "element" | "rarity" | "region" | "weapon">;
 
-  export interface Constellation {
-    id?: string;
+  export interface Constellation extends General.MongoDBDocument {
     charName: string;
     constellation: {
       c1: BasicInfo;
@@ -492,16 +485,15 @@ namespace GenshinImpact {
     };
   }
 
-  export interface Material {
-    readonly _id?: string;
+  export type ConstellationTable = Omit<Constellation, "constellation">;
+
+  export interface Material extends General.MongoDBDocument {
     name: string;
     typeMaterial: string;
     rarity?: string;
     lore: string;
     gainedFrom: string[] | string;
     image?: string;
-    readonly createdAt?: string;
-    updatedAt?: string;
   }
 
   export type MaterialTable = Pick<Material, "name" | "typeMaterial" | "rarity" | "_id">;
@@ -561,8 +553,7 @@ namespace GenshinImpact {
     count: number;
   }
 
-  export interface Weapon {
-    readonly _id?: string;
+  export interface Weapon extends General.MongoDBDocument {
     name: string;
     type: string;
     baseAtk: string;
@@ -585,8 +576,6 @@ namespace GenshinImpact {
     ascend6: UpgradeMaterialItem[];
     rarity: string;
     image?: string;
-    createdAt?: string;
-    updatedAt?: string;
   }
 
   type WeaponTable = Pick<Weapon, "_id" | "name" | "type" | "rarity">;

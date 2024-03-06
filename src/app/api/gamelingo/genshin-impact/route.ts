@@ -1,17 +1,23 @@
+// <<<<< Next and MongoDb >>>>>
+import { NextRequest, NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
+
+// <<<<< Mongoose Models Import >>>>>
 import { Post } from "@/models/General/Post";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
 import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
+import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
+
+// <<<<< Utils Import >>>>>
 import { getUser } from "@/utils/api";
 import { genshin } from "@/utils/formUtils";
-import { ObjectId } from "mongodb";
-import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const _id = searchParams.get("_id");
-  const category = searchParams.get("category") as General.GameGenshinQuery["subfield"] | null;
+  const category = searchParams.get("category") as General.AdminQueryGameGenshin["subfield"] | null;
   const lang = searchParams.get("lang") as General.PostDocument["lang"] | null;
   let data;
 
@@ -31,6 +37,9 @@ export async function GET(req: NextRequest) {
   } else if (category === "Character") {
     if (lang === "English") data = await CharacterEN.findById(_id);
     else if (lang === "Indonesian") data = await CharacterID.findById(_id);
+  } else if (category === "Constellations") {
+    if (lang === "English") data = await ConstellationEN.findById(_id);
+    else if (lang === "Indonesian") data = await ConstellationID.findById(_id);
   }
 
   return NextResponse.json({ data }, { status: 200 });
@@ -38,7 +47,7 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const { id } = await req.json();
-  const dataType = req.headers.get("DB-Content") as General.GameGenshinQuery["subfield"] | null;
+  const dataType = req.headers.get("DB-Content") as General.AdminQueryGameGenshin["subfield"] | null;
   const lang = req.headers.get("Content-Lang") as General.PostDocument["lang"] | null;
 
   if (!dataType) return NextResponse.json({ msg: "Error: Tipe Data yang ingin dihapus kosong" }, { status: 400 });
@@ -80,6 +89,15 @@ export async function DELETE(req: NextRequest) {
       await CharacterEN.findByIdAndDelete(id);
       await Post.findOneAndDelete({ content: new ObjectId(id) });
     }
+  } else if (dataType === "Constellations") {
+    if (lang === "Indonesian") {
+      await ConstellationID.findByIdAndDelete(id);
+      await Post.findOneAndDelete({ content: new ObjectId(id) });
+    }
+    if (lang === "English") {
+      await ConstellationEN.findByIdAndDelete(id);
+      await Post.findOneAndDelete({ content: new ObjectId(id) });
+    }
   }
 
   return NextResponse.json({ msg: "Hapus data berhasil" }, { status: 200 });
@@ -87,7 +105,7 @@ export async function DELETE(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   const formData = await req.formData();
-  const category = req.headers.get("Data-Category") as General.GameGenshinQuery["subfield"] | null;
+  const category = req.headers.get("Data-Category") as General.AdminQueryGameGenshin["subfield"] | null;
   const dataId = req.headers.get("Old-Id");
   const lang = req.headers.get("Content-Lang") as General.PostDocument["lang"] | null;
   const user = await getUser();
