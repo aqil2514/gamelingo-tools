@@ -21,6 +21,7 @@ import { Route } from "next";
 import { getDate } from "@/components/Admin/ContextMenu/utils";
 import { notif } from "@/utils/fe";
 import Loading from "@/components/general/Loading";
+import { EditContextButton } from "@/components/Admin/ContextMenu/EditMenu";
 
 export default function GICharacterContentForm({ template }: { template: General.ContentTemplate }) {
   if (template === "Write") return <WriteContent />;
@@ -28,7 +29,7 @@ export default function GICharacterContentForm({ template }: { template: General
 }
 
 function WriteContent() {
-  const { isLoading, setIsLoading, constellation, setConstellation, previewLinks, setPreviewLinks } = useConstellationsContext();
+  const { isLoading, setIsLoading, constellation, setConstellation, previewLinks, setPreviewLinks, moveLocation, setMoveLocation } = useConstellationsContext();
 
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement;
@@ -60,8 +61,10 @@ function WriteContent() {
     setIsLoading: setIsLoading,
     game: "Genshin Impact",
     category: "Constellations",
-    ref: "artifact-button-submit",
-    callbackUrl: "/admin/data?field=genshin-impact&subfield=Constellations",
+    ref: "constellation-button-submit",
+    callbackUrl: "/admin/data?field=genshin-impact&subfield=Constellations&lang=English",
+    moveLocation,
+
   };
   return (
     <form onSubmit={(e) => submitFormHandler(e, submitConfig)} className="my-4">
@@ -122,9 +125,13 @@ function WriteContent() {
         <p className="font-bold text-white text-center underline">No Data Selected</p>
       )}
 
-      <Button className={ButtonStyle.submit} id="constellation-submit-button">
-        {isLoading ? "Submitting..." : "Submit"}
-      </Button>
+<div className="flex gap-4" id="constellation-button-submit">
+          <Button className={ButtonStyle.submit}>{isLoading ? "Submitting..." : "Submit"}</Button>
+          <label htmlFor="move-location" className="text-white font-bold font-poppins my-auto">
+            <input type="checkbox" id="move-location" className="mx-2" checked={moveLocation} onChange={() => setMoveLocation(!moveLocation)} />
+            Lihat Data setelah selesai ditambah
+          </label>
+        </div>
     </form>
   );
 }
@@ -141,7 +148,7 @@ function EditContent() {
 
   useEffect(() => {
     if (contextMenu.target) {
-      const url: Route = `/api/gamelingo/genshin-impact?_id=${id}&category=Material&lang=${lang}`;
+      const url: Route = `/api/gamelingo/genshin-impact?_id=${id}&category=Constellations&lang=${lang}`;
       axios(url).then((res) => setData(res.data.data));
     }
 
@@ -151,6 +158,7 @@ function EditContent() {
       setDate(`${year}-${month}-${day}T${hour}:${minutes}`);
     }
   }, [contextMenu, data, id, lang]);
+
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -236,6 +244,7 @@ function EditContent() {
     const image = target.files[0];
     const urlSrc = URL.createObjectURL(image);
 
+    
     setFileName(image.name);
     setPreviewLinks({ ...previewLinks, [previewLink]: urlSrc });
   }
@@ -252,10 +261,11 @@ function EditContent() {
         <form onSubmit={submitHandler} className="my-4">
           <Input forId="charName" name="charName" defaultValue={data.charName} label="Character Name" variant={VariantClass.dashboard} />
 
-          {Object.keys(data)
+          {Object.keys(data.constellation)
             .filter((key) => key.startsWith("c"))
             .map((el, i: number) => {
               const obj = data.constellation[el as keyof GenshinImpact.Constellation["constellation"]];
+
               return (
                 <div key={`el-${obj.name}`} className="my-4">
                   <div className="grid grid-cols-[200px_auto] gap-4">
@@ -277,19 +287,18 @@ function EditContent() {
                       <input type="file" name={`constellation-${i + 1}-icon`} data-previewLink={`link${i + 1}`} id={`constellation-${i + 1}-icon`} className="hidden" onChange={changeHandler} />
                     </label>
 
-                    <Input forId={`c${i + 1}`} name={`c${i + 1}`} label={`Constellation ${i + 1}`} variant={VariantClass.dashboard} value={obj.name} />
+                    <Input forId={`c${i + 1}`} name={`c${i + 1}`} label={`Constellation ${i + 1}`} variant={VariantClass.dashboard} defaultValue={obj.name} />
                   </div>
 
                   <div className="my-4">
-                    <Textarea forId={`d${i + 1}`} name={`d${i + 1}`} label="Description" className={TextareaStyle.variant_1} value={obj.description} />
+                    <Textarea forId={`d${i + 1}`} name={`d${i + 1}`} label="Description" className={TextareaStyle.variant_1} defaultValue={obj.description} />
                   </div>
                 </div>
               );
             })}
 
-          <Button className={ButtonStyle.submit} id="constellation-submit-button">
-            {isLoading ? "Submitting..." : "Submit"}
-          </Button>
+<EditContextButton />
+
         </form>
       )}
     </div>

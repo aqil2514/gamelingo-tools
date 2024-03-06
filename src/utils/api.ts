@@ -648,7 +648,10 @@ export const file: ApiUtils.FileApi = {
 
 /** Type Guard Function */
 
-/** Type Guard for ensuring subfield data in api route */
+/** Type Guard for ensuring subfield data in api route
+ * 
+ * WARNING : this will error if you use this for Client Side.
+ */
 export const isSubfieldData = {
   account(subfield: any): subfield is General.AdminQueryUser["subfield"] {
     return subfield;

@@ -291,7 +291,7 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       }
       if (key.includes("icon")) {
         let image = data[key as keyof FormUtils.Genshin.FormDataConstellation] as FormUtils.Genshin.FormDataConstellation["constellation-1-icon"];
-        if (image?.name === "undefined" && image?.type === "application/octet-stream") {
+        if ( image?.type === "application/octet-stream") {
           data[key as "constellation-1-icon"] = undefined;
         }
         if (data[key as "constellation-1-icon"]) {
@@ -308,6 +308,7 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
         }
       }
     }
+    
 
     if (data["result-lang"] === "English") {
       const isThere = await ConstellationEN.findOne({

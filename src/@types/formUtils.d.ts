@@ -455,7 +455,15 @@ namespace FormUtils {
        *
        */
       tag?: string[];
+
+      /** 
+       * Alias name akan digunakan jika nama default dalam object bukan "name"
+       * 
+       * Contoh, nama default => data.charName
+       */
+      aliasName?:string;
     }
+
   }
 
   interface Result {

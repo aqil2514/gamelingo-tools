@@ -43,17 +43,14 @@ export function notif(msg: string, config: NotifConfig) {
   }, time);
 }
 
-// export function notif(msg: string, color: string, refElement: string, location: "before" | "after", time: number = 3000) {
-//   const pElement = document.createElement("p");
-//   pElement.innerHTML = msg;
-
-//   pElement.classList.add(`text-${color}-500`);
-//   pElement.classList.add("font-bold");
-
-//   const ref = document.getElementById(refElement);
-//   ref![location](pElement);
-
-//   setTimeout(() => {
-//     pElement.remove();
-//   }, time);
-// }
+export const isSubfieldData = {
+  account(subfield: any): subfield is General.AdminQueryUser["subfield"] {
+    return subfield;
+  },
+  evertale(subfield: any): subfield is General.AdminQueryGameEvertale["subfield"] {
+    return subfield;
+  },
+  genshinImpact(subfield: any): subfield is General.AdminQueryGameGenshin["subfield"] {
+    return subfield;
+  },
+};

@@ -273,11 +273,11 @@ export const genshin: FormUtils.Genshin.Genshin = {
       if (data["result-lang"] === "Indonesian") {
         const constellation = await ConstellationID.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user });
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user, aliasName: data.charName });
       } else if (data["result-lang"] === "English") {
         const constellation = await ConstellationEN.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user });
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user, aliasName: data.charName });
       }
     }
     // <<<<< Edit data dari Database >>>>>
@@ -376,12 +376,15 @@ export const admin: FormUtils.Account.AccountFormApi = {
 const post: FormUtils.Post.PostAPI = {
   async addPost(data, config) {
     // <<<<< Variabel from config >>>>>
-    const { lang, gameName, gameTopic, parent, user, autoTag = true, tag } = config;
+    const { lang, gameName, gameTopic, parent, user, autoTag = true, tag, aliasName } = config;
+
+    console.log(data.name)
 
     if (!autoTag && (!tag || tag.length === 0)) throw new Error("Tag harus diberikan jika autoTag disetting false");
+    if(!data.name && !aliasName) throw new Error("Data Name tidak ada. Harus gunakan aliasName");
 
     const postData: General.PostDocument = {
-      title: data.name,
+      title: data.name ? data.name : aliasName,
       lang: lang,
       game: {
         name: gameName,

@@ -141,4 +141,11 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json({ msg: "Data Character berhasil diubah", process }, { status: 200 });
   }
+
+  if (category === "Constellations") {
+    const process = await genshin.processConstellation(formData, user, { action: "edit", oldId: dataId, lang });
+    if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
+
+    return NextResponse.json({ msg: "Data Character berhasil diubah", process }, { status: 200 });
+  }
 }

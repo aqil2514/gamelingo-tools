@@ -1,4 +1,4 @@
-import { notif } from "@/utils/fe";
+import { isSubfieldData, notif } from "@/utils/fe";
 import { Route } from "next";
 import axios, { isAxiosError } from "axios";
 import { adminId } from "@/components/general/Data";
@@ -13,15 +13,16 @@ import { LI_Style } from "../Resources";
  */
 
 export default function ContextMenu({ field, subfield, passData }: ContextSelectFieldProps) {
-  if (field === "account") {
+  if (field === "account"  && isSubfieldData.account(subfield)) {
     if (subfield === "userslogin") return <UserContextMenu data={passData} />;
     else if (subfield === "verificationcode") return <CodeContextMenu data={passData} />;
     else if (subfield === "password_purify") return <PasswordPurifyContextMenu data={passData} />;
-  } else if (field === "genshin-impact") {
+  } else if (field === "genshin-impact"  && isSubfieldData.genshinImpact(subfield)) {
     if (subfield === "Material") return <GIMaterialContextMenu data={passData} />;
     else if (subfield === "Artifact") return <GIArtifactContextMenu data={passData} />;
     else if (subfield === "Weapon") return <GIWeaponContextMenu data={passData} />;
     else if (subfield === "Character") return <GICharacterContextMenu data={passData} />;
+    else if (subfield === "Constellations") return <GIConstellationsContextMenu data={passData} />;
   }
 }
 

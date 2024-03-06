@@ -19,13 +19,14 @@ import GIMaterialDetail from "@/components/Content/Detail/Genshin/Material";
 import GIArtifactDetail from "@/components/Content/Detail/Genshin/Artifact";
 import GIWeaponDetail from "@/components/Content/Detail/Genshin/Weapon";
 import GICharacterDetail from "@/components/Content/Detail/Genshin/Character";
+import { isSubfieldData } from "@/utils/fe";
 
 export default function DetailMenu({ field, subfield }: ContextSelectFieldProps) {
-  if (field === "account") {
+  if (field === "account" && isSubfieldData.account(subfield)) {
     if (subfield === "userslogin") return <UserDetail />;
     else if (subfield === "verificationcode") return <CodeDetail />;
     else if (subfield === "password_purify") return <PasswordPurifyDetail />;
-  } else if (field === "genshin-impact") {
+  } else if (field === "genshin-impact" && isSubfieldData.genshinImpact(subfield)) {
     if (subfield === "Material") return <GIMaterialDetail />;
     else if (subfield === "Artifact") return <GIArtifactDetail />;
     else if (subfield === "Weapon") return <GIWeaponDetail />;

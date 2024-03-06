@@ -44,7 +44,7 @@ function WriteContent() {
     game: "Genshin Impact",
     category: "Weapon",
     ref: "weapon-button-submit",
-    callbackUrl: "/admin/data?field=genshin-impact&subfield=Weapon",
+    callbackUrl: "/admin/data?field=genshin-impact&subfield=Weapon&lang=English",
     moveLocation,
   };
 

@@ -49,6 +49,10 @@ export default function WeaponForm() {
 
 3. create a "Form.tsx" and set up a code like this [reference file.](/src/components/Content/Write/Genshin/Material/Form.tsx)
 
+4. Don't forget to handle Api Route in fetcher.
+
+5. Don't forget too to [set up an endpoint here].(/src/app/api/gamelingo/genshin-impact/route.ts)
+
 4. (Skip this if done) Go to [Declaration File of utils](/src/@types/formUtils.d.ts) and change from:
 
 ```
@@ -82,3 +86,6 @@ to
 ```
 
 ```
+
+## Step 3 : Detail Menu
+1. Start from [this file](/src/components/Admin/ContextMenu/DetailMenu.tsx)

@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
       const process = await genshin.processConstellation(formData, user, { action: "add" });
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
-      return NextResponse.json({ msg: "Tambah talent karakter berhasil", process }, { status: 200 });
+      return NextResponse.json({ msg: "Tambah konstelasi karakter berhasil", process }, { status: 200 });
     }
   }
 
