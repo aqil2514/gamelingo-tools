@@ -13,7 +13,7 @@ import { FetchApi } from "../genshinComponents";
 // <<<<< General Component Import >>>>>
 import { Input, VariantClass } from "@/components/general/Input";
 import Button, { VariantClass as ButtonStyle } from "@/components/Input/Button";
-import Textarea, { TextareaStyle } from "@/components/general/Textarea";
+import Textarea, { TextareaStyle } from "@/components/Input/Textarea";
 import { PreviewLinksState, useConstellationsContext } from "@/components/Providers/Game/GenshinImpact/ConstellationsProvider";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
 import axios, { isAxiosError } from "axios";

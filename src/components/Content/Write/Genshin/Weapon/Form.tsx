@@ -3,7 +3,7 @@ import { FetchApi } from "../genshinComponents";
 import { SubmitConfig_GI, submitFormHandler } from "../genshinUtils";
 import Button, { VariantClass as ButtonStyle } from "@/components/Input/Button";
 import Image from "next/image";
-import Textarea, { TextareaStyle } from "@/components/general/Textarea";
+import Textarea, { TextareaStyle } from "@/components/Input/Textarea";
 import React, { useEffect, useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";

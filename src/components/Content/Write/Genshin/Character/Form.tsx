@@ -18,7 +18,7 @@ import { Route } from "next";
 import axios, { isAxiosError } from "axios";
 import { notif } from "@/utils/fe";
 import Loading from "@/components/general/Loading";
-import Textarea, { TextareaStyle } from "@/components/general/Textarea";
+import Textarea, { TextareaStyle } from "@/components/Input/Textarea";
 import { EditContextButton } from "@/components/Admin/ContextMenu/EditMenu";
 
 interface CharacterContentFormProps {

@@ -1,5 +1,5 @@
 import { Input, VariantClass } from "@/components/general/Input";
-import Textarea, { TextareaStyle } from "@/components/general/Textarea";
+import Textarea, { TextareaStyle } from "@/components/Input/Textarea";
 import Image from "next/image";
 import React from "react";
 

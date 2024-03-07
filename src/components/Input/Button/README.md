@@ -27,3 +27,4 @@ You can see [this file for see the types](/src/@types/components.d.ts)
 - children (Optional) {React.ReactNode}
 - withTemplate (Optional) {boolean}: If use this, template props shall be passed. Default: false;
 - template (Optional) {string}: Will throw an error if withTemplate props true and this is empty. [See here for available template](/src/@types/components.d.ts)
+- ...props (optional): You can add few props that available on Button Component
