@@ -12,7 +12,7 @@ import { FetchApi } from "../genshinComponents";
 
 // <<<<< General Component Import >>>>>
 import { Input, VariantClass } from "@/components/general/Input";
-import Button, { VariantClass as ButtonStyle } from "@/components/general/Button";
+import Button, { VariantClass as ButtonStyle } from "@/components/Input/Button";
 import Textarea, { TextareaStyle } from "@/components/general/Textarea";
 import { PreviewLinksState, useConstellationsContext } from "@/components/Providers/Game/GenshinImpact/ConstellationsProvider";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
@@ -64,7 +64,6 @@ function WriteContent() {
     ref: "constellation-button-submit",
     callbackUrl: "/admin/data?field=genshin-impact&subfield=Constellations&lang=English",
     moveLocation,
-
   };
   return (
     <form onSubmit={(e) => submitFormHandler(e, submitConfig)} className="my-4">
@@ -125,13 +124,13 @@ function WriteContent() {
         <p className="font-bold text-white text-center underline">No Data Selected</p>
       )}
 
-<div className="flex gap-4" id="constellation-button-submit">
-          <Button className={ButtonStyle.submit}>{isLoading ? "Submitting..." : "Submit"}</Button>
-          <label htmlFor="move-location" className="text-white font-bold font-poppins my-auto">
-            <input type="checkbox" id="move-location" className="mx-2" checked={moveLocation} onChange={() => setMoveLocation(!moveLocation)} />
-            Lihat Data setelah selesai ditambah
-          </label>
-        </div>
+      <div className="flex gap-4" id="constellation-button-submit">
+        <Button className={ButtonStyle.submit}>{isLoading ? "Submitting..." : "Submit"}</Button>
+        <label htmlFor="move-location" className="text-white font-bold font-poppins my-auto">
+          <input type="checkbox" id="move-location" className="mx-2" checked={moveLocation} onChange={() => setMoveLocation(!moveLocation)} />
+          Lihat Data setelah selesai ditambah
+        </label>
+      </div>
     </form>
   );
 }
@@ -158,7 +157,6 @@ function EditContent() {
       setDate(`${year}-${month}-${day}T${hour}:${minutes}`);
     }
   }, [contextMenu, data, id, lang]);
-
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -244,7 +242,6 @@ function EditContent() {
     const image = target.files[0];
     const urlSrc = URL.createObjectURL(image);
 
-    
     setFileName(image.name);
     setPreviewLinks({ ...previewLinks, [previewLink]: urlSrc });
   }
@@ -297,8 +294,7 @@ function EditContent() {
               );
             })}
 
-<EditContextButton />
-
+          <EditContextButton />
         </form>
       )}
     </div>

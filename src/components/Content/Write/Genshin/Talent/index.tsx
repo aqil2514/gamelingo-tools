@@ -1,6 +1,6 @@
 import React from "react";
 import { SubmitConfig_GI, submitFormHandler } from "../genshinUtils";
-import Button, { VariantClass as ButtonStyle } from "@/components/general/Button";
+import Button, { VariantClass as ButtonStyle } from "@/components/Input/Button";
 import { Input, VariantClass } from "@/components/general/Input";
 import { FetchApi } from "../genshinComponents";
 

@@ -1,7 +1,7 @@
 import { Input, VariantClass } from "@/components/general/Input";
 import { FetchApi } from "../genshinComponents";
 import { SubmitConfig_GI, submitFormHandler } from "../genshinUtils";
-import Button, { VariantClass as ButtonStyle } from "@/components/general/Button";
+import Button, { VariantClass as ButtonStyle } from "@/components/Input/Button";
 import Image from "next/image";
 import Textarea, { TextareaStyle } from "@/components/general/Textarea";
 import React, { useEffect, useState } from "react";

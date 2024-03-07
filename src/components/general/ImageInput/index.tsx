@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import Button from "../Button";
+import Button from "../../Input/Button";
 
 export default function ImageInput({
   changeHandler,
@@ -46,40 +46,17 @@ export default function ImageInput({
         }}
       >
         Gambar :
-        <input
-          type="file"
-          name="image"
-          onChange={changeHandler}
-          id="file"
-          ref={imageRef}
-          accept=".png, .webp"
-          className="hidden"
-        />
-        <label
-          htmlFor="file"
-          className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white rounded-xl"
-        >
+        <input type="file" name="image" onChange={changeHandler} id="file" ref={imageRef} accept=".png, .webp" className="hidden" />
+        <label htmlFor="file" className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white rounded-xl">
           {fileName ? fileName : initFileName}
         </label>
       </div>
-      {previewLink && (
-        <Image
-          src={previewLink}
-          width={300}
-          height={300}
-          alt={fileName}
-          className="h-auto"
-        />
-      )}
+      {previewLink && <Image src={previewLink} width={300} height={300} alt={fileName} className="h-auto" />}
     </>
   );
 }
 
-export function changeHandler(
-  event: React.ChangeEvent<HTMLInputElement>,
-  setFileName: React.Dispatch<React.SetStateAction<string>>,
-  setPreviewLink: React.Dispatch<React.SetStateAction<string>>,
-) {
+export function changeHandler(event: React.ChangeEvent<HTMLInputElement>, setFileName: React.Dispatch<React.SetStateAction<string>>, setPreviewLink: React.Dispatch<React.SetStateAction<string>>) {
   if (event.target.files && event.target.files.length > 0) {
     const selectedFile = event.target.files[0] as File;
     setFileName(selectedFile.name);

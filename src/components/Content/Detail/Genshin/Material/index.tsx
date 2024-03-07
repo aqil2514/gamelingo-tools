@@ -1,7 +1,7 @@
 import { dateOptions } from "@/components/Admin/ContextMenu/config";
 import DisplayImage from "@/components/DataDisplay/Image";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
-import Button, { VariantClass } from "@/components/general/Button";
+import Button, { VariantClass } from "@/components/Input/Button";
 import Loading from "@/components/general/Loading";
 import axios from "axios";
 import { Route } from "next";

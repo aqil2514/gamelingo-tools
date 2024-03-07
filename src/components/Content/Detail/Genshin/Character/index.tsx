@@ -1,23 +1,28 @@
-import { dateOptions } from "@/components/Admin/ContextMenu/config";
-import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
-import Button, { VariantClass } from "@/components/general/Button";
-import Loading from "@/components/general/Loading";
-import axios from "axios";
+// <<<<< React Import >>>>>
+import { useEffect, useState } from "react";
+
+// <<<<< Next Import >>>>>
 import { Route } from "next";
 
+// << Axios Import >>>>>
+import axios from "axios";
+
+// << Swiper JS Import >>>>>
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { RefinementType, refinementData } from "@/components/Content/Write/Genshin/Weapon/Form";
+// << Components Import >>>>>
+import { dateOptions } from "@/components/Admin/ContextMenu/config";
+import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
+import Button, { VariantClass } from "@/components/Input/Button";
+import Loading from "@/components/general/Loading";
 import SwiperSlideData from "@/components/Content/Write/Genshin/Components/SwiperSlideData";
+import DisplayImage from "@/components/DataDisplay/Image";
 
 export default function GICharacterDetail() {
   const [data, setData] = useState<GenshinImpact.Character>({} as GenshinImpact.Character);
-  const [refPrev, setRefPrev] = useState<RefinementType>("r1");
   const { contextMenu, setDetailMenu } = useMenuContextData();
 
   const id = contextMenu.target?.getAttribute("data-id");
@@ -41,9 +46,9 @@ export default function GICharacterDetail() {
             <p className="font-mclaren text-white text-sm text-center font-bold mb-4">{typeof data.createdAt === "string" ? new Date(data.createdAt).toLocaleDateString("id-ID", dateOptions) : ""}</p>
           </div>
 
-        <div className="w-full p-4 my-4 flex justify-center">
-              {data.image ? <Image width={320} height={160} src={data.image} alt={data.name + " Image"} /> : <div className="border border-dashed border-white rounded-lg font-bold text-center">No Image</div>}
-            </div>
+          <div className="w-full p-4 my-4 flex justify-center">
+            <DisplayImage template="variant1" src={data.image} alt={data.name} />
+          </div>
 
           <p className="font-poppins text-white">
             <strong className="font-bold">Name : </strong>
@@ -60,7 +65,7 @@ export default function GICharacterDetail() {
             <strong className="font-bold">Ascend Status : </strong>
             {data.ascendStatus}
           </p>
-            <br />
+          <br />
 
           <div className="p-8 border border-white rounded-lg">
             <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
@@ -137,15 +142,7 @@ export default function GICharacterDetail() {
             {data.region}
           </p>
 
-
-          <div id="buttons" className="flex justify-center gap-4">
-            <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>
-              Kembali
-            </Button>
-            <Button type="button" className={VariantClass.fetch} onClick={() => alert("Belum tersedia")}>
-              Lihat Konten
-            </Button>
-          </div>
+          <Button template="detail-menu" withTemplate />
         </>
       )}
     </div>

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 // <<<<< Next Import >>>>>
 import { Route } from "next";
-import Image from "next/image";
 
 // <<<<< Axios Import >>>>>
 import axios from "axios";
@@ -11,8 +10,9 @@ import axios from "axios";
 // <<<<< Components Import >>>>>
 import { dateOptions } from "@/components/Admin/ContextMenu/config";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
-import Button, { VariantClass } from "@/components/general/Button";
+import Button, { VariantClass } from "@/components/Input/Button";
 import Loading from "@/components/general/Loading";
+import DisplayImage from "@/components/DataDisplay/Image";
 
 export default function GIConstellationsDetail() {
   const [data, setData] = useState<GenshinImpact.Constellation>({} as GenshinImpact.Constellation);
@@ -45,13 +45,8 @@ export default function GIConstellationsDetail() {
 
               return (
                 <div key={`el-${obj.name}`} className="my-4">
-                  <div className="relative m-auto border border-dashed group border-white rounded-md min-h-[128px] min-w-[128px] max-h-[210px] max-w-[210px] flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden">
-                    {obj.icon ? (
-                      <Image src={obj.icon} fill sizes="auto" alt={obj.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
-                    ) : (
-                      <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
-                    )}
-                  </div>
+                  <DisplayImage template={"variant1"} src={obj.icon} alt={obj.name} />
+
                   <p className="font-poppins text-white my-2">
                     <strong className="font-bold">Constellation Name : </strong>
                     {obj.name}

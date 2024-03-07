@@ -4,13 +4,12 @@ import { useMenuContextData } from "../../../../Providers/Admin/ContextProvider"
 import EditMenu from "../../../ContextMenu/EditMenu";
 import DetailMenu from "../../../ContextMenu/DetailMenu";
 import { TD_Style, TH_Style, Table_Style } from "@/components/Admin/Resources";
-import Button, { VariantClass } from "@/components/general/Button";
+import Button, { VariantClass } from "@/components/Input/Button";
 import { WeaponDataProps } from ".";
 import { LangSelection } from "../LocalComponents";
 
 export default function WeaponDataTable({ data, lang, setLang }: WeaponDataProps) {
   const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu, router } = useMenuContextData();
-
 
   useEffect(() => {
     const clickFunction = (e: MouseEvent) => {

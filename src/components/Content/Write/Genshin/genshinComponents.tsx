@@ -2,7 +2,7 @@ import { notif } from "@/utils/fe";
 import axios from "axios";
 import { apiURL } from "./genshinUtils";
 import React from "react";
-import Button, { VariantClass } from "@/components/general/Button";
+import Button, { VariantClass } from "@/components/Input/Button";
 
 interface FetchApiProps<T> {
   elementId: string;

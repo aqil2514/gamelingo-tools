@@ -4,7 +4,7 @@ import { useMenuContextData } from "../../../../Providers/Admin/ContextProvider"
 import EditMenu from "../../../ContextMenu/EditMenu";
 import DetailMenu from "../../../ContextMenu/DetailMenu";
 import { TD_Style, TH_Style, Table_Style } from "@/components/Admin/Resources";
-import Button, { VariantClass } from "@/components/general/Button";
+import Button, { VariantClass } from "@/components/Input/Button";
 import { ArtifactDataProps } from ".";
 import { LangSelection } from "../LocalComponents";
 

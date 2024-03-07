@@ -11,7 +11,7 @@ import { Pagination } from "swiper/modules";
 import SwiperSlideData from "../Components/SwiperSlideData";
 import Image from "next/image";
 import ImageInput, { changeHandler as imageHandler } from "@/components/general/ImageInput";
-import Button, { VariantClass as ButtonClass } from "@/components/general/Button";
+import Button, { VariantClass as ButtonClass } from "@/components/Input/Button";
 import { useEffect, useState } from "react";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
 import { Route } from "next";

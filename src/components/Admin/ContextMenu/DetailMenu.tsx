@@ -14,7 +14,7 @@ import { isSubfieldData } from "@/utils/fe";
 
 // <<<<< Components Import >>>>>
 import Loading from "@/components/general/Loading";
-import Button, { VariantClass } from "@/components/general/Button";
+import Button, { VariantClass } from "@/components/Input/Button";
 import { baseUrl } from "@/lib/Data";
 
 // <<<<< Local Utils & Interface Import >>>>>

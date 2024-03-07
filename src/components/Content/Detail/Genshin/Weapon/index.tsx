@@ -1,6 +1,6 @@
 import { dateOptions } from "@/components/Admin/ContextMenu/config";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
-import Button, { VariantClass } from "@/components/general/Button";
+import Button, { VariantClass } from "@/components/Input/Button";
 import Loading from "@/components/general/Loading";
 import axios from "axios";
 import { Route } from "next";
@@ -11,9 +11,9 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { RefinementType, refinementData } from "@/components/Content/Write/Genshin/Weapon/Form";
 import SwiperSlideData from "@/components/Content/Write/Genshin/Components/SwiperSlideData";
+import DisplayImage from "@/components/DataDisplay/Image";
 
 export default function GIWeaponDetail() {
   const [data, setData] = useState<GenshinImpact.Weapon>({} as GenshinImpact.Weapon);
@@ -47,9 +47,7 @@ export default function GIWeaponDetail() {
           </p>
 
           <div className="grid grid-cols-2 border-4 border-double border-white rounded-lg my-4 px-4 gap-4">
-            <div className="relative w-full p-4">
-              {data.image ? <Image height={160} width={320} src={data.image} alt={data.name + " Image"} /> : <div className="border border-dashed border-white rounded-lg font-bold text-center">No Image</div>}
-            </div>
+            <DisplayImage template="variant1" src={data.image} alt={data.name} />
 
             <div className="my-auto">
               <p className="font-poppins text-white">
@@ -85,8 +83,6 @@ export default function GIWeaponDetail() {
             {data.lore}
           </p>
 
-          
-
           <div className="border border-white rounded-xl p-4 my-4">
             <h3 className="text-center font-bold font-poppins text-white">Passive Weapon</h3>
 
@@ -99,7 +95,9 @@ export default function GIWeaponDetail() {
               {refinementData.map((ref) => (
                 <>
                   <input type="radio" name="ref-data" checked={ref === refPrev} onChange={(e) => setRefPrev(e.target.value as RefinementType)} value={ref} id={`${ref}-text`} />
-                  <label htmlFor={`${ref}-text`} className=" font-poppins text-white capitalize">{ref} Status</label>
+                  <label htmlFor={`${ref}-text`} className=" font-poppins text-white capitalize">
+                    {ref} Status
+                  </label>
                 </>
               ))}
 

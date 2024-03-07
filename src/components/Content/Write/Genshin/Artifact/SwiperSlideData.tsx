@@ -1,7 +1,5 @@
 import { useArtifactContext } from "@/components/Providers/Game/GenshinImpact/ArtifactProvider";
-import Button, {
-  VariantClass as ButtonClass,
-} from "@/components/general/Button";
+import Button, { VariantClass as ButtonClass } from "@/components/Input/Button";
 import { Input, VariantClass } from "@/components/general/Input";
 import Textarea, { TextareaStyle } from "@/components/general/Textarea";
 import Image from "next/image";
@@ -13,14 +11,9 @@ interface SwiperSlideProps {
   data?: GenshinImpact.Artifact;
 }
 
-export default function SwiperSlideData({
-  keyValue,
-  template,
-  data,
-}: SwiperSlideProps) {
+export default function SwiperSlideData({ keyValue, template, data }: SwiperSlideProps) {
   if (template === "Write") return <SwiperWrite keyValue={keyValue} />;
-  else if (template === "Edit")
-    return <SwiperEdit data={data} keyValue={keyValue} />;
+  else if (template === "Edit") return <SwiperEdit data={data} keyValue={keyValue} />;
 }
 
 function SwiperWrite({ keyValue }: Pick<SwiperSlideProps, "keyValue">) {
@@ -53,9 +46,7 @@ function SwiperWrite({ keyValue }: Pick<SwiperSlideProps, "keyValue">) {
 
   return (
     <>
-      <h2 className="text-white font-semibold font-poppins capitalize">
-        {keyValue}
-      </h2>
+      <h2 className="text-white font-semibold font-poppins capitalize">{keyValue}</h2>
 
       <Input
         forId={`${keyValue}-name`}
@@ -124,33 +115,12 @@ function SwiperWrite({ keyValue }: Pick<SwiperSlideProps, "keyValue">) {
             Remove
           </Button>
         )}
-        <label
-          htmlFor={`${keyValue}-image`}
-          className="h-[30px] transition duration-200 hover:bg-zinc-800 rounded-lg border border-white hover:border-zinc-800 text-white px-4 cursor-pointer"
-        >
-          <p className="font-semibold font-poppins cursor-pointer">
-            {previewLink ? "Change Image" : "Upload Image"}
-          </p>
-          <input
-            type="file"
-            ref={imageRef}
-            name={`${keyValue}-image`}
-            id={`${keyValue}-image`}
-            onChange={imageHandler}
-            accept=".png, .webp"
-            className="hidden"
-          />
+        <label htmlFor={`${keyValue}-image`} className="h-[30px] transition duration-200 hover:bg-zinc-800 rounded-lg border border-white hover:border-zinc-800 text-white px-4 cursor-pointer">
+          <p className="font-semibold font-poppins cursor-pointer">{previewLink ? "Change Image" : "Upload Image"}</p>
+          <input type="file" ref={imageRef} name={`${keyValue}-image`} id={`${keyValue}-image`} onChange={imageHandler} accept=".png, .webp" className="hidden" />
         </label>
         <p className="font-bold font-mono text-white">{fileName}</p>
-        {previewLink && (
-          <Image
-            width={64}
-            height={64}
-            alt={fileName}
-            src={previewLink}
-            className="h-auto rounded-xl"
-          />
-        )}
+        {previewLink && <Image width={64} height={64} alt={fileName} src={previewLink} className="h-auto rounded-xl" />}
       </div>
     </>
   );
@@ -161,7 +131,6 @@ function SwiperEdit({ keyValue, data }: Omit<SwiperSlideProps, "template">) {
   const [fileName, setFileName] = React.useState<string>(initFileName);
   const [previewLink, setPreviewLink] = React.useState<string>("");
   const imageRef = React.useRef<HTMLInputElement>(null);
-
 
   function imageHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const el = e.target as HTMLInputElement;
@@ -187,41 +156,15 @@ function SwiperEdit({ keyValue, data }: Omit<SwiperSlideProps, "template">) {
         <></>
       ) : (
         <>
-          <h2 className="text-white font-semibold font-poppins capitalize">
-            {keyValue}
-          </h2>
+          <h2 className="text-white font-semibold font-poppins capitalize">{keyValue}</h2>
 
-          <Input
-            forId={`${keyValue}-name`}
-            label="Name"
-            name={`${keyValue}-name`}
-            variant={VariantClass.dashboard}
-            defaultValue={data[keyValue].name}
-          />
+          <Input forId={`${keyValue}-name`} label="Name" name={`${keyValue}-name`} variant={VariantClass.dashboard} defaultValue={data[keyValue].name} />
 
-          <Input
-            forId={`${keyValue}-type`}
-            label="Type"
-            name={`${keyValue}-type`}
-            variant={VariantClass.dashboard}
-            defaultValue={data[keyValue].type}
-          />
+          <Input forId={`${keyValue}-type`} label="Type" name={`${keyValue}-type`} variant={VariantClass.dashboard} defaultValue={data[keyValue].type} />
 
-          <Textarea
-            forId={`${keyValue}-description`}
-            label="Description"
-            name={`${keyValue}-description`}
-            className={TextareaStyle.variant_1}
-            value={data[keyValue].description}
-          />
+          <Textarea forId={`${keyValue}-description`} label="Description" name={`${keyValue}-description`} className={TextareaStyle.variant_1} value={data[keyValue].description} />
 
-          <Textarea
-            forId={`${keyValue}-lore`}
-            label="Lore"
-            name={`${keyValue}-lore`}
-            className={TextareaStyle.variant_1}
-            value={data[keyValue].lore}
-          />
+          <Textarea forId={`${keyValue}-lore`} label="Lore" name={`${keyValue}-lore`} className={TextareaStyle.variant_1} value={data[keyValue].lore} />
 
           {/* Gambar di sini */}
           <div className="flex justify-start min-h-[70px] gap-4">
@@ -234,33 +177,12 @@ function SwiperEdit({ keyValue, data }: Omit<SwiperSlideProps, "template">) {
                 Remove
               </Button>
             )}
-            <label
-              htmlFor={`${keyValue}-image`}
-              className="h-[30px] transition duration-200 hover:bg-zinc-800 rounded-lg border border-white hover:border-zinc-800 text-white px-4 cursor-pointer"
-            >
-              <p className="font-semibold font-poppins cursor-pointer">
-                {previewLink ? "Change Image" : "Upload Image"}
-              </p>
-              <input
-                type="file"
-                ref={imageRef}
-                name={`${keyValue}-image`}
-                id={`${keyValue}-image`}
-                onChange={imageHandler}
-                accept=".png, .webp"
-                className="hidden"
-              />
+            <label htmlFor={`${keyValue}-image`} className="h-[30px] transition duration-200 hover:bg-zinc-800 rounded-lg border border-white hover:border-zinc-800 text-white px-4 cursor-pointer">
+              <p className="font-semibold font-poppins cursor-pointer">{previewLink ? "Change Image" : "Upload Image"}</p>
+              <input type="file" ref={imageRef} name={`${keyValue}-image`} id={`${keyValue}-image`} onChange={imageHandler} accept=".png, .webp" className="hidden" />
             </label>
             <p className="font-bold font-mono text-white">{fileName}</p>
-            {previewLink && (
-              <Image
-                width={64}
-                height={64}
-                alt={fileName}
-                src={previewLink}
-                className="h-auto rounded-xl"
-              />
-            )}
+            {previewLink && <Image width={64} height={64} alt={fileName} src={previewLink} className="h-auto rounded-xl" />}
           </div>
         </>
       )}

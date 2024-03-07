@@ -19,7 +19,7 @@ import { getDate } from "./utils";
 import { Input, VariantClass as InputClass } from "@/components/general/Input";
 import { allowedRole } from "@/lib/Data";
 import Loading from "@/components/general/Loading";
-import Button, { VariantClass } from "@/components/general/Button";
+import Button, { VariantClass } from "@/components/Input/Button";
 
 // <<<<< Content Component Import >>>>>
 import GIMaterialContentForm from "@/components/Content/Write/Genshin/Material/Form";

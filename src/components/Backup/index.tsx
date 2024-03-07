@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { SubTemplateDataState, subTemplateData } from "../Content/Write/Misc/Data";
-import Button, { VariantClass } from "../general/Button";
+import Button, { VariantClass } from "../Input/Button";
 import axios from "axios";
 import { notif } from "@/utils/fe";
 
