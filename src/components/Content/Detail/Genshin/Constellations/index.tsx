@@ -1,11 +1,18 @@
+// <<<<< React Import >>>>>
+import { useEffect, useState } from "react";
+
+// <<<<< Next Import >>>>>
+import { Route } from "next";
+import Image from "next/image";
+
+// <<<<< Axios Import >>>>>
+import axios from "axios";
+
+// <<<<< Components Import >>>>>
 import { dateOptions } from "@/components/Admin/ContextMenu/config";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
 import Button, { VariantClass } from "@/components/general/Button";
 import Loading from "@/components/general/Loading";
-import axios from "axios";
-import { Route } from "next";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 
 export default function GIConstellationsDetail() {
   const [data, setData] = useState<GenshinImpact.Constellation>({} as GenshinImpact.Constellation);
@@ -33,28 +40,26 @@ export default function GIConstellationsDetail() {
           </div>
           {Object.keys(data.constellation)
             .filter((key) => key.startsWith("c"))
-            .map((el, i: number) => {
+            .map((el) => {
               const obj = data.constellation[el as keyof GenshinImpact.Constellation["constellation"]];
 
               return (
                 <div key={`el-${obj.name}`} className="my-4">
-                  <div className="grid grid-cols-[200px_auto] gap-4">
-                    <div className="relative m-auto border border-dashed group border-white rounded-md min-h-[128px] min-w-[128px] max-h-[210px] max-w-[210px] flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden">
-                      {obj.icon ? (
-                        <Image src={obj.icon} fill sizes="auto" alt={obj.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
-                      ) : (
-                        <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
-                      )}
-                    </div>
-                    <p className="font-poppins text-white">
-                      <strong className="font-bold">Constellation Name : </strong>
-                      {obj.name}
-                    </p>
-                    <p className="font-poppins text-white">
-                      <strong className="font-bold">Constellation Description : </strong>
-                      {obj.description}
-                    </p>
+                  <div className="relative m-auto border border-dashed group border-white rounded-md min-h-[128px] min-w-[128px] max-h-[210px] max-w-[210px] flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden">
+                    {obj.icon ? (
+                      <Image src={obj.icon} fill sizes="auto" alt={obj.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
+                    ) : (
+                      <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
+                    )}
                   </div>
+                  <p className="font-poppins text-white my-2">
+                    <strong className="font-bold">Constellation Name : </strong>
+                    {obj.name}
+                  </p>
+                  <p className="fon t-poppins text-white my-2">
+                    <strong className="font-bold">Constellation Description : </strong>
+                    {obj.description}
+                  </p>
                 </div>
               );
             })}
