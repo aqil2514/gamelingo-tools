@@ -53,11 +53,8 @@ export default function GIMaterialDetail() {
             <strong className="font-bold">Gained From : </strong>
             {typeof data.gainedFrom === "object" ? data.gainedFrom.join(", ") : data.gainedFrom}
           </p>
-          <div id="buttons" className="flex justify-center gap-4">
-            <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>
-              Kembali
-            </Button>
-          </div>
+
+          <Button template="detail-menu" withTemplate />
         </>
       )}
     </div>

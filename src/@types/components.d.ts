@@ -70,6 +70,8 @@ namespace Components {
         withTemplate?: boolean;
         /**
          * Template
+         *
+         * @see /src/components/Input/Button/README.md
          */
         template?: "detail-menu";
       }

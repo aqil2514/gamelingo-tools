@@ -91,14 +91,7 @@ export default function GIArtifactDetail() {
             </Swiper>
           </div>
 
-          <div id="buttons" className="flex justify-center gap-4">
-            <Button type="button" className={VariantClass.danger} onClick={() => setDetailMenu(false)}>
-              Kembali
-            </Button>
-            <Button type="button" className={VariantClass.fetch} onClick={() => alert("Belum tersedia")}>
-              Lihat Konten
-            </Button>
-          </div>
+          <Button template="detail-menu" withTemplate />
         </>
       )}
     </div>

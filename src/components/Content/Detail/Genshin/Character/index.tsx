@@ -16,7 +16,7 @@ import { Pagination } from "swiper/modules";
 // << Components Import >>>>>
 import { dateOptions } from "@/components/Admin/ContextMenu/config";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
-import Button, { VariantClass } from "@/components/Input/Button";
+import Button from "@/components/Input/Button";
 import Loading from "@/components/general/Loading";
 import SwiperSlideData from "@/components/Content/Write/Genshin/Components/SwiperSlideData";
 import DisplayImage from "@/components/DataDisplay/Image";
