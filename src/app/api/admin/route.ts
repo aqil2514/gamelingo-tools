@@ -15,6 +15,7 @@ import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constel
 
 // <<<<< Utils Import >>>>>
 import { admin, isSubfieldData } from "@/utils/api";
+import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 
 /** Type Guard Function */
 
@@ -70,6 +71,9 @@ export async function GET(req: NextRequest) {
     } else if (subfield === "Constellations") {
       if (lang === "English") data = await ConstellationEN.find();
       if (lang === "Indonesian") data = await ConstellationID.find();
+    } else if (subfield === "Talent") {
+      if (lang === "English") data = await TalentEN.find();
+      if (lang === "Indonesian") data = await TalentID.find();
     }
 
     return NextResponse.json({ data }, { status: 200 });

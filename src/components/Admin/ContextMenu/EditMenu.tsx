@@ -27,6 +27,7 @@ import GIArtifactContentForm from "@/components/Content/Write/Genshin/Artifact/F
 import GIWeaponContentForm from "@/components/Content/Write/Genshin/Weapon/Form";
 import GICharacterContentForm from "@/components/Content/Write/Genshin/Character/Form";
 import GIConstellationsContentForm from "@/components/Content/Write/Genshin/Constellations/Form";
+import GITalentContentForm from "@/components/Content/Write/Genshin/Talent/Form";
 
 export default function EditMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "account" && isSubfieldData.account(subfield)) {
@@ -39,6 +40,7 @@ export default function EditMenu({ field, subfield }: ContextSelectFieldProps) {
     if (subfield === "Weapon") return <GIWeaponContentForm template="Edit" />;
     if (subfield === "Character") return <GICharacterContentForm template="Edit" />;
     if (subfield === "Constellations") return <GIConstellationsContentForm template="Edit" />;
+    if (subfield === "Talent") return <GITalentContentForm template="Edit" />;
   }
 }
 

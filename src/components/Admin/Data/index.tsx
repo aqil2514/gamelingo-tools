@@ -18,6 +18,6 @@ export default function AdminData({ field, subfield, user }: { field: string; su
   if (field === "genshin-impact") {
     if (user.role !== "Admin of Genshin Impact" && user.role !== "General Admin") return <p className="text-white mx-4 font-poppins font-bold">Maaf, anda belum mendapat izin untuk melihat data game ini</p>;
 
-    return <GenshinImpactData field={field} subfield={subfield as General.AdminQuery["subfield"]} />;
+    return <GenshinImpactData field={field} subfield={subfield as General.GameGenshinImpact["category"]} />;
   }
 }

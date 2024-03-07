@@ -30,6 +30,7 @@ import GIArtifactDetail from "@/components/Content/Detail/Genshin/Artifact";
 import GIWeaponDetail from "@/components/Content/Detail/Genshin/Weapon";
 import GICharacterDetail from "@/components/Content/Detail/Genshin/Character";
 import GIConstellationsDetail from "@/components/Content/Detail/Genshin/Constellations";
+import GITalentDetail from "@/components/Content/Detail/Genshin/Talent";
 
 export default function DetailMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "account" && isSubfieldData.account(subfield)) {
@@ -42,6 +43,7 @@ export default function DetailMenu({ field, subfield }: ContextSelectFieldProps)
     else if (subfield === "Weapon") return <GIWeaponDetail />;
     else if (subfield === "Character") return <GICharacterDetail />;
     else if (subfield === "Constellations") return <GIConstellationsDetail />;
+    else if (subfield === "Talent") return <GITalentDetail />;
   }
 }
 

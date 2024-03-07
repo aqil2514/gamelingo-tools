@@ -368,7 +368,15 @@ namespace FormUtils {
        * @returns Berhasil atau gagal
        */
       processConstellation: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
-      processTalent: (formData: FormData, user: Account.User) => Promise<Result>;
+
+      /**
+       * Proses Talent Genshin Impact
+       * @param formData - Form Data
+       * @param user - Info User
+       * @param config - Konfigurasi Talent
+       * @returns Berhasil atau gagal
+       */
+      processTalent: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
     }
 
     type Language = "Indonesian" | "English";
@@ -456,14 +464,13 @@ namespace FormUtils {
        */
       tag?: string[];
 
-      /** 
+      /**
        * Alias name akan digunakan jika nama default dalam object bukan "name"
-       * 
+       *
        * Contoh, nama default => data.charName
        */
-      aliasName?:string;
+      aliasName?: string;
     }
-
   }
 
   interface Result {

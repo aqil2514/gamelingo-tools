@@ -296,7 +296,10 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     return { status: 200, data: organizedData, test: validation };
   },
-  async processTalent(formData, user) {
+  async processTalent(formData, user, config) {
+    if (!config) throw new Error("Konfigurasi diperlukan");
+    const { action, oldId, lang } = config;
+
     // <<<<< Local Variabel >>>>>
     const game: General.Game["game"] = "Genshin Impact";
     const category: General.Game["category"] = "Talent";
@@ -317,15 +320,30 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     const organizedData = genshinOrganizing.talent(data, images);
 
-    // if (data["result-lang"] === "Indonesian") {
-    //   const talent = await TalentID.create(organizedData);
+    if (action === "add") {
+      if (data["result-lang"] === "Indonesian") {
+        const talent = await TalentID.create(organizedData);
 
-    //   await addPost(data, data["result-lang"], game, category, talent, user, data["character-name"]);
-    // } else if (data["result-lang"] === "English") {
-    //   const talent = await TalentEN.create(organizedData);
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: talent, user, aliasName: data["character-name"] });
+      } else if (data["result-lang"] === "English") {
+        const talent = await TalentEN.create(organizedData);
 
-    //   await addPost(data, data["result-lang"], game, category, talent, user, data["character-name"]);
-    // }
+        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: talent, user, aliasName: data["character-name"] });
+      }
+    }
+    // <<<<< Edit data dari Database >>>>>
+    else if (action === "edit") {
+      if (!oldId) throw new Error("Old ID diperlukan");
+      if (lang === "Indonesian") {
+        const talent = await TalentID.findByIdAndUpdate(oldId, organizedData);
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: talent, user });
+      } else if (lang === "English") {
+        const talent = await TalentEN.findByIdAndUpdate(oldId, organizedData);
+
+        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: talent, user });
+      }
+    }
 
     return { status: 200, data: organizedData };
   },
@@ -378,10 +396,10 @@ const post: FormUtils.Post.PostAPI = {
     // <<<<< Variabel from config >>>>>
     const { lang, gameName, gameTopic, parent, user, autoTag = true, tag, aliasName } = config;
 
-    console.log(data.name)
+    console.log(data.name);
 
     if (!autoTag && (!tag || tag.length === 0)) throw new Error("Tag harus diberikan jika autoTag disetting false");
-    if(!data.name && !aliasName) throw new Error("Data Name tidak ada. Harus gunakan aliasName");
+    if (!data.name && !aliasName) throw new Error("Data Name tidak ada. Harus gunakan aliasName");
 
     const postData: General.PostDocument = {
       title: data.name ? data.name : aliasName,

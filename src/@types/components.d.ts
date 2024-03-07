@@ -73,7 +73,7 @@ namespace Components {
          *
          * @see /src/components/Input/Button/README.md
          */
-        template?: "detail-menu";
+        template?: "detail-menu" | "write-form";
       }
     }
   }

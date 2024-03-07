@@ -15,6 +15,7 @@ export default function Button({ children, className, ...props }: ButtonProps) {
   if (withTemplate) {
     if (!props.template) throw new Error("Jika ingin gunakan template, tentukan template apa yang ingin digunakan");
     if (props.template === "detail-menu") return <DetailMenu />;
+    // else if (props.template === "write-form") return <WriteForm />;
   }
   return (
     <button {...props} className={clsx(VariantClass, className)}>

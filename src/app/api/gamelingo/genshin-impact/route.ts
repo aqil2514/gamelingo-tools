@@ -13,6 +13,7 @@ import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constel
 // <<<<< Utils Import >>>>>
 import { getUser } from "@/utils/api";
 import { genshin } from "@/utils/formUtils";
+import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -40,6 +41,9 @@ export async function GET(req: NextRequest) {
   } else if (category === "Constellations") {
     if (lang === "English") data = await ConstellationEN.findById(_id);
     else if (lang === "Indonesian") data = await ConstellationID.findById(_id);
+  } else if (category === "Talent") {
+    if (lang === "English") data = await TalentEN.findById(_id);
+    else if (lang === "Indonesian") data = await TalentID.findById(_id);
   }
 
   return NextResponse.json({ data }, { status: 200 });
@@ -96,6 +100,15 @@ export async function DELETE(req: NextRequest) {
     }
     if (lang === "English") {
       await ConstellationEN.findByIdAndDelete(id);
+      await Post.findOneAndDelete({ content: new ObjectId(id) });
+    }
+  } else if (dataType === "Talent") {
+    if (lang === "Indonesian") {
+      await TalentID.findByIdAndDelete(id);
+      await Post.findOneAndDelete({ content: new ObjectId(id) });
+    }
+    if (lang === "English") {
+      await TalentEN.findByIdAndDelete(id);
       await Post.findOneAndDelete({ content: new ObjectId(id) });
     }
   }

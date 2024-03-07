@@ -504,8 +504,7 @@ namespace GenshinImpact {
     artifactSubStatus: string[];
   }
 
-  export interface Talent {
-    id?: string;
+  export interface Talent extends General.MongoDBDocument {
     charName: string;
     combats: {
       combat1: BasicInfo;
@@ -530,6 +529,8 @@ namespace GenshinImpact {
       lvl10: UpgradeMaterialItem[];
     };
   }
+
+  export type TalentTable = Pick<Talent, "_id" | "charName">;
 
   interface TalentStatus {
     statName: string;

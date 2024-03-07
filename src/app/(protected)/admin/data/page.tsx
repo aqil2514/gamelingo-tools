@@ -35,6 +35,7 @@ const subFieldTitle: Record<string, string> = {
   Weapon: "Weapon",
   Character: "Character",
   Constellations: "Constellations",
+  Talent: "Talent",
 };
 
 export function generateMetadata({ searchParams }: { searchParams: SearchParamsProps }): Metadata {

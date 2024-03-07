@@ -10,10 +10,11 @@ import ArtifactData from "./ArtifactData";
 import WeaponData from "./WeaponData";
 import CharacterData from "./CharacterData";
 import ConstellationsData from "./ConstellationsData";
+import TalentData from "./TalentData";
 
 interface GenshinImpactDataProps {
   field: General.AdminQuery["field"];
-  subfield: General.AdminQuery["subfield"];
+  subfield: General.GameGenshinImpact["category"];
 }
 
 export default function GenshinImpactData({ field, subfield }: GenshinImpactDataProps) {
@@ -30,4 +31,5 @@ export default function GenshinImpactData({ field, subfield }: GenshinImpactData
   if (subfield === "Weapon") return <WeaponData data={data.data} lang={lang} setLang={setLang} />;
   if (subfield === "Character") return <CharacterData data={data.data} lang={lang} setLang={setLang} />;
   if (subfield === "Constellations") return <ConstellationsData data={data.data} lang={lang} setLang={setLang} />;
+  if (subfield === "Talent") return <TalentData data={data.data} lang={lang} setLang={setLang} />;
 }
