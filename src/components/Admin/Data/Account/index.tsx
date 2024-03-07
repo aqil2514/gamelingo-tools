@@ -7,7 +7,7 @@ import useSWR from "swr";
 import UserData from "./UserData";
 import VerificationCode from "./VerificationCode";
 import PasswordPurify from "./PasswordPurify";
-import { authorizationToken, fetcherWithAuth } from "@/components/general/Data";
+import { authorizationToken, fetcherWithAuth } from "@/lib/Data";
 
 export default function AccountData({ subfield, field }: { subfield: string; field: string }) {
   const url: Route = `/api/admin?field=${field}&subfield=${subfield}`;

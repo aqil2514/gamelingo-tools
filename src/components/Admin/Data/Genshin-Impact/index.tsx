@@ -1,5 +1,5 @@
 "use client";
-import { authorizationToken, fetcherWithAuth } from "@/components/general/Data";
+import { authorizationToken, fetcherWithAuth } from "@/lib/Data";
 import Error from "@/components/general/Error";
 import Loading from "@/components/general/Loading";
 import { Route } from "next";

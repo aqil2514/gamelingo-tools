@@ -4,9 +4,20 @@ I make this to make me easier in developing the code. I often forget the way of 
 
 Ah, you can [see my site here](https://gamelingo-tools.vercel.app).
 
+## Directories
+
+Contains all directories, except app directories
+
+- [Components Directory](/src/components/README.md)
+- [Hooks Directory](/src/hooks/README.md)
+- [Lib Directory](/src/lib/README.md)
+- [Models Directory](/src/models/README.md)
+- [Utils Directory](/src/utils/README.md)
+
 ## Maintaining Code
 
 Maintaining flow for:
 
 ### Game - Genshin Impact
-- Maintaining on [Admin Data](/src/app/(protected)/admin/data/README.md)
+
+- Maintaining on [Admin Data](</src/app/(protected)/admin/data/README.md>)

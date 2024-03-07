@@ -98,3 +98,4 @@ import GIArtifactDetail from "@/components/Content/Detail/Genshin/Artifact"; // 
 2. Go to related directory and create a file. [See this file for reference](/src/components/Content/Detail/Genshin/Material/index.tsx)
 
 - You can copy paste an existing code and use CTRL + F feature to make sure the file is related topic
+  DONE

@@ -3,7 +3,7 @@ import axios, { isAxiosError } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { INITIAL_STATE, StateActionKind, reducer } from "./reducer";
-import { baseUrl } from "@/components/general/Data";
+import { baseUrl } from "@/lib/Data";
 
 export default function Verification({ initData }: { initData: Account.VerifCode }) {
   const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);

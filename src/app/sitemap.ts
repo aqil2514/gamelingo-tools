@@ -1,4 +1,4 @@
-import { baseUrl } from "@/components/general/Data";
+import { baseUrl } from "@/lib/Data";
 import { Post } from "@/models/General/Post";
 import { MetadataRoute } from "next";
 

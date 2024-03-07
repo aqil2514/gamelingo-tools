@@ -1,4 +1,5 @@
 import { dateOptions } from "@/components/Admin/ContextMenu/config";
+import DisplayImage from "@/components/DataDisplay/Image";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
 import Button, { VariantClass } from "@/components/general/Button";
 import Loading from "@/components/general/Loading";
@@ -31,13 +32,7 @@ export default function GIMaterialDetail() {
             <h1 className="font-mclaren text-white text-center font-bold ">{data.name}</h1>
             <p className="font-mclaren text-white text-sm text-center font-bold mb-4">{typeof data.createdAt === "string" ? new Date(data.createdAt).toLocaleDateString("id-ID", dateOptions) : ""}</p>
           </div>
-          <div className="relative m-auto border border-dashed group border-white rounded-md min-h-[128px] min-w-[128px] max-h-[210px] max-w-[210px] flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden">
-            {data.image ? (
-              <Image src={data.image} fill sizes="auto" alt={data.name + " Image"} className="w-auto group-hover:scale-125 transition duration-500" />
-            ) : (
-              <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
-            )}
-          </div>
+          <DisplayImage template="variant1" src={data.image} alt={data.name} />
           <p className="font-poppins text-white">
             <strong className="font-bold">Material Name : </strong>
             {data.name}

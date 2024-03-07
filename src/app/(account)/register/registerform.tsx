@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { NotifConfig, notif } from "@/utils/fe";
-import { baseUrl } from "@/components/general/Data";
+import { baseUrl } from "@/lib/Data";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState<false | true>(false);

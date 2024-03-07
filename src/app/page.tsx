@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { homeIcon } from "@/components/general/Data";
+import { homeIcon } from "@/lib/Data";
 
 export const metadata: Metadata = {
   title: "Home | GameLingo Tools",

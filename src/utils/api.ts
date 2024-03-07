@@ -15,7 +15,7 @@ import { Route } from "next";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import { User } from "@/models/General/User";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
-import { baseUrl } from "@/components/general/Data";
+import { baseUrl } from "@/lib/Data";
 
 /** Membuat verifikasi data untuk disimpan ke Database */
 export function verifDataBuilder(email: string) {
@@ -649,7 +649,7 @@ export const file: ApiUtils.FileApi = {
 /** Type Guard Function */
 
 /** Type Guard for ensuring subfield data in api route
- * 
+ *
  * WARNING : this will error if you use this for Client Side.
  */
 export const isSubfieldData = {

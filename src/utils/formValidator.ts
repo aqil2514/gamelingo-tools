@@ -8,7 +8,7 @@ import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
 import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 import { DB, UserSelect, supabase } from "@/lib/supabase";
-import { allowedRole } from "@/components/general/Data";
+import { allowedRole } from "@/lib/Data";
 
 /**
  *
@@ -209,7 +209,7 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
 
       data.image = newFile;
     } else if (data.image && data.image.type === "application/octet-stream") {
-      data.image = undefined
+      data.image = undefined;
     }
 
     return { status: true, data };
@@ -291,7 +291,7 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
       }
       if (key.includes("icon")) {
         let image = data[key as keyof FormUtils.Genshin.FormDataConstellation] as FormUtils.Genshin.FormDataConstellation["constellation-1-icon"];
-        if ( image?.type === "application/octet-stream") {
+        if (image?.type === "application/octet-stream") {
           data[key as "constellation-1-icon"] = undefined;
         }
         if (data[key as "constellation-1-icon"]) {
@@ -308,7 +308,6 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
         }
       }
     }
-    
 
     if (data["result-lang"] === "English") {
       const isThere = await ConstellationEN.findOne({

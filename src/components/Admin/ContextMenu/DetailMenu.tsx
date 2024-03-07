@@ -15,7 +15,7 @@ import { isSubfieldData } from "@/utils/fe";
 // <<<<< Components Import >>>>>
 import Loading from "@/components/general/Loading";
 import Button, { VariantClass } from "@/components/general/Button";
-import { baseUrl } from "@/components/general/Data";
+import { baseUrl } from "@/lib/Data";
 
 // <<<<< Local Utils & Interface Import >>>>>
 import { ContextSelectFieldProps } from "./interface";

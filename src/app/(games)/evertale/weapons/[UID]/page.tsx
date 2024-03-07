@@ -3,7 +3,7 @@ import axios from "axios";
 import { Metadata } from "next";
 import SuggestedPost from "@/components/Evertale/Post/SuggestedPost";
 import PostList from "@/components/Evertale/Post/SuggestedPost/PostList";
-import { baseUrl } from "@/components/general/Data";
+import { baseUrl } from "@/lib/Data";
 
 type props = {
   params: { UID: string };

@@ -1,5 +1,5 @@
 "use client";
-import { subfield_GIL } from "@/components/general/Data";
+import { subfield_GIL } from "@/lib/Data";
 import { LINKSTYLE } from ".";
 import { useRouter } from "next/navigation";
 

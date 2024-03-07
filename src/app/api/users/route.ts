@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { login, register } from "@/utils/api";
 import { DB, UserSelect, supabase } from "@/lib/supabase";
 import { User } from "@/models/General/User";
-import { adminId } from "@/components/general/Data";
+import { adminId } from "@/lib/Data";
 
 type DBSelect = "mongodb" | "supabase" | undefined;
 export async function GET(req: NextRequest) {

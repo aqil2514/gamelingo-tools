@@ -12,7 +12,7 @@ import { getDate } from "@/components/Admin/ContextMenu/utils";
 import { notif } from "@/utils/fe";
 import Loading from "@/components/general/Loading";
 import Image from "next/image";
-import { allowedRole } from "@/components/general/Data";
+import { allowedRole } from "@/lib/Data";
 
 export default function GIMaterialContentForm({ template }: { template: General.ContentTemplate }) {
   if (template === "Write") return <WriteContent />;

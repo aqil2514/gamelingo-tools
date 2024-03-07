@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { linkBuilder, register, resetPassword, sendMail } from "@/utils/api";
 import { DB, supabase } from "@/lib/supabase";
-import { baseUrl } from "@/components/general/Data";
+import { baseUrl } from "@/lib/Data";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;

@@ -9,7 +9,7 @@ import LeaderSkillData from "./LeaderSkillData";
 import PassiveSkillData from "./PassiveSkillData";
 import TypeSkillData from "./TypeSkillData";
 import WeaponsData from "./WeaponData";
-import { authorizationToken, fetcherWithAuth } from "@/components/general/Data";
+import { authorizationToken, fetcherWithAuth } from "@/lib/Data";
 
 interface EvertaleDataProps {
   subfield: string;

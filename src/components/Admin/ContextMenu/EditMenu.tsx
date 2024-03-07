@@ -17,7 +17,7 @@ import { getDate } from "./utils";
 
 // <<<<< General Components Import >>>>>
 import { Input, VariantClass as InputClass } from "@/components/general/Input";
-import { allowedRole } from "@/components/general/Data";
+import { allowedRole } from "@/lib/Data";
 import Loading from "@/components/general/Loading";
 import Button, { VariantClass } from "@/components/general/Button";
 
