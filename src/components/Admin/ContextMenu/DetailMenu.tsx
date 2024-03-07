@@ -1,25 +1,35 @@
-/**
- *
- * Detail Menu
- *
- */
-
+// <<<<< React Import >>>>>
 import { useEffect, useState } from "react";
+
 import { useMenuContextData } from "../../Providers/Admin/ContextProvider";
+
+// <<<<< Axios Import >>>>>
 import axios from "axios";
+
+// <<<<< Next Import >>>>>
 import { Route } from "next";
+
+// <<<<< General Utils Import >>>>>
+import { isSubfieldData } from "@/utils/fe";
+
+// <<<<< Components Import >>>>>
 import Loading from "@/components/general/Loading";
 import Button, { VariantClass } from "@/components/general/Button";
-import { ContextSelectFieldProps } from "./interface";
-import { dateOptions, dateOptionsWithTime } from "./config";
-import { Clipboard, ClipboardCheck } from "react-bootstrap-icons";
 import { baseUrl } from "@/components/general/Data";
 
+// <<<<< Local Utils & Interface Import >>>>>
+import { ContextSelectFieldProps } from "./interface";
+import { dateOptions, dateOptionsWithTime } from "./config";
+
+// <<<<< Icon Import >>>>>
+import { Clipboard, ClipboardCheck } from "react-bootstrap-icons";
+
+// <<<<< Detail Components Import >>>>>
 import GIMaterialDetail from "@/components/Content/Detail/Genshin/Material";
 import GIArtifactDetail from "@/components/Content/Detail/Genshin/Artifact";
 import GIWeaponDetail from "@/components/Content/Detail/Genshin/Weapon";
 import GICharacterDetail from "@/components/Content/Detail/Genshin/Character";
-import { isSubfieldData } from "@/utils/fe";
+import GIConstellationsDetail from "@/components/Content/Detail/Genshin/Constellations";
 
 export default function DetailMenu({ field, subfield }: ContextSelectFieldProps) {
   if (field === "account" && isSubfieldData.account(subfield)) {
@@ -31,6 +41,7 @@ export default function DetailMenu({ field, subfield }: ContextSelectFieldProps)
     else if (subfield === "Artifact") return <GIArtifactDetail />;
     else if (subfield === "Weapon") return <GIWeaponDetail />;
     else if (subfield === "Character") return <GICharacterDetail />;
+    else if (subfield === "Constellations") return <GIConstellationsDetail />;
   }
 }
 

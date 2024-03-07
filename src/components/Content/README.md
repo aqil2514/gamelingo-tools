@@ -53,7 +53,7 @@ export default function WeaponForm() {
 
 5. Don't forget too to [set up an endpoint here].(/src/app/api/gamelingo/genshin-impact/route.ts)
 
-4. (Skip this if done) Go to [Declaration File of utils](/src/@types/formUtils.d.ts) and change from:
+6. (Skip this if done) Go to [Declaration File of utils](/src/@types/formUtils.d.ts) and change from:
 
 ```
     export interface Genshin {
@@ -81,11 +81,20 @@ to
 
 7. Then, make sure again about [form validation api](/src/utils/formValidator.ts#L19) and [its .d.ts file](/src/@types/api.d.ts#L103). Specially in Image Validator.
 
-8. Edit this documentation later XD
-
-```
-
-```
-
 ## Step 3 : Detail Menu
-1. Start from [this file](/src/components/Admin/ContextMenu/DetailMenu.tsx)
+
+1. Start from [this file](/src/components/Admin/ContextMenu/DetailMenu.tsx).
+
+- This will error if the file haven't created. Ignore it for now.
+- Don't forget to set up "Detail Components Import"
+
+```
+// <<<<< Detail Components Import >>>>>
+import GIMaterialDetail from "@/components/Content/Detail/Genshin/Material";
+import GIArtifactDetail from "@/components/Content/Detail/Genshin/Artifact"; // Example new import. This will error if the file haven't created
+.. Other import
+```
+
+2. Go to related directory and create a file. [See this file for reference](/src/components/Content/Detail/Genshin/Material/index.tsx)
+
+- You can copy paste an existing code and use CTRL + F feature to make sure the file is related topic
