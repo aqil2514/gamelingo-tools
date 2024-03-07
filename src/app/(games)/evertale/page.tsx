@@ -19,7 +19,7 @@ export default function Evertale() {
           <DownloadButton game="Evertale" downloadFrom="AppStore" />
         </div>
       </div>
-      <h1 className="text-center my-4 font-bold font-poppins">Karena beberapa hal, GameLingo Tools akan mengalami keterlambatan dalam update data terbaru. Masalah ini akan segera diselesaikan</h1>
+      <h1 className="text-center my-4 font-bold font-poppins text-white">Karena beberapa hal, GameLingo Tools akan mengalami keterlambatan dalam update data terbaru. Masalah ini akan segera diselesaikan</h1>
       <Slider type="chars" buttonLink={true} loadingAnimation={true} textOn={true} text="Mohon tunggu..." length={15} />
       <Slider type="weapons" buttonLink={true} loadingAnimation={false} textOn={false} length={15} />
     </div>
