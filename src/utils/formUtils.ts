@@ -396,8 +396,6 @@ const post: FormUtils.Post.PostAPI = {
     // <<<<< Variabel from config >>>>>
     const { lang, gameName, gameTopic, parent, user, autoTag = true, tag, aliasName } = config;
 
-    console.log(data.name);
-
     if (!autoTag && (!tag || tag.length === 0)) throw new Error("Tag harus diberikan jika autoTag disetting false");
     if (!data.name && !aliasName) throw new Error("Data Name tidak ada. Harus gunakan aliasName");
 

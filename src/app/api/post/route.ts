@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({ msg: "Tambah data karakter berhasil", process }, { status: 200 });
     } else if (category === "Talent") {
-      const process = await genshin.processTalent(formData, user);
+      const process = await genshin.processTalent(formData, user, {action:"add"});
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah talent karakter berhasil", process }, { status: 200 });

@@ -538,6 +538,8 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       },
     };
 
+    console.log(finalData.costs.lvl10[1].count)
+
     return finalData;
   },
   constellation(data, imageUrl) {

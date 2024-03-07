@@ -32,6 +32,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import SwiperSlideData from "../Components/SwiperSlideData";
 
 //TODO: Edit this
 
@@ -49,8 +50,9 @@ function WriteContent() {
     setIsLoading: setIsLoading,
     game: "Genshin Impact",
     category: "Talent",
-    ref: "artifact-button-submit",
+    ref: "talent-button-submit",
     callbackUrl: "/admin/data?field=genshin-impact&subfield=Talent&lang=English",
+    moveLocation
   };
 
   return (
@@ -188,7 +190,7 @@ function EditContent() {
       setIsLoading(true);
       const res = await axios.putForm("/api/gamelingo/genshin-impact" as Route, formData, {
         headers: {
-          "Data-Category": "Material",
+          "Data-Category": "Talent",
           "Old-Id": _id,
           "Content-Lang": langParams,
         },
@@ -269,13 +271,14 @@ function EditContent() {
   return (
     <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
       <h1 id="test" className="text-white text-center font-bold font-poppins">
-        Edit Material
+        Edit Talent
       </h1>
       {Object.keys(data).length === 0 ? (
-        <Loading loading={1} textOn text="Mengambil data material..." />
+        <Loading loading={1} textOn text="Mengambil data talent..." />
       ) : (
         <form onSubmit={submitHandler} className="my-4">
-          <Input forId="charName" name="charName" defaultValue={data.charName} label="Character Name" variant={VariantClass.dashboard} />
+          <input type="hidden" defaultValue={data._id} name="id" />
+          <Input forId="charName" name="character-name" defaultValue={data.charName} label="Character Name" variant={VariantClass.dashboard} />
 
           <div className="border-2 border-white rounded-lg p-4 my-4">
             <h1 className="text-white font-semibold font-poppins text-center">Talent</h1>
@@ -311,6 +314,47 @@ function EditContent() {
               </SwiperSlide>
             </Swiper>
           </div>
+
+        <div className="border-2 border-white rounded-lg p-4 my-4">
+          <h2 className="text-white font-semibold font-poppins text-center">Upgrade Cost</h2>
+          <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
+            <SwiperSlide>
+              <SwiperSlideData category="Talent" passData={data} template="Edit" keyValue="lvl2" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <SwiperSlideData category="Talent" passData={data} template="Edit" keyValue="lvl3" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <SwiperSlideData category="Talent" passData={data} template="Edit" keyValue="lvl4" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <SwiperSlideData category="Talent" passData={data} template="Edit" keyValue="lvl5" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <SwiperSlideData category="Talent" passData={data} template="Edit" keyValue="lvl6" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <SwiperSlideData category="Talent" passData={data} template="Edit" keyValue="lvl7" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <SwiperSlideData category="Talent" passData={data} template="Edit" keyValue="lvl8" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <SwiperSlideData category="Talent" passData={data} template="Edit" keyValue="lvl9" />
+            </SwiperSlide>
+
+            <SwiperSlide>
+              <SwiperSlideData category="Talent" passData={data} template="Edit" keyValue="lvl10" />
+            </SwiperSlide>
+          </Swiper>
+        </div>
           <EditContextButton />
         </form>
       )}

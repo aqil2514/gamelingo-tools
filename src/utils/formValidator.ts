@@ -9,6 +9,7 @@ import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
 import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 import { DB, UserSelect, supabase } from "@/lib/supabase";
 import { allowedRole } from "@/lib/Data";
+import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 
 /**
  *
@@ -221,6 +222,14 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
 
     // Apakah nama sudah diisi?
     if (!data["character-name"]) return { status: false, msg: "Nama karakter belum diisi" };
+
+    if (data["result-lang"] === "Indonesian") {
+      const isThere = await TalentID.findOne({ charName: data["character-name"] });
+      if (isThere) return { status: false, msg: `${data["character-name"]} sudah ada di Database` };
+    } else if (data["result-lang"] === "English") {
+      const isThere = await TalentEN.findOne({ charName: data["character-name"] });
+      if (isThere) return { status: false, msg: `${data["character-name"]} is there in Database` };
+    }
 
     /// ***** Periksa semua talent sekaligus *****
     for (let i = 1; i <= 3; i++) {
