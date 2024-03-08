@@ -1,6 +1,8 @@
 import Button, { VariantClass } from "@/components/Input/Button";
 import TextField from "@/components/Input/TextField";
 import { fetcher } from "@/lib/Data";
+import { notif } from "@/utils/fe";
+import axios from "axios";
 import { Route } from "next";
 import React, { useState } from "react";
 import useSWR from "swr";
@@ -14,9 +16,28 @@ export default function CharTeam({ template }: CharTeamProps) {
 
 function WriteContent() {
   const [teams, setTeams] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [choiceMode, setChoiceMode] = useState<boolean>(false);
   const url: Route = "/api/gamelingo/evertale?category=rss";
   const { data, isLoading, error } = useSWR(url, fetcher);
+
+  async function addToDatabase(newCharTeam: string) {
+    const category: General.AdminQueryGameEvertale["subfield"] = "typeskills";
+    const type: keyof Evertale.Misc.TypeSkill = "typeCharTeam";
+    const url: Route = `/api/gamelingo/evertale?category=${category}&type=${type}`;
+    try {
+      setLoading(true);
+      const res = await axios.post(url, {
+        newCharTeam,
+      });
+
+      notif(res.data.msg, {color:"green", refElement:"team-select", location:"after"})
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function keyDownHandler(e: React.KeyboardEvent<HTMLInputElement>) {
     const charTeam: string[] = data.ts[0].typeCharTeam;
@@ -34,10 +55,16 @@ function WriteContent() {
         target.value = "";
         return;
       }
-      alert("tidak ada di db");
+
+      const permition = confirm(
+        `${target.value} tidak ada di Database. Ingin tambahkan?`
+      );
+      if (!permition) return;
+      addToDatabase(target.value);
       return;
     }
   }
+
   return (
     <div className="my-4">
       <TextField
@@ -65,6 +92,7 @@ function WriteContent() {
           {data ? "Pilih Tim" : ""}
         </Button>
       )}
+
       {choiceMode && (
         <>
           <div className="flex gap-4">
@@ -92,7 +120,6 @@ function WriteContent() {
             label="Team Select"
             variant="outline-variant-1"
             list="team-select-list"
-            withList={JSON.stringify(data.ts[0].typeCharTeam)}
             onKeyDown={keyDownHandler}
           />
           <datalist id="team-select-list" className="w-[10px]">

@@ -96,3 +96,5 @@ export const charWeapon: CharWeaponTypes[] = [
     image: "/Evertale/Weapon/Katana.png",
   },
 ];
+
+export const typeSkillId = "6585933980d28308cec13f2c";

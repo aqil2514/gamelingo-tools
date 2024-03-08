@@ -1,14 +1,7 @@
 import { evertaleConnection } from "@/lib/mongoose";
 import mongoose, { Schema } from "mongoose";
 
-interface TypeSkill {
-  typeLeaderSkill: String[];
-  typePassiveSkill: String[];
-  typeActiveSkill: String[];
-  typeCharTeam: String[];
-}
-
-const TypeSkillSchema = new Schema<TypeSkill>({
+const TypeSkillSchema = new Schema<Evertale.Misc.TypeSkill>({
   typeActiveSkill: [String],
   typePassiveSkill: [String],
   typeCharTeam: [String],

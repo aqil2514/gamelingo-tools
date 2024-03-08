@@ -1,3 +1,4 @@
+import { typeSkillId } from "@/lib/evertale/data";
 import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
@@ -74,9 +75,33 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { action, text, user } = await req.json();
+  const searchParams = req.nextUrl.searchParams;
+  const category = searchParams.get("category") as General.AdminQueryGameEvertale["subfield"] | null;
+  const type = searchParams.get("type") as keyof Evertale.Misc.TypeSkill | null;
+  const reqBody = await req.json();
 
-  return NextResponse.json({ action, text, user }, { status: 200 });
+  if(!category) throw new Error("Category belum diisi");
+
+  if(category === "typeskills"){
+    if(!type) throw new Error("Type belum diisi");
+    const dataTypeSkills = await TypeSkill.find();
+
+    if(type === "typeCharTeam"){
+      const {newCharTeam} = reqBody;
+      const charTeam = dataTypeSkills[0].typeCharTeam;
+
+      if(typeof newCharTeam !== "string") throw new Error("Data tidak sah");
+
+      if(charTeam.includes(newCharTeam)) return NextResponse.json({msg:"Data sudah ada di Database"}, {status: 409})
+      
+      charTeam.push(newCharTeam);
+      
+      await TypeSkill.findByIdAndUpdate(typeSkillId, {typeCharTeam:charTeam});
+      
+      if(charTeam.includes(newCharTeam)) return NextResponse.json({msg:"Data berhasil ditambah"}, {status: 200})
+    }
+  }
+return new Response()
 }
 
 // export async function POST(req: Request) {
