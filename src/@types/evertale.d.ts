@@ -36,26 +36,8 @@ namespace Evertale {
       charRank: "SSR" | "SR" | "R" | "N";
       charElement: "Dark" | "Light" | "Earth" | "Fire" | "Storm" | "Water";
       charTeam: string[];
-      charWeapon1:
-        | "Sword"
-        | "Axe"
-        | "Staff"
-        | "Mace"
-        | "GreatSword"
-        | "GreatAxe"
-        | "Spear"
-        | "Hammer"
-        | "Katana";
-      charWeapon2?:
-        | "Sword"
-        | "Axe"
-        | "Staff"
-        | "Mace"
-        | "GreatSword"
-        | "GreatAxe"
-        | "Spear"
-        | "Hammer"
-        | "Katana";
+      charWeapon1: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
+      charWeapon2?: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
       charLeaderSkill?: string;
       isConjured: boolean | string;
       charConjure?: string;
@@ -97,17 +79,7 @@ namespace Evertale {
       weapImage: { png: string; webp: string };
       weapName: string;
       weapRank: "SSR" | "SR" | "R" | "N" | "Weap Rank";
-      weapType:
-        | "Sword"
-        | "Axe"
-        | "Staff"
-        | "Mace"
-        | "GreatSword"
-        | "GreatAxe"
-        | "Spear"
-        | "Hammer"
-        | "Katana"
-        | "Weap Type";
+      weapType: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana" | "Weap Type";
       weapLore?: WeapLore;
       weapAscend?: Ascend;
       weapMax?: WeapMax;
@@ -185,9 +157,9 @@ namespace Evertale {
       descEn: string;
       descId: string;
       typeSkill: string;
-      createdAt: string;
-      updatedAt: string;
-      __v: number;
+      createdAt?: string;
+      updatedAt?: string;
+      __v?: number;
     }
 
     export interface PassiveSkill {

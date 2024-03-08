@@ -65,12 +65,12 @@ export async function GET(req: NextRequest) {
     const leaderskills = await LeaderSkill.findOne({ name });
     return NextResponse.json({ leaderskills });
   }
-  
-  if(category === "rss"){
+
+  if (category === "rss") {
     const ls = await LeaderSkill.find();
     const ts = await TypeSkill.find();
-    
-    return NextResponse.json({ ls,ts }, {status:200});
+
+    return NextResponse.json({ ls, ts }, { status: 200 });
   }
 }
 
@@ -80,28 +80,39 @@ export async function POST(req: NextRequest) {
   const type = searchParams.get("type") as keyof Evertale.Misc.TypeSkill | null;
   const reqBody = await req.json();
 
-  if(!category) throw new Error("Category belum diisi");
+  if (!category) throw new Error("Category belum diisi");
 
-  if(category === "typeskills"){
-    if(!type) throw new Error("Type belum diisi");
+  if (category === "typeskills") {
+    if (!type) throw new Error("Type belum diisi");
     const dataTypeSkills = await TypeSkill.find();
+    const typeData: Evertale.Misc.TypeSkill = dataTypeSkills[0];
 
-    if(type === "typeCharTeam"){
-      const {newCharTeam} = reqBody;
-      const charTeam = dataTypeSkills[0].typeCharTeam;
+    if (type === "typeCharTeam") {
+      const { newCharTeam } = reqBody;
+      const charTeam = typeData.typeCharTeam;
 
-      if(typeof newCharTeam !== "string") throw new Error("Data tidak sah");
+      if (typeof newCharTeam !== "string") throw new Error("Data tidak sah");
 
-      if(charTeam.includes(newCharTeam)) return NextResponse.json({msg:"Data sudah ada di Database"}, {status: 409})
-      
+      if (charTeam.includes(newCharTeam)) return NextResponse.json({ msg: "Data sudah ada di Database" }, { status: 409 });
+
       charTeam.push(newCharTeam);
-      
-      await TypeSkill.findByIdAndUpdate(typeSkillId, {typeCharTeam:charTeam});
-      
-      if(charTeam.includes(newCharTeam)) return NextResponse.json({msg:"Data berhasil ditambah"}, {status: 200})
+
+      await TypeSkill.findByIdAndUpdate(typeSkillId, { typeCharTeam: charTeam });
+
+      if (charTeam.includes(newCharTeam)) return NextResponse.json({ msg: "Data berhasil ditambah" }, { status: 200 });
+    }
+    if (type === "typeLeaderSkill") {
+      const { name }: Evertale.Misc.LeaderSkill = reqBody.lsData;
+      const leaderSkillData = typeData.typeLeaderSkill;
+
+      if (leaderSkillData.includes(name)) return NextResponse.json({ msg: "Data sudah ada di Database" }, { status: 409 });
+
+      leaderSkillData.push(reqBody.lsData);
+
+      await TypeSkill.findByIdAndUpdate(typeSkillId, { typeLeaderSkill: leaderSkillData });
     }
   }
-return new Response()
+  return new Response();
 }
 
 // export async function POST(req: Request) {

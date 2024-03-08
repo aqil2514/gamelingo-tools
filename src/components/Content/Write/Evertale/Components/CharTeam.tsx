@@ -31,7 +31,7 @@ function WriteContent() {
         newCharTeam,
       });
 
-      notif(res.data.msg, {color:"green", refElement:"team-select", location:"after"})
+      notif(res.data.msg, { color: "green", refElement: "team-select", location: "after" });
     } catch (error) {
       console.error(error);
     } finally {
@@ -56,9 +56,7 @@ function WriteContent() {
         return;
       }
 
-      const permition = confirm(
-        `${target.value} tidak ada di Database. Ingin tambahkan?`
-      );
+      const permition = confirm(`${target.value} tidak ada di Database. Ingin tambahkan?`);
       if (!permition) return;
       addToDatabase(target.value);
       return;
@@ -67,28 +65,10 @@ function WriteContent() {
 
   return (
     <div className="my-4">
-      <TextField
-        forId="charTeam"
-        name="charTeam"
-        label="Character Team"
-        readOnly
-        variant={
-          !data || isLoading ? "skeleton-variant-1" : "default-variant-1"
-        }
-        value={teams.join(", ")}
-      />
+      <TextField forId="charTeam" name="charTeam" label="Character Team" readOnly variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} value={teams.join(", ")} />
 
       {!choiceMode && (
-        <Button
-          className={
-            !data || isLoading
-              ? "animate-pulse h-[40px] w-[100px] rounded-lg bg-slate-700 px-4 py-2"
-              : VariantClass.fetch
-          }
-          disabled={!data || isLoading}
-          type="button"
-          onClick={() => setChoiceMode(true)}
-        >
+        <Button className={!data || isLoading ? "animate-pulse h-[40px] w-[100px] rounded-lg bg-slate-700 px-4 py-2" : VariantClass.fetch} disabled={!data || isLoading} type="button" onClick={() => setChoiceMode(true)}>
           {data ? "Pilih Tim" : ""}
         </Button>
       )}
@@ -106,22 +86,12 @@ function WriteContent() {
             >
               Batal & Hapus
             </Button>
-            <Button
-              className={VariantClass.submit}
-              type="button"
-              onClick={() => setChoiceMode(false)}
-            >
+            <Button className={VariantClass.submit} type="button" onClick={() => setChoiceMode(false)}>
               Fiksasi
             </Button>
           </div>
           <p className="text-white font-poppins my-2">Enter untuk input data</p>
-          <TextField
-            forId="team-select"
-            label="Team Select"
-            variant="outline-variant-1"
-            list="team-select-list"
-            onKeyDown={keyDownHandler}
-          />
+          <TextField forId="team-select" label="Team Select" variant="outline-variant-1" list="team-select-list" onKeyDown={keyDownHandler} />
           <datalist id="team-select-list" className="w-[10px]">
             {data.ts[0].typeCharTeam.map((t: string) => (
               <option value={t} key={`team-${t}`} />

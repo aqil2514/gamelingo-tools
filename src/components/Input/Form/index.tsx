@@ -32,7 +32,7 @@ interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
 }
 
 export default function Form({ children, ...props }: FormProps) {
-  const { setIsLoading, method, endPoint, refElement, callbackUrl, moveLocation } = props;
+  const { setIsLoading, method, endPoint, refElement, callbackUrl, moveLocation, ...rest } = props;
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     const target = e.target as HTMLFormElement;
     e.preventDefault();
@@ -65,7 +65,7 @@ export default function Form({ children, ...props }: FormProps) {
     }
   }
   return (
-    <form onSubmit={submitHandler} {...props}>
+    <form onSubmit={submitHandler} {...rest}>
       {children}
     </form>
   );
