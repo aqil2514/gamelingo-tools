@@ -1,5 +1,6 @@
 import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
+import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { Post } from "@/models/General/Post";
 import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
@@ -62,6 +63,13 @@ export async function GET(req: NextRequest) {
   if (category === "leaderSkill") {
     const leaderskills = await LeaderSkill.findOne({ name });
     return NextResponse.json({ leaderskills });
+  }
+  
+  if(category === "rss"){
+    const ls = await LeaderSkill.find();
+    const ts = await TypeSkill.find();
+    
+    return NextResponse.json({ ls,ts }, {status:200});
   }
 }
 

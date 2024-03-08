@@ -93,7 +93,9 @@ namespace Components {
       /** Digunakan untuk label text */
       label?: string;
       /** Variant. Default: "default-variant-1" */
-      variant: "default-variant-1" | "hidden";
+      variant: "default-variant-1"| "outline-variant-1"|"skeleton-variant-1" | "hidden";
+      /** withList. Menyertakan list. Default: "none" */
+      withList?: "none" | string;
     }
 
     /**

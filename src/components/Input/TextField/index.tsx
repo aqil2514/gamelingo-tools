@@ -1,5 +1,7 @@
 import React from "react";
 import TextFieldProvider, { useTextFieldContext } from "./TextFieldProvider";
+import clsx from "clsx";
+import { cn } from "@/lib/utils";
 
 type InputProps = Components.Input.InputProps<HTMLInputElement> & { ref?: React.Ref<HTMLInputElement> };
 
@@ -14,6 +16,8 @@ export default function TextField({ variant, forId, label, ...props }: InputProp
   return (
     <TextFieldProvider forId={forId} label={label} variant={variant} {...props}>
       {variant === "default-variant-1" && <DefaultInput />}
+      {variant === "outline-variant-1" && <OutlineVariant1 />}
+      {variant === "skeleton-variant-1" && <SkeletonVariant1 />}
       {variant === "hidden" && <HiddenInput />}
     </TextFieldProvider>
   );
@@ -34,8 +38,48 @@ function DefaultInput() {
   );
 }
 
+/** variant === outline-variant-1 */
+function OutlineVariant1(){
+  const { props } = useTextFieldContext();
+  const { forId, label, type = "text", className, withList="none" } = props;
+
+  if (type !== "email" && type !== "text" && type !== "password") throw new Error("Hanya input type email, text, dan password saja yang diizinkan");
+
+  return (
+    <label htmlFor={forId} className={`text-white text-base  font-bold font-poppins`}>
+      {label} :
+      <input type={type} id={forId} className={cn("block bg-transparent w-full py-2 px-2 text-white border-b-2 focus-visible:outline-none border-white text-base font-bold font-poppins my-2", className)} onFocus={focusHandler} data-list={withList} {...props}  />
+    </label>
+  );
+}
+
+/** variant === skeleton-variant-1 */
+function SkeletonVariant1() {
+  const { props } = useTextFieldContext();
+  const { forId, label, type = "text" } = props;
+
+  if (type !== "email" && type !== "text" && type !== "password") throw new Error("Hanya input type email, text, dan password saja yang diizinkan");
+
+  return (
+    <label htmlFor={forId} className={`text-slate-700 animate-pulse text-base bg-slate-700 font-bold font-poppins`}>
+      {label} :
+      <input type={type} disabled id={forId} className="block w-full py-2 rounded-lg px-2 text-zinc-950 bg-slate-700 text-base font-bold font-poppins my-2" {...props} />
+    </label>
+  );
+}
+
 /** variant === hidden */
 function HiddenInput() {
   const { props } = useTextFieldContext();
   return <input type="hidden" {...props} />;
+}
+
+function focusHandler(e:React.FocusEvent<HTMLInputElement>){
+const target = e.target as HTMLInputElement;
+const dataList = target.getAttribute("data-list");
+if(dataList === "none" || !dataList) return;
+
+
+const list = JSON.parse(dataList)
+target.after(list);
 }
