@@ -2,7 +2,7 @@ import { evertale } from "@/lib/utils";
 import Character from "@/models/Evertale/Characters";
 import { Weapon } from "@/models/Evertale/Weapons";
 import { Post } from "@/models/General/Post";
-import { getUser } from "@/utils/api";
+import { getUser, isSubfieldData } from "@/utils/api";
 import { genshin } from "@/utils/formUtils";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -67,13 +67,15 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
   const searchParams = req.nextUrl.searchParams;
-  const game = searchParams.get("game") as General.Game["game"];
-  const category = searchParams.get("category") as General.Game["category"];
+  const game = (searchParams.get("game") as General.Game["game"] | null) || (formData.get("game") as General.Game["game"] | null);
+  const category = searchParams.get("category") || formData.get("category");
   const user = await getUser();
 
+  if (!game) throw new Error("Game belum diisi");
+  if (!category) throw new Error("Category belum diisi");
   if (!user) return NextResponse.json({ msg: "Anda belum login" }, { status: 401 });
 
-  if (game === "Genshin Impact") {
+  if (game === "Genshin Impact" && isSubfieldData.genshinImpact(category)) {
     if (category === "Material") {
       const process = await genshin.processMaterial(formData, user, { action: "add" });
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
@@ -95,7 +97,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({ msg: "Tambah data karakter berhasil", process }, { status: 200 });
     } else if (category === "Talent") {
-      const process = await genshin.processTalent(formData, user, {action:"add"});
+      const process = await genshin.processTalent(formData, user, { action: "add" });
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah talent karakter berhasil", process }, { status: 200 });
@@ -104,6 +106,13 @@ export async function POST(req: NextRequest) {
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah konstelasi karakter berhasil", process }, { status: 200 });
+    }
+  }
+  if (game === "Evertale" && isSubfieldData.evertale(category)) {
+    if (category === "chars") {
+      const data = Object.fromEntries(formData.entries());
+
+      console.log(data);
     }
   }
 

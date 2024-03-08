@@ -351,6 +351,14 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
 /**
  *
+ * Evertale Form Utils
+ *
+ */
+
+export const evertale = {};
+
+/**
+ *
  * Admin AccountFormApi utils
  *
  */
@@ -436,19 +444,3 @@ const post: FormUtils.Post.PostAPI = {
     await Post.findOneAndUpdate({ content: oldId }, postData);
   },
 };
-
-// async function addPost(data: any, lang: General.PostDocument["lang"], gameName: General.PostDocument["game"]["name"], gameTopic: General.PostDocument["game"]["topic"], parent: any, user: Account.User, firstTag: string) {
-//   const postData: General.PostDocument = {
-//     title: data.name,
-//     lang: lang,
-//     game: {
-//       name: gameName,
-//       topic: gameTopic,
-//     },
-//     content: parent._id,
-//     author: user.name,
-//     tags: [firstTag, gameName, gameTopic],
-//   };
-
-//   await Post.create(postData);
-// }

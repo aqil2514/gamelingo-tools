@@ -71,6 +71,31 @@ namespace Components {
        */
       template?: "detail-menu" | "write-form";
     }
+
+    /**
+     * Checkbox components
+     */
+    export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+      /** Digunakan untuk menentukan for atribute pada label dan id pada inputnya */
+      forId: string;
+      /** Digunakan untuk label text */
+      label: string;
+      /** Variant. Default: "default-variant-1" */
+      variant: "default-variant-1";
+    }
+
+    /**
+     * Text Field components
+     */
+    export interface InputProps<T> extends React.InputHTMLAttributes<HTMLInputElement> {
+      /** Digunakan untuk menentukan for atribute pada label dan id pada inputnya */
+      forId?: string;
+      /** Digunakan untuk label text */
+      label?: string;
+      /** Variant. Default: "default-variant-1" */
+      variant: "default-variant-1" | "hidden";
+    }
+
     /**
      * TextareaProps interface
      */
@@ -79,18 +104,6 @@ namespace Components {
       forId: string;
       /** Digunakan untuk label text */
       label: string;
-    }
-
-    /**
-     * Text Field components
-     */
-    export interface InputProps<T> extends React.InputHTMLAttributes<HTMLInputElement> {
-      /** Digunakan untuk menentukan for atribute pada label dan id pada inputnya */
-      forId: string;
-      /** Digunakan untuk label text */
-      label: string;
-      /** Variant. Default: "default-variant-1" */
-      variant: "default-variant-1";
     }
   }
 }
