@@ -56,25 +56,41 @@ namespace Components {
    */
   namespace Input {
     /**
-     * Types for Button Data
+     * Button Props interface
      */
-    namespace Button {
+    export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+      children?: React.ReactNode;
       /**
-       * Button Props interface
+       * Apakah menggunakan template? default: false
        */
-      export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-        children?: React.ReactNode;
-        /**
-         * Apakah menggunakan template? default: false
-         */
-        withTemplate?: boolean;
-        /**
-         * Template
-         *
-         * @see /src/components/Input/Button/README.md
-         */
-        template?: "detail-menu" | "write-form";
-      }
+      withTemplate?: boolean;
+      /**
+       * Template
+       *
+       * @see /src/components/Input/Button/README.md
+       */
+      template?: "detail-menu" | "write-form";
+    }
+    /**
+     * TextareaProps interface
+     */
+    export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+      /** Digunakan untuk menentukan for atribute pada label dan id pada inputnya */
+      forId: string;
+      /** Digunakan untuk label text */
+      label: string;
+    }
+
+    /**
+     * Text Field components
+     */
+    export interface InputProps<T> extends React.InputHTMLAttributes<HTMLInputElement> {
+      /** Digunakan untuk menentukan for atribute pada label dan id pada inputnya */
+      forId: string;
+      /** Digunakan untuk label text */
+      label: string;
+      /** Variant. Default: "default-variant-1" */
+      variant: "default-variant-1";
     }
   }
 }

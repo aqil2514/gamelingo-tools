@@ -8,7 +8,7 @@ export enum VariantClass {
   danger = "block px-4 py-2 bg-red-700 mt-4 rounded-lg hover:bg-red-600 disabled:bg-red-600 text-white font-bold",
 }
 
-type ButtonProps = Components.Input.Button.ButtonProps;
+type ButtonProps = Components.Input.ButtonProps;
 
 export default function Button({ children, className, ...props }: ButtonProps) {
   const withTemplate = props.withTemplate;
