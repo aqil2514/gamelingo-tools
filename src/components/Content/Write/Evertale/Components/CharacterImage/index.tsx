@@ -54,12 +54,12 @@ export default function CharacterImage() {
   return (
     <div>
       <label htmlFor="characterImages">
-        <Button className={VariantClass.fetch} type="button">
+        <div className="inline-flex items-center cursor-pointer px-4 py-2 bg-blue-700 mt-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-600 text-white font-bold">
           <span className="mx-2">
-            <Images />
+            <Images className="my-auto" />
           </span>{" "}
           Upload Images
-        </Button>
+        </div>
         <input type="file" ref={imagesRef} id="characterImages" name="characterImages" className="hidden" accept=".png, .webp" multiple onChange={changeHandler} />
       </label>
       {fileNames.fileName1 && (
