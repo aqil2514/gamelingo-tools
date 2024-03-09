@@ -14,7 +14,7 @@ export default function LeaderSkill() {
   const [leaderSkill, setLeaderSkill] = useState<string>("");
   const [noDataExist, setNoDataExist] = useState<boolean>(false);
   const [isAdding, setIsAdding] = useState<boolean>(false);
-  const [addMode, setAddMode] = useState<boolean>(true);
+  const [addMode, setAddMode] = useState<boolean>(false);
   const [lsData, setLsData] = useState<Evertale.Misc.LeaderSkill>({} as Evertale.Misc.LeaderSkill);
 
   const ls: Evertale.Misc.LeaderSkill[] = data?.ls;

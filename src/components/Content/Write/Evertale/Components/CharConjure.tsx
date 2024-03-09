@@ -8,7 +8,13 @@ export default function CharConjure() {
   const [conjure, setConjure] = useState<string>("");
   return (
     <div>
-      <Checkbox variant="default-variant-1" checked={haveConjured} onChange={() => setHaveConjured(!haveConjured)} forId="is-have-conjured" label="Punya Conjured" />
+      <Checkbox
+        variant="default-variant-1"
+        checked={haveConjured}
+        onChange={() => setHaveConjured(!haveConjured)}
+        forId="is-have-conjured"
+        label="Punya Conjured"
+      />
 
       {haveConjured && (
         <>
@@ -24,8 +30,16 @@ export default function CharConjure() {
             forId="self-conjure"
             label="Conjure diri sendiri"
           />
-
-          <TextField variant="default-variant-1" disabled={selfConjured} value={selfConjured ? "selfConjured" : conjure} onChange={(e) => setConjure(e.target.value)} forId="charConjure" label="Character Conjure" name="charConjure" />
+          <br />
+          <TextField
+            variant="default-variant-1"
+            disabled={selfConjured}
+            value={selfConjured ? "selfConjured" : conjure}
+            onChange={(e) => setConjure(e.target.value)}
+            forId="charConjure"
+            label="Character Conjure"
+            name="charConjure"
+          />
         </>
       )}
     </div>

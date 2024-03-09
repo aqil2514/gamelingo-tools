@@ -26,6 +26,8 @@ function WriteContent() {
 
       <TextField variant="default-variant-1" forId="charName" label="Character Name" name="charName" />
 
+      <Checkbox variant="default-variant-1" forId="is-conjured-char" label="Conjured" name="isConjured" />
+
       <CharTeam template="Write" />
 
       <TextField variant="default-variant-1" forId="charRank" list="charRankList" label="Character Rank" name="charRank" />
@@ -37,8 +39,6 @@ function WriteContent() {
       <TextField variant="default-variant-1" forId="charWeapon2" label="Character Weapon 2" list="weaponList" name="charWeapon2" />
 
       <LeaderSkill />
-
-      <Checkbox variant="default-variant-1" forId="is-conjured-char" label="Conjured" name="isConjured" />
 
       <CharConjure />
 

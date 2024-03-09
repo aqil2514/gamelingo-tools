@@ -47,6 +47,8 @@ export default function Form({ children, ...props }: FormProps) {
 
       notif(res.data.msg, { color: "green", refElement, location: "before" });
 
+      console.log(res.data)
+
       if (callbackUrl && moveLocation) location.href = callbackUrl;
     } catch (error) {
       if (axios.isAxiosError(error)) {

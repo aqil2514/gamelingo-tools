@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
     if (category === "chars") {
       const data = Object.fromEntries(formData.entries());
 
-      console.log(data);
+      return NextResponse.json({data}, {status:200})
     }
   }
 
