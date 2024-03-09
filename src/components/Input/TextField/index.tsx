@@ -1,18 +1,12 @@
 import React from "react";
 import TextFieldProvider, { useTextFieldContext } from "./TextFieldProvider";
-import clsx from "clsx";
 import { cn } from "@/lib/utils";
 
 type InputProps = Components.Input.InputProps<HTMLInputElement> & { ref?: React.Ref<HTMLInputElement> };
 
-export enum VariantClass {
-  dashboard = "block w-full py-2 rounded-lg px-2 text-zinc-950 text-base font-bold font-poppins my-2",
-}
-
-/** Buat inpput text baru */
+/** Buat input text baru */
 export default function TextField({ variant, forId, label, ...props }: InputProps) {
   if (!variant) variant = "default-variant-1";
-  // if(variant === "default-variant-1") return <DefaultInput forId={forId} label={label} />
   return (
     <TextFieldProvider forId={forId} label={label} variant={variant} {...props}>
       {variant === "default-variant-1" && <DefaultInput />}
@@ -38,7 +32,7 @@ function DefaultInput() {
 }
 
 /** variant === outline-variant-1 */
-function OutlineVariant1(){
+function OutlineVariant1() {
   const { forId, label, type = "text", ...rest } = useTextFieldContext().props;
 
   if (type !== "email" && type !== "text" && type !== "password") throw new Error("Hanya input type email, text, dan password saja yang diizinkan");
@@ -46,7 +40,7 @@ function OutlineVariant1(){
   return (
     <label htmlFor={forId} className={`text-white text-base  font-bold font-poppins`}>
       {label} :
-      <input type={type} id={forId} className={cn("block bg-transparent w-full py-2 px-2 text-white border-b-2 focus-visible:outline-none border-white text-base font-bold font-poppins my-2")} onFocus={focusHandler} {...rest}  />
+      <input type={type} id={forId} className={cn("block bg-transparent w-full py-2 px-2 text-white border-b-2 focus-visible:outline-none border-white text-base font-bold font-poppins my-2")} onFocus={focusHandler} {...rest} />
     </label>
   );
 }
@@ -54,7 +48,6 @@ function OutlineVariant1(){
 /** variant === skeleton-variant-1 */
 function SkeletonVariant1() {
   const { forId, label, type = "text", ...rest } = useTextFieldContext().props;
-
 
   if (type !== "email" && type !== "text" && type !== "password") throw new Error("Hanya input type email, text, dan password saja yang diizinkan");
 
@@ -68,17 +61,16 @@ function SkeletonVariant1() {
 
 /** variant === hidden */
 function HiddenInput() {
-  const { props } = useTextFieldContext();
-  return <input type="hidden" {...props} />;
+  const { ...rest } = useTextFieldContext().props;
+  return <input type="hidden" {...rest} />;
 }
 
 // Soon: Lanjutin ini
-function focusHandler(e:React.FocusEvent<HTMLInputElement>){
-const target = e.target as HTMLInputElement;
-const dataList = target.getAttribute("data-list");
-if(dataList === "none" || !dataList) return;
+function focusHandler(e: React.FocusEvent<HTMLInputElement>) {
+  const target = e.target as HTMLInputElement;
+  const dataList = target.getAttribute("data-list");
+  if (dataList === "none" || !dataList) return;
 
-
-const list = JSON.parse(dataList)
-target.after(list);
+  const list = JSON.parse(dataList);
+  target.after(list);
 }

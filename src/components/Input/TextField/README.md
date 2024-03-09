@@ -1,6 +1,6 @@
 # TextField Components
 
-This contains a component for creating a Input Text Element
+This contains a component for creating an Input Text Element
 
 ## Usage
 
@@ -16,4 +16,5 @@ import TextField from "@/components/Input/TextField"
 - variant (required) : Selected variant. [See here for more choices](/src/@types/components.d.ts)
 - forId (required) : tag attribute for "for" attribute and "id" attribute.
 - label (required) : label text.
+- Withlist (experimental) : Can't use now. This will contain related list.
 - ...props : You can use any available attributes on HTMLInputElement

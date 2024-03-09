@@ -240,4 +240,6 @@ namespace ApiUtils {
      */
     compare: (code: string, email: string, action: "verify-account" | "change-email", newEmail?: string) => Promise<ResultApi>;
   }
+
+  export declare function notif(msg: string, config: NotifConfig);
 }

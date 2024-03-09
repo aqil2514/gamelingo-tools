@@ -3,8 +3,8 @@ import axios, { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { NotifConfig, notif } from "@/utils/fe";
 import { baseUrl } from "@/lib/Data";
+import { NotifConfig, notif } from "api/fe";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState<false | true>(false);
