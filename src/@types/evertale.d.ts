@@ -7,12 +7,12 @@ namespace Evertale {
     }
     export interface State {
       _id?: string;
-      charStatus: CharacterStatus;
-      charIntro: CharacterIntro;
-      charImage: CharacterImage;
-      charProfile: CharacterProfile;
-      charActiveSkill: CharacterActiveSkill[];
-      charPassiveSkill: CharacterPassiveSkill[];
+      charStatus: Status;
+      charIntro: Intro;
+      charImage: Image;
+      charProfile: Profile;
+      charActiveSkill: ActiveSkill[];
+      charPassiveSkill: PassiveSkill[];
     }
     export interface Intro {
       gachaIntroEn?: string;
@@ -39,7 +39,7 @@ namespace Evertale {
       charWeapon1: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
       charWeapon2?: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
       charLeaderSkill?: string;
-      isConjured: boolean | string;
+      isConjured: boolean;
       charConjure?: string;
     }
     export interface Profile {
@@ -68,7 +68,7 @@ namespace Evertale {
     }
 
     export interface QuickInfo {
-      id: string;
+      id?: string;
       name: string;
       link: Route;
     }

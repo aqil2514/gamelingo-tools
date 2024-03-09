@@ -1,15 +1,21 @@
 import Checkbox from "@/components/Input/Checkbox";
 import TextField from "@/components/Input/TextField";
+import { fetcher } from "@/lib/Data";
+import { Route } from "next";
 import { useState } from "react";
+import useSWR from "swr";
 
 export default function CharConjure() {
-  // use SWR Here
+  const url: Route = "/api/gamelingo/evertale?category=conjuredChar";
   const [haveConjured, setHaveConjured] = useState<boolean>(false);
   const [selfConjured, setSelfConjured] = useState<boolean>(false);
+  const { data, isLoading, error } = useSWR(url, fetcher);
   const [conjure, setConjure] = useState<string>("");
+
+  const conChar: Evertale.Character.QuickInfo[] = data?.data;
   return (
     <div>
-      <Checkbox variant="default-variant-1" checked={haveConjured} onChange={() => setHaveConjured(!haveConjured)} forId="is-have-conjured" label="Punya Conjured" />
+      <Checkbox variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} checked={haveConjured} onChange={() => setHaveConjured(!haveConjured)} forId="is-have-conjured" label="Punya Conjured" />
 
       {haveConjured && (
         <>
@@ -28,6 +34,14 @@ export default function CharConjure() {
           <br />
           <TextField variant="default-variant-1" disabled={selfConjured} value={selfConjured ? "selfConjured" : conjure} onChange={(e) => setConjure(e.target.value)} forId="charConjure" label="Character Conjure" name="charConjure" />
         </>
+      )}
+
+      {conChar && (
+        <datalist>
+          {conChar.map((c) => (
+            <option value={c.name} key={c.id} />
+          ))}
+        </datalist>
       )}
     </div>
   );

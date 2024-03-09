@@ -1,9 +1,11 @@
+import { baseUrl } from "@/lib/Data";
 import { typeSkillId } from "@/lib/evertale/data";
 import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { Post } from "@/models/General/Post";
 import { ObjectId } from "mongodb";
+import { Route } from "next";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -71,6 +73,18 @@ export async function GET(req: NextRequest) {
     const ts = await TypeSkill.find();
 
     return NextResponse.json({ ls, ts }, { status: 200 });
+  }
+
+  if (category === "conjuredChar") {
+    const char: Evertale.Character.State[] = await Character.find();
+    const conjuredChar = char.filter((c) => c.charStatus.isConjured);
+    const data: Evertale.Character.QuickInfo[] = conjuredChar.map((c) => ({
+      id: c._id,
+      name: c.charStatus.charName,
+      link: `/evertale/chars/${c._id}` as Route,
+    }));
+
+    return NextResponse.json({ data }, { status: 200 });
   }
 }
 
