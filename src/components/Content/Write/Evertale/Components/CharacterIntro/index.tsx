@@ -87,6 +87,7 @@ export default function CharacterIntro() {
               <Textarea key={`${el.label}-id`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-id`} label={`${el.label} ID`} name={`intro-new-field-${i + 1}-id`} />
             </div>
             <TrashFill data-label={el.label} className="my-2 text-lg text-red-500 cursor-pointer hover:text-red-300" onClick={deleteHandler} />
+            <br />
           </>
         ))}
       </div>
