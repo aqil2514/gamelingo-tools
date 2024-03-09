@@ -101,16 +101,14 @@ export async function POST(req: NextRequest) {
 
       if (charTeam.includes(newCharTeam)) return NextResponse.json({ msg: "Data berhasil ditambah" }, { status: 200 });
     }
-    if (type === "typeLeaderSkill") {
-      const { name }: Evertale.Misc.LeaderSkill = reqBody.lsData;
-      const leaderSkillData = typeData.typeLeaderSkill;
+  }
+  if (category === "leaderskills") {
+    const { name }: Evertale.Misc.LeaderSkill = reqBody.lsData;
+    const lsName = await LeaderSkill.findOne({ name });
 
-      if (leaderSkillData.includes(name)) return NextResponse.json({ msg: "Data sudah ada di Database" }, { status: 409 });
+    if (lsName) return NextResponse.json({ msg: "Data sudah ada di Database" }, { status: 409 });
 
-      leaderSkillData.push(reqBody.lsData);
-
-      await TypeSkill.findByIdAndUpdate(typeSkillId, { typeLeaderSkill: leaderSkillData });
-    }
+    await LeaderSkill.create(reqBody.lsData);
   }
   return new Response();
 }
