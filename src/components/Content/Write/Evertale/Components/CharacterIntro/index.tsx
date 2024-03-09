@@ -1,26 +1,42 @@
 import Button, { VariantClass } from "@/components/Input/Button";
+import Checkbox from "@/components/Input/Checkbox";
 import TextField from "@/components/Input/TextField";
 import Textarea, { TextareaStyle } from "@/components/Input/Textarea";
 import React, { useState } from "react";
 import { TrashFill } from "react-bootstrap-icons";
 
-const introName = ["gachaIntroEn", "gachaIntroId", "gachaTextEn", "gachaTextId", "loginTextEn", "loginTextId", "text1En", "text1Id", "text2En", "text2Id", "text3Id", "text3En", "text4En", "text4Id"];
+const introName = [
+  "intro-gachaIntroEn",
+  "intro-gachaIntroId",
+  "intro-gachaTextEn",
+  "intro-gachaTextId",
+  "intro-loginTextEn",
+  "intro-loginTextId",
+  "intro-text1En",
+  "intro-text1Id",
+  "intro-text2En",
+  "intro-text2Id",
+  "intro-text3Id",
+  "intro-text3En",
+  "intro-text4En",
+  "intro-text4Id",
+];
 
 const introNameLabel: Record<string, string> = {
-  gachaIntroEn: "Gacha Intro EN",
-  gachaIntroId: "Gacha Intro ID",
-  gachaTextEn: "Gacha Text EN",
-  gachaTextId: "Gacha Text ID",
-  loginTextEn: "Login Text EN",
-  loginTextId: "Login Text ID",
-  text1En: "Text 1 EN",
-  text1Id: "Text 1 ID",
-  text2En: "Text 2 EN",
-  text2Id: "Text 2 ID",
-  text3En: "Text 3 EN",
-  text3Id: "Text 3 ID",
-  text4En: "Text 4 EN",
-  text4Id: "Text 4 ID",
+  "intro-gachaIntroEn": "Gacha Intro EN",
+  "intro-gachaIntroId": "Gacha Intro ID",
+  "intro-gachaTextEn": "Gacha Text EN",
+  "intro-gachaTextId": "Gacha Text ID",
+  "intro-loginTextEn": "Login Text EN",
+  "intro-loginTextId": "Login Text ID",
+  "intro-text1En": "Text 1 EN",
+  "intro-text1Id": "Text 1 ID",
+  "intro-text2En": "Text 2 EN",
+  "intro-text2Id": "Text 2 ID",
+  "intro-text3En": "Text 3 EN",
+  "intro-text3Id": "Text 3 ID",
+  "intro-text4En": "Text 4 EN",
+  "intro-text4Id": "Text 4 ID",
 };
 
 interface NewFieldState {
@@ -28,8 +44,11 @@ interface NewFieldState {
 }
 
 export default function CharacterIntro() {
-  const [newField, setNewField] = useState<NewFieldState[]>([{}] as NewFieldState[]);
+  const [newField, setNewField] = useState<NewFieldState[]>(
+    [] as NewFieldState[]
+  );
   const [labelName, setLabelName] = useState<string>("");
+  const [addMore, setAddMore] = useState<boolean>(false);
   const [addMode, setAddMode] = useState<boolean>(false);
 
   function keyDownHandler(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -37,11 +56,14 @@ export default function CharacterIntro() {
       e.preventDefault();
       setNewField([...newField, { label: labelName }]);
       setLabelName("");
+      if (!addMore) {
+        setAddMode(false);
+      }
     }
   }
 
   function deleteHandler(e: React.MouseEvent<HTMLOrSVGElement>) {
-    const target = e.target as HTMLOrSVGScriptElement;
+    const target = e.currentTarget as HTMLOrSVGScriptElement;
     const labelTarget = target.getAttribute("data-label");
 
     if (!labelTarget) throw new Error("eror: Label Target belum diisi");
@@ -51,29 +73,73 @@ export default function CharacterIntro() {
 
   return (
     <div>
-      <h5 className="font-bold font-poppins text-white text-center my-4">Character Intro</h5>
+      <h5 className="font-bold font-poppins text-white text-center my-4">
+        Character Intro
+      </h5>
       <div>
         {introName.map((el) => (
-          <Textarea key={el} className={TextareaStyle.variant_1} forId={el} label={introNameLabel[el]} name={el} />
+          <Textarea
+            key={el}
+            className={TextareaStyle.variant_1}
+            forId={el}
+            label={introNameLabel[el]}
+            name={el}
+          />
         ))}
         {newField.map((el, i: number) => (
           <>
-            <Textarea key={el.label} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-en`} label={el.label} name={`new-field-${i + 1}-en`} />
-            <Textarea key={el.label} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-id`} label={el.label} name={`new-field-${i + 1}-id`} />
-            <TrashFill data-label={el.label} className="my-2 text-lg text-red-500 cursor-pointer hover:text-red-300" onClick={deleteHandler} />
+            <Textarea
+              key={`${el.label}-en`}
+              className={TextareaStyle.variant_1}
+              forId={`new-field-${i + 1}-en`}
+              label={`${el.label} EN`}
+              name={`intro-new-field-${i + 1}-en`}
+            />
+            <Textarea
+              key={`${el.label}-id`}
+              className={TextareaStyle.variant_1}
+              forId={`new-field-${i + 1}-id`}
+              label={`${el.label} ID`}
+              name={`intro-new-field-${i + 1}-id`}
+            />
+            <TrashFill
+              data-label={el.label}
+              className="my-2 text-lg text-red-500 cursor-pointer hover:text-red-300"
+              onClick={deleteHandler}
+            />
           </>
         ))}
       </div>
-      <div>
-        <Button className={addMode ? VariantClass.danger : VariantClass.fetch} type="button" onClick={() => setAddMode(!addMode)}>
-          {addMode ? "Batalkan" : "Tambah Field untuk Intro"}
+      <div className="flex my-4">
+        <Button
+          className={VariantClass.fetch}
+          type="button"
+          onClick={() => setAddMode(!addMode)}
+        >
+          {addMode ? "Kembali" : "Tambah Field"}
         </Button>
-        {addMode && (
-          <div className="my-4">
-            <TextField variant="outline-variant-1" forId="new-variant-config" label="Nama Field" value={labelName} onChange={(e) => setLabelName(e.target.value)} onKeyDown={keyDownHandler} />
-          </div>
-        )}
       </div>
+      {addMode && (
+        <>
+          <Checkbox
+            variant="default-variant-1"
+            checked={addMore}
+            onChange={() => setAddMore(!addMore)}
+            forId="multiple-add-field"
+            label="Tambah Lagi"
+          />
+          <div className="my-4">
+            <TextField
+              variant="outline-variant-1"
+              forId="new-variant-config"
+              label="Nama Field"
+              value={labelName}
+              onChange={(e) => setLabelName(e.target.value)}
+              onKeyDown={keyDownHandler}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }
