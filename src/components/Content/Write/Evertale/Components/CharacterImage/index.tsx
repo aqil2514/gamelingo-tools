@@ -1,4 +1,5 @@
 import Button, { VariantClass } from "@/components/Input/Button";
+import { notif } from "@/utils/fe";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { Images } from "react-bootstrap-icons";
@@ -29,7 +30,10 @@ export default function CharacterImage() {
     const file2 = files.find((f) => f.name.includes("02"));
     const file3 = files.find((f) => f.name.includes("03"));
 
-    if (!file1) throw new Error("Error: Gambar pertama harus ada. Pastikan namanya mengandung '01'");
+    if (!file1) {
+      notif("Error: Gambar pertama harus ada. Pastikan namanya mengandung '01'", { refElement: "upload-image", color: "red", location: "after" });
+      return;
+    }
 
     const fileName1 = file1.name;
     const fileName2 = file2 ? file2.name : "";
@@ -54,7 +58,7 @@ export default function CharacterImage() {
   return (
     <div>
       <label htmlFor="characterImages">
-        <div className="inline-flex items-center cursor-pointer px-4 py-2 bg-blue-700 mt-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-600 text-white font-bold">
+        <div id="upload-image" className="inline-flex items-center cursor-pointer px-4 py-2 bg-blue-700 mt-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-600 text-white font-bold">
           <span className="mx-2">
             <Images className="my-auto" />
           </span>{" "}
