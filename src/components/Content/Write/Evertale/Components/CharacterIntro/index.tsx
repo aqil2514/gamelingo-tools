@@ -72,14 +72,20 @@ export default function CharacterIntro() {
   return (
     <div>
       <h5 className="font-bold font-poppins text-white text-center my-4">Character Intro</h5>
-      <div>
+      <div className="grid grid-cols-2 gap-4">
         {introName.map((el) => (
-          <Textarea key={el} className={TextareaStyle.variant_1} forId={el} label={introNameLabel[el]} name={el} />
+          <div key={el}>
+            <Textarea className={TextareaStyle.variant_1} forId={el} label={introNameLabel[el]} name={el} />
+          </div>
         ))}
         {newField.map((el, i: number) => (
           <>
-            <Textarea key={`${el.label}-en`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-en`} label={`${el.label} EN`} name={`intro-new-field-${i + 1}-en`} />
-            <Textarea key={`${el.label}-id`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-id`} label={`${el.label} ID`} name={`intro-new-field-${i + 1}-id`} />
+            <div>
+              <Textarea key={`${el.label}-en`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-en`} label={`${el.label} EN`} name={`intro-new-field-${i + 1}-en`} />
+            </div>
+            <div>
+              <Textarea key={`${el.label}-id`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-id`} label={`${el.label} ID`} name={`intro-new-field-${i + 1}-id`} />
+            </div>
             <TrashFill data-label={el.label} className="my-2 text-lg text-red-500 cursor-pointer hover:text-red-300" onClick={deleteHandler} />
           </>
         ))}
