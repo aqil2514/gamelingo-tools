@@ -1,15 +1,12 @@
-import Checkbox from "@/components/Input/Checkbox";
 import Form from "@/components/Input/Form";
 import TextField from "@/components/Input/TextField";
 import { useState } from "react";
-import CharTeam from "../Components/CharacterStatus/CharTeam";
 import { charElement, charRank, charWeapon } from "@/lib/evertale/data";
-import LeaderSkill from "../Components/CharacterStatus/CharLeaderSkill";
-import CharConjure from "../Components/CharacterStatus/CharConjure";
 import Button, { VariantClass } from "@/components/Input/Button";
 import CharacterStatus from "../Components/CharacterStatus";
 import CharacterImage from "../Components/CharacterImage";
 import CharacterIntro from "../Components/CharacterIntro";
+import CharacterProfile from "../Components/CharacterProfile";
 
 interface EvertaleCharacterFormProps {
   template: "Write" | "Edit";
@@ -35,6 +32,8 @@ function WriteContent() {
       <CharacterImage />
 
       <CharacterIntro />
+
+      <CharacterProfile />
 
       <Button className={VariantClass.submit} id="test">
         {isLoading ? "Sending..." : "Send"}

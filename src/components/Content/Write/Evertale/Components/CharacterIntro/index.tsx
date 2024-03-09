@@ -44,9 +44,7 @@ interface NewFieldState {
 }
 
 export default function CharacterIntro() {
-  const [newField, setNewField] = useState<NewFieldState[]>(
-    [] as NewFieldState[]
-  );
+  const [newField, setNewField] = useState<NewFieldState[]>([] as NewFieldState[]);
   const [labelName, setLabelName] = useState<string>("");
   const [addMore, setAddMore] = useState<boolean>(false);
   const [addMode, setAddMode] = useState<boolean>(false);
@@ -73,70 +71,29 @@ export default function CharacterIntro() {
 
   return (
     <div>
-      <h5 className="font-bold font-poppins text-white text-center my-4">
-        Character Intro
-      </h5>
+      <h5 className="font-bold font-poppins text-white text-center my-4">Character Intro</h5>
       <div>
         {introName.map((el) => (
-          <Textarea
-            key={el}
-            className={TextareaStyle.variant_1}
-            forId={el}
-            label={introNameLabel[el]}
-            name={el}
-          />
+          <Textarea key={el} className={TextareaStyle.variant_1} forId={el} label={introNameLabel[el]} name={el} />
         ))}
         {newField.map((el, i: number) => (
           <>
-            <Textarea
-              key={`${el.label}-en`}
-              className={TextareaStyle.variant_1}
-              forId={`new-field-${i + 1}-en`}
-              label={`${el.label} EN`}
-              name={`intro-new-field-${i + 1}-en`}
-            />
-            <Textarea
-              key={`${el.label}-id`}
-              className={TextareaStyle.variant_1}
-              forId={`new-field-${i + 1}-id`}
-              label={`${el.label} ID`}
-              name={`intro-new-field-${i + 1}-id`}
-            />
-            <TrashFill
-              data-label={el.label}
-              className="my-2 text-lg text-red-500 cursor-pointer hover:text-red-300"
-              onClick={deleteHandler}
-            />
+            <Textarea key={`${el.label}-en`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-en`} label={`${el.label} EN`} name={`intro-new-field-${i + 1}-en`} />
+            <Textarea key={`${el.label}-id`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-id`} label={`${el.label} ID`} name={`intro-new-field-${i + 1}-id`} />
+            <TrashFill data-label={el.label} className="my-2 text-lg text-red-500 cursor-pointer hover:text-red-300" onClick={deleteHandler} />
           </>
         ))}
       </div>
       <div className="flex my-4">
-        <Button
-          className={VariantClass.fetch}
-          type="button"
-          onClick={() => setAddMode(!addMode)}
-        >
+        <Button className={VariantClass.fetch} type="button" onClick={() => setAddMode(!addMode)}>
           {addMode ? "Kembali" : "Tambah Field"}
         </Button>
       </div>
       {addMode && (
         <>
-          <Checkbox
-            variant="default-variant-1"
-            checked={addMore}
-            onChange={() => setAddMore(!addMore)}
-            forId="multiple-add-field"
-            label="Tambah Lagi"
-          />
+          <Checkbox variant="default-variant-1" checked={addMore} onChange={() => setAddMore(!addMore)} forId="multiple-add-field" label="Tambah Lagi" />
           <div className="my-4">
-            <TextField
-              variant="outline-variant-1"
-              forId="new-variant-config"
-              label="Nama Field"
-              value={labelName}
-              onChange={(e) => setLabelName(e.target.value)}
-              onKeyDown={keyDownHandler}
-            />
+            <TextField variant="outline-variant-1" forId="new-variant-config" label="Nama Field" value={labelName} onChange={(e) => setLabelName(e.target.value)} onKeyDown={keyDownHandler} />
           </div>
         </>
       )}
