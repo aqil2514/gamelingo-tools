@@ -35,8 +35,8 @@ function WriteContent() {
 
       <CharacterProfile />
 
-      <div className="w-full h-1 bg-white rounded-lg mt-4"></div>
-      <div className="w-full h-1 bg-white rounded-lg mb-4"></div>
+      <div className="w-full h-1 bg-white rounded-lg mt-4 mb-2"></div>
+      <div className="w-full h-1 bg-white rounded-lg mb-4 mt-2"></div>
 
       <Button className={VariantClass.submit} id="test">
         {isLoading ? "Sending..." : "Send"}

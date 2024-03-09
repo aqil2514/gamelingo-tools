@@ -14,9 +14,11 @@ export default function CharacterProfile() {
   return (
     <div>
       <h5 className="font-bold font-poppins text-white text-center my-4">Character Intro</h5>
-      <div>
+      <div className="grid grid-cols-2 gap-4">
         {profileName.map((el) => (
-          <Textarea key={el} className={TextareaStyle.variant_1} forId={el} label={profileLabel[el]} name={el} />
+          <div key={el}>
+            <Textarea className={TextareaStyle.variant_1} forId={el} label={profileLabel[el]} name={el} />
+          </div>
         ))}
       </div>
     </div>
