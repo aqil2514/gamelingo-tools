@@ -7,6 +7,8 @@ import CharConjure from "./CharConjure";
 export default function CharacterStatus() {
   return (
     <>
+      <h5 className="font-bold font-poppins text-white text-center my-4">Character Status</h5>
+
       <TextField variant="default-variant-1" forId="charName" label="Character Name" name="charName" />
 
       <Checkbox variant="default-variant-1" forId="is-conjured-char" label="Conjured" name="isConjured" />

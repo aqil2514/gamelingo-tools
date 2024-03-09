@@ -57,6 +57,8 @@ export default function CharacterImage() {
 
   return (
     <div>
+      <h5 className="font-bold font-poppins text-white text-center my-4">Character Image</h5>
+
       <label htmlFor="characterImages">
         <div id="upload-image" className="inline-flex items-center cursor-pointer px-4 py-2 bg-blue-700 mt-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-600 text-white font-bold">
           <span className="mx-2">
