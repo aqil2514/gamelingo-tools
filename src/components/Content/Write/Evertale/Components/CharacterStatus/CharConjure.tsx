@@ -3,18 +3,13 @@ import TextField from "@/components/Input/TextField";
 import { useState } from "react";
 
 export default function CharConjure() {
+  // use SWR Here
   const [haveConjured, setHaveConjured] = useState<boolean>(false);
   const [selfConjured, setSelfConjured] = useState<boolean>(false);
   const [conjure, setConjure] = useState<string>("");
   return (
     <div>
-      <Checkbox
-        variant="default-variant-1"
-        checked={haveConjured}
-        onChange={() => setHaveConjured(!haveConjured)}
-        forId="is-have-conjured"
-        label="Punya Conjured"
-      />
+      <Checkbox variant="default-variant-1" checked={haveConjured} onChange={() => setHaveConjured(!haveConjured)} forId="is-have-conjured" label="Punya Conjured" />
 
       {haveConjured && (
         <>
@@ -31,15 +26,7 @@ export default function CharConjure() {
             label="Conjure diri sendiri"
           />
           <br />
-          <TextField
-            variant="default-variant-1"
-            disabled={selfConjured}
-            value={selfConjured ? "selfConjured" : conjure}
-            onChange={(e) => setConjure(e.target.value)}
-            forId="charConjure"
-            label="Character Conjure"
-            name="charConjure"
-          />
+          <TextField variant="default-variant-1" disabled={selfConjured} value={selfConjured ? "selfConjured" : conjure} onChange={(e) => setConjure(e.target.value)} forId="charConjure" label="Character Conjure" name="charConjure" />
         </>
       )}
     </div>
