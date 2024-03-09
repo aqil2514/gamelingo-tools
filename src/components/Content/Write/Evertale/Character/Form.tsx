@@ -8,6 +8,7 @@ import LeaderSkill from "../Components/CharacterStatus/CharLeaderSkill";
 import CharConjure from "../Components/CharacterStatus/CharConjure";
 import Button, { VariantClass } from "@/components/Input/Button";
 import CharacterStatus from "../Components/CharacterStatus";
+import CharacterImage from "../Components/CharacterImage";
 
 interface EvertaleCharacterFormProps {
   template: "Write" | "Edit";
@@ -29,6 +30,8 @@ function WriteContent() {
       </>
 
       <CharacterStatus />
+
+      <CharacterImage />
 
       <Button className={VariantClass.submit} id="test">
         {isLoading ? "Sending..." : "Send"}
