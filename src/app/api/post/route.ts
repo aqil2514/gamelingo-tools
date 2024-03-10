@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
       const process = await evertaleProcess.processCharacter(formData, { action: "add" });
       if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
-      return NextResponse.json({ msg: "Tambah data character berhasil" }, { status: 200 });
+      return NextResponse.json({ msg: "Tambah data character berhasil", data:process.data }, { status: 200 });
     }
   }
 

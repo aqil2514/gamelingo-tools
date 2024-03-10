@@ -24,6 +24,100 @@ namespace FormUtils {
 
   /** Evertale Form Utils */
   namespace Evertale {
+    export interface FormDataCharacter {
+      game: string;
+      category: string;
+      charName: string;
+      isConjured: string;
+      charTeam: string;
+      charRank: string;
+      charElement: string;
+      charWeapon1: string;
+      charWeapon2: string;
+      charLeaderSkill: string;
+      characterImages: string;
+      "intro-gachaIntroEn"?: string;
+      "intro-gachaIntroId"?: string;
+      "intro-gachaTextEn"?: string;
+      "intro-gachaTextId"?: string;
+      "intro-loginTextEn"?: string;
+      "intro-loginTextId"?: string;
+      "intro-text1En"?: string;
+      "intro-text1Id"?: string;
+      "intro-text2En"?: string;
+      "intro-text2Id"?: string;
+      "intro-text3En"?: string;
+      "intro-text3Id"?: string;
+      "intro-text4En"?: string;
+      "intro-text4Id"?: string;
+      "intro-new-field1En"?: string;
+      "intro-new-field1Id"?: string;
+      "intro-new-field2En"?: string;
+      "intro-new-field2Id"?: string;
+      "intro-new-field3En"?: string;
+      "intro-new-field3Id"?: string;
+      "intro-new-field4En"?: string;
+      "intro-new-field4Id"?: string;
+      part1En: string;
+      part1Id: string;
+      part2En: string;
+      part2Id: string;
+      part3En: string;
+      part3Id: string;
+      "active-skill-name-1": string;
+      "active-type-1": string;
+      "active-skill-spirit-1": string;
+      "active-skill-target-1": string;
+      "active-skill-tu-1": string;
+      "active-skill-desc-en-1": string;
+      "active-skill-desc-id-1": string;
+      "active-skill-name-2": string;
+      "active-type-2": string;
+      "active-skill-spirit-2": string;
+      "active-skill-target-2": string;
+      "active-skill-tu-2": string;
+      "active-skill-desc-en-2": string;
+      "active-skill-desc-id-2": string;
+      "active-skill-name-3": string;
+      "active-type-3": string;
+      "active-skill-spirit-3": string;
+      "active-skill-target-3": string;
+      "active-skill-tu-3": string;
+      "active-skill-desc-en-3": string;
+      "active-skill-desc-id-3": string;
+      "active-skill-name-4": string;
+      "active-type-4": string;
+      "active-skill-spirit-4": string;
+      "active-skill-target-4": string;
+      "active-skill-tu-4": string;
+      "active-skill-desc-en-4": string;
+      "active-skill-desc-id-4": string;
+      "passive-skill-name-1": string;
+      "passive-type-1": string;
+      "passive-skill-desc-en-1": string;
+      "passive-skill-desc-id-1": string;
+      "passive-skill-name-2": string;
+      "passive-type-2": string;
+      "passive-skill-desc-en-2": string;
+      "passive-skill-desc-id-2": string;
+      "passive-skill-name-3": string;
+      "passive-type-3": string;
+      "passive-skill-desc-en-3": string;
+      "passive-skill-desc-id-3": string;
+      "passive-skill-name-4": string;
+      "passive-type-4": string;
+      "passive-skill-desc-en-4": string;
+      "passive-skill-desc-id-4": string;
+      "passive-skill-name-5": string;
+      "passive-type-5": string;
+      "passive-skill-desc-en-5": string;
+      "passive-skill-desc-id-5": string;
+      "passive-skill-name-6": string;
+      "passive-type-6": string;
+      "passive-skill-desc-en-6": string;
+      "passive-skill-desc-id-6": string;
+    }
+
     export interface ProcessEvertaleConfig {
       /**
        * Aksi yang diinginkan?
@@ -44,7 +138,10 @@ namespace FormUtils {
     }
     /** API untuk process form */
     export interface ProcessForm {
-      processCharacter: (formData: FormData, config: ProcessEvertaleConfig) => Promise<Result>;
+      processCharacter: (
+        formData: FormData,
+        config: ProcessEvertaleConfig
+      ) => Promise<Result>;
     }
   }
 
@@ -84,7 +181,16 @@ namespace FormUtils {
     }
 
     export interface FormDataArtifactKey {
-      key: "name" | "type" | "set" | "setName_1" | "setValue_1" | "setName_2" | "setValue_2" | "rarity" | "image";
+      key:
+        | "name"
+        | "type"
+        | "set"
+        | "setName_1"
+        | "setValue_1"
+        | "setName_2"
+        | "setValue_2"
+        | "rarity"
+        | "image";
     }
 
     export interface FormDataCharacter {
@@ -359,7 +465,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Material
        * @returns Berhasil atau gagal
        */
-      processMaterial: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      processMaterial: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
 
       /**
        * Proses Artifact Genshin Impact
@@ -368,7 +478,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Artifact
        * @returns Berhasil atau gagal
        */
-      proccessArtifact: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      proccessArtifact: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
 
       /**
        * Proses Weapon Genshin Impact
@@ -377,7 +491,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Weapon
        * @returns Berhasil atau gagal
        */
-      processWeapon: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      processWeapon: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
 
       /**
        * Proses Character Genshin Impact
@@ -386,7 +504,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Character
        * @returns Berhasil atau gagal
        */
-      proccessCharacter: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      proccessCharacter: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
 
       /**
        * Proses Constellations Genshin Impact
@@ -395,7 +517,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Constellations
        * @returns Berhasil atau gagal
        */
-      processConstellation: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      processConstellation: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
 
       /**
        * Proses Talent Genshin Impact
@@ -404,7 +530,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Talent
        * @returns Berhasil atau gagal
        */
-      processTalent: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      processTalent: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
     }
 
     type Language = "Indonesian" | "English";
@@ -444,7 +574,11 @@ namespace FormUtils {
        * @param oldId Id lama
        * @param config Konfigurasi
        */
-      editPost: (data: any, oldId: string, config: ProcessPostConfig) => Promise<Void>;
+      editPost: (
+        data: any,
+        oldId: string,
+        config: ProcessPostConfig
+      ) => Promise<Void>;
     }
 
     /** Konfigurasi untuk Post API */
