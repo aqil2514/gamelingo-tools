@@ -10,7 +10,7 @@ export default function CharacterActiveSkill() {
   const [newField, setNewField] = useState<number[]>([]);
 
   function addHandler() {
-    setIndex(index + 1);
+    setIndex((prev) => index + 1);
     setNewField([...newField, index]);
   }
 
@@ -27,7 +27,7 @@ export default function CharacterActiveSkill() {
     <div>
       <h5 className="text-white text-xl underline text-center font-bold font-poppins my-4">Character Active Skill</h5>
       <div>
-        <h6 className="text-white text-xl underline font-bold font-poppins my-4">Active Skill 1</h6>
+        <h6 className="text-white underline font-bold font-poppins my-4">Active Skill {index}</h6>
         <TextField forId={`active-skill-name-${index}`} label="Skill Name" variant="default-variant-1" name={`active-skill-name-${1}`} />
         <TypeSkill index={index} />
         <div className="grid grid-cols-3 gap-4">
@@ -46,6 +46,8 @@ export default function CharacterActiveSkill() {
       </div>
       {newField.map((el) => (
         <>
+          <h6 className="text-white underline font-bold font-poppins my-4">Active Skill {index}</h6>
+
           <TextField forId={`active-skill-name-${el}`} label="Skill Name" variant="default-variant-1" name={`active-skill-name-${1}`} />
           <TypeSkill index={el} />
           <div className="grid grid-cols-3 gap-4">
