@@ -4,6 +4,7 @@
  */
 
 namespace FormUtils {
+  /** Account Form Utils */
   namespace Account {
     export interface AccountFormApi {
       processUser: (FormData: FormDataUser) => Promise<Result>;
@@ -21,6 +22,33 @@ namespace FormUtils {
     }
   }
 
+  /** Evertale Form Utils */
+  namespace Evertale {
+    export interface ProcessEvertaleConfig {
+      /**
+       * Aksi yang diinginkan?
+       *
+       * Default :"Add"
+       *  */
+      action: "add" | "edit";
+
+      /**
+       * Berlaku jika action adalah edit
+       */
+      oldId?: string | null;
+
+      /**
+       * Bahasa pada data?
+       */
+      lang?: General.PostDocument["lang"];
+    }
+    /** API untuk process form */
+    export interface ProcessForm {
+      processCharacter: (formData: FormData, config: ProcessEvertaleConfig) => Promise<Result>;
+    }
+  }
+
+  /** Genshin Form Utils */
   namespace Genshin {
     export interface FormDataArtifact {
       "result-lang": Language;
@@ -401,6 +429,7 @@ namespace FormUtils {
     }
   }
 
+  /** Post Form Utils */
   namespace Post {
     export interface PostAPI {
       /**

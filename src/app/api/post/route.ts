@@ -3,7 +3,7 @@ import Character from "@/models/Evertale/Characters";
 import { Weapon } from "@/models/Evertale/Weapons";
 import { Post } from "@/models/General/Post";
 import { getUser, isSubfieldData } from "@/utils/api";
-import { genshin } from "@/utils/formUtils";
+import { genshin, evertale as evertaleProcess } from "@/utils/formUtils";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -110,9 +110,10 @@ export async function POST(req: NextRequest) {
   }
   if (game === "Evertale" && isSubfieldData.evertale(category)) {
     if (category === "chars") {
-      const data = Object.fromEntries(formData.entries());
+      const process = await evertaleProcess.processCharacter(formData, { action: "add" });
+      if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
 
-      return NextResponse.json({data}, {status:200})
+      return NextResponse.json({ msg: "Tambah data character berhasil" }, { status: 200 });
     }
   }
 

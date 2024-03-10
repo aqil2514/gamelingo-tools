@@ -355,7 +355,27 @@ export const genshin: FormUtils.Genshin.Genshin = {
  *
  */
 
-export const evertale = {};
+export const evertale: FormUtils.Evertale.ProcessForm = {
+  async processCharacter(formData, config) {
+    const { action, oldId } = config;
+
+    // <<<<< Local Variable >>>>>
+    const game: General.Game["game"] = "Evertale";
+    const category: General.GameEvertale["category"] = "Character";
+    const images: string[] = [];
+
+    // <<<<< Ambil Data >>>>>
+    const data = Object.fromEntries(formData.entries());
+
+    // <<<<< Validasi >>>>>
+
+    // <<<<< Susun Data >>>>>
+
+    // <<<<< Tambah & Edit >>>>>
+
+    return { status: 200, data };
+  },
+};
 
 /**
  *
