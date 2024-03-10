@@ -7,8 +7,13 @@ import { Route } from "next";
 import React, { useState } from "react";
 import useSWR from "swr";
 
-export default function TypeSkill({ index }: { index: number }) {
-  const [passiveTypes, setPassiveTypes] = useState<string[]>([]);
+interface TypeSkillProps{
+  index:number;
+  passiveTypes: string[];
+  setPassiveTypes: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+export default function TypeSkill({ index, passiveTypes, setPassiveTypes }: TypeSkillProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [choiceMode, setChoiceMode] = useState<boolean>(false);
   const url: Route = "/api/gamelingo/evertale?category=rss";
@@ -58,7 +63,7 @@ export default function TypeSkill({ index }: { index: number }) {
 
   return (
     <div className="my-4">
-      <TextField forId={`passive-type-${index}`} name={`passive-type-${index}`} label="Passive Skill Type" readOnly variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} value={passiveTypes.join(", ")} />
+      <TextField forId={`passive-type-${index}`} name={`passive-type-${index}`} label="Passive Skill Type" readOnly variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} value={ passiveTypes} />
 
       {!choiceMode && (
         <Button className={!data || isLoading ? "animate-pulse h-[40px] w-[100px] rounded-lg bg-slate-700 px-4 py-2" : VariantClass.fetch} disabled={!data || isLoading} type="button" onClick={() => setChoiceMode(true)}>

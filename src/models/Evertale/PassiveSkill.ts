@@ -1,6 +1,7 @@
 import { evertaleConnection } from "@/lib/mongoose";
 import mongoose, { Schema } from "mongoose";
 
+// TODO: Migrasi data ini
 const PassiveSkillSchema = new Schema<Evertale.Misc.PassiveSkill>({
   skillName: String,
   typeSkill: String,

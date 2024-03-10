@@ -79,7 +79,7 @@ export default function CharacterIntro() {
             return (
               <div key={el} className="relative">
                 <Textarea className={TextareaStyle.variant_1} forId={el} label={introNameLabel[el]} name={el} onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
-                <p className="absolute bottom-[15%] right-[1%] hidden">CTRL + Enter untuk terjemahkan langsung</p>
+                <p className="absolute bottom-[10%] right-[3%] bg-white w-[95%] text-right px-8 hidden">CTRL + Enter untuk terjemahkan langsung</p>
               </div>
             );
 

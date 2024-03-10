@@ -7,7 +7,7 @@ interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 }
 
 export enum TextareaStyle {
-  variant_1 = "w-full h-[100px] block  my-4 rounded-xl p-4 text-zinc-950 text-base font-bold font-poppins",
+  variant_1 = "w-full h-[100px] block  my-4 rounded-xl px-4 pt-4 pb-8 scrollbar-style text-zinc-950 text-base font-bold font-poppins",
 }
 
 //Edit later

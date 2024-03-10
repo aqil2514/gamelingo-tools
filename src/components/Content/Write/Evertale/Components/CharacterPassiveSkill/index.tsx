@@ -15,9 +15,9 @@ export default function CharacterPassiveSkill() {
   const { data, isLoading, error } = useSWR(url, fetcher);
   const [index, setIndex] = useState<number>(0);
   const [newField, setNewField] = useState<number[]>([]);
+  const [passiveTypes, setPassiveTypes] = useState<string[]>([]);
 
   const passive: Evertale.Misc.PassiveSkill[] = data?.data;
-  const passiveName = passive?.map((p) => p.skillName);
 
 
   function addHandler() {
@@ -65,12 +65,12 @@ export default function CharacterPassiveSkill() {
             <div key={el}>
               <h6 className="text-white underline font-bold font-poppins my-4">Passive Skill {el + 1}</h6>
 
-              <SkillName passiveName={passiveName} data={data} isLoading={isLoading} el={el} />
-              <TypeSkill index={el + 1} />
+              <SkillName passive={passive} setPassiveTypes={setPassiveTypes} data={data} isLoading={isLoading} el={el} />
+              <TypeSkill passiveTypes={passiveTypes} setPassiveTypes={setPassiveTypes} index={el + 1} />
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative">
                   <Textarea forId={`passive-skill-desc-en-${el + 1}`} className={TextareaStyle.variant_1} name={`passive-skill-desc-en-${el + 1}`} label="Description" onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
-                  <p className="absolute bottom-[15%] right-[1%] hidden">CTRL + Enter untuk terjemahkan langsung</p>
+                  <p className="absolute bottom-[10%] right-[3%] bg-white w-[95%] text-right px-8 hidden">CTRL + Enter untuk terjemahkan langsung</p>
                 </div>
                 <div>
                   <Textarea forId={`passive-skill-desc-id-${el + 1}`} className={TextareaStyle.variant_1} name={`passive-skill-desc-id-${el + 1}`} label="Deskripsi" />
