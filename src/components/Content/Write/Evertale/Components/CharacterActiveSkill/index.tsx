@@ -10,7 +10,7 @@ export default function CharacterActiveSkill() {
   const [newField, setNewField] = useState<number[]>([]);
 
   function addHandler() {
-    setIndex((prev) => index + 1);
+    setIndex((_prev) => index + 1);
     setNewField([...newField, index]);
   }
 
@@ -44,26 +44,26 @@ export default function CharacterActiveSkill() {
           </div>
         </div>
       </div>
-      {newField.map((el) => (
+      {newField.map((_el) => (
         <>
           <h6 className="text-white underline font-bold font-poppins my-4">Active Skill {index}</h6>
 
-          <TextField forId={`active-skill-name-${el}`} label="Skill Name" variant="default-variant-1" name={`active-skill-name-${1}`} />
-          <TypeSkill index={el} />
+          <TextField forId={`active-skill-name-${index}`} label="Skill Name" variant="default-variant-1" name={`active-skill-name-${1}`} />
+          <TypeSkill index={index} />
           <div className="grid grid-cols-3 gap-4">
-            <TextField forId={`active-skill-spirit-${el}`} label="Skill Spirit" variant="default-variant-1" name={`active-skill-spirit-${1}`} />
-            <TextField forId={`active-skill-target-${el}`} label="Skill Target" variant="default-variant-1" name={`active-skill-target-${1}`} />
-            <TextField forId={`active-skill-tu-${el}`} label="Skill TU" variant="default-variant-1" name={`active-skill-tu-${1}`} />
+            <TextField forId={`active-skill-spirit-${index}`} label="Skill Spirit" variant="default-variant-1" name={`active-skill-spirit-${1}`} />
+            <TextField forId={`active-skill-target-${index}`} label="Skill Target" variant="default-variant-1" name={`active-skill-target-${1}`} />
+            <TextField forId={`active-skill-tu-${index}`} label="Skill TU" variant="default-variant-1" name={`active-skill-tu-${1}`} />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Textarea forId={`active-skill-desc-en-${el}`} className={TextareaStyle.variant_1} name={`active-skill-desc-en-${index + 1}`} label="Description" />
+              <Textarea forId={`active-skill-desc-en-${index}`} className={TextareaStyle.variant_1} name={`active-skill-desc-en-${index + 1}`} label="Description" />
             </div>
             <div>
-              <Textarea forId={`active-skill-desc-id-${el}`} className={TextareaStyle.variant_1} name={`active-skill-desc-id-${index}`} label="Deskripsi" />
+              <Textarea forId={`active-skill-desc-id-${index}`} className={TextareaStyle.variant_1} name={`active-skill-desc-id-${index}`} label="Deskripsi" />
             </div>
           </div>
-          <TrashFill data-label={el} className="my-2 text-lg text-red-500 cursor-pointer hover:text-red-300" onClick={deleteHandler} />
+          <TrashFill data-label={index} className="my-2 text-lg text-red-500 cursor-pointer hover:text-red-300" onClick={deleteHandler} />
           <br />
         </>
       ))}
