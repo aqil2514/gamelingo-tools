@@ -43,6 +43,36 @@ export function notif(msg: string, config: NotifConfig) {
   }, time);
 }
 
+export function focusHandler(e: React.FocusEvent<HTMLTextAreaElement>) {
+  const target = e.target as HTMLTextAreaElement;
+  const parent = target.parentElement as HTMLDivElement;
+  const p = target.nextElementSibling as HTMLParagraphElement;
+
+  console.log(parent)
+
+  if(parent.tagName !== "DIV") 
+  throw new Error("Parent harus Div element");
+
+  if (p.tagName !== "P")
+    throw new Error("Element selanjutnya harus p element");
+
+    if(!parent.classList.contains("relative")){
+      parent.classList.add("relative")
+    }
+
+  p.classList.replace("hidden", "block");
+}
+
+export function blurHandler(e: React.FocusEvent<HTMLTextAreaElement>) {
+  const target = e.target as HTMLTextAreaElement;
+  const p = target.nextElementSibling as HTMLParagraphElement;
+
+  if (p.tagName !== "P")
+    throw new Error("Element selanjutnya harus p element");
+
+  p.classList.replace("block", "hidden");
+}
+
 export const isSubfieldData = {
   account(subfield: any): subfield is General.AdminQueryUser["subfield"] {
     return subfield;
@@ -54,3 +84,4 @@ export const isSubfieldData = {
     return subfield;
   },
 };
+

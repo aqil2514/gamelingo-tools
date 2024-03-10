@@ -12,13 +12,13 @@ export enum TextareaStyle {
 
 //Edit later
 
-export default function Textarea({ forId, className, label, ...props }: TextareaProps) {
+export default function Textarea({ forId, label, ...props }: TextareaProps) {
   return (
     <>
       <label htmlFor={forId} className="text-white font-bold">
         {label} :
       </label>
-      <textarea className={clsx(TextareaStyle, className)} name="setValue-2" id={forId} {...props}></textarea>
+      <textarea id={forId} {...props}></textarea>
     </>
   );
 }
