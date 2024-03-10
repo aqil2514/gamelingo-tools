@@ -2,6 +2,7 @@ import { baseUrl } from "@/lib/Data";
 import { typeSkillId } from "@/lib/evertale/data";
 import Character from "@/models/Evertale/Characters";
 import LeaderSkill from "@/models/Evertale/LeaderSkill";
+import PassiveSkill from "@/models/Evertale/PassiveSkill";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { Post } from "@/models/General/Post";
 import { ObjectId } from "mongodb";
@@ -62,12 +63,13 @@ export async function GET(req: NextRequest) {
     redirect("/evertale");
   }
 
-  // LeaderSkillData
+  // <<<<< LeaderSkillData >>>>>
   if (category === "leaderSkill") {
     const leaderskills = await LeaderSkill.findOne({ name });
     return NextResponse.json({ leaderskills });
   }
 
+  // <<<<< Resources >>>>>
   if (category === "rss") {
     const ls = await LeaderSkill.find();
     const ts = await TypeSkill.find();
@@ -75,6 +77,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ls, ts }, { status: 200 });
   }
 
+  // <<<<< Conjured Character >>>>>
   if (category === "conjuredChar") {
     const char: Evertale.Character.State[] = await Character.find();
     const conjuredChar = char.filter((c) => c.charStatus.isConjured);
@@ -84,6 +87,12 @@ export async function GET(req: NextRequest) {
       link: `/evertale/chars/${c._id}` as Route,
     }));
 
+    return NextResponse.json({ data }, { status: 200 });
+  }
+
+  // <<<<< PassiveSkill >>>>>
+  if (category === "passive-skill") {
+    const data = await PassiveSkill.find();
     return NextResponse.json({ data }, { status: 200 });
   }
 }

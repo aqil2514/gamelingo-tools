@@ -43,32 +43,33 @@ export function notif(msg: string, config: NotifConfig) {
   }, time);
 }
 
-export function focusHandler(e: React.FocusEvent<HTMLTextAreaElement>) {
+/**
+ * Memberikan sebuah informasi di pojok kanan bawah Textarea
+ */
+export function showTextareMessage(e: React.FocusEvent<HTMLTextAreaElement>) {
   const target = e.target as HTMLTextAreaElement;
   const parent = target.parentElement as HTMLDivElement;
   const p = target.nextElementSibling as HTMLParagraphElement;
 
-  console.log(parent)
+  if (parent.tagName !== "DIV") throw new Error("Parent harus Div element");
 
-  if(parent.tagName !== "DIV") 
-  throw new Error("Parent harus Div element");
+  if (p.tagName !== "P") throw new Error("Element selanjutnya harus p element");
 
-  if (p.tagName !== "P")
-    throw new Error("Element selanjutnya harus p element");
-
-    if(!parent.classList.contains("relative")){
-      parent.classList.add("relative")
-    }
+  if (!parent.classList.contains("relative")) {
+    parent.classList.add("relative");
+  }
 
   p.classList.replace("hidden", "block");
 }
 
-export function blurHandler(e: React.FocusEvent<HTMLTextAreaElement>) {
+/**
+ * Menyembunyikan sebuah informasi di pojok kanan bawah Textarea
+ */
+export function hideTextareaMessage(e: React.FocusEvent<HTMLTextAreaElement>) {
   const target = e.target as HTMLTextAreaElement;
   const p = target.nextElementSibling as HTMLParagraphElement;
 
-  if (p.tagName !== "P")
-    throw new Error("Element selanjutnya harus p element");
+  if (p.tagName !== "P") throw new Error("Element selanjutnya harus p element");
 
   p.classList.replace("block", "hidden");
 }
@@ -84,4 +85,3 @@ export const isSubfieldData = {
     return subfield;
   },
 };
-
