@@ -77,8 +77,8 @@ export default function CharacterIntro() {
         {introName.map((el) => {
           if (el.toLowerCase().includes("en"))
             return (
-              <div key={el}>
-                <Textarea className={TextareaStyle.variant_1} forId={el} label={introNameLabel[el]} name={el} onFocus={hideTextareaMessage} onBlur={showTextareMessage} />
+              <div key={el} className="relative">
+                <Textarea className={TextareaStyle.variant_1} forId={el} label={introNameLabel[el]} name={el} onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
                 <p className="absolute bottom-[15%] right-[1%] hidden">CTRL + Enter untuk terjemahkan langsung</p>
               </div>
             );
@@ -92,7 +92,7 @@ export default function CharacterIntro() {
         {newField.map((el, i: number) => (
           <>
             <div className="relative">
-              <Textarea key={`${el.label}-en`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-en`} label={`${el.label} EN`} name={`intro-new-field-${i + 1}-en`} onFocus={hideTextareaMessage} onBlur={showTextareMessage} />
+              <Textarea key={`${el.label}-en`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-en`} label={`${el.label} EN`} name={`intro-new-field-${i + 1}-en`} onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
               <p className="absolute bottom-[15%] right-[1%] hidden">CTRL + Enter untuk terjemahkan langsung</p>
             </div>
             <div>

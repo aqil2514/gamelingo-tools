@@ -124,6 +124,38 @@ export async function POST(req: NextRequest) {
 
       if (charTeam.includes(newCharTeam)) return NextResponse.json({ msg: "Data berhasil ditambah" }, { status: 200 });
     }
+    
+    if (type === "typePassiveSkill"){
+      const { newCharPassiveSkillType } = reqBody;
+      const passiveSkills = typeData.typePassiveSkill;
+  
+      if (typeof newCharPassiveSkillType !== "string") throw new Error("Data tidak sah");
+  
+      if (passiveSkills.includes(newCharPassiveSkillType)) return NextResponse.json({ msg: "Data sudah ada di Database" }, { status: 409 });
+  
+      passiveSkills.push(newCharPassiveSkillType);
+  
+      await TypeSkill.findByIdAndUpdate(typeSkillId, { typeCharTeam: passiveSkills });
+  
+      if (passiveSkills.includes(newCharPassiveSkillType)) return NextResponse.json({ msg: "Data berhasil ditambah" }, { status: 200 });
+
+    }
+    
+    if (type === "typeActiveSkill"){
+      const { newCharActiveSkillType } = reqBody;
+      const activeSkills = typeData.typeActiveSkill;
+  
+      if (typeof newCharActiveSkillType !== "string") throw new Error("Data tidak sah");
+  
+      if (activeSkills.includes(newCharActiveSkillType)) return NextResponse.json({ msg: "Data sudah ada di Database" }, { status: 409 });
+  
+      activeSkills.push(newCharActiveSkillType);
+  
+      await TypeSkill.findByIdAndUpdate(typeSkillId, { typeCharTeam: activeSkills });
+  
+      if (activeSkills.includes(newCharActiveSkillType)) return NextResponse.json({ msg: "Data berhasil ditambah" }, { status: 200 });
+
+    }
   }
   if (category === "leaderskills") {
     const { name }: Evertale.Misc.LeaderSkill = reqBody.lsData;

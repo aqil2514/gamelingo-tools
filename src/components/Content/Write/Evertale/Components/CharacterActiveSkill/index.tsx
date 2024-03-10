@@ -55,7 +55,7 @@ export default function CharacterActiveSkill() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="relative">
-            <Textarea forId={`active-skill-desc-en-${1}`} className={TextareaStyle.variant_1} name={`active-skill-desc-en-${1}`} onFocus={hideTextareaMessage} onBlur={showTextareMessage} label="Description" />
+            <Textarea forId={`active-skill-desc-en-${1}`} className={TextareaStyle.variant_1} name={`active-skill-desc-en-${1}`} onFocus={showTextareMessage} onBlur={hideTextareaMessage} label="Description" />
             <p className="absolute bottom-[15%] right-[1%] hidden">CTRL + Enter untuk terjemahkan langsung</p>
           </div>
           <div>
@@ -77,7 +77,7 @@ export default function CharacterActiveSkill() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="relative">
-                <Textarea forId={`active-skill-desc-en-${el + 1}`} className={TextareaStyle.variant_1} name={`active-skill-desc-en-${el + 1}`} label="Description" onFocus={hideTextareaMessage} onBlur={showTextareMessage} />
+                <Textarea forId={`active-skill-desc-en-${el + 1}`} className={TextareaStyle.variant_1} name={`active-skill-desc-en-${el + 1}`} label="Description" onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
                 <p className="absolute bottom-[15%] right-[1%] hidden">CTRL + Enter untuk terjemahkan langsung</p>
               </div>
               <div>
