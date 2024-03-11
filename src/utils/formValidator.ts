@@ -11,13 +11,9 @@ import { DB, UserSelect, supabase } from "@/lib/supabase";
 import { allowedRole } from "@/lib/Data";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 
-/**
- *
- * Genshin Validator
- *
- */
+/** Genshin Validator */
 
-export const genshinValidator: ApiUtils.GenshinValidatorApi = {
+export const genshinValidator: FormValidator.GenshinValidatorApi = {
   async material(data) {
     // <<<<< Local Variabel >>>>>
     const checkData: Record<string, string> = {
@@ -334,13 +330,61 @@ export const genshinValidator: ApiUtils.GenshinValidatorApi = {
   },
 };
 
-/**
- *
- * Admin Validator
- *
- */
+/** Evertale Validator */
+export const evertaleValidator: FormValidator.EvertaleValidatorApi = {
+  async character(data) {
+    for (const a in data) {
+      //<<<<< Type Guard >>>>>
+      const key = a as keyof FormUtils.Evertale.FormDataCharacter;
 
-export const adminValidator: ApiUtils.AdminValidatorApi = {
+      //<<<<< Local Variable >>>>>
+      const allowedRank: Evertale.Character.StatusRank[] = ["SSR", "SR", "R", "N"];
+      const allowedElement: Evertale.Character.StatusElement[] = ["Dark", "Earth", "Fire", "Light", "Storm", "Water"];
+      const allowedWeapon: Evertale.Character.StatusWeapon[] = ["Axe", "GreatAxe", "GreatSword", "Hammer", "Katana", "Mace", "Spear", "Staff", "Sword"];
+
+      //<<<<< Character Status >>>>>
+      if (key.startsWith("status")) {
+        if (key !== "status-charConjure" && key !== "status-charLeaderSkill" && key !== "status-charWeapon2") {
+          continue; // Skip validasi jika properti bukan properti yang langsung berkaitan dengan karakter
+        }
+        if (!data[key]) return { status: false, msg: "Data belum diisi", ref: key };
+        if (!allowedRank.includes(data["status-charRank"])) return { status: false, msg: `Hanya ${allowedRank.join(", ")} saja yang diizinkan`, ref: key };
+        if (!allowedElement.includes(data["status-charElement"])) return { status: false, msg: `Hanya ${allowedElement.join(", ")} saja yang diizinkan`, ref: key };
+        if (!allowedWeapon.includes(data["status-charWeapon1"])) return { status: false, msg: `Hanya ${allowedRank.join(", ")} saja yang diizinkan`, ref: key };
+        if (!allowedWeapon.includes(data["status-charWeapon2"])) return { status: false, msg: `Hanya ${allowedRank.join(", ")} saja yang diizinkan`, ref: key };
+      }
+
+      //<<<<< Character INtro >>>>>
+      if (key.startsWith("intro")) {
+        if (!data[key]) return { status: false, msg: "Data belum diisi", ref: key };
+      }
+
+      //<<<<< Character Profile >>>>>
+      if (key.startsWith("profile")) {
+        if (!data[key]) return { status: false, msg: "Data belum diisi", ref: key };
+      }
+
+      //<<<<< Character Active Skill >>>>>
+      if (key.startsWith("active")) {
+        if (key.includes("1")) {
+          if (!data[key]) return { status: false, msg: "Character Active Skill 1 harus diisi", ref: key };
+        }
+      }
+      //<<<<< Character Passive Skill >>>>>
+      if (key.startsWith("passive")) {
+        if (data["status-charRank"] === "SSR" && !data[key]) return { status: false, msg: "Character SSR Wajib punya passive", ref: key };
+      }
+    }
+
+    return { status: true };
+  },
+};
+
+// export const evertaleValidator:
+
+/** Admin Validator */
+
+export const adminValidator: FormValidator.AdminValidatorApi = {
   async user(data) {
     const user = await supabase.from(DB.user).select("id").eq("id", data["user-id"]);
 

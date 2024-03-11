@@ -74,7 +74,7 @@ export default function LeaderSkill() {
           }
         }}
         list="ls-list"
-        name="charLeaderSkill"
+        name="status-charLeaderSkill"
       />
       {noDataExist && <p className="font-bold  font-poppins my-4 text-blue-500">Tidak ada di database. Tekan Enter untuk menambahkan</p>}
 

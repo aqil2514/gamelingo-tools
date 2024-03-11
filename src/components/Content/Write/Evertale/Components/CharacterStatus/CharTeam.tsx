@@ -65,7 +65,7 @@ function WriteContent() {
 
   return (
     <div className="my-4">
-      <TextField forId="charTeam" name="charTeam" label="Character Team" readOnly variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} value={teams.join(", ")} />
+      <TextField forId="charTeam" name="status-charTeam" label="Character Team" readOnly variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} value={teams.join(", ")} />
 
       {!choiceMode && (
         <Button className={!data || isLoading ? "animate-pulse h-[40px] w-[100px] rounded-lg bg-slate-700 px-4 py-2" : VariantClass.fetch} disabled={!data || isLoading} type="button" onClick={() => setChoiceMode(true)}>

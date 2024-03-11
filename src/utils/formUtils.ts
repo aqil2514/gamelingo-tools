@@ -1,6 +1,6 @@
 import { IDMaterial, ENMaterial } from "@/models/GenshinImpact/Material";
 import { file } from "./api";
-import { adminValidator, genshinValidator } from "./formValidator";
+import { adminValidator, evertaleValidator, genshinValidator } from "./formValidator";
 import { adminOrganizing, genshinOrganizing } from "./organizeData";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
@@ -365,9 +365,10 @@ export const evertale: FormUtils.Evertale.ProcessForm = {
     const images: string[] = [];
 
     // <<<<< Ambil Data >>>>>
-    const data = Object.fromEntries(formData.entries());
+    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Evertale.FormDataCharacter;
 
     // <<<<< Validasi >>>>>
+    const validation = await evertaleValidator.character(data);
 
     // <<<<< Susun Data >>>>>
 

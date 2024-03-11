@@ -18,10 +18,6 @@ namespace ApiUtils {
     getEvertaleCharacter: () => Promise<Evertale.Character.QuickInfo[] | null>;
   }
 
-  export interface AdminValidatorApi {
-    user: (data: FormUtils.Account.FormDataUser) => Promise<ResultApiwithData>;
-  }
-
   export interface AccountResult {
     status: true;
     msg: string;
@@ -126,15 +122,6 @@ namespace ApiUtils {
     file?: File;
   }
 
-  export interface GenshinValidatorApi {
-    material: (data: FormUtils.Genshin.FormDataMaterial) => Promise<ResultApiwithData>;
-    artifact: (data: FormUtils.Genshin.FormDataArtifact) => Promise<ResultApiwithData>;
-    weapon: (data: FormUtils.Genshin.FormDataWeapon) => Promise<ResultApiwithData>;
-    character: (data: FormUtils.Genshin.FormDataCharacter) => Promise<ResultApiwithData>;
-    talent: (data: FormUtils.Genshin.FormDataTalent) => Promise<ResultApiwithData>;
-    constellation: (data: FormUtils.Genshin.FormDataConstellation) => Promise<ResultApiwithData>;
-  }
-
   export interface LoginApi {
     usernameValidation: (username: string) => Promise<ResultApi>;
     passwordValidation: (username: string, password: string) => Promise<ResultApi>;
@@ -152,13 +139,6 @@ namespace ApiUtils {
   export interface ResultApi {
     status: boolean;
     msg?: string;
-  }
-
-  export interface ResultApiwithData {
-    status: boolean;
-    msg?: string;
-    data?: any;
-    images?: File[];
   }
 
   export interface ResetPasswordApi {

@@ -32,7 +32,16 @@ export default function CharConjure() {
             label="Conjure diri sendiri"
           />
           <br />
-          <TextField variant="default-variant-1" disabled={selfConjured} value={selfConjured ? "selfConjured" : conjure} onChange={(e) => setConjure(e.target.value)} list="conjured-list" forId="charConjure" label="Character Conjure" name="charConjure" />
+          <TextField
+            variant="default-variant-1"
+            disabled={selfConjured}
+            value={selfConjured ? "selfConjured" : conjure}
+            onChange={(e) => setConjure(e.target.value)}
+            list="conjured-list"
+            forId="charConjure"
+            label="Character Conjure"
+            name="status-charConjure"
+          />
         </>
       )}
 

@@ -33,15 +33,20 @@ namespace Evertale {
 
     export interface Status {
       charName: string;
-      charRank: "SSR" | "SR" | "R" | "N";
-      charElement: "Dark" | "Light" | "Earth" | "Fire" | "Storm" | "Water";
+      charRank: StatusRank;
+      charElement: StatusElement;
       charTeam: string[];
-      charWeapon1: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
-      charWeapon2?: "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
+      charWeapon1: StatusWeapon;
+      charWeapon2?: StatusWeapon;
       charLeaderSkill?: string;
       isConjured: boolean;
       charConjure?: string;
     }
+
+    type StatusRank = "SSR" | "SR" | "R" | "N";
+    type StatusElement = "Dark" | "Light" | "Earth" | "Fire" | "Storm" | "Water";
+    type StatusWeapon = "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
+
     export interface Profile {
       part1En: string;
       part1Id: string;
