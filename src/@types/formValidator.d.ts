@@ -5,6 +5,7 @@ namespace FormValidator {
 
   export interface EvertaleValidatorApi {
     character: (data: FormUtils.Evertale.FormDataCharacter) => Promise<ResultApiwithData>;
+    images: (images:File[], fileName:string) => ResultApiwithData;
   }
 
   export interface GenshinValidatorApi {

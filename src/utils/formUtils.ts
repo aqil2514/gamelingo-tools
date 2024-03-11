@@ -10,6 +10,7 @@ import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 import { Post } from "@/models/General/Post";
 import { DB, supabase } from "@/lib/supabase";
 import { User } from "@/models/General/User";
+import { NextResponse } from "next/server";
 
 /**
  *
@@ -362,13 +363,17 @@ export const evertale: FormUtils.Evertale.ProcessForm = {
     // <<<<< Local Variable >>>>>
     const game: General.Game["game"] = "Evertale";
     const category: General.GameEvertale["category"] = "Character";
-    const images: string[] = [];
 
     // <<<<< Ambil Data >>>>>
     const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Evertale.FormDataCharacter;
+    const images = formData.getAll("characterImages") as unknown as File[];
 
     // <<<<< Validasi >>>>>
     const validation = await evertaleValidator.character(data);
+    if(!validation.status) return NextResponse.json({msg:validation.msg}, {status: 422})
+
+    const imageValidation = evertaleValidator.images(images, data["status-charName"]);
+    if(!imageValidation.status) return NextResponse.json({msg:imageValidation.msg}, {status: 422})
 
     // <<<<< Susun Data >>>>>
 
