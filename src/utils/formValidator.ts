@@ -386,7 +386,7 @@ export const evertaleValidator: FormValidator.EvertaleValidatorApi = {
       const imageValidation = file.validationImage(image);
       if (!imageValidation.status) return { status: false, msg: imageValidation.msg };
 
-      const newFile = new File([image], `${data["status-charName"]} - Form ${i}`, { type: image.type });
+      const newFile = new File([image], `${data["status-charName"]} - Form ${i}.${image.type.split("/")[1]}`, { type: image.type });
       images.push(newFile);
       i++;
     }
