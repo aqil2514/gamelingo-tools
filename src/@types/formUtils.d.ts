@@ -37,7 +37,7 @@ namespace FormUtils {
       "status-charWeapon2": StatusWeapon;
       "status-charLeaderSkill": string;
       "status-charConjure": string;
-      characterImages: FileList;
+      characterImages: File[];
       "intro-gachaIntroEn"?: string;
       "intro-gachaIntroId"?: string;
       "intro-gachaTextEn"?: string;

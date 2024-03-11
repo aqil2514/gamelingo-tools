@@ -333,6 +333,10 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
 /** Evertale Validator */
 export const evertaleValidator: FormValidator.EvertaleValidatorApi = {
   async character(data) {
+    //<<<<< Local Variable >>>>>
+    const images: File[] = [];
+    let i = 1;
+
     for (const a in data) {
       //<<<<< Type Guard >>>>>
       const key = a as keyof FormUtils.Evertale.FormDataCharacter;
@@ -376,7 +380,18 @@ export const evertaleValidator: FormValidator.EvertaleValidatorApi = {
       }
     }
 
-    return { status: true };
+    //<<<<< Image Validation >>>>>
+
+    for (const image of data.characterImages) {
+      const imageValidation = file.validationImage(image);
+      if (!imageValidation.status) return { status: false, msg: imageValidation.msg };
+
+      const newFile = new File([image], `${data["status-charName"]} - Form ${i}`, { type: image.type });
+      images.push(newFile);
+      i++;
+    }
+
+    return { status: true, images };
   },
 };
 
