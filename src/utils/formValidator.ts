@@ -383,10 +383,12 @@ export const evertaleValidator: FormValidator.EvertaleValidatorApi = {
   },
   images(images, fileName) {
     let i = 1;
-    const img:File[] = [];
-     //<<<<< Image Validation >>>>>
+    const img: File[] = [];
+    //<<<<< Image Validation >>>>>
 
-     for (const image of images) {
+    if (images.length === 0) return { status: false, msg: "Gambar harus gambar", ref: "characterImages" };
+
+    for (const image of images) {
       const imageValidation = file.validationImage(image);
       if (!imageValidation.status) return { status: false, msg: imageValidation.msg };
 
@@ -394,8 +396,8 @@ export const evertaleValidator: FormValidator.EvertaleValidatorApi = {
       img.push(newFile);
       i++;
     }
-    console.log(img)
-    return {status: true}
+
+    return { status: true, images: img };
   },
 };
 

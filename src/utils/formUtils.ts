@@ -1,7 +1,7 @@
 import { IDMaterial, ENMaterial } from "@/models/GenshinImpact/Material";
 import { file } from "./api";
 import { adminValidator, evertaleValidator, genshinValidator } from "./formValidator";
-import { adminOrganizing, genshinOrganizing } from "./organizeData";
+import { adminOrganizing, evertaleOrganizing, genshinOrganizing } from "./organizeData";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
 import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
@@ -368,18 +368,21 @@ export const evertale: FormUtils.Evertale.ProcessForm = {
     const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Evertale.FormDataCharacter;
     const images = formData.getAll("characterImages") as unknown as File[];
 
+    const test = images.map((img) => img.name);
+
     // <<<<< Validasi >>>>>
     const validation = await evertaleValidator.character(data);
-    if(!validation.status) return NextResponse.json({msg:validation.msg}, {status: 422})
+    if (!validation.status) return NextResponse.json({ msg: validation.msg }, { status: 422 });
 
     const imageValidation = evertaleValidator.images(images, data["status-charName"]);
-    if(!imageValidation.status) return NextResponse.json({msg:imageValidation.msg}, {status: 422})
+    if (!imageValidation.status) return NextResponse.json({ msg: imageValidation.msg }, { status: 422 });
 
     // <<<<< Susun Data >>>>>
+    const organizedData = evertaleOrganizing.character(data, test);
 
     // <<<<< Tambah & Edit >>>>>
 
-    return { status: 200, data };
+    return { status: 200, organizedData };
   },
 };
 

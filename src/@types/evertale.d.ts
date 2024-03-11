@@ -1,7 +1,7 @@
 namespace Evertale {
   namespace Character {
     export interface Image {
-      f1Img: string;
+      f1Img?: string;
       f2Img?: string;
       f3Img?: string;
     }
@@ -29,6 +29,14 @@ namespace Evertale {
       text3En?: string;
       text4En?: string;
       text4Id?: string;
+      text5En?: string;
+      text5Id?: string;
+      text6En?: string;
+      text6Id?: string;
+      text7Id?: string;
+      text7En?: string;
+      text8En?: string;
+      text8Id?: string;
     }
 
     export interface Status {
@@ -59,7 +67,7 @@ namespace Evertale {
       skillName: string;
       typeSkill: string[];
       skillSpirit: number;
-      skillTarget: string | number;
+      skillTarget: string;
       skillTu: number;
       skillDescEn: string;
       skillDescId: string;

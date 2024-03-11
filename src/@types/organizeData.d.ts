@@ -8,6 +8,10 @@ namespace OrganizeData {
     constellation: (data: FormUtils.Genshin.FormDataConstellation, imageUrl: string[]) => GenshinImpact.Constellation;
   }
 
+  export interface ET {
+    character: (data: FormUtils.Evertale.FormDataCharacter, images: string[]) => Evertale.Character.State;
+  }
+
   export interface Admin {
     user: (data: FormUtils.Account.FormDataUser) => Account.User;
   }
