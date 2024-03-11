@@ -47,7 +47,7 @@ export default function CharActiveSkill({ charActiveSkill }: { charActiveSkill: 
               </div>
               <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
                 <Bullseye className="my-auto mr-1 w-[25px] h-[25px]" />
-                <span className="my-auto ml-1 font-bold">{nas.skillTarget as number}</span>
+                <span className="my-auto ml-1 font-bold">{nas.skillTarget}</span>
               </div>
             </div>
           </div>
