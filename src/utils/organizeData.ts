@@ -646,12 +646,6 @@ export const evertaleOrganizing: OrganizeData.ET = {
       text8Id: data["intro-new-field4Id"],
     };
 
-    const charImage: Evertale.Character.Image = {
-      f1Img: images.find((img) => img.includes("Form 1")),
-      f2Img: images.find((img) => img.includes("Form 2")),
-      f3Img: images.find((img) => img.includes("Form 3")),
-    };
-
     const charProfile: Evertale.Character.Profile = {
       part1En: data["profile-part1En"],
       part1Id: data["profile-part1Id"],
@@ -659,6 +653,12 @@ export const evertaleOrganizing: OrganizeData.ET = {
       part2Id: data["profile-part2Id"],
       part3En: data["profile-part3En"],
       part3Id: data["profile-part3Id"],
+    };
+
+    const charImage: Evertale.Character.Image = {
+      f1Img: images.find((img) => img.includes("Form 1")),
+      f2Img: images.find((img) => img.includes("Form 2")),
+      f3Img: images.find((img) => img.includes("Form 3")),
     };
 
     const charActiveSkill: Evertale.Character.ActiveSkill[] = [];
