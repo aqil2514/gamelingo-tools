@@ -42,7 +42,11 @@ function WriteContent() {
   async function keyDownHandler(e: React.KeyboardEvent<HTMLInputElement>) {
     const charTeam: string[] = data.ts[0].typeCharTeam;
     const target = e.target as HTMLInputElement;
-    if (e.key === "Enter") {
+    if (e.ctrlKey && e.key === "Enter") {
+      e.preventDefault();
+      setChoiceMode(false);
+    }
+    else if (e.key === "Enter") {
       e.preventDefault();
       if (charTeam.includes(target.value)) {
         if (teams.includes(target.value)) {
@@ -61,11 +65,7 @@ function WriteContent() {
       addToDatabase(target.value);
       return;
     }
-    if (e.ctrlKey && e.key === "Enter") {
-      e.preventDefault();
-      setChoiceMode(false);
-    }
-    if (e.ctrlKey && e.key === "B") {
+    else if (e.ctrlKey && e.key === "b") {
       e.preventDefault();
       setTeams([]);
       setChoiceMode(false);
@@ -74,7 +74,14 @@ function WriteContent() {
 
   return (
     <div className="my-4">
-      <TextField forId="charTeam" name="status-charTeam" label="Character Team" readOnly variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} value={teams.join(", ")} onFocus={() => setChoiceMode(true)} />
+      <TextField forId="charTeam" name="status-charTeam" label="Character Team" readOnly variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} value={teams.join(", ")} onFocus={() => {
+        const select = document.getElementById("team-select") as HTMLInputElement | null;
+        console.log(select);
+        setChoiceMode(true);
+        if(select){
+          select.focus()
+        }
+        }} />
 
       {!choiceMode && (
         <Button className={!data || isLoading ? "animate-pulse h-[40px] w-[100px] rounded-lg bg-slate-700 px-4 py-2" : VariantClass.fetch} disabled={!data || isLoading} type="button" onClick={() => setChoiceMode(true)}>
@@ -100,9 +107,9 @@ function WriteContent() {
             </Button>
           </div>
           <ul>
-            <li className="text-blue-500 font-bold font-poppins my-2">Enter untuk input data</li>
-            <li className="text-blue-500 font-bold font-poppins my-2">CTRL + Enter untuk fiksasi</li>
-            <li className="text-blue-500 font-bold font-poppins my-2">CTRL + B untuk Batal</li>
+            <li className="text-blue-500 font-bold font-poppins my-2">&gt; Enter untuk input data</li>
+            <li className="text-blue-500 font-bold font-poppins my-2">&gt; CTRL + Enter untuk fiksasi</li>
+            <li className="text-blue-500 font-bold font-poppins my-2">&gt; CTRL + B untuk Batal</li>
           </ul>
           <TextField forId="team-select" label="Team Select" variant="outline-variant-1" list="team-select-list" onKeyDown={keyDownHandler} />
           <datalist id="team-select-list" className="w-[10px]">
