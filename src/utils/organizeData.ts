@@ -618,7 +618,7 @@ export const evertaleOrganizing: OrganizeData.ET = {
       charWeapon1: data["status-charWeapon1"],
       charWeapon2: data["status-charWeapon2"],
       charLeaderSkill: data["status-charLeaderSkill"],
-      charConjure: data["status-charConjure"],
+      charConjure: data["status-charConjure"] ? data["status-charConjure"] : data["status-charName"],
     };
 
     const charIntro: Evertale.Character.Intro = {
@@ -665,7 +665,9 @@ export const evertaleOrganizing: OrganizeData.ET = {
 
     for (let i = 1; i <= 4; i++) {
       type NumberActive = "1" | "2" | "3" | "4";
-      const active: Evertale.Character.ActiveSkill = {
+const skillName = data[`active-skill-name-${i as unknown as NumberActive}`];
+
+      if(skillName){const active: Evertale.Character.ActiveSkill = {
         skillName: data[`active-skill-name-${i as unknown as NumberActive}`],
         typeSkill: data[`active-type-${i as unknown as NumberActive}`].split(", "),
         skillSpirit: Number(data[`active-skill-spirit-${i as unknown as NumberActive}`]),
@@ -677,24 +679,30 @@ export const evertaleOrganizing: OrganizeData.ET = {
 
       if (active.skillName) {
         charActiveSkill.push(active);
-      }
+      }}
     }
-
+    
     const charPassiveSkill: Evertale.Character.PassiveSkill[] = [];
-
+    
     for (let i = 1; i <= 6; i++) {
       type NumberPassive = "1" | "2" | "3" | "4" | "5" | "6";
-      const passive: Evertale.Character.PassiveSkill = {
-        skillName: data[`passive-skill-name-${i as unknown as NumberPassive}`],
-        typeSkill: data[`passive-type-${i as unknown as NumberPassive}`].split(", "),
-        skillDescEn: data[`passive-skill-desc-en-${i as unknown as NumberPassive}`],
-        skillDescId: data[`passive-skill-desc-id-${i as unknown as NumberPassive}`],
-      };
+      const skillName = data[`passive-skill-name-${i as unknown as NumberPassive}`];
 
-      if (passive.skillName) {
-        charPassiveSkill.push(passive);
+      if(skillName){
+        const passive: Evertale.Character.PassiveSkill = {
+          skillName: data[`passive-skill-name-${i as unknown as NumberPassive}`],
+          typeSkill: data[`passive-type-${i as unknown as NumberPassive}`].split(", "),
+          skillDescEn: data[`passive-skill-desc-en-${i as unknown as NumberPassive}`],
+          skillDescId: data[`passive-skill-desc-id-${i as unknown as NumberPassive}`],
+        };
+
+        if (passive.skillName) {
+          charPassiveSkill.push(passive);
+        }
       }
+
     }
+
 
     const finalData: Evertale.Character.State = {
       charStatus,
