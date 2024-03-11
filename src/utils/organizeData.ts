@@ -665,30 +665,32 @@ export const evertaleOrganizing: OrganizeData.ET = {
 
     for (let i = 1; i <= 4; i++) {
       type NumberActive = "1" | "2" | "3" | "4";
-const skillName = data[`active-skill-name-${i as unknown as NumberActive}`];
+      const skillName = data[`active-skill-name-${i as unknown as NumberActive}`];
 
-      if(skillName){const active: Evertale.Character.ActiveSkill = {
-        skillName: data[`active-skill-name-${i as unknown as NumberActive}`],
-        typeSkill: data[`active-type-${i as unknown as NumberActive}`].split(", "),
-        skillSpirit: Number(data[`active-skill-spirit-${i as unknown as NumberActive}`]),
-        skillTarget: data[`active-skill-target-${i as unknown as NumberActive}`],
-        skillTu: Number(data[`active-skill-tu-${i as unknown as NumberActive}`]),
-        skillDescEn: data[`active-skill-desc-en-${i as unknown as NumberActive}`],
-        skillDescId: data[`active-skill-desc-id-${i as unknown as NumberActive}`],
-      };
+      if (skillName) {
+        const active: Evertale.Character.ActiveSkill = {
+          skillName: data[`active-skill-name-${i as unknown as NumberActive}`],
+          typeSkill: data[`active-type-${i as unknown as NumberActive}`].split(", "),
+          skillSpirit: Number(data[`active-skill-spirit-${i as unknown as NumberActive}`]),
+          skillTarget: data[`active-skill-target-${i as unknown as NumberActive}`],
+          skillTu: Number(data[`active-skill-tu-${i as unknown as NumberActive}`]),
+          skillDescEn: data[`active-skill-desc-en-${i as unknown as NumberActive}`],
+          skillDescId: data[`active-skill-desc-id-${i as unknown as NumberActive}`],
+        };
 
-      if (active.skillName) {
-        charActiveSkill.push(active);
-      }}
+        if (active.skillName) {
+          charActiveSkill.push(active);
+        }
+      }
     }
-    
+
     const charPassiveSkill: Evertale.Character.PassiveSkill[] = [];
-    
+
     for (let i = 1; i <= 6; i++) {
       type NumberPassive = "1" | "2" | "3" | "4" | "5" | "6";
       const skillName = data[`passive-skill-name-${i as unknown as NumberPassive}`];
 
-      if(skillName){
+      if (skillName) {
         const passive: Evertale.Character.PassiveSkill = {
           skillName: data[`passive-skill-name-${i as unknown as NumberPassive}`],
           typeSkill: data[`passive-type-${i as unknown as NumberPassive}`].split(", "),
@@ -700,9 +702,7 @@ const skillName = data[`active-skill-name-${i as unknown as NumberActive}`];
           charPassiveSkill.push(passive);
         }
       }
-
     }
-
 
     const finalData: Evertale.Character.State = {
       charStatus,
