@@ -656,9 +656,9 @@ export const evertaleOrganizing: OrganizeData.ET = {
     };
 
     const charImage: Evertale.Character.Image = {
-      f1Img: images.find((img) => img.includes("Form 1")),
-      f2Img: images.find((img) => img.includes("Form 2")),
-      f3Img: images.find((img) => img.includes("Form 3")),
+      f1Img: images.find((img) => img.includes("Form%201")),
+      f2Img: images.find((img) => img.includes("Form%202")),
+      f3Img: images.find((img) => img.includes("Form%203")),
     };
 
     const charActiveSkill: Evertale.Character.ActiveSkill[] = [];

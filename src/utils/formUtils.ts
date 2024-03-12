@@ -378,6 +378,7 @@ export const evertale: FormUtils.Evertale.ProcessForm = {
 
     const upload = await file.uploadImage(imageValidation.images as File[], game, category);
     const img = upload.map((i) => i.secure_url);
+    console.log(img);
 
     // <<<<< Susun Data >>>>>
     const organizedData = evertaleOrganizing.character(data, img);
@@ -386,7 +387,7 @@ export const evertale: FormUtils.Evertale.ProcessForm = {
     if (action === "add") {
       const ECharacter = await Character.create(organizedData);
 
-      await post.addPost(data, { lang: "English & Indonesian", gameName: game, gameTopic: category, parent: ECharacter, user });
+      await post.addPost(data, { lang: "English & Indonesian", gameName: game, gameTopic: category, parent: ECharacter, user,aliasName:data["status-charName"] });
     }
 
     return { status: 200, organizedData };
