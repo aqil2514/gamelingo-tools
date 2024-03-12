@@ -62,6 +62,9 @@ function SkeletonVariant1() {
 /** variant === hidden */
 function HiddenInput() {
   const { ...rest } = useTextFieldContext().props;
+
+  rest.forId= undefined;
+
   return <input type="hidden" {...rest} />;
 }
 
