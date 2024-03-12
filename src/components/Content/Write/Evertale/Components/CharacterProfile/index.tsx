@@ -13,7 +13,7 @@ const profileLabel: Record<string, string> = {
 
 export default function CharacterProfile() {
   return (
-    <div>
+    <div id="character-profile">
       <h5 className="text-white text-xl underline text-center font-bold font-poppins my-4">Character Profile</h5>
       <div className="grid grid-cols-2 gap-4">
         {profileName.map((el) => {

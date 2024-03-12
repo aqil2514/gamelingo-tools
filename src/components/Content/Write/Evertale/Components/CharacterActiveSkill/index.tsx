@@ -42,7 +42,7 @@ export default function CharacterActiveSkill() {
   }
 
   return (
-    <div>
+    <div id="character-active-skill">
       <h5 className="text-white text-xl underline text-center font-bold font-poppins my-4">Character Active Skill</h5>
       <div>
         <h6 className="text-white underline font-bold font-poppins my-4">Active Skill {1}</h6>

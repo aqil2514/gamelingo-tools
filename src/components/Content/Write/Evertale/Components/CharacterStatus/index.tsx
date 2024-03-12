@@ -6,7 +6,7 @@ import CharConjure from "./CharConjure";
 
 export default function CharacterStatus() {
   return (
-    <>
+    <div id="character-status">
       <h5 className="text-white text-xl underline text-center font-bold font-poppins my-4">Character Status</h5>
 
       <TextField variant="default-variant-1" forId="charName" label="Character Name" name="status-charName" />
@@ -26,6 +26,6 @@ export default function CharacterStatus() {
       <LeaderSkill />
 
       <CharConjure />
-    </>
+    </div>
   );
 }

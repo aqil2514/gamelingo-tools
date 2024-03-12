@@ -71,7 +71,7 @@ export default function CharacterIntro() {
   }
 
   return (
-    <div>
+    <div id="character-intro">
       <h5 className="text-white text-xl underline text-center font-bold font-poppins my-4">Character Intro</h5>
       <div className="grid grid-cols-2 gap-4">
         {introName.map((el) => {

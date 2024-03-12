@@ -56,7 +56,7 @@ export default function CharacterImage() {
   }
 
   return (
-    <div>
+    <div id="character-image">
       <h5 className="text-white text-xl underline text-center font-bold font-poppins my-4">Character Image</h5>
 
       <label htmlFor="characterImages">

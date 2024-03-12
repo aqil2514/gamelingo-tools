@@ -19,7 +19,6 @@ export default function CharacterPassiveSkill() {
 
   const passive: Evertale.Misc.PassiveSkill[] = data?.data;
 
-
   function addHandler() {
     if (index === 4)
       return notif("passive Skill maksimal 4", {
@@ -51,9 +50,8 @@ export default function CharacterPassiveSkill() {
     });
   }
 
-
   return (
-    <div>
+    <div id="character-passive-skill">
       <h5 className="text-white text-xl underline text-center font-bold font-poppins my-4">Character Passive Skill</h5>
       {newField.length === 0 ? (
         <div className="flex p-4 justify-center">
