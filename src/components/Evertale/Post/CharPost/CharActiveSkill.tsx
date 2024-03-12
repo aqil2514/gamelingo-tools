@@ -37,13 +37,13 @@ export default function CharActiveSkill({ charActiveSkill }: { charActiveSkill: 
             <div className="flex flex-row justify-start content-center">
               <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
                 <Image src="/Evertale/Icon/Spirit.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
-                {(nas.skillSpirit as number) > 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-green-700">+{nas.skillSpirit as number}</span>}
-                {(nas.skillSpirit as number) < 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-red-700">{nas.skillSpirit as number}</span>}
-                {(nas.skillSpirit as number) === 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-slate-800">{nas.skillSpirit as number}</span>}
+                {Number(nas.skillSpirit) > 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-green-700">+{Number(nas.skillSpirit)}</span>}
+                {Number(nas.skillSpirit) < 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-red-700">{Number(nas.skillSpirit)}</span>}
+                {Number(nas.skillSpirit) === 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-slate-800">{Number(nas.skillSpirit)}</span>}
               </div>
               <div className="flex flex-row justify-start content-center px-1 ">
                 <Image src="/Evertale/Icon/TU.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
-                <span className="my-auto ml-1 font-bold">{nas.skillTu as number}</span>
+                <span className="my-auto ml-1 font-bold">{Number(nas.skillTu)}</span>
               </div>
               <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
                 <Bullseye className="my-auto mr-1 w-[25px] h-[25px]" />
@@ -85,7 +85,7 @@ export default function CharActiveSkill({ charActiveSkill }: { charActiveSkill: 
         //     <strong>Skill Type : </strong> {nas.typeSkill.join(", ")}
         //   </p>
         //   <p className="text-white font-poppins">
-        //     <strong>Spirit : </strong> {nas.skillSpirit as number}
+        //     <strong>Spirit : </strong> {Number(nas.skillSpirit)}
         //   </p>
         //   <p className="text-white font-poppins">
         //     <strong>TU : </strong> {nas.skillTu as number}

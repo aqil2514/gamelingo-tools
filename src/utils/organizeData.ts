@@ -671,9 +671,9 @@ export const evertaleOrganizing: OrganizeData.ET = {
         const active: Evertale.Character.ActiveSkill = {
           skillName: data[`active-skill-name-${i as unknown as NumberActive}`],
           typeSkill: data[`active-type-${i as unknown as NumberActive}`].split(", "),
-          skillSpirit: Number(data[`active-skill-spirit-${i as unknown as NumberActive}`]),
+          skillSpirit: data[`active-skill-spirit-${i as unknown as NumberActive}`],
           skillTarget: data[`active-skill-target-${i as unknown as NumberActive}`],
-          skillTu: Number(data[`active-skill-tu-${i as unknown as NumberActive}`]),
+          skillTu: data[`active-skill-tu-${i as unknown as NumberActive}`],
           skillDescEn: data[`active-skill-desc-en-${i as unknown as NumberActive}`],
           skillDescId: data[`active-skill-desc-id-${i as unknown as NumberActive}`],
         };

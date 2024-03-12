@@ -11,6 +11,7 @@ import { Post } from "@/models/General/Post";
 import { DB, supabase } from "@/lib/supabase";
 import { User } from "@/models/General/User";
 import { NextResponse } from "next/server";
+import Character from "@/models/Evertale/Characters";
 
 /**
  *
@@ -357,7 +358,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
  */
 
 export const evertale: FormUtils.Evertale.ProcessForm = {
-  async processCharacter(formData, config) {
+  async processCharacter(formData, user, config) {
     const { action, oldId } = config;
 
     // <<<<< Local Variable >>>>>
@@ -374,13 +375,19 @@ export const evertale: FormUtils.Evertale.ProcessForm = {
 
     const imageValidation = evertaleValidator.images(images, data["status-charName"]);
     if (!imageValidation.status) return NextResponse.json({ msg: imageValidation.msg }, { status: 422 });
-    const test = imageValidation!.images!.map((img) => img.name);
-    console.log(test);
+
+    const upload = await file.uploadImage(imageValidation.images as File[], game, category);
+    const img = upload.map((i) => i.secure_url);
 
     // <<<<< Susun Data >>>>>
-    const organizedData = evertaleOrganizing.character(data, test);
+    const organizedData = evertaleOrganizing.character(data, img);
 
     // <<<<< Tambah & Edit >>>>>
+    if (action === "add") {
+      const ECharacter = await Character.create(organizedData);
+
+      await post.addPost(data, { lang: "English & Indonesian", gameName: game, gameTopic: category, parent: ECharacter, user });
+    }
 
     return { status: 200, organizedData };
   },
@@ -392,7 +399,7 @@ export const evertale: FormUtils.Evertale.ProcessForm = {
  *
  */
 
-export const admin: FormUtils.Account.AccountFormApi = {
+export const admin: FormUtils.AccountUtils.AccountFormApi = {
   async processUser(formData) {
     const validation = await adminValidator.user(formData);
     if (!validation.status) return { status: 422, msg: validation.msg };

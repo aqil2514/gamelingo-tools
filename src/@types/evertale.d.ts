@@ -5,10 +5,9 @@ namespace Evertale {
       f2Img?: string;
       f3Img?: string;
     }
-    export interface State {
-      _id?: string;
+    export interface State extends General.MongoDBDocument {
       charStatus: Status;
-      charIntro: Intro;
+      charIntro?: Intro;
       charImage: Image;
       charProfile: Profile;
       charActiveSkill: ActiveSkill[];
@@ -66,9 +65,9 @@ namespace Evertale {
     export interface ActiveSkill {
       skillName: string;
       typeSkill: string[];
-      skillSpirit: number;
+      skillSpirit: string;
       skillTarget: string;
-      skillTu: number;
+      skillTu: string;
       skillDescEn: string;
       skillDescId: string;
     }

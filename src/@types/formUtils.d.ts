@@ -5,7 +5,7 @@
 
 namespace FormUtils {
   /** Account Form Utils */
-  namespace Account {
+  namespace AccountUtils {
     export interface AccountFormApi {
       processUser: (FormData: FormDataUser) => Promise<Result>;
     }
@@ -140,7 +140,7 @@ namespace FormUtils {
     }
     /** API untuk process form */
     export interface ProcessForm {
-      processCharacter: (formData: FormData, config: ProcessEvertaleConfig) => Promise<Result>;
+      processCharacter: (formData: FormData, user: Account.User, config: ProcessEvertaleConfig) => Promise<Result>;
     }
 
     type StatusRank = "SSR" | "SR" | "R" | "N";

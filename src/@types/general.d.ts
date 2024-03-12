@@ -44,6 +44,7 @@ namespace General {
     readonly _id?: string;
     readonly createdAt?: string;
     readonly updatedAt?: string;
+    readonly __v?: number;
   }
 
   export interface Post {
