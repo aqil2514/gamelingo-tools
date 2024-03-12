@@ -1,5 +1,7 @@
 // <<<<< Interface >>>>>
 
+import axios from "axios";
+
 /** Konfigurasi function Notif */
 export interface NotifConfig {
   /**
@@ -85,3 +87,37 @@ export const isSubfieldData = {
     return subfield;
   },
 };
+
+
+/**
+ *Translate Handler Function
+ *
+ * @param {React.KeyboardEvent<HTMLTextAreaElement>} e - Elemen HTML TextArea yang menjadi sasaran
+ * @param {any} data - UseState
+ * @param {any} section - Mengikuti interface Evertale Character State
+ * @param {React.Dispatch<React.SetStateAction<any>>} setData - Pasangan useState data
+ * @returns {Promise<void>}
+ */
+
+ export async function translateHandler(e: React.KeyboardEvent<HTMLTextAreaElement>, section: any, data: any, setData: React.Dispatch<React.SetStateAction<any>>): Promise<void> {
+  if (e.ctrlKey && e.key === "Enter") {
+    const element = e.target as HTMLTextAreaElement;
+    // const field = element.getAttribute("data-field");
+    // const target = field?.replace("En", "Id") as string;
+    // if (!field) {
+    //   throw new Error("data-field tidak ada");
+    // }
+    // const text = data[section][field];
+
+    // try { 
+    //   const res = await axios.post("/api/translate", {
+    //     text,
+    //   });
+
+    //   const translated: string = res.data.translatedText;
+    //   setData({ ...data, [section]: { ...data[section], [target]: translated } });
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  }
+}
