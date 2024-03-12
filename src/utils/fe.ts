@@ -99,25 +99,33 @@ export const isSubfieldData = {
  * @returns {Promise<void>}
  */
 
- export async function translateHandler(e: React.KeyboardEvent<HTMLTextAreaElement>, section: any, data: any, setData: React.Dispatch<React.SetStateAction<any>>): Promise<void> {
+ export async function translateHandler(e: React.KeyboardEvent<HTMLTextAreaElement>): Promise<void> {
   if (e.ctrlKey && e.key === "Enter") {
-    const element = e.target as HTMLTextAreaElement;
-    // const field = element.getAttribute("data-field");
-    // const target = field?.replace("En", "Id") as string;
-    // if (!field) {
-    //   throw new Error("data-field tidak ada");
-    // }
-    // const text = data[section][field];
+    const target = e.target as HTMLTextAreaElement;
+    const id = target.id.includes("En") ? target.id.replace("En","Id"): target.id.replace("en", "id");
+    const idElement = document.getElementById(id) as HTMLTextAreaElement;
+    const text = target.value;
 
-    // try { 
-    //   const res = await axios.post("/api/translate", {
-    //     text,
-    //   });
+    const info = target.nextElementSibling as HTMLParagraphElement;
+    const initValue = "CTRL + Enter untuk terjemahkan langsung";
 
-    //   const translated: string = res.data.translatedText;
-    //   setData({ ...data, [section]: { ...data[section], [target]: translated } });
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try { 
+      info.innerText = "Menerjemahkan..."
+      const res = await axios.post("/api/translate", {
+        text,
+      });
+
+      const translated: string = res.data.translatedText;
+      idElement.value = translated
+    } catch (error) {
+      console.error(error);
+    } finally{
+      info.innerText = "Penerjemahan selesai";
+
+      setTimeout(() => {
+        
+        info.innerText = initValue
+      }, 3000);
+    }
   }
 }

@@ -48,8 +48,13 @@ export default function Form({ children, ...props }: FormProps) {
       notif(res.data.msg, { color: "green", refElement, location: "before" });
 
       console.log(res.data)
-
+      
+      // <<<<< digunakan untuk pindah ke halaman yang ditentukan >>>>>
       if (callbackUrl && moveLocation) location.href = callbackUrl;
+
+      setTimeout(() => {
+        location.reload()
+      }, 3000);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 422) {

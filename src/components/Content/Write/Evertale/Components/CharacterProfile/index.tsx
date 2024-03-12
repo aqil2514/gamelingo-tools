@@ -1,5 +1,5 @@
 import Textarea, { TextareaStyle } from "@/components/Input/Textarea";
-import { hideTextareaMessage, showTextareMessage } from "@/utils/fe";
+import { hideTextareaMessage, showTextareMessage, translateHandler } from "@/utils/fe";
 
 const profileName = ["profile-part1En", "profile-part1Id", "profile-part2En", "profile-part2Id", "profile-part3En", "profile-part3Id"];
 const profileLabel: Record<string, string> = {
@@ -20,7 +20,7 @@ export default function CharacterProfile() {
           if (el.toLowerCase().includes("en"))
             return (
               <div key={el}>
-                <Textarea className={TextareaStyle.variant_1} forId={el} label={profileLabel[el]} name={el} onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
+                <Textarea className={TextareaStyle.variant_1} forId={el} label={profileLabel[el]} name={el} onFocus={showTextareMessage} onBlur={hideTextareaMessage} onKeyDown={translateHandler} />
                 <p className="absolute bottom-[10%] right-[3%] bg-white w-[95%] text-right px-8 hidden">CTRL + Enter untuk terjemahkan langsung</p>{" "}
               </div>
             );

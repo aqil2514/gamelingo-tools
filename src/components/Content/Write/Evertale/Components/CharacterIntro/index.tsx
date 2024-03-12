@@ -2,7 +2,7 @@ import Button, { VariantClass } from "@/components/Input/Button";
 import Checkbox from "@/components/Input/Checkbox";
 import TextField from "@/components/Input/TextField";
 import Textarea, { TextareaStyle } from "@/components/Input/Textarea";
-import { showTextareMessage, hideTextareaMessage } from "@/utils/fe";
+import { showTextareMessage, hideTextareaMessage, translateHandler } from "@/utils/fe";
 import React, { useState } from "react";
 import { TrashFill } from "react-bootstrap-icons";
 
@@ -78,7 +78,7 @@ export default function CharacterIntro() {
           if (el.toLowerCase().includes("en"))
             return (
               <div key={el} className="relative">
-                <Textarea className={TextareaStyle.variant_1} forId={el} label={introNameLabel[el]} name={el} onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
+                <Textarea className={TextareaStyle.variant_1} forId={el} label={introNameLabel[el]} name={el} onFocus={showTextareMessage} onKeyDown={translateHandler} onBlur={hideTextareaMessage} />
                 <p className="absolute bottom-[10%] right-[3%] bg-white w-[95%] text-right px-8 hidden">CTRL + Enter untuk terjemahkan langsung</p>
               </div>
             );
@@ -92,11 +92,11 @@ export default function CharacterIntro() {
         {newField.map((el, i: number) => (
           <>
             <div className="relative">
-              <Textarea key={`${el.label}-en`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-en`} label={`${el.label} EN`} name={`intro-new-field-${i + 1}-en`} onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
+              <Textarea key={`${el.label}En`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}En`} label={`${el.label} EN`} name={`intro-new-field-${i + 1}En`} onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
               <p className="absolute bottom-[15%] right-[1%] hidden">CTRL + Enter untuk terjemahkan langsung</p>
             </div>
             <div>
-              <Textarea key={`${el.label}-id`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}-id`} label={`${el.label} ID`} name={`intro-new-field-${i + 1}-id`} />
+              <Textarea key={`${el.label}Id`} className={TextareaStyle.variant_1} forId={`new-field-${i + 1}Id`} label={`${el.label} ID`} name={`intro-new-field-${i + 1}Id`} />
             </div>
             <TrashFill data-label={el.label} className="my-2 text-lg text-red-500 cursor-pointer hover:text-red-300" onClick={deleteHandler} />
             <br />

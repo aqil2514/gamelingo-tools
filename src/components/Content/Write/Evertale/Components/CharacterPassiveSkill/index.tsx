@@ -4,7 +4,7 @@ import Textarea, { TextareaStyle } from "@/components/Input/Textarea";
 import React, { useEffect, useRef, useState } from "react";
 import { TrashFill } from "react-bootstrap-icons";
 import Button, { VariantClass } from "@/components/Input/Button";
-import { showTextareMessage, hideTextareaMessage, notif } from "@/utils/fe";
+import { showTextareMessage, hideTextareaMessage, notif, translateHandler } from "@/utils/fe";
 import { Route } from "next";
 import useSWR from "swr";
 import { fetcher } from "@/lib/Data";
@@ -67,7 +67,7 @@ export default function CharacterPassiveSkill() {
               <TypeSkill passiveTypes={passiveTypes} setPassiveTypes={setPassiveTypes} index={el + 1} />
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative">
-                  <Textarea forId={`passive-skill-desc-en-${el + 1}`} className={TextareaStyle.variant_1} name={`passive-skill-desc-en-${el + 1}`} label="Description" onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
+                  <Textarea forId={`passive-skill-desc-en-${el + 1}`} className={TextareaStyle.variant_1} name={`passive-skill-desc-en-${el + 1}`} label="Description" onKeyDown={translateHandler} onFocus={showTextareMessage} onBlur={hideTextareaMessage} />
                   <p className="absolute bottom-[10%] right-[3%] bg-white w-[95%] text-right px-8 hidden">CTRL + Enter untuk terjemahkan langsung</p>
                 </div>
                 <div>
