@@ -21,16 +21,16 @@ const Slider = ({ type, buttonLink, loadingAnimation, length, textOn = false, te
   const URL = `/api/gamelingo/evertale/${type}?maxResult=${length}`;
   const { data, isLoading, error } = useSWR(URL, fetcher);
 
-  if (!data || isLoading) {
-    if (loadingAnimation) return <Loading loading={1} textOn={textOn} text={text} />;
-    return <></>;
-  }
-  if (error) return <Error />;
+  // if (!data || isLoading) {
+  //   if (loadingAnimation) return <Loading loading={1} textOn={textOn} text={text} />;
+  //   return <></>;
+  // }
+  // if (error) return <Error />;
 
   if (type === "chars")
     return (
       <>
-        <CharSlider characters={data.characters} />
+        <CharSlider template={!data || isLoading ? "skeleton": "default"} characters={data?.characters} />
         {buttonLink && <ButtonLink linkHref="/evertale/chars" />}
       </>
     );

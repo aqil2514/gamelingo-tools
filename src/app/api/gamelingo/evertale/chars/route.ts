@@ -46,11 +46,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ conjure: conjure[0] }, { status: 200 });
   }
 
-  const chars = await Character.find().sort({ createdAt: -1 });
-  const data = chars.map((d: any) => ({
-    id: d._id,
+  const chars = await Character.find().sort({ createdAt: -1 }) as unknown as Evertale.Character.State[];
+  const data:Evertale.QuickInfo[] = chars.map((d) => ({
+    id: d._id as string,
     image: d.charImage.f1Img,
-    charName: d.charStatus.charName,
+    name: d.charStatus.charName,
   }));
   let characters: any = [];
 

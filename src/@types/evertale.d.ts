@@ -2,7 +2,7 @@ namespace Evertale {
   export interface QuickInfo{
     id: string;
     name:string;
-    link: string;
+    link?: string;
     image?: string;
   }
 
