@@ -37,7 +37,7 @@ const Slider = ({ type, buttonLink, loadingAnimation, length, textOn = false, te
   else if (type === "weapons")
     return (
       <>
-        <WeaponSlider weapons={data.data} />
+        <WeaponSlider template={!data || isLoading ? "skeleton": "default"} weapons={data?.data} />
         {buttonLink && <ButtonLink linkHref="/evertale/weapons" />}
       </>
     );

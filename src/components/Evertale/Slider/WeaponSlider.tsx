@@ -10,12 +10,22 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 
-const WeaponSlider = ({ weapons }: {weapons: Evertale.QuickInfo[]}) => {
+interface WeaponSliderProps{
+  weapons: Evertale.QuickInfo[];
+  template?: "skeleton" | "default";
+}
+
+export default function WeaponSlider ({ weapons, template="default" }: WeaponSliderProps) {
+  if(template === "default") return <DefaultSlider weapons={weapons} />
+  else if(template === "skeleton") return <SkeletonSlider />
+};
+
+function DefaultSlider({weapons} :Pick<WeaponSliderProps, "weapons">){
   return (
     <div>
       <h1 className="font-bold font-mclaren my-8 text-center text-white text-base lg:text-2xl">Evertale Weapons</h1>
-      <div className="flex flex-row my-12 w-full px-2 md:px-12">
-        <section className="w-full lg:w-2/3 mr-2">
+      <div className="grid grid-cols-1 md:grid-cols-[60%_40%] gap-4 md:px-12 my-4">
+        <section>
           <Swiper modules={[Navigation, Autoplay, Thumbs]} slidesPerView={1} parallax={{ enabled: true }} autoplay={{ delay: 3000 }} navigation={{ enabled: true }}>
             {weapons?.map((weap, i: number) => (
               <SwiperSlide key={weap.id}>
@@ -29,12 +39,12 @@ const WeaponSlider = ({ weapons }: {weapons: Evertale.QuickInfo[]}) => {
             ))}
           </Swiper>
         </section>
-        <section className="scrollbar-option hidden md:block lg:w-1/3 bg-slate-900 rounded-lg p-4 ml-2 max-h-[488px] overflow-y-scroll">
+        <section className="scrollbar-option hidden md:block bg-slate-900 rounded-lg p-4 ml-2 max-h-[488px] overflow-y-scroll">
           {weapons?.map((weap, i: number) => (
             <Link href={`/evertale/weapons/${weap?.id}`} key={weap?.id}>
               <figure className="flex flex-row my-4 items-center">
-                <Image loader={imageLoader} src={weap?.image as string} width={849} height={460} alt={weap.name} data-image-index={i++} className="w-[64px] h-[64px] object-cover mr-2 object-top rounded-xl" />
-                <figcaption className="text-center mx-auto  text-white font-mclaren text-base">{weap.name}</figcaption>
+                <Image loader={imageLoader} src={weap?.image as string} width={849} height={460} alt={weap.name} data-image-index={i++} className="w-[94px] h-[94px] object-cover mr-2 object-top rounded-xl" />
+                <figcaption className="text-center my-auto  text-white font-mclaren text-base">{weap.name}</figcaption>
               </figure>
             </Link>
           ))}
@@ -42,6 +52,32 @@ const WeaponSlider = ({ weapons }: {weapons: Evertale.QuickInfo[]}) => {
       </div>
     </div>
   );
-};
+}
 
-export default WeaponSlider;
+function SkeletonSlider() {
+  return (
+    <div>
+      <h1 className="font-bold font-mclaren my-8 animate-pulse w-1/2 bg-zinc-700 rounded-lg text-center text-zinc-700 text-base lg:text-2xl">
+        Evertale Character
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-[60%_40%] md:px-12">
+        <div className="bg-zinc-700 rounded-xl h-[460px] animate-pulse"></div>
+        <div className="scrollbar-option hidden md:block bg-slate-900 rounded-lg p-4 ml-2 max-h-[488px] overflow-y-scroll">
+          <div className="grid grid-cols-[94px_auto] gap-4">
+            <div className="w-[94px] h-[94px] object-cover animate-pulse object-top rounded-xl bg-zinc-700"></div>
+            <p className="text-center m-auto  text-zinc-800 bg-zinc-800 animate-pulse font-mclaren text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <div className="w-[94px] h-[94px] object-cover animate-pulse object-top rounded-xl bg-zinc-700"></div>
+            <p className="text-center m-auto  text-zinc-800 bg-zinc-800 animate-pulse font-mclaren text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <div className="w-[94px] h-[94px] object-cover animate-pulse object-top rounded-xl bg-zinc-700"></div>
+            <p className="text-center m-auto  text-zinc-800 bg-zinc-800 animate-pulse font-mclaren text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <div className="w-[94px] h-[94px] object-cover animate-pulse object-top rounded-xl bg-zinc-700"></div>
+            <p className="text-center m-auto  text-zinc-800 bg-zinc-800 animate-pulse font-mclaren text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <div className="w-[94px] h-[94px] object-cover animate-pulse object-top rounded-xl bg-zinc-700"></div>
+            <p className="text-center m-auto  text-zinc-800 bg-zinc-800 animate-pulse font-mclaren text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+

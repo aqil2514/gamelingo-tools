@@ -16,11 +16,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ data }, { status: 200 });
   }
 
-  const weapons = await Weapon.find().sort({ createdAt: -1 });
-  const data = weapons.slice(0, maxResult).map((weapon: any) => ({
-    id: weapon._id,
+  const weapons = await Weapon.find().sort({ createdAt: -1 }) as unknown as Evertale.Weapon.State[];
+  const data:Evertale.QuickInfo[] = weapons.slice(0, maxResult).map((weapon) => ({
+    id: weapon._id as string,
     image: weapon.weapImage.webp,
-    weapName: weapon.weapName,
+    name: weapon.weapName,
   }));
 
   return NextResponse.json({ data }, { status: 200 });
