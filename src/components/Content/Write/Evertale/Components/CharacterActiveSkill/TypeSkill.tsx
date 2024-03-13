@@ -84,7 +84,7 @@ export default function TypeSkill({ index }: { index: number }) {
             </Button>
           </div>
           <p className="text-white font-poppins my-2">Enter untuk input data</p>
-          <TextField forId="active-skill-type-select" label="activeSkillType Select" variant="outline-variant-1" list="active-skill-type-select-list" onKeyDown={keyDownHandler} />
+          <TextField forId="active-skill-type-select" label="Active Skill Type Select" variant="outline-variant-1" list="active-skill-type-select-list" onKeyDown={keyDownHandler} />
           <datalist id="active-skill-type-select-list" className="w-[10px]">
             {data.ts[0].typeActiveSkill.map((t: string) => (
               <option value={t} key={`active-skill-type-${t}`} />

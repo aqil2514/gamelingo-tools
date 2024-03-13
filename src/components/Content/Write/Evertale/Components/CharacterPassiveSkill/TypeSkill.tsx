@@ -6,11 +6,12 @@ import axios from "axios";
 import { Route } from "next";
 import React, { useState } from "react";
 import useSWR from "swr";
+import { PassiveTypeState } from ".";
 
 interface TypeSkillProps{
   index:number;
-  passiveTypes: string[];
-  setPassiveTypes: React.Dispatch<React.SetStateAction<string[]>>;
+  passiveTypes: PassiveTypeState;
+  setPassiveTypes: React.Dispatch<React.SetStateAction<PassiveTypeState>>;
 }
 
 export default function TypeSkill({ index, passiveTypes, setPassiveTypes }: TypeSkillProps) {
@@ -42,14 +43,22 @@ export default function TypeSkill({ index, passiveTypes, setPassiveTypes }: Type
     const target = e.target as HTMLInputElement;
     if (e.key === "Enter") {
       e.preventDefault();
-      if (charPassiveSkillType.includes(target.value)) {
-        if (passiveTypes.includes(target.value)) {
+      console.log(target.value)
+
+      if(!passiveTypes[`passive${index}` as keyof PassiveTypeState]){
+        setPassiveTypes({...passiveTypes, [`passive${index}`]:[target.value]});
+        target.value = "";
+        return;
+      }
+
+      if (charPassiveSkillType.includes(target.value) ) {
+        if (passiveTypes[`passive${index}` as keyof PassiveTypeState].includes(target.value)) {
           alert("Sudah ditambahkan");
           target.value = "";
           return;
         }
 
-        setPassiveTypes([...passiveTypes, target.value]);
+        setPassiveTypes({...passiveTypes, [`passive${index}`]:[...passiveTypes[`passive${index}` as keyof PassiveTypeState], target.value]});
         target.value = "";
         return;
       }
@@ -63,7 +72,7 @@ export default function TypeSkill({ index, passiveTypes, setPassiveTypes }: Type
 
   return (
     <div className="my-4">
-      <TextField forId={`passive-type-${index}`} name={`passive-type-${index}`} label="Passive Skill Type" readOnly variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} value={ passiveTypes} />
+      <TextField forId={`passive-type-${index}`} name={`passive-type-${index}`} label="Passive Skill Type" readOnly variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} value={passiveTypes[`passive${index}` as keyof PassiveTypeState]} />
 
       {!choiceMode && (
         <Button className={!data || isLoading ? "animate-pulse h-[40px] w-[100px] rounded-lg bg-slate-700 px-4 py-2" : VariantClass.fetch} disabled={!data || isLoading} type="button" onClick={() => setChoiceMode(true)}>
@@ -78,7 +87,7 @@ export default function TypeSkill({ index, passiveTypes, setPassiveTypes }: Type
               className={VariantClass.danger}
               type="button"
               onClick={() => {
-                setPassiveTypes([]);
+                setPassiveTypes({...passiveTypes, [`passive${index}`]:[]});
                 setChoiceMode(false);
               }}
             >

@@ -1,12 +1,14 @@
 import TextField from "@/components/Input/TextField";
 import { useEffect, useState } from "react";
+import { PassiveTypeState } from ".";
 
 interface SkillNameProps {
   passive: Evertale.Misc.PassiveSkill[];
   data: any;
   isLoading: boolean;
   el: number;
-  setPassiveTypes: React.Dispatch<React.SetStateAction<string[]>>;
+  setPassiveTypes: React.Dispatch<React.SetStateAction<PassiveTypeState>>;
+  passiveTypes: PassiveTypeState;
 }
 
 export default function SkillName({
@@ -14,7 +16,8 @@ export default function SkillName({
   data,
   isLoading,
   el,
-  setPassiveTypes
+  setPassiveTypes,
+  passiveTypes
 }: SkillNameProps) {
   const [skillName, setSkillName] = useState<string>("");
   const [instantAdd, setInstantAdd] = useState<boolean>(false);
@@ -48,9 +51,11 @@ export default function SkillName({
       const selected = passive.find((p) => p.skillName === target.value);
       if (!selected) throw new Error("Passive tidak ada");
 
-      setPassiveTypes(selected.typeSkill)
+      setPassiveTypes({...passiveTypes, [`passive${el + 1}`]:selected.typeSkill})
       descEn.value = selected.skillDescEn;
       descId.value = selected.skillDescId;
+
+      console.log(selected)
 
       setInstantAdd(false);
       setIsDone(true);

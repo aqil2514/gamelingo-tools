@@ -10,18 +10,27 @@ import useSWR from "swr";
 import { fetcher } from "@/lib/Data";
 import SkillName from "./SkillName";
 
+export interface PassiveTypeState{
+  passive1: string[];
+  passive2: string[];
+  passive3: string[];
+  passive4: string[];
+  passive5: string[];
+  passive6: string[];
+}
+
 export default function CharacterPassiveSkill() {
   const url: Route = "/api/gamelingo/evertale?category=passive-skill";
   const { data, isLoading, error } = useSWR(url, fetcher);
   const [index, setIndex] = useState<number>(0);
   const [newField, setNewField] = useState<number[]>([]);
-  const [passiveTypes, setPassiveTypes] = useState<string[]>([]);
+  const [passiveTypes, setPassiveTypes] = useState<PassiveTypeState>({} as PassiveTypeState);
 
   const passive: Evertale.Misc.PassiveSkill[] = data?.data;
 
   function addHandler() {
-    if (index === 4)
-      return notif("passive Skill maksimal 4", {
+    if (index === 6)
+      return notif("passive Skill maksimal 6", {
         refElement: "passive-skill-add-field",
         color: "red",
         location: "after",
@@ -63,7 +72,7 @@ export default function CharacterPassiveSkill() {
             <div key={el}>
               <h6 className="text-white underline font-bold font-poppins my-4">Passive Skill {el + 1}</h6>
 
-              <SkillName passive={passive} setPassiveTypes={setPassiveTypes} data={data} isLoading={isLoading} el={el} />
+              <SkillName passive={passive} passiveTypes={passiveTypes} setPassiveTypes={setPassiveTypes} data={data} isLoading={isLoading} el={el} />
               <TypeSkill passiveTypes={passiveTypes} setPassiveTypes={setPassiveTypes} index={el + 1} />
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative">
