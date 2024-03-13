@@ -1,4 +1,12 @@
 namespace Evertale {
+  export interface QuickInfo{
+    id: string;
+    name:string;
+    link: string;
+    image?: string;
+  }
+
+
   namespace Character {
     export interface Image {
       f1Img?: string;
