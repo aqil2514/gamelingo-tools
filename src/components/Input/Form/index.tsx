@@ -28,11 +28,21 @@ interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
   game: General.Game["game"];
   /** Topik atau kategorinya */
 
-  category: General.GameGenshinImpact["category"] | General.GameEvertale["category"];
+  category:
+    | General.GameGenshinImpact["category"]
+    | General.GameEvertale["category"];
 }
 
 export default function Form({ children, ...props }: FormProps) {
-  const { setIsLoading, method, endPoint, refElement, callbackUrl, moveLocation, ...rest } = props;
+  const {
+    setIsLoading,
+    method,
+    endPoint,
+    refElement,
+    callbackUrl,
+    moveLocation,
+    ...rest
+  } = props;
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     const target = e.target as HTMLFormElement;
     e.preventDefault();
@@ -47,8 +57,8 @@ export default function Form({ children, ...props }: FormProps) {
 
       notif(res.data.msg, { color: "green", refElement, location: "before" });
 
-      console.log(res.data)
-      
+      console.log(res.data);
+
       // <<<<< digunakan untuk pindah ke halaman yang ditentukan >>>>>
       if (callbackUrl && moveLocation) location.href = callbackUrl;
 
@@ -58,17 +68,36 @@ export default function Form({ children, ...props }: FormProps) {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 422) {
-          if(error.response){
-            const res:FormUtils.Result= error.response.data;
+          if (error.response) {
+            const res: FormUtils.Result = error.response.data;
 
-            // TODO : Validasi
-            if(res.ref){
+            if (res.ref) {
+              const ref = document.querySelector(
+                `[name='${res.ref}']`
+              ) as HTMLInputElement;
 
+              
+              ref.focus();
+              
+              notif(res.msg as string, {
+                color: "red",
+                refElement: ref,
+                location: "after",
+              });
+            } else {
+              notif(res.msg as string, {
+                color: "red",
+                refElement,
+                location: "before",
+              });
             }
-            notif(res.msg as string, { color: "red", refElement, location: "before" });
           }
         } else if (error.response?.status === 401) {
-          notif(error.response?.data.msg, { color: "red", refElement, location: "before" });
+          notif(error.response?.data.msg, {
+            color: "red",
+            refElement,
+            location: "before",
+          });
           setTimeout(() => {
             location.href = "/login" as Route;
           }, 3000);

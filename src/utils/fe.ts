@@ -11,7 +11,7 @@ export interface NotifConfig {
   /**
    * Elemen referensi tempat munculnya pesan. Gunakan attribute id pada elemen yang menjadi acuan
    */
-  refElement: string;
+  refElement: string | HTMLElement;
   /**
    * Lokasi munculnya di setelah atau di sebelum referensi element
    */
@@ -37,8 +37,12 @@ export function notif(msg: string, config: NotifConfig) {
   pElement.classList.add(`text-${color}-500`);
   pElement.classList.add("font-bold");
 
-  const ref = document.getElementById(refElement);
-  ref![location](pElement);
+  if(typeof refElement === "string"){
+    const ref = document.getElementById(refElement);
+    ref![location](pElement);
+  } else {
+    refElement[location](pElement)
+  }
 
   setTimeout(() => {
     pElement.remove();
