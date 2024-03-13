@@ -34,7 +34,7 @@ export default function CharConjure() {
           <br />
           <TextField
             variant="default-variant-1"
-            disabled={selfConjured}
+            readOnly={selfConjured}
             value={selfConjured ? "selfConjured" : conjure}
             onChange={(e) => setConjure(e.target.value)}
             list="conjured-list"

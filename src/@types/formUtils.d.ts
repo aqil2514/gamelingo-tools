@@ -605,6 +605,7 @@ namespace FormUtils {
   interface Result {
     msg?: string;
     data?: any;
+    ref?: string;
     status: number;
   }
 }

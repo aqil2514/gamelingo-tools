@@ -347,10 +347,11 @@ export const evertaleValidator: FormValidator.EvertaleValidatorApi = {
 
       //<<<<< Character Status >>>>>
       if (key.startsWith("status")) {
+        console.log(key)
+        if (!data[key]) return { status: false, msg: "Data belum diisi", ref: key };
         if (key !== "status-charConjure" && key !== "status-charLeaderSkill" && key !== "status-charWeapon2") {
           continue; // Skip validasi jika properti bukan properti yang langsung berkaitan dengan karakter
         }
-        if (!data[key]) return { status: false, msg: "Data belum diisi", ref: key };
         if (!allowedRank.includes(data["status-charRank"])) return { status: false, msg: `Hanya ${allowedRank.join(", ")} saja yang diizinkan`, ref: key };
         if (!allowedElement.includes(data["status-charElement"])) return { status: false, msg: `Hanya ${allowedElement.join(", ")} saja yang diizinkan`, ref: key };
         if (!allowedWeapon.includes(data["status-charWeapon1"])) return { status: false, msg: `Hanya ${allowedRank.join(", ")} saja yang diizinkan`, ref: key };

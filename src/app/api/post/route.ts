@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
   if (game === "Evertale" && isSubfieldData.evertale(category)) {
     if (category === "chars") {
       const process = await evertaleProcess.processCharacter(formData, user, { action: "add" });
-      if (process.status === 422) return NextResponse.json({ msg: process.msg }, { status: 422 });
+      if (process.status === 422) return NextResponse.json({ msg: process.msg, ref : process?.ref }, { status: 422 });
 
       return NextResponse.json({ msg: "Tambah data character berhasil", process }, { status: 200 });
     }

@@ -618,7 +618,7 @@ export const evertaleOrganizing: OrganizeData.ET = {
       charWeapon1: data["status-charWeapon1"],
       charWeapon2: data["status-charWeapon2"],
       charLeaderSkill: data["status-charLeaderSkill"],
-      charConjure: data["status-charConjure"] ? data["status-charConjure"] : data["status-charName"],
+      charConjure: data["status-charConjure"] !== "selfConjured" ? data["status-charConjure"] : data["status-charName"],
     };
 
     const charIntro: Evertale.Character.Intro = {
@@ -693,7 +693,7 @@ export const evertaleOrganizing: OrganizeData.ET = {
       if (skillName) {
         const passive: Evertale.Character.PassiveSkill = {
           skillName: data[`passive-skill-name-${i as unknown as NumberPassive}`],
-          typeSkill: data[`passive-type-${i as unknown as NumberPassive}`].split(", "),
+          typeSkill: data[`passive-type-${i as unknown as NumberPassive}`].split(","),
           skillDescEn: data[`passive-skill-desc-en-${i as unknown as NumberPassive}`],
           skillDescId: data[`passive-skill-desc-id-${i as unknown as NumberPassive}`],
         };

@@ -371,24 +371,23 @@ export const evertale: FormUtils.Evertale.ProcessForm = {
 
     // <<<<< Validasi >>>>>
     const validation = await evertaleValidator.character(data);
-    if (!validation.status) return NextResponse.json({ msg: validation.msg }, { status: 422 });
+    if (!validation.status) return { msg: validation.msg,ref: validation.ref, status: 422 };
 
     const imageValidation = evertaleValidator.images(images, data["status-charName"]);
-    if (!imageValidation.status) return NextResponse.json({ msg: imageValidation.msg }, { status: 422 });
+    if (!imageValidation.status) return { msg: imageValidation.msg, status: 422 };
 
     const upload = await file.uploadImage(imageValidation.images as File[], game, category);
     const img = upload.map((i) => i.secure_url);
-    console.log(img);
-
+    
     // <<<<< Susun Data >>>>>
     const organizedData = evertaleOrganizing.character(data, img);
 
-    // <<<<< Tambah & Edit >>>>>
-    if (action === "add") {
-      const ECharacter = await Character.create(organizedData);
+    // // <<<<< Tambah & Edit >>>>>
+    // if (action === "add") {
+    //   const ECharacter = await Character.create(organizedData);
 
-      await post.addPost(data, { lang: "English & Indonesian", gameName: game, gameTopic: category, parent: ECharacter, user,aliasName:data["status-charName"] });
-    }
+    //   await post.addPost(data, { lang: "English & Indonesian", gameName: game, gameTopic: category, parent: ECharacter, user,aliasName:data["status-charName"] });
+    // }
 
     return { status: 200, organizedData };
   },
