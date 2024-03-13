@@ -590,7 +590,10 @@ export const evertaleValidator: FormValidator.EvertaleValidatorApi = {
         msg: `Weapon 1 dan 2 tidak boleh sama`,
         ref: "status-charWeapon2",
       };
-    if (!allowedWeapon.includes(data["status-charWeapon2"]))
+    if (
+      data["status-charWeapon2"] &&
+      !allowedWeapon.includes(data["status-charWeapon2"])
+    )
       return {
         status: false,
         msg: `Hanya ${allowedWeapon.join(", ")} saja yang diizinkan`,
@@ -623,15 +626,28 @@ export const evertaleValidator: FormValidator.EvertaleValidatorApi = {
         ref: "profile-part3Id",
       };
 
+    //<<<<< Character INtro >>>>>
+
     for (const a in data) {
       //<<<<< Type Guard >>>>>
       const key = a as keyof FormUtils.Evertale.FormDataCharacter;
 
-      // //<<<<< Character INtro >>>>>
-      // if (key.startsWith("intro")) {
-      //   if (!data[key])
-      //     return { status: false, msg: "Data belum diisi", ref: key };
-      // }
+      //<<<<< Character INtro >>>>>
+      if (key.startsWith("intro")) {
+        const subfield = key.slice(0, -2);
+        const en = (subfield +
+          "En") as keyof FormUtils.Evertale.FormDataCharacter;
+        const id = (subfield +
+          "Id") as keyof FormUtils.Evertale.FormDataCharacter;
+
+        if (data[en] && !data[id]) {
+          return {
+            status: false,
+            msg: "Bagian ini belum diisi. Apakah lupa diterjemahkan?",
+            ref: key.replace("En", "Id"),
+          };
+        }
+      }
 
       // //<<<<< Character Profile >>>>>
       // if (key.startsWith("profile")) {
@@ -692,10 +708,10 @@ export const evertaleValidator: FormValidator.EvertaleValidatorApi = {
     const img: File[] = [];
     //<<<<< Image Validation >>>>>
 
-    if (images.length === 0)
+    if (images.length === 0 || images[0].type === "application/octet-stream")
       return {
         status: false,
-        msg: "Gambar harus gambar",
+        msg: "Gambar belum dipilih",
         ref: "characterImages",
       };
 

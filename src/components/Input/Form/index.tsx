@@ -62,9 +62,9 @@ export default function Form({ children, ...props }: FormProps) {
       // <<<<< digunakan untuk pindah ke halaman yang ditentukan >>>>>
       if (callbackUrl && moveLocation) location.href = callbackUrl;
 
-      // setTimeout(() => {
-      //   location.reload()
-      // }, 3000);
+      setTimeout(() => {
+        location.reload()
+      }, 3000);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 422) {
@@ -76,14 +76,33 @@ export default function Form({ children, ...props }: FormProps) {
                 `[name='${res.ref}']`
               ) as HTMLInputElement;
 
-              
-              ref.focus();
-              
+              // <<<<< Image Error Handling >>>>>
+              if (ref.type === "file") {
+                const parent = ref.parentElement
+                  ?.parentElement as HTMLDivElement;
+                window.scrollTo({
+                  top: parent.offsetTop - 100,
+                  behavior: "smooth",
+                });
+              }
+
+              // <<<<< TagName Specification >>>>>
+              if (ref.tagName === "INPUT") {
+                ref.focus();
+              } else if (ref.tagName === "TEXTAREA") {
+                ref.focus();
+                ref.nextElementSibling?.classList.add("hidden");
+              }
+
               notif(res.msg as string, {
                 color: "red",
                 refElement: ref,
                 location: "after",
               });
+
+              setTimeout(() => {
+                ref.nextElementSibling?.classList.remove("hidden");
+              }, 3000);
             } else {
               notif(res.msg as string, {
                 color: "red",

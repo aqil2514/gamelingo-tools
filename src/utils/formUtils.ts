@@ -1,9 +1,20 @@
 import { IDMaterial, ENMaterial } from "@/models/GenshinImpact/Material";
 import { file } from "./api";
-import { adminValidator, evertaleValidator, genshinValidator } from "./formValidator";
-import { adminOrganizing, evertaleOrganizing, genshinOrganizing } from "./organizeData";
+import {
+  adminValidator,
+  evertaleValidator,
+  genshinValidator,
+} from "./formValidator";
+import {
+  adminOrganizing,
+  evertaleOrganizing,
+  genshinOrganizing,
+} from "./organizeData";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
-import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
+import {
+  ConstellationEN,
+  ConstellationID,
+} from "@/models/GenshinImpact/Constellation";
 import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
 import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
@@ -30,7 +41,9 @@ export const genshin: FormUtils.Genshin.Genshin = {
     let imageUrl: string = "";
 
     // <<<<< Ambil Data >>>>>
-    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataMaterial;
+    const data = Object.fromEntries(
+      formData.entries()
+    ) as unknown as FormUtils.Genshin.FormDataMaterial;
 
     // <<<<< Validasi >>>>>
     const validation = await genshinValidator.material(data);
@@ -38,7 +51,11 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     // <<<<< Upload Gambar jika ada >>>>>
     if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
+      const uploadFile = await file.uploadSingleImage(
+        validation.data.image,
+        game,
+        category
+      );
       imageUrl = uploadFile.secure_url;
     }
 
@@ -50,11 +67,23 @@ export const genshin: FormUtils.Genshin.Genshin = {
       if (data["result-lang"] === "Indonesian") {
         const material = await IDMaterial.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: material,
+          user,
+        });
       } else if (data["result-lang"] === "English") {
         const material = await ENMaterial.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: material,
+          user,
+        });
       }
     }
 
@@ -62,13 +91,31 @@ export const genshin: FormUtils.Genshin.Genshin = {
     else if (action === "edit") {
       if (!oldId) throw new Error("Old ID diperlukan");
       if (lang === "Indonesian") {
-        const material = await IDMaterial.findByIdAndUpdate(oldId, organizedData);
+        const material = await IDMaterial.findByIdAndUpdate(
+          oldId,
+          organizedData
+        );
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: material,
+          user,
+        });
       } else if (lang === "English") {
-        const material = await ENMaterial.findByIdAndUpdate(oldId, organizedData);
+        const material = await ENMaterial.findByIdAndUpdate(
+          oldId,
+          organizedData
+        );
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: material,
+          user,
+        });
       }
     }
 
@@ -87,7 +134,9 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const category: General.Game["category"] = "Artifact";
 
     // Ambil data dari form;
-    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataArtifact;
+    const data = Object.fromEntries(
+      formData.entries()
+    ) as unknown as FormUtils.Genshin.FormDataArtifact;
 
     // Validasi data
     const validation = await genshinValidator.artifact(data);
@@ -96,7 +145,11 @@ export const genshin: FormUtils.Genshin.Genshin = {
     let imageUrl: string[] = [];
     // Upload image
     if (validation.images?.length !== 0 && validation.images) {
-      const uploadFile = await file.uploadImage(validation.images, game, category);
+      const uploadFile = await file.uploadImage(
+        validation.images,
+        game,
+        category
+      );
       imageUrl = uploadFile.map((file) => file.secure_url);
     }
 
@@ -108,11 +161,23 @@ export const genshin: FormUtils.Genshin.Genshin = {
       if (data["result-lang"] === "Indonesian") {
         const artifact = await IDArtifact.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: artifact, user });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: artifact,
+          user,
+        });
       } else if (data["result-lang"] === "English") {
         const artifact = await ENArtifact.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: artifact, user });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: artifact,
+          user,
+        });
       }
     }
 
@@ -120,13 +185,31 @@ export const genshin: FormUtils.Genshin.Genshin = {
     else if (action === "edit") {
       if (!oldId) throw new Error("Old ID diperlukan");
       if (lang === "Indonesian") {
-        const material = await IDArtifact.findByIdAndUpdate(oldId, organizedData);
+        const material = await IDArtifact.findByIdAndUpdate(
+          oldId,
+          organizedData
+        );
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: material,
+          user,
+        });
       } else if (lang === "English") {
-        const material = await ENArtifact.findByIdAndUpdate(oldId, organizedData);
+        const material = await ENArtifact.findByIdAndUpdate(
+          oldId,
+          organizedData
+        );
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: material, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: material,
+          user,
+        });
       }
     }
     return {
@@ -144,7 +227,9 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const category: General.Game["category"] = "Weapon";
 
     // <<<<< Ambil Data >>>>>
-    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataWeapon;
+    const data = Object.fromEntries(
+      formData.entries()
+    ) as unknown as FormUtils.Genshin.FormDataWeapon;
 
     // <<<<< Validasi >>>>>
     const validation = await genshinValidator.weapon(data);
@@ -153,7 +238,11 @@ export const genshin: FormUtils.Genshin.Genshin = {
     // <<<<< Upload Image jika ada >>>>>
     let imageUrl = "";
     if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
+      const uploadFile = await file.uploadSingleImage(
+        validation.data.image,
+        game,
+        category
+      );
       imageUrl = uploadFile.secure_url;
     }
 
@@ -165,11 +254,23 @@ export const genshin: FormUtils.Genshin.Genshin = {
       if (data["result-lang"] === "Indonesian") {
         const weapon = await IDWeapon.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: weapon,
+          user,
+        });
       } else if (data["result-lang"] === "English") {
         const weapon = await ENWeapon.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: weapon,
+          user,
+        });
       }
     }
 
@@ -179,11 +280,23 @@ export const genshin: FormUtils.Genshin.Genshin = {
       if (lang === "Indonesian") {
         const weapon = await IDWeapon.findByIdAndUpdate(oldId, organizedData);
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: weapon,
+          user,
+        });
       } else if (lang === "English") {
         const weapon = await ENWeapon.findByIdAndUpdate(oldId, organizedData);
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: weapon, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: weapon,
+          user,
+        });
       }
     }
 
@@ -198,7 +311,9 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const category: General.Game["category"] = "Character";
 
     // <<<<< Ambil Data >>>>>
-    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataCharacter;
+    const data = Object.fromEntries(
+      formData.entries()
+    ) as unknown as FormUtils.Genshin.FormDataCharacter;
 
     // <<<<< Validasi >>>>>
     const validation = await genshinValidator.character(data);
@@ -207,11 +322,18 @@ export const genshin: FormUtils.Genshin.Genshin = {
     // <<<<< Upload Image jika ada >>>>>
     let imageUrl = "";
     if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(validation.data.image, game, category);
+      const uploadFile = await file.uploadSingleImage(
+        validation.data.image,
+        game,
+        category
+      );
       imageUrl = uploadFile.secure_url;
     }
 
-    const organizedData = genshinOrganizing.character(validation.data, imageUrl);
+    const organizedData = genshinOrganizing.character(
+      validation.data,
+      imageUrl
+    );
 
     // <<<<< Tambah ke Data base >>>>
 
@@ -219,11 +341,23 @@ export const genshin: FormUtils.Genshin.Genshin = {
       if (data["result-lang"] === "English") {
         const character = await CharacterEN.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: character,
+          user,
+        });
       } else if (data["result-lang"] === "Indonesian") {
         const character = await CharacterID.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: character,
+          user,
+        });
       }
     }
 
@@ -231,13 +365,31 @@ export const genshin: FormUtils.Genshin.Genshin = {
     else if (action === "edit") {
       if (!oldId) throw new Error("Old ID diperlukan");
       if (lang === "Indonesian") {
-        const character = await CharacterID.findByIdAndUpdate(oldId, organizedData);
+        const character = await CharacterID.findByIdAndUpdate(
+          oldId,
+          organizedData
+        );
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: character,
+          user,
+        });
       } else if (lang === "English") {
-        const character = await CharacterEN.findByIdAndUpdate(oldId, organizedData);
+        const character = await CharacterEN.findByIdAndUpdate(
+          oldId,
+          organizedData
+        );
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: character, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: character,
+          user,
+        });
       }
     }
 
@@ -252,7 +404,9 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const category: General.Game["category"] = "Constellations";
 
     // <<<<< Ambil data >>>>>
-    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataConstellation;
+    const data = Object.fromEntries(
+      formData.entries()
+    ) as unknown as FormUtils.Genshin.FormDataConstellation;
 
     // <<<<< Validasi >>>>>
     const validation = await genshinValidator.constellation(data);
@@ -262,7 +416,11 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     // <<<<< Upload image >>>>>
     if (validation.images?.length !== 0 && validation.images) {
-      const uploadFile = await file.uploadImage(validation.images, game, category);
+      const uploadFile = await file.uploadImage(
+        validation.images,
+        game,
+        category
+      );
       imageUrl = uploadFile.map((file) => file.secure_url);
     }
 
@@ -275,24 +433,56 @@ export const genshin: FormUtils.Genshin.Genshin = {
       if (data["result-lang"] === "Indonesian") {
         const constellation = await ConstellationID.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user, aliasName: data.charName });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: constellation,
+          user,
+          aliasName: data.charName,
+        });
       } else if (data["result-lang"] === "English") {
         const constellation = await ConstellationEN.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user, aliasName: data.charName });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: constellation,
+          user,
+          aliasName: data.charName,
+        });
       }
     }
     // <<<<< Edit data dari Database >>>>>
     else if (action === "edit") {
       if (!oldId) throw new Error("Old ID diperlukan");
       if (lang === "Indonesian") {
-        const constellation = await ConstellationID.findByIdAndUpdate(oldId, organizedData);
+        const constellation = await ConstellationID.findByIdAndUpdate(
+          oldId,
+          organizedData
+        );
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: constellation,
+          user,
+        });
       } else if (lang === "English") {
-        const constellation = await ConstellationEN.findByIdAndUpdate(oldId, organizedData);
+        const constellation = await ConstellationEN.findByIdAndUpdate(
+          oldId,
+          organizedData
+        );
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: constellation, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: constellation,
+          user,
+        });
       }
     }
 
@@ -308,7 +498,9 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const images: string[] = [];
 
     // <<<<< Ambil Data >>>>>
-    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Genshin.FormDataTalent;
+    const data = Object.fromEntries(
+      formData.entries()
+    ) as unknown as FormUtils.Genshin.FormDataTalent;
 
     // <<<<< Validasi >>>>>
     const validation = await genshinValidator.talent(data);
@@ -316,7 +508,11 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     // <<<<< Upload Image >>>>>
     if (validation.images && validation.images?.length !== 0) {
-      const uploadImage = await file.uploadImage(validation.images, game, category);
+      const uploadImage = await file.uploadImage(
+        validation.images,
+        game,
+        category
+      );
       images.push(uploadImage.map((img) => img.secure_url)[0]);
     }
 
@@ -326,11 +522,25 @@ export const genshin: FormUtils.Genshin.Genshin = {
       if (data["result-lang"] === "Indonesian") {
         const talent = await TalentID.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: talent, user, aliasName: data["character-name"] });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: talent,
+          user,
+          aliasName: data["character-name"],
+        });
       } else if (data["result-lang"] === "English") {
         const talent = await TalentEN.create(organizedData);
 
-        await post.addPost(data, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: talent, user, aliasName: data["character-name"] });
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: talent,
+          user,
+          aliasName: data["character-name"],
+        });
       }
     }
     // <<<<< Edit data dari Database >>>>>
@@ -339,11 +549,23 @@ export const genshin: FormUtils.Genshin.Genshin = {
       if (lang === "Indonesian") {
         const talent = await TalentID.findByIdAndUpdate(oldId, organizedData);
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: talent, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: talent,
+          user,
+        });
       } else if (lang === "English") {
         const talent = await TalentEN.findByIdAndUpdate(oldId, organizedData);
 
-        await post.editPost(data, oldId, { lang: data["result-lang"], gameName: game, gameTopic: category, parent: talent, user });
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: talent,
+          user,
+        });
       }
     }
 
@@ -366,28 +588,43 @@ export const evertale: FormUtils.Evertale.ProcessForm = {
     const category: General.GameEvertale["category"] = "Character";
 
     // <<<<< Ambil Data >>>>>
-    const data = Object.fromEntries(formData.entries()) as unknown as FormUtils.Evertale.FormDataCharacter;
+    const data = Object.fromEntries(
+      formData.entries()
+    ) as unknown as FormUtils.Evertale.FormDataCharacter;
     const images = formData.getAll("characterImages") as unknown as File[];
 
     // <<<<< Validasi >>>>>
     const validation = await evertaleValidator.character(data);
-    if (!validation.status) return { msg: validation.msg,ref: validation.ref, status: 422 };
+    if (!validation.status)
+      return { msg: validation.msg, ref: validation.ref, status: 422 };
 
-    const imageValidation = evertaleValidator.images(images, data["status-charName"]);
-    if (!imageValidation.status) return { msg: imageValidation.msg, status: 422 };
+    const imageValidation = evertaleValidator.images(
+      images,
+      data["status-charName"]
+    );
+    if (!imageValidation.status)
+      return {
+        msg: imageValidation.msg,
+        status: 422,
+        ref: imageValidation.ref,
+      };
 
-    const upload = await file.uploadImage(imageValidation.images as File[], game, category);
+    const upload = await file.uploadImage(
+      imageValidation.images as File[],
+      game,
+      category
+    );
     const img = upload.map((i) => i.secure_url);
-    
+
     // <<<<< Susun Data >>>>>
     const organizedData = evertaleOrganizing.character(data, img);
 
-    // // <<<<< Tambah & Edit >>>>>
-    // if (action === "add") {
-    //   const ECharacter = await Character.create(organizedData);
+    // <<<<< Tambah & Edit >>>>>
+    if (action === "add") {
+      const ECharacter = await Character.create(organizedData);
 
-    //   await post.addPost(data, { lang: "English & Indonesian", gameName: game, gameTopic: category, parent: ECharacter, user,aliasName:data["status-charName"] });
-    // }
+      await post.addPost(data, { lang: "English & Indonesian", gameName: game, gameTopic: category, parent: ECharacter, user,aliasName:data["status-charName"] });
+    }
 
     return { status: 200, organizedData };
   },
@@ -438,10 +675,21 @@ export const admin: FormUtils.AccountUtils.AccountFormApi = {
 const post: FormUtils.Post.PostAPI = {
   async addPost(data, config) {
     // <<<<< Variabel from config >>>>>
-    const { lang, gameName, gameTopic, parent, user, autoTag = true, tag, aliasName } = config;
+    const {
+      lang,
+      gameName,
+      gameTopic,
+      parent,
+      user,
+      autoTag = true,
+      tag,
+      aliasName,
+    } = config;
 
-    if (!autoTag && (!tag || tag.length === 0)) throw new Error("Tag harus diberikan jika autoTag disetting false");
-    if (!data.name && !aliasName) throw new Error("Data Name tidak ada. Harus gunakan aliasName");
+    if (!autoTag && (!tag || tag.length === 0))
+      throw new Error("Tag harus diberikan jika autoTag disetting false");
+    if (!data.name && !aliasName)
+      throw new Error("Data Name tidak ada. Harus gunakan aliasName");
 
     const postData: General.PostDocument = {
       title: data.name ? data.name : aliasName,
@@ -459,11 +707,20 @@ const post: FormUtils.Post.PostAPI = {
   },
   async editPost(data, oldId, config) {
     // <<<<< Variabel from config >>>>>
-    const { lang, gameName, gameTopic, parent, user, autoTag = true, tag } = config;
+    const {
+      lang,
+      gameName,
+      gameTopic,
+      parent,
+      user,
+      autoTag = true,
+      tag,
+    } = config;
 
     if (!parent) throw new Error("Document parent tidak ditemukan");
 
-    if (!autoTag && (!tag || tag.length === 0)) throw new Error("Tag harus diberikan jika autoTag disetting false");
+    if (!autoTag && (!tag || tag.length === 0))
+      throw new Error("Tag harus diberikan jika autoTag disetting false");
 
     const postData: General.PostDocument = {
       title: data.name,
