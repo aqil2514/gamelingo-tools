@@ -1,0 +1,12 @@
+//robots.txt
+
+# Block all crawlers for /accounts
+User-agent: *
+Disallow: /admin
+
+User-agent: *
+Disallow: /dashboard
+
+# Allow all crawlers
+User-agent: *
+Allow: /

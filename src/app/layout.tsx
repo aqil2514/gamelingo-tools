@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   },
   description: "A Tools for Gamers",
   metadataBase: new URL("https://gamelingo-tools.vercel.app"),
+  verification: {
+    google: "AQdQ6iFFZcojBbTl9fIdqbzoAYZ5qNBbgdevebLXVRY",
+  },
 };
 
 const novaSquare = Nova_Square({
