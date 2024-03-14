@@ -29,14 +29,24 @@ export default function EvertalePage() {
   function routerHandler(e: React.MouseEvent<HTMLParagraphElement>) {
     const target = e.target as HTMLParagraphElement;
     const pathName = target.getAttribute("data-pathName");
+    const spanLoading = target.nextElementSibling as HTMLSpanElement;
+
+    spanLoading.classList.remove("hidden");
+
+    setTimeout(() => {
+      spanLoading.classList.add("hidden");
+    }, 3000);
 
     if (!pathName)
       throw new Error("Data tidak lengkap: Tambahkan 'data-pathname'");
 
-    if (pathName === "chars") return router.push("/evertale/chars");
-    else if (pathName === "/evertale") return router.push("/evertale");
-    else if (pathName === "weapon") return router.push("/evertale/weapons");
-
+    if (pathName === "chars") {
+      return router.push("/evertale/chars");
+    } else if (pathName === "/evertale") {
+      return router.push("/evertale");
+    } else if (pathName === "weapon") {
+      return router.push("/evertale/weapons");
+    }
     return;
   }
 
@@ -45,40 +55,62 @@ export default function EvertalePage() {
       ref={navRef}
       className={`min-h-full bg-zinc-800 fixed transition duration-200 left-0 top-0 ${
         navActive ? `translate-x-0` : `translate-x-[-100%]`
-      } min-w-[200px] p-4 py-24 z-50`}
+      } min-w-[200px] p-4 py-20 z-50`}
     >
+      <p className="font-mclaren text-red-500 font-bold text-right cursor-pointer" onClick={() => setNavActive(false)}>X</p>
       <h1 className="font-mclaren text-white font-bold text-center underline">
         Evertale Navigation
       </h1>
-      
-      <div className="my-4">
 
-      {pathName !== "/evertale" && <SearchInput field="evertale" isInPage={false} />}
+      <div className="my-4">
+        {pathName !== "/evertale" && (
+          <SearchInput field="evertale" isInPage={false} />
+        )}
       </div>
 
       {/* LIST  */}
       <>
-      <p
-        onClick={routerHandler}
-        data-pathName="/evertale"
-        className={pathName === "/evertale" ? ACTIVE_NAV_LIST : NONACTIVE_NAV_LIST}
-      >
-        Home
-      </p>
-      <p
-        onClick={routerHandler}
-        data-pathName="chars"
-        className={pathName.includes("chars") ? ACTIVE_NAV_LIST : NONACTIVE_NAV_LIST}
-      >
-        Character
-      </p>
-      <p
-        onClick={routerHandler}
-        data-pathName="weapon"
-        className={pathName.includes("weapons") ? ACTIVE_NAV_LIST : NONACTIVE_NAV_LIST}
-      >
-        Weapon
-      </p>
+        <div className="relative">
+          <p
+            onClick={routerHandler}
+            data-pathName="/evertale"
+            className={
+              pathName === "/evertale" ? ACTIVE_NAV_LIST : NONACTIVE_NAV_LIST
+            }
+          >
+            Home
+          </p>
+          <span className="absolute hidden top-1 right-1 w-4 h-4 border-2 animate-spin border-white border-dashed rounded-full"></span>
+        </div>
+
+        <div className="relative">
+          <p
+            onClick={routerHandler}
+            data-pathName="chars"
+            className={
+              pathName.includes("chars") ? ACTIVE_NAV_LIST : NONACTIVE_NAV_LIST
+            }
+          >
+            Character
+          </p>
+          <span className="absolute hidden top-1 right-1 w-4 h-4 border-2 animate-spin border-white border-dashed rounded-full"></span>
+        </div>
+
+        <div className="relative">
+          <p
+            onClick={routerHandler}
+            data-pathName="weapon"
+            className={
+              pathName.includes("weapons")
+                ? ACTIVE_NAV_LIST
+                : NONACTIVE_NAV_LIST
+            }
+          >
+            Weapon
+          </p>
+
+          <span className="absolute hidden top-1 right-1 w-4 h-4 border-2 animate-spin border-white border-dashed rounded-full"></span>
+        </div>
       </>
 
       {!navActive && (

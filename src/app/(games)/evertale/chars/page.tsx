@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 export default function Characters() {
   return (
     <div className={"main-wrapper py-20 px-8"}>
-      <SearchInput field="evertale" isInPage={false} />
       <Slider type="chars" buttonLink={false} loadingAnimation={true} length={15} textOn={false} />
       <CharactersList />
     </div>
