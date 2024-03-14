@@ -44,6 +44,13 @@ function WriteContent() {
     moveLocation,
   };
 
+  function resetHandler() {
+    const characterName = document.getElementById("character-name") as HTMLInputElement;
+
+    characterName.focus();
+    setCharacter({} as GenshinImpact.ApiResponseCharacter);
+  }
+
   return (
     <form onSubmit={(e) => submitFormHandler(e, submitConfig)} className="my-4">
       <FetchApi elementId="character-name" msgNoInput="Belum ada input data" msgNoData="Tidak ada karakter yang dimaksud" refElement="character-name" setData={setCharacter} query="characters" />
@@ -236,7 +243,12 @@ function WriteContent() {
       <ImageInput changeHandler={(e) => imageHandler(e, setFileName, setPreviewLink)} setFileName={setFileName} setPreviewLink={setPreviewLink} fileName={fileName} previewLink={previewLink} />
 
       <div className="flex gap-4" id="character-button-submit">
-        <Button className={ButtonClass.submit}>{isLoading ? "Submitting..." : "Submit"}</Button>
+        <Button className={ButtonClass.submit} disabled={isLoading}>
+          {isLoading ? "Submitting..." : "Submit"}
+        </Button>
+        <Button className={ButtonClass.fetch} disabled={isLoading} type="button" onClick={resetHandler}>
+          Tambah lagi
+        </Button>
         <label htmlFor="move-location" className="text-white font-bold font-poppins my-auto">
           <input type="checkbox" id="move-location" className="mx-2" checked={moveLocation} onChange={() => setMoveLocation(!moveLocation)} />
           Lihat Data setelah selesai ditambah
