@@ -8,7 +8,7 @@ export default function Footer() {
   const router = useRouter();
 
   return (
-    <footer className="w-full flex flex-row justify-between h-[60px] bg-amber-600 ">
+    <footer className="w-full flex flex-row justify-between relative z-[999] h-[60px] bg-amber-600 ">
       <div className="mx-2 w-1/2 md:1/3 sm:mx-6 my-auto flex flex-row justify-start content-center">
         <ChevronLeft title="Back" onClick={() => router.back()} className="text-white mx-1 text-5xl cursor-pointer" />
         <ChevronRight title="Next" onClick={() => router.forward()} className="text-white mx-1 text-5xl cursor-pointer" />

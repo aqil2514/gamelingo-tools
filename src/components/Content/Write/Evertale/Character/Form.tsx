@@ -9,7 +9,7 @@ import CharacterIntro from "../Components/CharacterIntro";
 import CharacterProfile from "../Components/CharacterProfile";
 import CharacterActiveSkill from "../Components/CharacterActiveSkill";
 import CharacterPassiveSkill from "../Components/CharacterPassiveSkill";
-import Navigation from "../Components/Navigation";
+import Navigation from "../../../../Layout/Navigation";
 
 interface EvertaleCharacterFormProps {
   template: "Write" | "Edit";
@@ -42,7 +42,7 @@ function WriteContent() {
 
       <CharacterPassiveSkill />
 
-      <Navigation template="Character" />
+      <Navigation template="Evertale-Form-Character" />
 
       <div className="w-full h-1 bg-white rounded-lg mt-4 mb-2"></div>
       <div className="w-full h-1 bg-white rounded-lg mb-4 mt-2"></div>
