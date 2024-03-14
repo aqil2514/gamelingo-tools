@@ -13,7 +13,7 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
     ascendStatus: { type: String, required: true },
     ascendMaterial: { type: Object, required: false },
     rarity: { type: String, required: true },
-    element: { type: String, enum: ["Cryo", "Pyro", "Dendro", "Geo", "Hydro", "Anemo"], required: true },
+    element: { type: String, enum: ["Cryo", "Pyro", "Dendro", "Geo", "Hydro", "Anemo", "Electro"], required: true },
     weapon: { type: String, enum: ["Sword", "Polearm", "Claymore", "Bow", "Catalyst"], required: true },
     gender: { type: String, enum: ["Female", "Male", "Perempuan", "Pria"], required: true },
     region: { type: String, enum: ["Mondstadt", "Liyue", "Inazuma", "Sumeru", "Fontain"], required: true },
