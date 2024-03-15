@@ -1,5 +1,3 @@
-//robots.txt
-
 # Block all crawlers for /accounts
 User-agent: *
 Disallow: /admin
@@ -10,3 +8,5 @@ Disallow: /dashboard
 # Allow all crawlers
 User-agent: *
 Allow: /
+
+Sitemap: https://gamelingo-tools.vercel.app/sitemap.xml
