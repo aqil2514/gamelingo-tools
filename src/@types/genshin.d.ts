@@ -403,8 +403,7 @@ namespace GenshinImpact {
 
   export interface ApiTalentCombatData {
     name: string;
-    info?: string;
-    description?: string;
+    description: string;
 
     attributes: {
       labels: string[];
@@ -507,10 +506,10 @@ namespace GenshinImpact {
   export interface Talent extends General.MongoDBDocument {
     charName: string;
     combats: {
-      combat1: BasicInfo;
-      combat2: BasicInfo;
-      combat3: BasicInfo;
-      combatsp?: BasicInfo;
+      combat1: ApiTalentCombatData;
+      combat2: ApiTalentCombatData;
+      combat3: ApiTalentCombatData;
+      combatsp?: ApiTalentCombatData;
     };
     passives: {
       passive1: BasicInfo;

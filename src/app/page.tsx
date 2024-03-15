@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { homeIcon } from "@/lib/Data";
+import HomeIcon from "@/components/Layout/Home/Icon";
 
 export const metadata: Metadata = {
   title: "Home | GameLingo Tools",
@@ -17,15 +18,7 @@ export default function App() {
         <h1 className="text-center text-white font-bold text-2xl sm:text-5xl font-merienda mb-2">Welcome to GameLingo Tools</h1>
         <h1 className="text-center text-white font-bold text-xl font-mclaren mt-2">A Tools for Gamers</h1>
       </div>
-      <div className="px-4 py-2 bg-zinc-900 flex flex-row justify-center content-center flex-wrap">
-        {homeIcon.map((icon) => (
-          <Link key={icon.id} href={icon.url} className="group">
-            <figure className="relative w-16 h-16 flex flex-col justify-between overflow-hidden rounded-full mb-4 mx-4">
-              <Image fill sizes="auto" alt={icon.name} src={icon.imgLoc} className="rounded-full object-cover group-hover:scale-125 transition-all duration-500" />
-            </figure>
-          </Link>
-        ))}
-      </div>
+      <HomeIcon />
     </div>
   );
 }

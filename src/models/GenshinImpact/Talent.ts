@@ -1,7 +1,24 @@
 import { genshinConnection } from "@/lib/mongoose";
 import { Schema } from "mongoose";
 
-const TalentSubSchema = new Schema<GenshinImpact.BasicInfo>(
+interface SubSchema extends GenshinImpact.ApiTalentCombatData{
+  icon:string;
+}
+
+const CombatSubSchema: Schema<SubSchema> = new Schema(
+  {
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    attributes: {
+      labels: { type: [String], required: true },
+      parameters: { type: Schema.Types.Mixed, required: true },
+    },
+    icon: { type: String, required: false },
+  },
+  { _id: false }
+);
+
+const PassiveSubSchema: Schema<GenshinImpact.BasicInfo> = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -22,15 +39,15 @@ const TalentSchema = new Schema<GenshinImpact.Talent>(
   {
     charName: { type: String, required: true },
     combats: {
-      combat1: { type: TalentSubSchema, required: true },
-      combat2: { type: TalentSubSchema, required: true },
-      combat3: { type: TalentSubSchema, required: true },
-      combatsp: { type: TalentSubSchema, required: false },
+      combat1: { type: CombatSubSchema, required: true },
+      combat2: { type: CombatSubSchema, required: true },
+      combat3: { type: CombatSubSchema, required: true },
+      combatsp: { type: CombatSubSchema, required: false },
     },
     passives: {
-      passive1: { type: TalentSubSchema, required: true },
-      passive2: { type: TalentSubSchema, required: true },
-      passive3: { type: TalentSubSchema, required: true },
+      passive1: { type: PassiveSubSchema, required: true },
+      passive2: { type: PassiveSubSchema, required: true },
+      passive3: { type: PassiveSubSchema, required: true },
     },
     costs: {
       lvl2: { type: [LvlSchema], required: true },
