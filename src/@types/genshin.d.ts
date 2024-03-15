@@ -405,12 +405,16 @@ namespace GenshinImpact {
     name: string;
     description: string;
 
-    attributes: {
+    attributes?: {
       labels: string[];
       parameters: {
         [key: string]: number[];
       };
     };
+  }
+
+  export interface ApiTalentCombatDataIcon extends ApiTalentCombatData{
+    icon?: string;
   }
 
   export interface ApiTalentCostData {
@@ -506,10 +510,10 @@ namespace GenshinImpact {
   export interface Talent extends General.MongoDBDocument {
     charName: string;
     combats: {
-      combat1: ApiTalentCombatData;
-      combat2: ApiTalentCombatData;
-      combat3: ApiTalentCombatData;
-      combatsp?: ApiTalentCombatData;
+      combat1: ApiTalentCombatDataIcon;
+      combat2: ApiTalentCombatDataIcon;
+      combat3: ApiTalentCombatDataIcon;
+      combatsp?: ApiTalentCombatDataIcon;
     };
     passives: {
       passive1: BasicInfo;
