@@ -1,6 +1,6 @@
 "use client";
 
-import List, { ListState } from "@/components/Evertale/List";
+import List, { ListState } from "@/components/Game/Evertale/List";
 import { Option } from "@/components/general/Option";
 import { useState } from "react";
 

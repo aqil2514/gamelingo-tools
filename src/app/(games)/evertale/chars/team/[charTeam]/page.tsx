@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import List from "@/components/Evertale/List";
+import List from "@/components/Game/Evertale/List";
 
 type Props = {
   params: { charTeam: string };

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import List, { ListState } from "@/components/Evertale/List";
+import List, { ListState } from "@/components/Game/Evertale/List";
 
 export const metadata: Metadata = {
   title: "Character Element",

@@ -1,7 +1,7 @@
 import { DIV_MAIN_STYLE } from "@/components/Styles";
-import CharList from "@/components/Evertale/CharList";
+import CharList from "@/components/Game/Evertale/CharList";
 import { Metadata } from "next";
-import List from "@/components/Evertale/List";
+import List from "@/components/Game/Evertale/List";
 
 export const metadata: Metadata = {
   title: "Character Weapons",

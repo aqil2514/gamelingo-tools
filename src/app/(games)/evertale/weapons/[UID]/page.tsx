@@ -1,8 +1,8 @@
-import Post from "@/components/Evertale/Post";
+import Post from "@/components/Game/Evertale/Post";
 import axios from "axios";
 import { Metadata } from "next";
-import SuggestedPost from "@/components/Evertale/Post/SuggestedPost";
-import PostList from "@/components/Evertale/Post/SuggestedPost/PostList";
+import SuggestedPost from "@/components/Game/Evertale/Post/SuggestedPost";
+import PostList from "@/components/Game/Evertale/Post/SuggestedPost/PostList";
 import { baseUrl } from "@/lib/Data";
 
 type props = {

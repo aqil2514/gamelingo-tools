@@ -1,12 +1,12 @@
 import { Metadata, Route } from "next";
-import Slider from "@/components/Evertale/Slider";
+import Slider from "@/components/Game/Evertale/Slider";
 import GameDescription from "@/components/general/GameDescription";
 import DownloadButton from "@/components/general/Download";
 import Character from "@/models/Evertale/Characters";
 import { baseUrl } from "@/lib/Data";
-import CharSlider from "@/components/Evertale/Slider/CharSlider";
+import CharSlider from "@/components/Game/Evertale/Slider/CharSlider";
 import { Weapon } from "@/models/Evertale/Weapons";
-import WeaponSlider from "@/components/Evertale/Slider/WeaponSlider";
+import WeaponSlider from "@/components/Game/Evertale/Slider/WeaponSlider";
 import Link from "next/link";
 import Button, { VariantClass } from "@/components/Input/Button";
 

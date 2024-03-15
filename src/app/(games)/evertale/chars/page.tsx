@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import SearchInput from "@/components/general/Search/Input";
-import Slider from "@/components/Evertale/Slider";
+import Slider from "@/components/Game/Evertale/Slider";
 import CharactersList from "./Characters";
 
 export const metadata: Metadata = {

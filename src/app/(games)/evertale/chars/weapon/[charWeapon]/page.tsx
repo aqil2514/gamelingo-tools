@@ -1,6 +1,6 @@
 import { DIV_MAIN_STYLE } from "@/components/Styles";
 import { Metadata } from "next";
-import List, { ListState } from "@/components/Evertale/List";
+import List, { ListState } from "@/components/Game/Evertale/List";
 
 type Props = {
   params: { charWeapon: string };
