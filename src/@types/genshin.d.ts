@@ -474,6 +474,12 @@ namespace GenshinImpact {
     constellation?: Constellation[];
   }
 
+  export interface CharacterInfo extends GeneralInfo{
+    rarity: string;
+    desc: string;
+    element: Pick<Character,"element">
+  }
+
   export type CharacterTable = Pick<Character, "_id" | "name" | "element" | "rarity" | "region" | "weapon">;
 
   export interface Constellation extends General.MongoDBDocument {
@@ -489,6 +495,12 @@ namespace GenshinImpact {
   }
 
   export type ConstellationTable = Omit<Constellation, "constellation">;
+
+  export interface GeneralInfo{
+    name: string;
+    id: string;
+    image: string;
+  }
 
   export interface Material extends General.MongoDBDocument {
     name: string;

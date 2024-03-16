@@ -1,3 +1,4 @@
+import Character from "@/components/Game/GenshinImpact/Slider";
 import DownloadButton from "@/components/general/Download";
 import GameDescription from "@/components/general/GameDescription";
 import { Metadata } from "next";
@@ -19,6 +20,12 @@ export default function GenshinImpact() {
           <DownloadButton game="GenshinImpact" downloadFrom="PS4" />
           <DownloadButton game="GenshinImpact" downloadFrom="Epic Games" />
         </div>
+      </div>
+      <div className="px-20 py-10">
+      <div className="bg-slate-800 min-h-[100px] w-full">
+      <Character />
+      </div>
+
       </div>
     </div>
   );
