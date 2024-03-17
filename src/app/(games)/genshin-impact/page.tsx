@@ -24,7 +24,7 @@ export default function GenshinImpact() {
       <div className="px-20 py-10">
       <div className="bg-slate-800 min-h-[100px] w-full">
       <Character />
-      </div>
+      </div>  
 
       </div>
     </div>

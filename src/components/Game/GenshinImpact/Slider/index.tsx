@@ -29,11 +29,7 @@ function SliderDefault({ data }: { data: GenshinImpact.CharacterInfo[] }) {
       {data.map((d) => (
           <div
             key={d.id}
-            className={`relative max-w-[115px] max-h-[130px] my-4 ${
-              d.rarity === "4"
-                ? "bg-gradient-to-tr from-violet-500 to-violet-700 "
-                : "bg-gradient-to-tr from-amber-400 to-amber-600"
-            }`}
+            className={`relative max-w-[115px] max-h-[130px] my-4 rounded-lg`}
           >
             {/* <div className="p-4 bg-[rgba(0,_0,_0,_0.6)] flex justify-center gap-4">
               <Image
@@ -65,13 +61,21 @@ function SliderDefault({ data }: { data: GenshinImpact.CharacterInfo[] }) {
               width={115}
               height={130}
               alt={d.name}
-              className={`w-auto object-cover object-center ${
+              className={`w-auto object-cover object-bottom ${
                 rightAlignNameChar.includes(d.name) ? "ml-auto" : "mx-auto"
               }`}
-            />
+              />
           </div>
         ))}
+        <Image
+          src={'/Faruzan.png'}
+          width={115}
+          height={130}
+          alt={"Farusza"}
+          className={`w-auto object-cover`}
+          />
       </div>
+          <a href="/Faruzan.png" download={"Faruzan.png"}>Download</a>
     </div>
   );
 }

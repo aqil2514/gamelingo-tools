@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   if (category === "Character") {
     const res =
       (await CharacterEN.find()) as unknown as GenshinImpact.Character[];
-    const data: GenshinImpact.CharacterInfo[] = res
+    const data: Record<keyof GenshinImpact.CharacterInfo, string>[] = res
       .sort()
       .slice(0, 15)
       .map((d) => {

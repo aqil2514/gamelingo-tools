@@ -85,18 +85,40 @@ namespace Components {
     }
 
     /**
-     * Text Field components
+     * 
+     * General Input Component
+     * 
      */
-    export interface InputProps<T> extends React.InputHTMLAttributes<HTMLInputElement> {
+
+    export interface GeneralInputComponent{
       /** Digunakan untuk menentukan for atribute pada label dan id pada inputnya */
       forId?: string;
       /** Digunakan untuk label text */
       label?: string;
+    }
+
+    /**
+     * Text Field components
+     */
+    export interface InputProps<T> extends React.InputHTMLAttributes<HTMLInputElement>, GeneralInputComponent {
       /** Variant. Default: "default-variant-1" */
       variant: "default-variant-1" | "outline-variant-1" | "skeleton-variant-1" | "hidden";
       /** withList. Menyertakan list. Belum dikembangkan Default: "none" */
       withList?: "none" | string;
     }
+    
+    /**
+     * Select Component
+    */
+    export interface SelectProps<T> extends React.SelectHTMLAttributes<HTMLSelectElement>, GeneralInputComponent{
+        /** Variant. Default: "default-variant-1" */
+        template?: "default-variant-1",
+        /** Data yang akan menjadi value */
+        data: {
+          label: string,
+          value:T,
+        }[]
+      }
 
     /**
      * TextareaProps interface

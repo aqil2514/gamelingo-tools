@@ -37,6 +37,7 @@ export function FetchApi<T>({ elementId, msgNoInput, refElement, query, msgNoDat
       }
 
       setData(res.data);
+      console.log(res.data)
     } catch (error) {
       console.error(error);
     } finally {

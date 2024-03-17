@@ -12,7 +12,6 @@
 # testing
 /coverage
 /app/api/testing/
-/src/app/api/migrations
 postgres.session.sql
 
 #debug

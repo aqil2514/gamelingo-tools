@@ -21,3 +21,7 @@ Maintaining flow for:
 ### Game - Genshin Impact
 
 - Maintaining on [Admin Data](</src/app/(protected)/admin/data/README.md>)
+
+Thanks for
+- [Lynnsa](https://www.hoyolab.com/article/14629855) for TCG Image Genshin Impact
+- [The Bowja](https://github.com/theBowja/genshin-db-api) for Data Genshin Impact

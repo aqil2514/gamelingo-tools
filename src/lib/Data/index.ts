@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { Route } from "next";
 
 /**
@@ -8,6 +9,15 @@ import type { Route } from "next";
 
 // Fetcher for useSWR
 export const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
+export const fetcherWithParams = async (url: string, params: Record<string, string>) => {
+  const res = await axios(url, {
+    params: {
+      ...params // Menggunakan spread operator untuk mengirimkan parameter
+    }
+  });
+
+  return res.data;
+}
 export const fetcherWithAuth = async (url: string, token: string) => {
   const res = await fetch(url, {
     headers: {
