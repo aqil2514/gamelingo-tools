@@ -23,7 +23,10 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
       japanese: String,
       korean: String,
     },
-    image: { type: String, required: true },
+    image: { 
+      cover1: {type: String, required: true},
+      portrait: {type: String, required: true},
+     },
     build: {
       weapon: {
         type: mongoose.Schema.ObjectId,

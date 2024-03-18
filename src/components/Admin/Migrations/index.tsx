@@ -1,27 +1,34 @@
 "use client";
 
-import Select from "@/components/Input/Select";
-import { fetcher, fetcherWithParams } from "@/lib/Data";
-import { Route } from "next";
-import useSWR from "swr";
-import { MigrationParams, optionData } from "./helper";
-import React, { useState } from "react";
+import { MigrationContextProps, MigrationParams } from "./helper";
+import React, { createContext, useContext, useState } from "react";
+import SelectData from "./SelectData";
+import FetchData from "./FetchData";
 
+const MigrationContext = createContext<MigrationContextProps>(
+  {} as MigrationContextProps
+);
 
-/** TODO: Fokus ke migrasi dulu */
-export default function MigrationComponent(){
-    const url:Route = "/api/admin/migrations";
-    const [param, setParam] = useState<MigrationParams>({} as MigrationParams)
-    const params:MigrationParams={
-        category: param.category
-    }
-    
-    function changeHandler(e:React.ChangeEvent<HTMLSelectElement>){
-        setParam({category:e.target.value as MigrationParams["category"]})
-    }
-    return(
-        <div>
-            <Select template="default-variant-1" forId="category" data={optionData} onChange={changeHandler} />
-        </div>
-    )
+export default function MigrationComponent() {
+  const [param, setParam] = useState<MigrationParams>({} as MigrationParams);
+  const [topicData, setTopicData] = useState<
+    Components.Input.SelectProps<any>["data"]
+  >([]);
+  const [topic, setTopic] = useState<string>("");
+
+  return (
+    <MigrationContext.Provider
+      value={{ param, setParam, topic, setTopic, topicData, setTopicData }}
+    >
+      <div className="w-1/2 py-12 mx-auto">
+        <SelectData />
+
+        <FetchData />
+      </div>
+    </MigrationContext.Provider>
+  );
+}
+
+export function useMigrationContext() {
+  return useContext(MigrationContext);
 }

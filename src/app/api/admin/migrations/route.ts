@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req:NextRequest){
     const searchParams = req.nextUrl.searchParams;
     const category = searchParams.get("category");
+    const topic = searchParams.get("topic");
     // const data = evertaleConnection.modelNames()
-    return NextResponse.json({msg:"oke", category}, {status:200})
+    return NextResponse.json({msg:"oke", category, topic}, {status:200})
 }

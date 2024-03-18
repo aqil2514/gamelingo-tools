@@ -113,6 +113,8 @@ namespace Components {
     export interface SelectProps<T> extends React.SelectHTMLAttributes<HTMLSelectElement>, GeneralInputComponent{
         /** Variant. Default: "default-variant-1" */
         template?: "default-variant-1",
+        /** Data yang akan menjadi pilihan default */
+        defaultChoice: string,
         /** Data yang akan menjadi value */
         data: {
           label: string,
