@@ -9,7 +9,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { createTransport } from "nodemailer";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./authoptions";
+import { authOptions } from "../authoptions";
 import Character from "@/models/Evertale/Characters";
 import { Route } from "next";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";

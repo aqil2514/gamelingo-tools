@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { getUser } from "@/utils/api";
+import { getUser } from "@/utils/Api/api";
 import { redirect } from "next/navigation";
 import UserData from "./UserData";
 

@@ -1,5 +1,5 @@
 import { DB, supabase } from "@/lib/supabase";
-import { sendMail, verifDataBuilder, verification } from "@/utils/api";
+import { sendMail, verifDataBuilder, verification } from "@/utils/Api/api";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

@@ -1,6 +1,6 @@
 // import { checkUser, checkEmail, updateUser } from "@/lib/prisma/users";
 import { NextRequest, NextResponse } from "next/server";
-import { login, register } from "@/utils/api";
+import { login, register } from "@/utils/Api/api";
 import { DB, UserSelect, supabase } from "@/lib/supabase";
 import { User } from "@/models/General/User";
 import { adminId } from "@/lib/Data";

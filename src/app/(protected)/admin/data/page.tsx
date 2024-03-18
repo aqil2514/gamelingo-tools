@@ -1,5 +1,5 @@
 import AdminData from "@/components/Admin/Data";
-import { getUser } from "@/utils/api";
+import { getUser } from "@/utils/Api/api";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 

@@ -4,7 +4,7 @@ import {
   ConstellationEN,
   ConstellationID,
 } from "@/models/GenshinImpact/Constellation";
-import { file } from "./api";
+import { file } from "./Api/api";
 import { File } from "@web-std/file";
 import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import LoginForm from "./loginform";
 import { redirect } from "next/navigation";
-import { getUser } from "@/utils/api";
+import { getUser } from "@/utils/Api/api";
 
 export const metadata: Metadata = {
   title: "Login",

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { linkBuilder, register, resetPassword, sendMail } from "@/utils/api";
+import { linkBuilder, register, resetPassword, sendMail } from "@/utils/Api/api";
 import { DB, supabase } from "@/lib/supabase";
 import { baseUrl } from "@/lib/Data";
 

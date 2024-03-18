@@ -11,7 +11,7 @@ import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
 
 // <<<<< Utils Import >>>>>
-import { getUser } from "@/utils/api";
+import { getUser } from "@/utils/Api/api";
 import { genshin } from "@/utils/formUtils";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 

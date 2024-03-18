@@ -14,7 +14,7 @@ import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
 import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
 
 // <<<<< Utils Import >>>>>
-import { admin, isSubfieldData } from "@/utils/api";
+import { admin, isSubfieldData } from "@/utils/Api/api";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 
 /** Type Guard Function */

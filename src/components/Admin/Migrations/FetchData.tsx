@@ -3,9 +3,15 @@ import { MigrationParams } from "./helper";
 import { Route } from "next";
 import { useMigrationContext } from ".";
 import axios from "axios";
+import { useState } from "react";
+import Link from "next/link";
+
+// TODO: Akalin ini. Harus bisa download file json nanti 
 
 export default function FetchData() {
-    const {param, topic, topicData} = useMigrationContext();
+  const { param, topic, topicData } = useMigrationContext();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [uri, setUri] = useState<string[]>([]);
   const url: Route = "/api/admin/migrations";
 
   async function fetchHandler() {
@@ -13,27 +19,42 @@ export default function FetchData() {
       category: param.category,
       topic,
     };
+    const buttonContainerElement = document.getElementById(
+      "butons"
+    ) as HTMLDivElement;
 
     try {
+      setIsLoading(true);
       const res = await axios.get(url, {
         params: parameter,
       });
 
-      console.log(res.data);
+      setUri(res.data.data);
+      console.log(uri)
     } catch (error) {
       console.error();
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
-    <div className="flex justify-center my-4">
-      <Button
-        className={VariantClass.fetch}
-        disabled={topicData.length === 0}
-        onClick={fetchHandler}
-      >
-        Lihat Data
-      </Button>
-    </div>
+    <>
+      <div id="buttons" className="flex justify-center my-4">
+        <Button
+          className={VariantClass.fetch}
+          disabled={topicData.length === 0 || isLoading}
+          onClick={fetchHandler}
+        >
+          Ambil Data
+        </Button>
+      </div>
+      
+      <div>
+        {uri.map(u => (
+          <a key={u} href={`/${u}`} className="text-white">Download Data</a>
+        ))}
+      </div>
+    </>
   );
 }

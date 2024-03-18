@@ -1,5 +1,5 @@
 import { IDMaterial, ENMaterial } from "@/models/GenshinImpact/Material";
-import { file } from "./api";
+import { file } from "./Api/api";
 import {
   adminValidator,
   evertaleValidator,

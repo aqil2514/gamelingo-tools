@@ -1,5 +1,5 @@
 import MigrationComponent from "@/components/Admin/Migrations";
-import { getUser } from "@/utils/api";
+import { getUser } from "@/utils/Api/api";
 
 export default async function Migrations() {
   const user = await getUser();

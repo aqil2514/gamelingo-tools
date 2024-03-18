@@ -1,5 +1,5 @@
 import { DB, supabase } from "@/lib/supabase";
-import { dashboard, login, register, sendMail, verifDataBuilder } from "@/utils/api";
+import { dashboard, login, register, sendMail, verifDataBuilder } from "@/utils/Api/api";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 

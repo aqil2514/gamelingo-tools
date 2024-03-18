@@ -1,5 +1,5 @@
 import NavMenu from "@/components/Layout/Admin/NavMenu";
-import { getUser } from "@/utils/api";
+import { getUser } from "@/utils/Api/api";
 import { redirect } from "next/navigation";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
