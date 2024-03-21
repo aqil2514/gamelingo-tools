@@ -21,7 +21,7 @@ export default function GenshinImpact() {
           <DownloadButton game="GenshinImpact" downloadFrom="Epic Games" />
         </div>
       </div>
-      <div className="px-20 py-10">
+      <div className="lg:px-20 md:px-10 px-4 py-10">
       <div className="bg-slate-800 min-h-[100px] w-full">
       <Character />
       </div>  

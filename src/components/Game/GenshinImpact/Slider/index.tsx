@@ -4,6 +4,9 @@ import { Route } from "next";
 import useSWR from "swr";
 import { fetcher } from "@/lib/Data";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import TextField from "@/components/Input/TextField";
 
 
 const rightAlignNameChar = ["Raiden Shogun"];
@@ -19,14 +22,40 @@ export default function Character() {
 }
 
 function SliderDefault({ data }: { data: GenshinImpact.CharacterInfo[] }) {
+  const [chars, setChars] = useState<GenshinImpact.CharacterInfo[]>([]);
+  const [initChars, setInitChars] = useState<GenshinImpact.CharacterInfo[]>([]);
+  const [charNameInput, setCharNameInput] = useState<string>("")
+
+  useEffect(() => {
+    setChars(data);
+    setInitChars(data);
+  }, [data])
+
+  useEffect(() => {
+    if(!charNameInput) return setChars(initChars);
+  
+    const charName = initChars.filter(c => c.name.toLowerCase().includes(charNameInput.toLowerCase()));
+    setChars(charName);
+  }, [charNameInput, initChars]);
+  
+
+  // const charName = useMemo(() => {
+  //   const result:string[] = chars.map((c) => c.name)
+  //   return result
+  // }, [chars])
+
   return (
     <div className="p-4">
       <h2 className="text-center text-2xl font-bold font-nova-square text-white">
         Character
       </h2>
-      <div className="grid grid-cols-8 gap-4 rounded-md">
+        <TextField forId="character-name" variant="outline-variant-1" label="Search" placeholder="Cari karakter berdasarkan nama" value={charNameInput} onChange={(e) => setCharNameInput(e.target.value)} />
+      <div className="grid lg:grid-cols-8 md:grid-cols-6 grid-cols-3 gap-4 rounded-md">
+
+
+
         {/* TODO : FIX INI. GANTI JADI POTRAIT AJAH FOTONYA */}
-      {data.map((d) => (
+      {chars.map((d) => (
           <div
             key={d.id}
             className={`relative max-w-[115px] max-h-[130px] my-4 rounded-lg`}
@@ -56,26 +85,21 @@ function SliderDefault({ data }: { data: GenshinImpact.CharacterInfo[] }) {
                 </p>
               </div>
             </div> */}
+            <Link href={`/genshin-impact/character/${d.name}`}>
             <Image
               src={d.image}
               width={115}
               height={130}
               alt={d.name}
-              className={`w-auto object-cover object-bottom ${
+              title={d.name}
+              className={`w-auto h-auto object-cover object-bottom cursor-pointer ${
                 rightAlignNameChar.includes(d.name) ? "ml-auto" : "mx-auto"
               }`}
               />
+            </Link>
           </div>
         ))}
-        <Image
-          src={'/Faruzan.png'}
-          width={115}
-          height={130}
-          alt={"Farusza"}
-          className={`w-auto object-cover`}
-          />
       </div>
-          <a href="/Faruzan.png" download={"Faruzan.png"}>Download</a>
     </div>
   );
 }
