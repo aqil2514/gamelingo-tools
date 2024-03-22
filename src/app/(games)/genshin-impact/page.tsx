@@ -1,4 +1,4 @@
-import Character from "@/components/Game/GenshinImpact/Slider";
+import Character from "@/components/Game/GenshinImpact/List";
 import DownloadButton from "@/components/general/Download";
 import GameDescription from "@/components/general/GameDescription";
 import { Metadata } from "next";
@@ -23,7 +23,7 @@ export default function GenshinImpact() {
       </div>
       <div className="lg:px-20 md:px-10 px-4 py-10">
       <div className="bg-slate-800 min-h-[100px] w-full">
-      <Character />
+      <Character template="welcome page" />
       </div>  
 
       </div>
