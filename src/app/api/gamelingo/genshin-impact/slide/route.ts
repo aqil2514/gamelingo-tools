@@ -35,7 +35,8 @@ export async function GET(req: NextRequest) {
           image: d.image as string,
           rarity: d.rarity,
           desc: d.description,
-          element: d.element
+          element: d.element,
+          weapon: d.weapon
         };
       });
 

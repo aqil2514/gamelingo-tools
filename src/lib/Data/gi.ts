@@ -1,8 +1,11 @@
-interface ElementState{
+interface GeneralDataState{
 id: string;
 name: string;
 img: string;
 }
+
+interface ElementState extends GeneralDataState{}
+interface WeaponState extends GeneralDataState{}
 
 export const element:ElementState[]= [
     {
@@ -39,5 +42,33 @@ export const element:ElementState[]= [
         id: "el-Pyro",
         name:"Pyro",
         img: "/Genshin-Impact/assets/Element_Pyro.svg"
+    },
+]
+
+export const weapon:WeaponState[]=[
+    {
+        id:"wc-bow",
+        name:"Bow",
+        img: "/Genshin-Impact/assets/Weapon-class-bow-icon.webp"
+    },
+    {
+        id:"wc-catalyst",
+        name:"Catalyst",
+        img: "/Genshin-Impact/assets/Weapon-class-catalyst-icon.webp"
+    },
+    {
+        id:"wc-claymore",
+        name:"Claymore",
+        img: "/Genshin-Impact/assets/Weapon-class-claymore-icon.webp"
+    },
+    {
+        id:"wc-polearm",
+        name:"Polearm",
+        img: "/Genshin-Impact/assets/Weapon-class-polearm-icon.webp"
+    },
+    {
+        id:"wc-sword",
+        name:"Sword",
+        img: "/Genshin-Impact/assets/Weapon-class-sword-icon.webp"
     },
 ]
