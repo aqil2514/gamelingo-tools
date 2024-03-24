@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function FilterCharacter({ filter, setFilter }: Props) {
-  const [filterPopup, setFilterPopUp] = useState<boolean>(true);
+  const [filterPopup, setFilterPopUp] = useState<boolean>(false);
   return (
     <>
       <div className="py-4 hidden lg:block">

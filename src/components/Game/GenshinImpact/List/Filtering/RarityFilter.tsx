@@ -53,12 +53,8 @@ export default function RarityFilter({ filter, setFilter }: Props){
                 <input
                   type="radio"
                   name="rarity-filter"
-                  value={"4"}
                   id={"rarity-5"}
                   className="hidden"
-                  onChange={(e) =>
-                    setFilter({ ...filter, rarity: e.target.value })
-                  }
                 />
                 <div className="flex">
                   <p

@@ -28,7 +28,7 @@ export default function Character({
   const url: Route = `/api/gamelingo/genshin-impact/slide?category=${category}`;
   const { data, isLoading, error } = useSWR(url, fetcher);
 
-  if (!data || isLoading) return <p>loading...</p>;
+  if (!data || isLoading) return <SkeletonDefault />;
   if (template === "character page") return <ListDefault data={data.data} />;
 
   return <HomePage data={data.data} />;
@@ -91,33 +91,36 @@ function ListDefault({ data }: { data: GenshinImpact.CharacterInfo[] }) {
 
       {chars.length === 0 ? (
         <p className="text-white text-2xl text-center font-bold font-nova-square">
-          Tidak ada data character dengan filter tersebut
+          Tidak ada data character terkait
         </p>
       ) : (
-        <div className="grid lg:grid-cols-8 md:grid-cols-6 grid-cols-3 gap-4 rounded-md">
+        <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md">
           {/* TODO : FIX INI. GANTI JADI POTRAIT AJAH FOTONYA */}
           {chars.map((d) => (
             <div
               key={d.id}
-              className={`relative max-w-[115px] max-h-[130px] my-4 rounded-lg`}
+              className="relative flex flex-col justify-center items-center my-4 bg-slate-900 rounded-lg p-4"
             >
-              <Link href={`/genshin-impact/character/${d.id}`}>
-                <div
-                  className={`relative w-[115px] h-[100px] max-w-[115px] max-h-[130px] my-4 rounded-lg`}
-                >
-                  <Image
-                    src={d.image}
-                    fill
-                    sizes="auto"
-                    alt={d.name}
-                    title={d.name}
-                    className={`w-auto h-auto object-cover object-bottom cursor-pointer ${
-                      rightAlignNameChar.includes(d.name)
-                        ? "ml-auto"
-                        : "mx-auto"
-                    }`}
-                  />
+                <div className="absolute -top-7 left-0 w-full flex justify-center gap-1 z-10">
+                  <Image src={`/Genshin-Impact/assets/Element_${d.element}.svg`} height={48} width={48} alt={`character-${d.element}`} className="bg-slate-900 rounded-full p-2" />
                 </div>
+              <div
+                className={`relative w-[115px] h-[100px] max-w-[115px] max-h-[130px] rounded-lg overflow-hidden`}
+                style={{background:`${d.rarity === "4" ? "url('/Genshin-Impact/assets/bg-4-star.png')" : "url('/Genshin-Impact/assets/bg-5-star.png')"}`}}
+              >
+                <Image
+                  src={d.image}
+                  fill
+                  sizes="auto"
+                  alt={d.name}
+                  title={d.name}
+                  className={`w-auto h-auto object-cover object-bottom hover:scale-125 transition-all duration-200 ${
+                    rightAlignNameChar.includes(d.name) ? "ml-auto" : "mx-auto"
+                  }`}
+                />
+              </div>
+              <Link href={`/genshin-impact/character/${d.id}`}>
+                <Button className={VariantClass.submit}>Lihat</Button>
               </Link>
             </div>
           ))}
@@ -174,4 +177,29 @@ function HomePage({ data }: { data: GenshinImpact.CharacterInfo[] }) {
       </div>
     </div>
   );
+}
+
+function SkeletonDefault(){
+  const array = Array.from({length: 16});
+
+  return(
+    <div className="p-4">
+      <div className="w-full">
+    <div className="bg-slate-900 animate-pulse h-8 w-[250px] mx-auto rounded-xl">
+      </div>
+    </div>
+    <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md">
+          {array.map((_d, i:number) => (
+            <div
+              key={`skeleton-${i}`}
+              className="relative flex flex-col justify-center items-center animate-pulse my-4 bg-slate-900 rounded-lg p-4"
+            >
+              <div className="w-[115px] h-[130px] bg-slate-800 mb-2 animate-pulse rounded-xl "></div>
+              <div className="bg-slate-800 w-[100px] h-[40px] mt-2 animate-pulse rounded-xl">
+              </div>
+            </div>
+          ))}
+        </div>
+    </div>
+  )
 }
