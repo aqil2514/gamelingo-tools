@@ -480,8 +480,8 @@ namespace GenshinImpact {
   export interface CharacterInfo extends GeneralInfo{
     rarity: string;
     desc: string;
-    element: Pick<Character,"element">
-    weapon: Pick<Character, "weapon">
+    element: Character["element"];
+    weapon: Character["weapon"];
   }
 
   export type CharacterTable = Pick<Character, "_id" | "name" | "element" | "rarity" | "region" | "weapon">;
