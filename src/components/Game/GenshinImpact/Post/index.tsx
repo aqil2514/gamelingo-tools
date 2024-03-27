@@ -12,6 +12,7 @@ export default function PostGenshinImpact({
 }
 
 function CharacterPost({ data }: { data: GenshinImpact.Character }) {
+  console.log(data.ascendMaterial)
   return (
     <div className="main-wrapper py-20">
       <h1 className="text-white font-nova-square text-center font-bold text-3xl my-8">
@@ -46,6 +47,9 @@ function CharacterPost({ data }: { data: GenshinImpact.Character }) {
           <p className="mb-4">
             <strong>Senjata</strong> : Pengguna {data.weapon}
           </p>
+          <p className="mb-4">
+            <strong>Ascend Status</strong> : {data.ascendStatus}
+          </p>
           <article className="mb-4">
             <strong>Deskripsi Singkat</strong> :<p>{data.description}</p>
           </article>
@@ -65,6 +69,10 @@ function CharacterPost({ data }: { data: GenshinImpact.Character }) {
             </p>
           </fieldset>
         </div>
+      </div>
+      <div className="bg-slate-900 p-4 mx-auto w-4/5 rounded-xl my-4">
+        <h2 className="text-white text-center font-nova-square font-bold text-3xl underline">Ascend Material</h2>
+        
       </div>
     </div>
   );
