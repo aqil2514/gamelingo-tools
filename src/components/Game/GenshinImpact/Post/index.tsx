@@ -1,6 +1,7 @@
 import Image from "next/image";
 import AscendComponent from "./PostComponent/ascend";
 import Talent from "./PostComponent/Talent";
+import Constellations from "./PostComponent/Constellations";
 
 interface GenshinPostProps {
   category: "Character" | "Weapon";
@@ -80,7 +81,10 @@ function CharacterPost({ data }: { data: GenshinImpact.Character }) {
         <AscendComponent template="Character" ascend="ascend5" data={data} />
         <AscendComponent template="Character" ascend="ascend6" data={data} />
       </div>
+
       <Talent />
+
+      <Constellations />
     </div>
   );
 }
