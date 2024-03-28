@@ -1,4 +1,6 @@
 import Image from "next/image";
+import AscendComponent from "./PostComponent/ascend";
+import Talent from "./PostComponent/Talent";
 
 interface GenshinPostProps {
   category: "Character" | "Weapon";
@@ -12,7 +14,6 @@ export default function PostGenshinImpact({
 }
 
 function CharacterPost({ data }: { data: GenshinImpact.Character }) {
-  console.log(data.ascendMaterial)
   return (
     <div className="main-wrapper py-20">
       <h1 className="text-white font-nova-square text-center font-bold text-3xl my-8">
@@ -30,7 +31,7 @@ function CharacterPost({ data }: { data: GenshinImpact.Character }) {
         </div>
         <div className="text-white font-poppins flex flex-col justify-center">
           <p className="mb-4">
-            <strong>Nama Karakter</strong> : {data.name}
+            <strong>Nama Karakter</ strong> : {data.name}
           </p>
           <p className="mb-4">
             <strong>Jenis Kelamin</strong> : {data.gender}
@@ -72,8 +73,14 @@ function CharacterPost({ data }: { data: GenshinImpact.Character }) {
       </div>
       <div className="bg-slate-900 p-4 mx-auto w-4/5 rounded-xl my-4">
         <h2 className="text-white text-center font-nova-square font-bold text-3xl underline">Ascend Material</h2>
-        
+        <AscendComponent template="Character" ascend="ascend1" data={data} />
+        <AscendComponent template="Character" ascend="ascend2" data={data} />
+        <AscendComponent template="Character" ascend="ascend3" data={data} />
+        <AscendComponent template="Character" ascend="ascend4" data={data} />
+        <AscendComponent template="Character" ascend="ascend5" data={data} />
+        <AscendComponent template="Character" ascend="ascend6" data={data} />
       </div>
+      <Talent />
     </div>
   );
 }
