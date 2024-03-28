@@ -27,12 +27,12 @@ export async function generateMetadata({
     element: post.content.element,
     rarity: post.content.rarity,
     weapon: post.content.weapon,
-    id: post.content._id as string,
-    image: post.content.image as string,
+    id: post.content._id,
+    image: post.content.image.cover,
   };
 
   return {
-    title: character.name,
+    title: character.name + " - Genshin Impact",
     openGraph: {
       title: character.name,
       description: character.desc,
@@ -60,6 +60,7 @@ export async function generateMetadata({
 
 export default async function DetailCharacter({ params }: ParamsProps) {
   const data = await getPost(params.id);
+  console.log(data)
 
   return <PostGenshinImpact data={data.content} category="Character" />;
 }

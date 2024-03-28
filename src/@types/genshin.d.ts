@@ -468,9 +468,9 @@ namespace GenshinImpact {
       japanese: string;
       korean: string;
     };
-    image?: {
-      cover1?: string,
-      portrait?: string,
+    image: {
+      cover: string,
+      portrait: string,
     };
     build?: BuildCharacter;
     talent?: Talent[];

@@ -1,4 +1,9 @@
 import Character from "@/components/Game/GenshinImpact/List";
+import { Metadata } from "next";
+
+export const metadata:Metadata={
+  title:"Character - Genshin Impact"
+}
 
 export default function GenshinImpactCharacter() {
     return (

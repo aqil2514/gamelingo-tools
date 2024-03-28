@@ -13,20 +13,28 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
     ascendStatus: { type: String, required: true },
     ascendMaterial: { type: Object, required: false },
     rarity: { type: String, required: true },
-    element: { type: String, enum: ["Cryo", "Pyro", "Dendro", "Geo", "Hydro", "Anemo", "Electro"], required: true },
-    weapon: { type: String, enum: ["Sword", "Polearm", "Claymore", "Bow", "Catalyst"], required: true },
-    gender: { type: String, enum: ["Female", "Male", "Perempuan", "Pria"], required: true },
-    region: { type: String, enum: ["Mondstadt", "Liyue", "Inazuma", "Sumeru", "Fontain"], required: true },
+    element: {
+      type: String,
+      enum: ["Cryo", "Pyro", "Dendro", "Geo", "Hydro", "Anemo", "Electro"],
+      required: true,
+    },
+    weapon: {
+      type: String,
+      enum: ["Sword", "Polearm", "Claymore", "Bow", "Catalyst"],
+      required: true,
+    },
+    gender: { type: String, required: true },
+    region: { type: String, required: true },
     cv: {
       english: String,
       chinese: String,
       japanese: String,
       korean: String,
     },
-    image: { 
-      cover1: {type: String, required: true},
-      portrait: {type: String, required: true},
-     },
+    image: {
+      cover: { type: String, required: true },
+      portrait: { type: String, required: true },
+    },
     build: {
       weapon: {
         type: mongoose.Schema.ObjectId,
@@ -83,5 +91,9 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
   { timestamps: true, strict: false }
 );
 
-export const CharacterID = genshinConnection.models.id_character || genshinConnection.model("id_character", CharacterSchema);
-export const CharacterEN = genshinConnection.models.en_character || genshinConnection.model("en_character", CharacterSchema);
+export const CharacterID =
+  genshinConnection.models.id_character ||
+  genshinConnection.model("id_character", CharacterSchema);
+export const CharacterEN =
+  genshinConnection.models.en_character ||
+  genshinConnection.model("en_character", CharacterSchema);

@@ -23,7 +23,7 @@ function CharacterPost({ data }: { data: GenshinImpact.Character }) {
       <div className="bg-slate-900 p-4 mx-auto w-3/5 rounded-xl md:grid md:grid-cols-2 gap-4">
         <div className="relative w-full min-h-[200px] max-h[392px]">
           <Image
-            src={data.image as string}
+            src={data.image.cover}
             fill
             sizes="auto"
             alt={data.name}
