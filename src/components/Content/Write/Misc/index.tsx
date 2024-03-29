@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import Content from "..";
-import { SubTemplateDataState } from "./Data";
+import { SubTemplateDataState } from "../../Misc/Data";
 
 export default function WriteData() {
   const searchParams = useSearchParams();

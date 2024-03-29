@@ -1,4 +1,4 @@
-import { SubTemplateDataState } from "./Misc/Data";
+import { SubTemplateDataState } from "../Misc/Data";
 import ArtifactForm from "./Genshin/Artifact";
 import CharacterForm from "./Genshin/Character";
 import ConstellationsForm from "./Genshin/Constellations";

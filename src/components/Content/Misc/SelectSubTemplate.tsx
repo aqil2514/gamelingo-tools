@@ -3,7 +3,11 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { SubTemplateDataState, subTemplateData } from "./Data";
 
-export default function SelectSubTemplate() {
+interface SelectSubTemplateProps{
+  template: "write" | "edit";
+}
+
+export default function SelectSubTemplate({template} : SelectSubTemplateProps) {
   const searchParams = useSearchParams();
   const game = searchParams.get("game") as keyof SubTemplateDataState;
   const category = searchParams.get("category");
@@ -14,9 +18,9 @@ export default function SelectSubTemplate() {
   function changeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
     const value = e.target.value;
 
-    if (value === "select-category") return router.replace(`/write?game=${game}`);
+    if (value === "select-category") return router.replace(`/${template}?game=${game}`);
 
-    router.replace(`/write?game=${game}&category=${value}`);
+    router.replace(`/${template}?game=${game}&category=${value}`);
   }
 
   return (

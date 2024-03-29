@@ -3,7 +3,11 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
-export default function SelectTemplate() {
+interface SelectTemplateProps{
+  template: "write" | "edit";
+}
+
+export default function SelectTemplate({template}: SelectTemplateProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const game = searchParams.get("game");
@@ -11,9 +15,9 @@ export default function SelectTemplate() {
   function changeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
     const value = e.target.value;
 
-    if (value === "select-game") return router.replace(`/write`);
+    if (value === "select-game") return router.replace(`/${template}`);
 
-    router.replace(`/write?game=${value}`);
+    router.replace(`/${template}?game=${value}`);
   }
   return (
     <div>
