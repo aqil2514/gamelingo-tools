@@ -223,39 +223,6 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
     return { status: true, data };
   },
   async character(data) {
-    if (!data.name) return { status: false, msg: "Nama karakter belum ada" };
-
-    // if (data["result-lang"] === "Indonesian") {
-    //   const isThere = await CharacterID.findOne({ name: data.name });
-    //   if (isThere)
-    //     return { status: false, msg: `${data.name} sudah ada di Database` };
-    // } else if (data["result-lang"] === "English") {
-    //   const isThere = await CharacterEN.findOne({ name: data.name });
-    //   if (isThere)
-    //     return { status: false, msg: `${data.name} is there in Database` };
-    // }
-
-    if (!data.description)
-      return { status: false, msg: "Deskripsi karakter belum ada" };
-    if (!data.ascendStatus)
-      return { status: false, msg: "Ascend status karakter belum ada" };
-
-    for (const key in data) {
-      if (key.startsWith("ascend")) {
-        if (!data[key as keyof FormUtils.Genshin.FormDataCharacter])
-          return { status: false, msg: "Ada data yang belum diisi" };
-      }
-    }
-
-    if (!data["character-voice-chinese"])
-      return { status: false, msg: "Actor voice Chinese belum diisi" };
-    if (!data["character-voice-english"])
-      return { status: false, msg: "Actor voice English belum diisi" };
-    if (!data["character-voice-japanese"])
-      return { status: false, msg: "Actor voice Japanese belum diisi" };
-    if (!data["character-voice-korean"])
-      return { status: false, msg: "Actor voice Korean belum diisi" };
-
     const allowedElement: GenshinImpact.Character["element"][] = [
       "Anemo",
       "Cryo",
@@ -286,8 +253,59 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
       "Sumeru",
     ];
 
+    // Apakah nama karakter sudah diisi?
+    if (!data.name) return { status: false, msg: "Nama karakter belum ada" };
+
+    // Apakah karakter sudah ada di database?
+    if (data["result-lang"] === "Indonesian") {
+      const isThere = await CharacterID.findOne({ name: data.name });
+      if (isThere)
+        return { status: false, msg: `${data.name} sudah ada di Database` };
+    } else if (data["result-lang"] === "English") {
+      const isThere = await CharacterEN.findOne({ name: data.name });
+      if (isThere)
+        return { status: false, msg: `${data.name} is there in Database` };
+    }
+
+    // Apakah deskripsi karakter sudah diisi?
+    if (!data.description)
+      return { status: false, msg: "Deskripsi karakter belum ada" };
+
+    // Apakah Ascend Status karakter sudah diisi?
+    if (!data.ascendStatus)
+      return { status: false, msg: "Ascend status karakter belum ada" };
+
+    // Apakah di form ascend ada yang kosong?
+    for (const key in data) {
+      if (key.startsWith("ascend")) {
+        if (!data[key as keyof FormUtils.Genshin.FormDataCharacter])
+          return { status: false, msg: "Ada data yang belum diisi" };
+      }
+    }
+
+    // Apakah VC China sudah diisi?
+    if (!data["character-voice-chinese"])
+      return { status: false, msg: "Actor voice Chinese belum diisi" };
+
+    // Apakah VC English sudah diisi?
+    if (!data["character-voice-english"])
+      return { status: false, msg: "Actor voice English belum diisi" };
+
+    // Apakah VC Japanese sudah diisi?
+    if (!data["character-voice-japanese"])
+      return { status: false, msg: "Actor voice Japanese belum diisi" };
+
+    // Apakah VC Korean sudah diisi?
+    if (!data["character-voice-korean"])
+      return { status: false, msg: "Actor voice Korean belum diisi" };
+
+    // Apakah Rarity sudah diisi?
     if (!data.rarity) return { status: false, msg: "Rarity belum diisi" };
+
+    // Apakah Element sudah diisi?
     if (!data.element) return { status: false, msg: "Element belum diisi" };
+
+    // Apakah Element diizinkan?
     if (
       !allowedElement.includes(
         data.element as GenshinImpact.Character["element"]
@@ -295,19 +313,28 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
     )
       return { status: false, msg: "Element tidak diizinkan" };
 
+    // Apakah Weapon sudah diisi?
     if (!data.weapon) return { status: false, msg: "Weapon belum diisi" };
+
+    // Apakah Weapon diizinkan?
     if (
       !allowedWeapon.includes(data.weapon as GenshinImpact.Character["weapon"])
     )
       return { status: false, msg: "Weapon tidak diizinkan" };
 
+    // Apakah Gender sudah diisi?
     if (!data.gender) return { status: false, msg: "Gender belum diisi" };
+
+    // Apakah gender diizinkan?
     if (
       !allowedGender.includes(data.gender as GenshinImpact.Character["gender"])
     )
       return { status: false, msg: "Gender tidak diizinkan" };
 
+    // Apakah Region sudah diisi?
     if (!data.region) return { status: false, msg: "Region belum diisi" };
+
+    // Apakah Region diizinkan?
     if (
       !allowedRegion.includes(data.region as GenshinImpact.Character["region"])
     )
@@ -315,48 +342,48 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
 
     // <<<<< Image Validation >>>>>
 
+    // Apakah Image Cover sudah diisi?
     if (data["image-cover"].type === "application/octet-stream")
       return { status: false, msg: "Image Cover belum diisi" };
 
+    // Validasi Image Cover
     const coverValidation = file.validationImage(data["image-cover"], {
       validateName: "exactly the same",
-      validationName: `${data.name} - Cover.png`
+      validationName: `${data.name} - Cover.png`,
     });
     if (!coverValidation.status)
       return { msg: coverValidation.msg, status: false };
-    
+
+    // Apakah Image Portrait telah diisi?
     if (data["image-portrait"].type === "application/octet-stream")
-    return { status: false, msg: "Image Portrait belum diisi" };
-  
-  const portraitValidation = file.validationImage(data["image-portrait"], {
-    validateName: "exactly the same",
-    validationName: `${data.name} - Portrait.png`
-  });
-  if (!portraitValidation.status)
-    return { msg: portraitValidation.msg, status: false };
+      return { status: false, msg: "Image Portrait belum diisi" };
 
-    // Lanjutin Ini 
-    
-    // if (data.image && data.image.type !== "application/octet-stream") {
-    //   const imageValidation = file.validationImage(data.image as File, {
-    //     validateName: "including",
-    //     validationName: data.name,
-    //   });
-    //   if (!imageValidation.status)
-    //     return { msg: imageValidation.msg, status: false };
+    // Validasi Image Portrait
+    const portraitValidation = file.validationImage(data["image-portrait"], {
+      validateName: "exactly the same",
+      validationName: `${data.name} - Portrait.png`,
+    });
+    if (!portraitValidation.status)
+      return { msg: portraitValidation.msg, status: false };
 
-    //   const newFile = new File(
-    //     [data.image],
-    //     `${data.name}.${data.image.type.split("/")[1]}`,
-    //     {
-    //       type: data.image.type,
-    //     }
-    //   );
+    const coverFile = new File(
+      [data["image-cover"]],
+      `${data.name} - Cover.${data["image-cover"].type.split("/")[1]}`,
+      {
+        type: data["image-cover"].type,
+      }
+    );
 
-    //   data.image = newFile;
-    // } else if (data.image && data.image.type === "application/octet-stream") {
-    //   return { status: false, msg: "Gambar harus diisi" };
-    // }
+    const portraitFile = new File(
+      [data["image-portrait"]],
+      `${data.name} - Portrait.${data["image-portrait"].type.split("/")[1]}`,
+      {
+        type: data["image-portrait"].type,
+      }
+    );
+
+    data["image-cover"] = coverFile;
+    data["image-portrait"] = portraitFile;
 
     return { status: true, data };
   },

@@ -338,7 +338,7 @@ function WriteContent() {
             <ul className="px-2">
               <li className="list-disc text-sm">
                 Pastikan nama file memiliki format &ldquo;Nama Karakter -
-                Cover&rdquo;
+                Cover.png&rdquo;
               </li>
               <li className="list-disc text-sm">
                 Contoh: &ldquo;Kamisato Ayaka - Cover.png&rdquo;
@@ -363,7 +363,7 @@ function WriteContent() {
                 Portrait.png&rdquo;
               </li>
               <li className="list-disc text-sm">
-                Contoh: &ldquo;Kamisato Ayaka - Portrait&rdquo;
+                Contoh: &ldquo;Kamisato Ayaka - Portrait.png&rdquo;
               </li>
               <li className="list-disc text-sm">
                 Hanya format png dan webp saja yang diizinkan

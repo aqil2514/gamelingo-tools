@@ -318,80 +318,88 @@ export const genshin: FormUtils.Genshin.Genshin = {
     // <<<<< Validasi >>>>>
     const validation = await genshinValidator.character(data);
     if (!validation.status) return { status: 422, msg: validation.msg };
+    const validationData:FormUtils.Genshin.FormDataCharacter = validation.data;
 
-    // <<<<< Upload Image jika ada >>>>>
-    let imageUrl = "";
-    if (validation.data.image) {
-      const uploadFile = await file.uploadSingleImage(
-        validation.data.image,
-        game,
-        category
-      );
-      imageUrl = uploadFile.secure_url;
-    }
+    // <<<<< Upload Image >>>>>
+    let coverImageUrl = "";
+    const coverUploadFile = await file.uploadSingleImage(
+      validationData["image-cover"],
+      game,
+      category
+    );
+    coverImageUrl = coverUploadFile.secure_url;
 
+    let portraitImageUrl = "";
+    const portraitUploadFile = await file.uploadSingleImage(
+      validationData["image-portrait"],
+      game,
+      category
+    );
+    portraitImageUrl = portraitUploadFile.secure_url;
+
+    // <<<<< Penyusunan Data >>>>>
     const organizedData = genshinOrganizing.character(
       validation.data,
-      imageUrl
+      coverImageUrl
     );
 
     // <<<<< Tambah ke Data base >>>>
 
-    // if (action === "add") {
-    //   if (data["result-lang"] === "English") {
-    //     const character = await CharacterEN.create(organizedData);
+    if (action === "add") {
+      if (data["result-lang"] === "English") {
+        const character = await CharacterEN.create(organizedData);
 
-    //     await post.addPost(data, {
-    //       lang: data["result-lang"],
-    //       gameName: game,
-    //       gameTopic: category,
-    //       parent: character,
-    //       user,
-    //     });
-    //   } else if (data["result-lang"] === "Indonesian") {
-    //     const character = await CharacterID.create(organizedData);
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: character,
+          user,
+        });
+      } else if (data["result-lang"] === "Indonesian") {
+        const character = await CharacterID.create(organizedData);
 
-    //     await post.addPost(data, {
-    //       lang: data["result-lang"],
-    //       gameName: game,
-    //       gameTopic: category,
-    //       parent: character,
-    //       user,
-    //     });
-    //   }
-    // }
+        await post.addPost(data, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: character,
+          user,
+        });
+      }
+    }
 
     // // <<<<< Edit data dari Database >>>>>
-    // else if (action === "edit") {
-    //   if (!oldId) throw new Error("Old ID diperlukan");
-    //   if (lang === "Indonesian") {
-    //     const character = await CharacterID.findByIdAndUpdate(
-    //       oldId,
-    //       organizedData
-    //     );
+    else if (action === "edit") {
+      if (!oldId) throw new Error("Old ID diperlukan");
+      if (lang === "Indonesian") {
+        const character = await CharacterID.findByIdAndUpdate(
+          oldId,
+          organizedData
+        );
 
-    //     await post.editPost(data, oldId, {
-    //       lang: data["result-lang"],
-    //       gameName: game,
-    //       gameTopic: category,
-    //       parent: character,
-    //       user,
-    //     });
-    //   } else if (lang === "English") {
-    //     const character = await CharacterEN.findByIdAndUpdate(
-    //       oldId,
-    //       organizedData
-    //     );
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: character,
+          user,
+        });
+      } else if (lang === "English") {
+        const character = await CharacterEN.findByIdAndUpdate(
+          oldId,
+          organizedData
+        );
 
-    //     await post.editPost(data, oldId, {
-    //       lang: data["result-lang"],
-    //       gameName: game,
-    //       gameTopic: category,
-    //       parent: character,
-    //       user,
-    //     });
-    //   }
-    // }
+        await post.editPost(data, oldId, {
+          lang: data["result-lang"],
+          gameName: game,
+          gameTopic: category,
+          parent: character,
+          user,
+        });
+      }
+    }
 
     return { status: 200, organizedData };
   },
@@ -623,7 +631,14 @@ export const evertale: FormUtils.Evertale.ProcessForm = {
     if (action === "add") {
       const ECharacter = await Character.create(organizedData);
 
-      await post.addPost(data, { lang: "English & Indonesian", gameName: game, gameTopic: category, parent: ECharacter, user,aliasName:data["status-charName"] });
+      await post.addPost(data, {
+        lang: "English & Indonesian",
+        gameName: game,
+        gameTopic: category,
+        parent: ECharacter,
+        user,
+        aliasName: data["status-charName"],
+      });
     }
 
     return { status: 200, organizedData };

@@ -33,7 +33,7 @@ function Character({id}:{id:string}){
     if (event.target.files && event.target.files.length > 0) {
     const selectedFile = event.target.files[0] as File;
     setFileName(selectedFile.name);
-    setPreviewLink(URL.createObjectURL(selectedFile)); // Create URL for preview
+    setPreviewLink(URL.createObjectURL(selectedFile));
     return;
   }
   }

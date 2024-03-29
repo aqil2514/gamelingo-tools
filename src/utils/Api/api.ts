@@ -588,7 +588,6 @@ export const file: ApiUtils.FileApi = {
       ? config.allowedExtension
       : ["webp", "png"];
     const validateName = config?.validateName ? config.validateName : false;
-    const validationName = config?.validationName;
 
     // <<<<< Variabel Local >>>>>
     const maxSizeInBytes = 1 * 1024 * 1024;

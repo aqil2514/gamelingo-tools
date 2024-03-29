@@ -5,45 +5,45 @@ import { NextResponse } from "next/server";
 import * as fs from "fs";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 
-export async function GET() {
-  // const Characters = await CharacterID.find();
+// export async function GET() {
+//   // const Characters = await CharacterID.find();
 
-  // fs.writeFileSync("characters-id.json", JSON.stringify(Characters), {"encoding": "utf-8"})
+//   // fs.writeFileSync("characters-id.json", JSON.stringify(Characters), {"encoding": "utf-8"})
 
-  const data = JSON.parse(
-    fs.readFileSync("characters-en.json", { encoding: "utf-8" })
-  );
+//   const data = JSON.parse(
+//     fs.readFileSync("characters-en.json", { encoding: "utf-8" })
+//   );
 
-  for (const char of data) {
-    const newD: GenshinImpact.Character = {
-      _id: char._id,
-      ascendMaterial: char.ascendMaterial,
-      ascendStatus: char.ascendStatus,
-      build: char.build,
-      constellation: char.constellation,
-      createdAt: char.createdAt,
-      cv: char.cv,
-      description: char.description,
-      element: char.element,
-      gender: char.gender,
-      image: {
-        cover: char.image,
-        portrait: "https://placehold.jp/64x64.png",
-      },
-      lang: char.lang,
-      name: char.name,
-      rarity: char.rarity,
-      region: char.region,
-      talent: char.talent,
-      updatedAt: char.updatedAt,
-      weapon: char.weapon,
-    };
+//   for (const char of data) {
+//     const newD: GenshinImpact.Character = {
+//       _id: char._id,
+//       ascendMaterial: char.ascendMaterial,
+//       ascendStatus: char.ascendStatus,
+//       build: char.build,
+//       constellation: char.constellation,
+//       createdAt: char.createdAt,
+//       cv: char.cv,
+//       description: char.description,
+//       element: char.element,
+//       gender: char.gender,
+//       image: {
+//         cover: char.image,
+//         portrait: "https://placehold.jp/64x64.png",
+//       },
+//       lang: char.lang,
+//       name: char.name,
+//       rarity: char.rarity,
+//       region: char.region,
+//       talent: char.talent,
+//       updatedAt: char.updatedAt,
+//       weapon: char.weapon,
+//     };
 
-    CharacterID.create(newD);
-  }
+//     CharacterID.create(newD);
+//   }
 
-  return NextResponse.json({ msg:"ok" }, { status: 200 });
-}
+//   return NextResponse.json({ msg:"ok" }, { status: 200 });
+// }
 
 // <<<<< Talent migrations >>>>>
 // export async function GET() {
