@@ -11,7 +11,10 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       typeMaterial: data.typeMaterial,
       rarity: data.rarity,
       lore: data.lore,
-      gainedFrom: typeof data.gainedFrom === "string" ? data.gainedFrom.replace(", ", ",").split(",") : data.gainedFrom,
+      gainedFrom:
+        typeof data.gainedFrom === "string"
+          ? data.gainedFrom.replace(", ", ",").split(",")
+          : data.gainedFrom,
       image: imageUrl ? imageUrl : undefined,
     };
     return finalData;
@@ -19,7 +22,10 @@ export const genshinOrganizing: OrganizeData.Genshin = {
   artifact: (data, imageUrl) => {
     const finalData: GenshinImpact.Artifact = {
       name: data.name,
-      rarityList: typeof data.rarityList === "string" ? data.rarityList.split(",") : data.rarityList,
+      rarityList:
+        typeof data.rarityList === "string"
+          ? data.rarityList.split(",")
+          : data.rarityList,
       effect2pc: data.effect2Pc,
       effect4pc: data.effect4Pc,
       flower: {
@@ -338,7 +344,10 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       weapon: data.weapon as GenshinImpact.Character["weapon"],
       gender: data.gender as GenshinImpact.Character["gender"],
       region: data.region as GenshinImpact.Character["region"],
-      image: imageUrl ? imageUrl : undefined,
+      image: {
+        cover: imageUrl,
+        portrait: "",
+      },
     };
 
     return finalData;
@@ -618,7 +627,10 @@ export const evertaleOrganizing: OrganizeData.ET = {
       charWeapon1: data["status-charWeapon1"],
       charWeapon2: data["status-charWeapon2"],
       charLeaderSkill: data["status-charLeaderSkill"],
-      charConjure: data["status-charConjure"] !== "selfConjured" ? data["status-charConjure"] : data["status-charName"],
+      charConjure:
+        data["status-charConjure"] !== "selfConjured"
+          ? data["status-charConjure"]
+          : data["status-charName"],
     };
 
     const charIntro: Evertale.Character.Intro = {
@@ -665,17 +677,23 @@ export const evertaleOrganizing: OrganizeData.ET = {
 
     for (let i = 1; i <= 4; i++) {
       type NumberActive = "1" | "2" | "3" | "4";
-      const skillName = data[`active-skill-name-${i as unknown as NumberActive}`];
+      const skillName =
+        data[`active-skill-name-${i as unknown as NumberActive}`];
 
       if (skillName) {
         const active: Evertale.Character.ActiveSkill = {
           skillName: data[`active-skill-name-${i as unknown as NumberActive}`],
-          typeSkill: data[`active-type-${i as unknown as NumberActive}`].split(", "),
-          skillSpirit: data[`active-skill-spirit-${i as unknown as NumberActive}`],
-          skillTarget: data[`active-skill-target-${i as unknown as NumberActive}`],
+          typeSkill:
+            data[`active-type-${i as unknown as NumberActive}`].split(", "),
+          skillSpirit:
+            data[`active-skill-spirit-${i as unknown as NumberActive}`],
+          skillTarget:
+            data[`active-skill-target-${i as unknown as NumberActive}`],
           skillTu: data[`active-skill-tu-${i as unknown as NumberActive}`],
-          skillDescEn: data[`active-skill-desc-en-${i as unknown as NumberActive}`],
-          skillDescId: data[`active-skill-desc-id-${i as unknown as NumberActive}`],
+          skillDescEn:
+            data[`active-skill-desc-en-${i as unknown as NumberActive}`],
+          skillDescId:
+            data[`active-skill-desc-id-${i as unknown as NumberActive}`],
         };
 
         if (active.skillName) {
@@ -688,14 +706,19 @@ export const evertaleOrganizing: OrganizeData.ET = {
 
     for (let i = 1; i <= 6; i++) {
       type NumberPassive = "1" | "2" | "3" | "4" | "5" | "6";
-      const skillName = data[`passive-skill-name-${i as unknown as NumberPassive}`];
+      const skillName =
+        data[`passive-skill-name-${i as unknown as NumberPassive}`];
 
       if (skillName) {
         const passive: Evertale.Character.PassiveSkill = {
-          skillName: data[`passive-skill-name-${i as unknown as NumberPassive}`],
-          typeSkill: data[`passive-type-${i as unknown as NumberPassive}`].split(","),
-          skillDescEn: data[`passive-skill-desc-en-${i as unknown as NumberPassive}`],
-          skillDescId: data[`passive-skill-desc-id-${i as unknown as NumberPassive}`],
+          skillName:
+            data[`passive-skill-name-${i as unknown as NumberPassive}`],
+          typeSkill:
+            data[`passive-type-${i as unknown as NumberPassive}`].split(","),
+          skillDescEn:
+            data[`passive-skill-desc-en-${i as unknown as NumberPassive}`],
+          skillDescId:
+            data[`passive-skill-desc-id-${i as unknown as NumberPassive}`],
         };
 
         if (passive.skillName) {
@@ -717,6 +740,9 @@ export const evertaleOrganizing: OrganizeData.ET = {
   },
 };
 
-function findImage(imageUrl: string[], artifactType: "Flower" | "Plume" | "Sands" | "Goblet" | "Circlet"): string | undefined {
+function findImage(
+  imageUrl: string[],
+  artifactType: "Flower" | "Plume" | "Sands" | "Goblet" | "Circlet"
+): string | undefined {
   return imageUrl.find((image) => image.includes(artifactType));
 }

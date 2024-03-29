@@ -47,7 +47,7 @@ export default function GICharacterDetail() {
           </div>
 
           <div className="w-full p-4 my-4 flex justify-center">
-            <DisplayImage template="variant1" src={data.image as string} alt={data.name} />
+            <DisplayImage template="variant1" src={data.image.cover} alt={data.name} />
           </div>
 
           <p className="font-poppins text-white">

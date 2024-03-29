@@ -1,7 +1,7 @@
 import { Input, VariantClass } from "@/components/general/Input";
 import React, { useEffect, useState } from "react";
 import { SubmitConfig_GI, submitFormHandler } from "../genshinUtils";
-import ImageInput, { changeHandler } from "@/components/general/ImageInput";
+import ImageInput from "@/components/general/ImageInput";
 import Button, { VariantClass as ButtonClass } from "@/components/Input/Button";
 import { FetchApi } from "../genshinComponents";
 import { useMaterialContext } from "@/components/Providers/Game/GenshinImpact/MaterialProvider";
@@ -74,7 +74,7 @@ function WriteContent() {
               variant={VariantClass.dashboard}
             />
             <p className="text-white font-bold">Tambah tanda &quot;,&quot; sebagai pemisah.</p>
-            <ImageInput changeHandler={(e) => changeHandler(e, setFileName, setPreviewLink)} fileName={fileName} previewLink={previewLink} setFileName={setFileName} setPreviewLink={setPreviewLink} />
+            <ImageInput template="Material" />
           </>
         ) : (
           <p className="text-white font-bold font-poppins">No Data Selected</p>

@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 import SwiperDataSlide from "../Components/SwiperSlideData";
 import { Pagination } from "swiper/modules";
 import { useWeaponContext } from "@/components/Providers/Game/GenshinImpact/WeaponProvider";
-import ImageInput, { changeHandler as imageHandler } from "@/components/general/ImageInput";
+import ImageInput from "@/components/general/ImageInput";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
 import axios, { isAxiosError } from "axios";
 import { Route } from "next";
@@ -181,7 +181,7 @@ function WriteContent() {
               </div>
             </div>
 
-            <ImageInput changeHandler={(e) => imageHandler(e, setFileName, setPreviewLink)} fileName={fileName} setFileName={setFileName} previewLink={previewLink} setPreviewLink={setPreviewLink} />
+            <ImageInput template="Weapon" />
           </>
         ) : (
           <p className="font-bold text-white font-poppins">No Data Selected</p>
@@ -394,7 +394,7 @@ function EditContent() {
               </Swiper>
             </div>
 
-            {data.image ? <></> : <ImageInput changeHandler={(e) => imageHandler(e, setFileName, setPreviewLink)} fileName={fileName} setFileName={setFileName} previewLink={previewLink} setPreviewLink={setPreviewLink} />}
+            {data.image ? <></> : <ImageInput template="Weapon" />}
             <EditContextButton />
           </>
         )}
