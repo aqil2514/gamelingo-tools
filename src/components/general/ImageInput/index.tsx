@@ -5,15 +5,16 @@ import { useCharacterContext } from "@/components/Providers/Game/GenshinImpact/C
 
 interface ImageInputProps{
   template: General.GameGenshinImpact["category"]
+  id?: string;
 }
 
-export default function ImageInput({template}: ImageInputProps) {
-  if(template ==="Character") return <Character />
+export default function ImageInput({template, id}: ImageInputProps) {
+  if(template ==="Character") return <Character id={id as string} />
   else if(template === "Material") return <Material />
   else if(template === "Weapon") return <Weapon />
 }
 
-function Character(){
+function Character({id}:{id:string}){
   const [previewLink, setPreviewLink] = useState<string>("");
   const [fileName,setFileName] = useState<string>("")
   const initFileName = `No Image Selected`;
@@ -33,6 +34,7 @@ function Character(){
     const selectedFile = event.target.files[0] as File;
     setFileName(selectedFile.name);
     setPreviewLink(URL.createObjectURL(selectedFile)); // Create URL for preview
+    return;
   }
   }
 
@@ -57,8 +59,8 @@ function Character(){
         }}
       >
         Gambar :
-        <input type="file" name="image" onChange={changeHandler} id="file" ref={imageRef} accept=".png, .webp" className="hidden" />
-        <label htmlFor="file" className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white rounded-xl">
+        <input type="file" name={id} onChange={changeHandler} id={id} ref={imageRef} accept=".png, .webp" className="hidden" />
+        <label htmlFor={id} className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white rounded-xl">
           {fileName ? fileName : initFileName}
         </label>
       </div>

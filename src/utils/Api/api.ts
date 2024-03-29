@@ -73,7 +73,10 @@ export const register: ApiUtils.RegisterApi = {
       };
     }
 
-    const isThere = await supabase.from(DB.user).select("*").like("username", username);
+    const isThere = await supabase
+      .from(DB.user)
+      .select("*")
+      .like("username", username);
     if (isThere.data?.length !== 0) {
       return {
         status: false,
@@ -93,8 +96,12 @@ export const register: ApiUtils.RegisterApi = {
       return { status: false, ref: "email", msg: "Email tidak valid" };
     }
 
-    const isThere = await supabase.from(DB.user).select("*").like("email", email);
-    if (isThere.data?.length !== 0) return { status: false, ref: "email", msg: "Email telah digunakan" };
+    const isThere = await supabase
+      .from(DB.user)
+      .select("*")
+      .like("email", email);
+    if (isThere.data?.length !== 0)
+      return { status: false, ref: "email", msg: "Email telah digunakan" };
 
     return { status: true };
   },
@@ -165,7 +172,10 @@ export const login: ApiUtils.LoginApi = {
   usernameValidation: async (username: string) => {
     if (!username) return { status: false, msg: "Username belum diisi" };
 
-    const isThere = await supabase.from(DB.user).select("*").eq("username", username);
+    const isThere = await supabase
+      .from(DB.user)
+      .select("*")
+      .eq("username", username);
     if (!isThere || !isThere.data || isThere.data?.length === 0) {
       return { status: false, msg: "Username tidak tersedia" };
     }
@@ -175,25 +185,39 @@ export const login: ApiUtils.LoginApi = {
   passwordValidation: async (username: string, password: string) => {
     if (!password) return { status: false, msg: "Password belum diisi" };
 
-    const isThere = await supabase.from(DB.user).select("*").eq("username", username);
+    const isThere = await supabase
+      .from(DB.user)
+      .select("*")
+      .eq("username", username);
     if (!isThere || !isThere.data || isThere.data?.length === 0) {
       return { status: false, msg: "Username tidak tersedia" };
     }
 
-    const passwordCompared = await bcrypt.compare(password, isThere.data[0].password);
+    const passwordCompared = await bcrypt.compare(
+      password,
+      isThere.data[0].password
+    );
     if (!passwordCompared) return { status: false, msg: "Password salah" };
 
     return { status: true };
   },
   isVerifiedValidation: async (username: string) => {
-    const isVerified = await supabase.from(DB.user).select("*").eq("username", username);
+    const isVerified = await supabase
+      .from(DB.user)
+      .select("*")
+      .eq("username", username);
 
-    if (!isVerified || !isVerified.data || isVerified.data.length === 0) throw new Error("Data tidak ada");
+    if (!isVerified || !isVerified.data || isVerified.data.length === 0)
+      throw new Error("Data tidak ada");
     const userData: Account.UsersLogin = isVerified.data[0];
 
     if (!userData.account_verified) {
-      const verification = await supabase.from(DB.code).select("*").eq("email", userData.email);
-      if (!verification || !verification.data || verification.data.length === 0) throw new Error("Data tidak ada");
+      const verification = await supabase
+        .from(DB.code)
+        .select("*")
+        .eq("email", userData.email);
+      if (!verification || !verification.data || verification.data.length === 0)
+        throw new Error("Data tidak ada");
       const verifCodeData: Account.VerifCode = verification.data[0];
 
       if (!userData.account_verified)
@@ -220,10 +244,18 @@ export const dashboard: ApiUtils.DashboardApi = {
   usernameValidation: async (username, oldUsername) => {
     if (!username) return { status: false, msg: "Username belum diisi" };
 
-    if (username.length <= 7) return { status: false, msg: "Username kurang dari 8 karakter" };
+    if (username.length <= 7)
+      return { status: false, msg: "Username kurang dari 8 karakter" };
 
-    const isDupplicate = await supabase.from(DB.user).select("username").eq("username", username);
-    if (isDupplicate.data?.length !== 0 && isDupplicate!.data![0].username !== oldUsername) return { status: false, msg: "Username telah digunakan" };
+    const isDupplicate = await supabase
+      .from(DB.user)
+      .select("username")
+      .eq("username", username);
+    if (
+      isDupplicate.data?.length !== 0 &&
+      isDupplicate!.data![0].username !== oldUsername
+    )
+      return { status: false, msg: "Username telah digunakan" };
 
     return { status: true };
   },
@@ -239,8 +271,15 @@ export const dashboard: ApiUtils.DashboardApi = {
       return { status: false, ref: "email", msg: "Email tidak valid" };
     }
 
-    const isDupplicate = await supabase.from(DB.user).select("email").like("email", email);
-    if (isDupplicate.data?.length !== 0 && isDupplicate!.data![0].email !== oldEmail) return { status: false, ref: "email", msg: "Email telah digunakan" };
+    const isDupplicate = await supabase
+      .from(DB.user)
+      .select("email")
+      .like("email", email);
+    if (
+      isDupplicate.data?.length !== 0 &&
+      isDupplicate!.data![0].email !== oldEmail
+    )
+      return { status: false, ref: "email", msg: "Email telah digunakan" };
 
     return { status: true };
   },
@@ -307,7 +346,10 @@ export const verification: ApiUtils.VerificationApi = {
     }
 
     if (action === "verify-account") {
-      await supabase.from(DB.user).update({ account_verified: true }).eq("email", email);
+      await supabase
+        .from(DB.user)
+        .update({ account_verified: true })
+        .eq("email", email);
 
       await supabase.from(DB.code).delete().eq("email", email);
 
@@ -458,8 +500,12 @@ export async function getUser() {
  */
 export const resetPassword: ApiUtils.ResetPasswordApi = {
   async checkEmail(email) {
-    const isThere = await supabase.from(DB.user).select("email").eq("email", email);
-    if (!isThere || !isThere.data || isThere.data.length === 0) return { status: false, msg: "Email tidak ditemukan" };
+    const isThere = await supabase
+      .from(DB.user)
+      .select("email")
+      .eq("email", email);
+    if (!isThere || !isThere.data || isThere.data.length === 0)
+      return { status: false, msg: "Email tidak ditemukan" };
     return { status: true };
   },
 };
@@ -538,8 +584,11 @@ export const file: ApiUtils.FileApi = {
   },
   validationImage: (file, config) => {
     // <<<<< Cek apa saja config yang ditentukan >>>>>
-    const allowedExtension = config?.allowedExtension ? config.allowedExtension : ["webp", "png"];
+    const allowedExtension = config?.allowedExtension
+      ? config.allowedExtension
+      : ["webp", "png"];
     const validateName = config?.validateName ? config.validateName : false;
+    const validationName = config?.validationName;
 
     // <<<<< Variabel Local >>>>>
     const maxSizeInBytes = 1 * 1024 * 1024;
@@ -551,7 +600,9 @@ export const file: ApiUtils.FileApi = {
     if (!allowedExtension.includes(extension)) {
       return {
         status: false,
-        msg: `Format gambar tidak diizinkan. Format yang diizinkan : ${allowedExtension.join(", ")}`,
+        msg: `Format gambar tidak diizinkan. Format yang diizinkan : ${allowedExtension.join(
+          ", "
+        )}`,
       };
     }
 
@@ -563,16 +614,21 @@ export const file: ApiUtils.FileApi = {
       };
     }
 
+    
     // Apakah file akan divalidasi?
-    // TODO: Fix this later
     if (validateName) {
       // Apakah nama gambar sesuai dengan nama data?
       if (validateName === "exactly the same") {
         const name = config?.validationName;
         if (!name) throw new Error("Nama belum ditentukan");
 
-        if (!file.name.toLowerCase().includes(name.toLowerCase())) return { status: false, msg: "Nama Image harus sesuai dengan nama data." };
+        if (file.name.toLowerCase() !== name.toLowerCase())
+          return {
+            status: false,
+            msg: "Nama Gambar harus sesuai dengan aturan.",
+          };
       }
+
       // Apakah nama gambar mengandung nama data?
       else if (validateName === "including") {
         const name = config?.validationName;
@@ -584,10 +640,12 @@ export const file: ApiUtils.FileApi = {
             msg: "Nama file tidak mencakup nama karakter. Apa ini file yang benar?",
           };
         }
-      } else {
+      }
+
+      else {
         throw new Error("Pilihan tidak ada");
       }
-    }
+    } 
 
     return { status: true, file };
   },
@@ -656,10 +714,14 @@ export const isSubfieldData = {
   account(subfield: any): subfield is General.AdminQueryUser["subfield"] {
     return subfield;
   },
-  evertale(subfield: any): subfield is General.AdminQueryGameEvertale["subfield"] {
+  evertale(
+    subfield: any
+  ): subfield is General.AdminQueryGameEvertale["subfield"] {
     return subfield;
   },
-  genshinImpact(subfield: any): subfield is General.AdminQueryGameGenshin["subfield"] {
+  genshinImpact(
+    subfield: any
+  ): subfield is General.AdminQueryGameGenshin["subfield"] {
     return subfield;
   },
 };

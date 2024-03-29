@@ -225,15 +225,15 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
   async character(data) {
     if (!data.name) return { status: false, msg: "Nama karakter belum ada" };
 
-    if (data["result-lang"] === "Indonesian") {
-      const isThere = await CharacterID.findOne({ name: data.name });
-      if (isThere)
-        return { status: false, msg: `${data.name} sudah ada di Database` };
-    } else if (data["result-lang"] === "English") {
-      const isThere = await CharacterEN.findOne({ name: data.name });
-      if (isThere)
-        return { status: false, msg: `${data.name} is there in Database` };
-    }
+    // if (data["result-lang"] === "Indonesian") {
+    //   const isThere = await CharacterID.findOne({ name: data.name });
+    //   if (isThere)
+    //     return { status: false, msg: `${data.name} sudah ada di Database` };
+    // } else if (data["result-lang"] === "English") {
+    //   const isThere = await CharacterEN.findOne({ name: data.name });
+    //   if (isThere)
+    //     return { status: false, msg: `${data.name} is there in Database` };
+    // }
 
     if (!data.description)
       return { status: false, msg: "Deskripsi karakter belum ada" };
@@ -313,26 +313,50 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
     )
       return { status: false, msg: "Region tidak diizinkan" };
 
-    if (data.image && data.image.type !== "application/octet-stream") {
-      const imageValidation = file.validationImage(data.image as File, {
-        validateName: "including",
-        validationName: data.name,
-      });
-      if (!imageValidation.status)
-        return { msg: imageValidation.msg, status: false };
+    // <<<<< Image Validation >>>>>
 
-      const newFile = new File(
-        [data.image],
-        `${data.name}.${data.image.type.split("/")[1]}`,
-        {
-          type: data.image.type,
-        }
-      );
+    if (data["image-cover"].type === "application/octet-stream")
+      return { status: false, msg: "Image Cover belum diisi" };
 
-      data.image = newFile;
-    } else if (data.image && data.image.type === "application/octet-stream") {
-      data.image = undefined;
-    }
+    const coverValidation = file.validationImage(data["image-cover"], {
+      validateName: "exactly the same",
+      validationName: `${data.name} - Cover.png`
+    });
+    if (!coverValidation.status)
+      return { msg: coverValidation.msg, status: false };
+    
+    if (data["image-portrait"].type === "application/octet-stream")
+    return { status: false, msg: "Image Portrait belum diisi" };
+  
+  const portraitValidation = file.validationImage(data["image-portrait"], {
+    validateName: "exactly the same",
+    validationName: `${data.name} - Portrait.png`
+  });
+  if (!portraitValidation.status)
+    return { msg: portraitValidation.msg, status: false };
+
+    // Lanjutin Ini 
+    
+    // if (data.image && data.image.type !== "application/octet-stream") {
+    //   const imageValidation = file.validationImage(data.image as File, {
+    //     validateName: "including",
+    //     validationName: data.name,
+    //   });
+    //   if (!imageValidation.status)
+    //     return { msg: imageValidation.msg, status: false };
+
+    //   const newFile = new File(
+    //     [data.image],
+    //     `${data.name}.${data.image.type.split("/")[1]}`,
+    //     {
+    //       type: data.image.type,
+    //     }
+    //   );
+
+    //   data.image = newFile;
+    // } else if (data.image && data.image.type === "application/octet-stream") {
+    //   return { status: false, msg: "Gambar harus diisi" };
+    // }
 
     return { status: true, data };
   },

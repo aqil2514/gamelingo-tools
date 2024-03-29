@@ -259,7 +259,8 @@ namespace FormUtils {
       weapon: string;
       gender: string;
       region: string;
-      image?: File;
+      "image-portrait":File;
+      "image-cover": File;
     }
 
     export interface FormDataConstellation {

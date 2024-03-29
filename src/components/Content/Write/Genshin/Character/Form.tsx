@@ -341,14 +341,14 @@ function WriteContent() {
                 Cover&rdquo;
               </li>
               <li className="list-disc text-sm">
-                Contoh: &ldquo;Kamisato Ayaka - Cover&rdquo;
+                Contoh: &ldquo;Kamisato Ayaka - Cover.png&rdquo;
               </li>
               <li className="list-disc text-sm">
                 Hanya format png dan webp saja yang diizinkan
               </li>
             </ul>
           </div>
-          <ImageInput template="Character" />
+          <ImageInput template="Character" id="image-cover"/>
         </div>
 
         <div className="p-4 border-2 border-white rounded-xl">
@@ -360,7 +360,7 @@ function WriteContent() {
             <ul className="px-2">
               <li className="list-disc text-sm">
                 Pastikan nama file memiliki format &ldquo;Nama Karakter -
-                Portrait&rdquo;
+                Portrait.png&rdquo;
               </li>
               <li className="list-disc text-sm">
                 Contoh: &ldquo;Kamisato Ayaka - Portrait&rdquo;
@@ -370,7 +370,7 @@ function WriteContent() {
               </li>
             </ul>
           </div>
-          <ImageInput template="Character" />
+          <ImageInput template="Character" id="image-portrait" />
         </div>
       </div>
 
