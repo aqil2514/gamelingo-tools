@@ -1,11 +1,13 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../../Input/Button";
 import { useCharacterContext } from "@/components/Providers/Game/GenshinImpact/CharacterProvider";
 
 interface ImageInputProps{
   template: General.GameGenshinImpact["category"]
   id?: string;
+  dataImage?: string;
+  imageName?:string;
 }
 
 export default function ImageInput({template, id}: ImageInputProps) {
@@ -14,12 +16,26 @@ export default function ImageInput({template, id}: ImageInputProps) {
   else if(template === "Weapon") return <Weapon />
 }
 
-function Character({id}:{id:string}){
-  const [previewLink, setPreviewLink] = useState<string>("");
-  const [fileName,setFileName] = useState<string>("")
-  const initFileName = `No Image Selected`;
-  const imageRef = React.useRef<HTMLInputElement>(null);
-  
+function Character({id, dataImage, imageName}:Omit<ImageInputProps, "template">){
+ const [previewLink, setPreviewLink] = useState<string>("");
+  const [fileName, setFileName] = useState<string>("");
+  const imageRef = useRef<HTMLInputElement>(null);
+  const initFileName = "No Image Selected"
+
+  useEffect(() => {
+    console.log("Test");
+    console.log(dataImage);
+    console.log(imageName);
+    if (dataImage && imageName) {
+      setPreviewLink(dataImage);
+      setFileName(imageName);
+    }
+  }, [dataImage, imageName]);
+
+  console.log(fileName);
+  console.log(previewLink);
+
+
   function removeHandler() {
     if (imageRef.current) {
       imageRef.current.value = "";

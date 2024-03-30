@@ -9,6 +9,8 @@ export async function GET(req: NextRequest) {
   const lang = searchParams.get("lang") as General.PostDocument["lang"] | null;
   const charName = searchParams.get("charName");
 
+  console.log(charName, lang, category)
+
   if (!category) throw new Error("Category belum diisi");
   if (!lang) throw new Error("Bahasa belum diisi");
   if (!charName) throw new Error("Nama Karakter belum diisi");

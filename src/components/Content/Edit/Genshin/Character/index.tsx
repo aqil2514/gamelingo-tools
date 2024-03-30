@@ -7,6 +7,8 @@ import { Route } from "next";
 import { useState } from "react";
 import useSWR from "swr";
 import Form from "./Form";
+import axios, { isAxiosError } from "axios";
+import Loading from "@/components/general/Loading";
 
 interface GenshinCharacterEditProps {
   searchParams: {
@@ -23,6 +25,11 @@ export default function GenshinCharacterEdit({
   const [lang, setLang] = useState<General.PostDocument["lang"]>("English");
   const [charName, setCharName] = useState<string>("");
   const [showData, setShowData] = useState<boolean>(false);
+  const [charData, setCharData] = useState<GenshinImpact.Character>(
+    {} as GenshinImpact.Character
+  );
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+
   const { data, isLoading, error } = useSWR(
     endPoint,
     (endPoint) => fetcherWithParams(endPoint, { game, category }),
@@ -36,12 +43,27 @@ export default function GenshinCharacterEdit({
   if (!data || isLoading)
     return <TextField variant="skeleton-variant-1" label="Select Character" />;
 
-  function fetchHandler() {
+  async function fetchHandler() {
     const fieldCharacterName = document.getElementById(
       "character-search-name"
     ) as HTMLInputElement;
-    setCharName(fieldCharacterName.value);
-    setShowData(true);
+    const category: General.GameGenshinImpact["category"] = "Character";
+    const endPoint: Route = "/api/gamelingo/genshin-impact/form";
+
+    try {
+      setIsFetching(true);
+      const res = await axios.get(endPoint, {
+        params: { category, charName: fieldCharacterName.value, lang },
+      });
+      setCharData(res.data.formData);
+      setShowData(true);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        console.error(error);
+      }
+    } finally {
+      setIsFetching(false);
+    }
   }
 
   return (
@@ -52,6 +74,7 @@ export default function GenshinCharacterEdit({
           name="lang"
           id="en-query"
           checked={lang === "English"}
+          disabled={isFetching}
           onChange={() => setLang("English")}
         />
         <label htmlFor="en-query">English</label>
@@ -60,6 +83,7 @@ export default function GenshinCharacterEdit({
           name="lang"
           id="id-query"
           checked={lang === "Indonesian"}
+          disabled={isFetching}
           onChange={() => setLang("Indonesian")}
         />
         <label htmlFor="id-query">Indonesia</label>
@@ -69,11 +93,13 @@ export default function GenshinCharacterEdit({
           forId="character-search-name"
           variant="default-variant-1"
           list="p"
+          disabled={isFetching}
           label="Select Character"
         />
         <div className="flex gap-4 items-end my-auto">
           <Button
             className={`${VariantClass.fetch} mb-auto`}
+            disabled={isFetching}
             onClick={fetchHandler}
           >
             Tampilkan Data
@@ -81,9 +107,13 @@ export default function GenshinCharacterEdit({
           {showData && (
             <Button
               className={`${VariantClass.danger} mb-auto`}
+              disabled={isFetching}
               onClick={() => {
+                const fieldCharacterName = document.getElementById(
+                  "character-search-name"
+                ) as HTMLInputElement;
+                fieldCharacterName.value = ""
                 setShowData(false);
-                setCharName("");
               }}
             >
               Reset Pencarian
@@ -96,7 +126,8 @@ export default function GenshinCharacterEdit({
           ))}
         </datalist>
       </div>
-      {showData && <Form charName={charName} lang={lang} />}
+      {isFetching && <Loading loading={1} textOn text="Mengambil data..." />}
+      {showData && <Form data={charData} />}
     </div>
   );
 }
