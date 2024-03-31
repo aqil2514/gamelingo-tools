@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 const rightAlignNameChar = ["Raiden Shogun"];
-/* TODO : FIX INI. GANTI JADI POTRAIT AJAH FOTONYA */
 
 export default function CharacterList({
   d,

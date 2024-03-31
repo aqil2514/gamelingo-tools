@@ -200,7 +200,6 @@ export const genshinOrganizing: OrganizeData.Genshin = {
     return finalData;
   },
   async character(data, coverImageUrl, portraitImageUrl, action) {
-    console.log(portraitImageUrl)
     let oldData: GenshinImpact.Character = {} as GenshinImpact.Character;
 
     if (action === "edit") {
@@ -218,8 +217,9 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         cover: coverImageUrl,
         portrait: portraitImageUrl,
       };
-      console.log(coverMap)
-      return oldData.image[field].includes(data.name.toLowerCase()) ? oldData.image[field] : coverMap[field];
+      return oldData.image[field].toLowerCase().includes(data.name.toLowerCase())
+      ? oldData.image[field]
+      : coverMap[field];
     };
 
     const finalData: GenshinImpact.Character = {
@@ -357,7 +357,7 @@ export const genshinOrganizing: OrganizeData.Genshin = {
           },
         ],
       },
-      cv: {
+      cv: { 
         english: data["character-voice-english"],
         japanese: data["character-voice-japanese"],
         korean: data["character-voice-korean"],
@@ -374,8 +374,6 @@ export const genshinOrganizing: OrganizeData.Genshin = {
           action === "edit" ? selectImage("portrait") : portraitImageUrl,
       },
     };
-
-    // console.log(finalData)
 
     return finalData;
   },

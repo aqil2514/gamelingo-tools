@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
         return {
           name: d.name,
           id: d._id as string,
-          image: d.image?.cover,
+          image: d.image.portrait,
           rarity: d.rarity,
           desc: d.description,
           element: d.element,

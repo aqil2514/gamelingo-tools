@@ -97,13 +97,13 @@ export default function GenshinCharacterEdit({
           label="Select Character"
         />
         <div className="flex gap-4 items-end my-auto">
-          <Button
+          {!showData && <Button
             className={`${VariantClass.fetch} mb-auto`}
             disabled={isFetching}
             onClick={fetchHandler}
           >
             Tampilkan Data
-          </Button>
+          </Button>}
           {showData && (
             <Button
               className={`${VariantClass.danger} mb-auto`}
