@@ -316,90 +316,115 @@ export const genshin: FormUtils.Genshin.Genshin = {
     ) as unknown as FormUtils.Genshin.FormDataCharacter;
 
     // <<<<< Validasi >>>>>
-    const validation = await genshinValidator.character(data);
+    const validation = await genshinValidator.character(data, config.action);
     if (!validation.status) return { status: 422, msg: validation.msg };
-    const validationData:FormUtils.Genshin.FormDataCharacter = validation.data;
+    const validationData: FormUtils.Genshin.FormDataCharacter = validation.data;
+
+
+    // TODO: Fix bagian sini 
 
     // <<<<< Upload Image >>>>>
     let coverImageUrl = "";
-    const coverUploadFile = await file.uploadSingleImage(
-      validationData["image-cover"],
-      game,
-      category
-    );
-    coverImageUrl = coverUploadFile.secure_url;
-
     let portraitImageUrl = "";
-    const portraitUploadFile = await file.uploadSingleImage(
-      validationData["image-portrait"],
-      game,
-      category
-    );
-    portraitImageUrl = portraitUploadFile.secure_url;
+    if (action === "add") {
+      const coverUploadFile = await file.uploadSingleImage(
+        validationData["image-cover"],
+        game,
+        category
+      );
+      coverImageUrl = coverUploadFile.secure_url;
+
+      let portraitImageUrl = "";
+      const portraitUploadFile = await file.uploadSingleImage(
+        validationData["image-portrait"],
+        game,
+        category
+      );
+      portraitImageUrl = portraitUploadFile.secure_url;
+    } else if (action === "edit") {
+      if (data["image-cover"].type !== "application/octet-stream") {
+        const coverUploadFile = await file.uploadSingleImage(
+          validationData["image-cover"],
+          game,
+          category
+        );
+        coverImageUrl = coverUploadFile.secure_url;
+      }
+      if (data["image-portrait"].type !== "application/octet-stream") {
+        const portraitUploadFile = await file.uploadSingleImage(
+          validationData["image-portrait"],
+          game,
+          category
+        );
+        portraitImageUrl = portraitUploadFile.secure_url;
+      }
+    }
 
     // <<<<< Penyusunan Data >>>>>
     const organizedData = genshinOrganizing.character(
       validation.data,
-      coverImageUrl
+      coverImageUrl,
+      portraitImageUrl,
+      action
     );
 
     // <<<<< Tambah ke Data base >>>>
 
-    if (action === "add") {
-      if (data["result-lang"] === "English") {
-        const character = await CharacterEN.create(organizedData);
+    // if (action === "add") {
+    //   if (data["result-lang"] === "English") {
+    //     const character = await CharacterEN.create(organizedData);
 
-        await post.addPost(data, {
-          lang: data["result-lang"],
-          gameName: game,
-          gameTopic: category,
-          parent: character,
-          user,
-        });
-      } else if (data["result-lang"] === "Indonesian") {
-        const character = await CharacterID.create(organizedData);
+    //     await post.addPost(data, {
+    //       lang: data["result-lang"],
+    //       gameName: game,
+    //       gameTopic: category,
+    //       parent: character,
+    //       user,
+    //     });
+    //   } else if (data["result-lang"] === "Indonesian") {
+    //     const character = await CharacterID.create(organizedData);
 
-        await post.addPost(data, {
-          lang: data["result-lang"],
-          gameName: game,
-          gameTopic: category,
-          parent: character,
-          user,
-        });
-      }
-    }
+    //     await post.addPost(data, {
+    //       lang: data["result-lang"],
+    //       gameName: game,
+    //       gameTopic: category,
+    //       parent: character,
+    //       user,
+    //     });
+    //   }
+    // }
 
-    // // <<<<< Edit data dari Database >>>>>
-    else if (action === "edit") {
-      if (!oldId) throw new Error("Old ID diperlukan");
-      if (lang === "Indonesian") {
-        const character = await CharacterID.findByIdAndUpdate(
-          oldId,
-          organizedData
-        );
+    // // // <<<<< Edit data dari Database >>>>>
+    // else if (action === "edit") {
+    //   if (!oldId) throw new Error("Old ID diperlukan");
+    //   if (lang === "Indonesian") {
+    //     const character = await CharacterID.findByIdAndUpdate(
+    //       oldId,
+    //       organizedData
+    //     );
 
-        await post.editPost(data, oldId, {
-          lang: data["result-lang"],
-          gameName: game,
-          gameTopic: category,
-          parent: character,
-          user,
-        });
-      } else if (lang === "English") {
-        const character = await CharacterEN.findByIdAndUpdate(
-          oldId,
-          organizedData
-        );
+    //     await post.editPost(data, oldId, {
+    //       lang: data["result-lang"],
+    //       gameName: game,
+    //       gameTopic: category,
+    //       parent: character,
+    //       user,
+    //     });
+    //   } else if (lang === "English") {
+    //     const character = await CharacterEN.findByIdAndUpdate(
+    //       oldId,
+    //       organizedData
+    //     );
 
-        await post.editPost(data, oldId, {
-          lang: data["result-lang"],
-          gameName: game,
-          gameTopic: category,
-          parent: character,
-          user,
-        });
-      }
-    }
+    //     await post.editPost(data, oldId, {
+    //       lang: data["result-lang"],
+    //       gameName: game,
+    //       gameTopic: category,
+    //       parent: character,
+    //       user,
+    //     });
+    //   }
+    // }
 
     return { status: 200, organizedData };
   },

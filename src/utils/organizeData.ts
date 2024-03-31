@@ -4,6 +4,8 @@
  *
  */
 
+import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
+
 export const genshinOrganizing: OrganizeData.Genshin = {
   material: (data, imageUrl) => {
     const finalData: GenshinImpact.Material = {
@@ -197,7 +199,29 @@ export const genshinOrganizing: OrganizeData.Genshin = {
 
     return finalData;
   },
-  character(data, imageUrl) {
+  async character(data, coverImageUrl, portraitImageUrl, action) {
+    console.log(portraitImageUrl)
+    let oldData: GenshinImpact.Character = {} as GenshinImpact.Character;
+
+    if (action === "edit") {
+      if (data.lang.includes("English"))
+        oldData = (await CharacterEN.findOne({
+          name: data.name,
+        })) as unknown as GenshinImpact.Character;
+      oldData = (await CharacterID.findOne({
+        name: data.name,
+      })) as unknown as GenshinImpact.Character;
+    }
+
+    const selectImage = (field: "cover" | "portrait"): string => {
+      const coverMap = {
+        cover: coverImageUrl,
+        portrait: portraitImageUrl,
+      };
+      console.log(coverMap)
+      return oldData.image[field].includes(data.name.toLowerCase()) ? oldData.image[field] : coverMap[field];
+    };
+
     const finalData: GenshinImpact.Character = {
       lang: data["result-lang"],
       name: data.name,
@@ -345,10 +369,13 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       gender: data.gender as GenshinImpact.Character["gender"],
       region: data.region as GenshinImpact.Character["region"],
       image: {
-        cover: imageUrl,
-        portrait: "",
+        cover: action === "edit" ? selectImage("cover") : coverImageUrl,
+        portrait:
+          action === "edit" ? selectImage("portrait") : portraitImageUrl,
       },
     };
+
+    // console.log(finalData)
 
     return finalData;
   },

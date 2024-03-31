@@ -621,7 +621,7 @@ export const file: ApiUtils.FileApi = {
         const name = config?.validationName;
         if (!name) throw new Error("Nama belum ditentukan");
 
-        if (file.name.toLowerCase() !== name.toLowerCase())
+        if (file.name.toLowerCase().split(".")[0] !== name.toLowerCase())
           return {
             status: false,
             msg: "Nama Gambar harus sesuai dengan aturan.",

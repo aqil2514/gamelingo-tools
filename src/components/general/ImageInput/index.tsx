@@ -3,39 +3,36 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "../../Input/Button";
 import { useCharacterContext } from "@/components/Providers/Game/GenshinImpact/CharacterProvider";
 
-interface ImageInputProps{
-  template: General.GameGenshinImpact["category"]
+interface ImageInputProps {
+  template: General.GameGenshinImpact["category"];
   id?: string;
   dataImage?: string;
-  imageName?:string;
+  imageName?: string;
 }
 
-export default function ImageInput({template, id}: ImageInputProps) {
-  if(template ==="Character") return <Character id={id as string} />
-  else if(template === "Material") return <Material />
-  else if(template === "Weapon") return <Weapon />
+export default function ImageInput({ template, id, dataImage, imageName }: ImageInputProps) {
+  if (template === "Character") return <Character id={id as string} dataImage={dataImage} imageName={imageName} />;
+  else if (template === "Material") return <Material />;
+  else if (template === "Weapon") return <Weapon />;
 }
 
-function Character({id, dataImage, imageName}:Omit<ImageInputProps, "template">){
- const [previewLink, setPreviewLink] = useState<string>("");
+function Character({
+  id,
+  dataImage,
+  imageName,
+}: Omit<ImageInputProps, "template">) {
+  const [previewLink, setPreviewLink] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
   const imageRef = useRef<HTMLInputElement>(null);
-  const initFileName = "No Image Selected"
+  const initFileName = "No Image Selected";
 
   useEffect(() => {
-    console.log("Test");
-    console.log(dataImage);
-    console.log(imageName);
     if (dataImage && imageName) {
       setPreviewLink(dataImage);
       setFileName(imageName);
     }
   }, [dataImage, imageName]);
 
-  console.log(fileName);
-  console.log(previewLink);
-
-
   function removeHandler() {
     if (imageRef.current) {
       imageRef.current.value = "";
@@ -45,13 +42,13 @@ function Character({id, dataImage, imageName}:Omit<ImageInputProps, "template">)
     }
   }
 
-  function changeHandler(event: React.ChangeEvent<HTMLInputElement>){
+  function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files.length > 0) {
-    const selectedFile = event.target.files[0] as File;
-    setFileName(selectedFile.name);
-    setPreviewLink(URL.createObjectURL(selectedFile));
-    return;
-  }
+      const selectedFile = event.target.files[0] as File;
+      setFileName(selectedFile.name);
+      setPreviewLink(URL.createObjectURL(selectedFile));
+      return;
+    }
   }
 
   return (
@@ -75,22 +72,41 @@ function Character({id, dataImage, imageName}:Omit<ImageInputProps, "template">)
         }}
       >
         Gambar :
-        <input type="file" name={id} onChange={changeHandler} id={id} ref={imageRef} accept=".png, .webp" className="hidden" />
-        <label htmlFor={id} className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white rounded-xl">
+        <input
+          type="file"
+          name={id}
+          onChange={changeHandler}
+          id={id}
+          ref={imageRef}
+          accept=".png, .webp"
+          className="hidden"
+        />
+        <label
+          htmlFor={id}
+          className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white rounded-xl"
+        >
           {fileName ? fileName : initFileName}
         </label>
       </div>
-      {previewLink && <Image src={previewLink} width={300} height={300} alt={fileName} className="h-auto" />}
+      {previewLink && (
+        <Image
+          src={previewLink}
+          width={300}
+          height={300}
+          alt={fileName}
+          className="h-auto"
+        />
+      )}
     </>
   );
 }
 
-function Material(){
+function Material() {
   const [previewLink, setPreviewLink] = useState<string>("");
-  const [fileName,setFileName] = useState<string>("")
+  const [fileName, setFileName] = useState<string>("");
   const initFileName = `No Image Selected`;
   const imageRef = React.useRef<HTMLInputElement>(null);
-  
+
   function removeHandler() {
     if (imageRef.current) {
       imageRef.current.value = "";
@@ -100,12 +116,12 @@ function Material(){
     }
   }
 
-  function changeHandler(event: React.ChangeEvent<HTMLInputElement>){
+  function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files.length > 0) {
-    const selectedFile = event.target.files[0] as File;
-    setFileName(selectedFile.name);
-    setPreviewLink(URL.createObjectURL(selectedFile)); // Create URL for preview
-  }
+      const selectedFile = event.target.files[0] as File;
+      setFileName(selectedFile.name);
+      setPreviewLink(URL.createObjectURL(selectedFile)); // Create URL for preview
+    }
   }
 
   return (
@@ -129,22 +145,41 @@ function Material(){
         }}
       >
         Gambar :
-        <input type="file" name="image" onChange={changeHandler} id="file" ref={imageRef} accept=".png, .webp" className="hidden" />
-        <label htmlFor="file" className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white rounded-xl">
+        <input
+          type="file"
+          name="image"
+          onChange={changeHandler}
+          id="file"
+          ref={imageRef}
+          accept=".png, .webp"
+          className="hidden"
+        />
+        <label
+          htmlFor="file"
+          className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white rounded-xl"
+        >
           {fileName ? fileName : initFileName}
         </label>
       </div>
-      {previewLink && <Image src={previewLink} width={300} height={300} alt={fileName} className="h-auto" />}
+      {previewLink && (
+        <Image
+          src={previewLink}
+          width={300}
+          height={300}
+          alt={fileName}
+          className="h-auto"
+        />
+      )}
     </>
   );
 }
 
-function Weapon(){
+function Weapon() {
   const [previewLink, setPreviewLink] = useState<string>("");
-  const [fileName,setFileName] = useState<string>("")
+  const [fileName, setFileName] = useState<string>("");
   const initFileName = `No Image Selected`;
   const imageRef = React.useRef<HTMLInputElement>(null);
-  
+
   function removeHandler() {
     if (imageRef.current) {
       imageRef.current.value = "";
@@ -154,12 +189,12 @@ function Weapon(){
     }
   }
 
-  function changeHandler(event: React.ChangeEvent<HTMLInputElement>){
+  function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files.length > 0) {
-    const selectedFile = event.target.files[0] as File;
-    setFileName(selectedFile.name);
-    setPreviewLink(URL.createObjectURL(selectedFile)); // Create URL for preview
-  }
+      const selectedFile = event.target.files[0] as File;
+      setFileName(selectedFile.name);
+      setPreviewLink(URL.createObjectURL(selectedFile)); // Create URL for preview
+    }
   }
 
   return (
@@ -183,12 +218,31 @@ function Weapon(){
         }}
       >
         Gambar :
-        <input type="file" name="image" onChange={changeHandler} id="file" ref={imageRef} accept=".png, .webp" className="hidden" />
-        <label htmlFor="file" className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white rounded-xl">
+        <input
+          type="file"
+          name="image"
+          onChange={changeHandler}
+          id="file"
+          ref={imageRef}
+          accept=".png, .webp"
+          className="hidden"
+        />
+        <label
+          htmlFor="file"
+          className="text-slate-500 my-auto hover:cursor-pointer mx-1 px-2 font-normal bg-white rounded-xl"
+        >
           {fileName ? fileName : initFileName}
         </label>
       </div>
-      {previewLink && <Image src={previewLink} width={300} height={300} alt={fileName} className="h-auto" />}
+      {previewLink && (
+        <Image
+          src={previewLink}
+          width={300}
+          height={300}
+          alt={fileName}
+          className="h-auto"
+        />
+      )}
     </>
   );
 }

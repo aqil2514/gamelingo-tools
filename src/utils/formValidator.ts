@@ -222,7 +222,7 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
 
     return { status: true, data };
   },
-  async character(data) {
+  async character(data, action) {
     const allowedElement: GenshinImpact.Character["element"][] = [
       "Anemo",
       "Cryo",
@@ -253,18 +253,30 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
       "Sumeru",
     ];
 
+    let character: GenshinImpact.Character = {} as GenshinImpact.Character;
+
     // Apakah nama karakter sudah diisi?
     if (!data.name) return { status: false, msg: "Nama karakter belum ada" };
 
-    // Apakah karakter sudah ada di database?
-    if (data["result-lang"] === "Indonesian") {
-      const isThere = await CharacterID.findOne({ name: data.name });
-      if (isThere)
-        return { status: false, msg: `${data.name} sudah ada di Database` };
-    } else if (data["result-lang"] === "English") {
-      const isThere = await CharacterEN.findOne({ name: data.name });
-      if (isThere)
-        return { status: false, msg: `${data.name} is there in Database` };
+    if (action === "add") {
+      // Apakah karakter sudah ada di database?
+      if (data["result-lang"] === "Indonesian") {
+        const isThere = await CharacterID.findOne({ name: data.name });
+        if (isThere)
+          return { status: false, msg: `${data.name} sudah ada di Database` };
+      } else if (data["result-lang"] === "English") {
+        const isThere = await CharacterEN.findOne({ name: data.name });
+        if (isThere)
+          return { status: false, msg: `${data.name} is there in Database` };
+      }
+    } else if (action === "edit") {
+      if (data.lang.includes("English"))
+        character = (await CharacterEN.findOne({
+          name: data.name,
+        })) as unknown as GenshinImpact.Character;
+      character = (await CharacterID.findOne({
+        name: data.name,
+      })) as unknown as GenshinImpact.Character;
     }
 
     // Apakah deskripsi karakter sudah diisi?
@@ -342,48 +354,94 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
 
     // <<<<< Image Validation >>>>>
 
-    // Apakah Image Cover sudah diisi?
-    if (data["image-cover"].type === "application/octet-stream")
-      return { status: false, msg: "Image Cover belum diisi" };
+    if (action === "add") {
+      // Apakah Image Cover sudah diisi?
+      if (data["image-cover"].type === "application/octet-stream")
+        return { status: false, msg: "Image Cover belum diisi" };
 
-    // Validasi Image Cover
-    const coverValidation = file.validationImage(data["image-cover"], {
-      validateName: "exactly the same",
-      validationName: `${data.name} - Cover.png`,
-    });
-    if (!coverValidation.status)
-      return { msg: coverValidation.msg, status: false };
+      // Validasi Image Cover
+      const coverValidation = file.validationImage(data["image-cover"], {
+        validateName: "exactly the same",
+        validationName: `${data.name} - Cover.png`,
+      });
+      if (!coverValidation.status)
+        return { msg: coverValidation.msg, status: false };
 
-    // Apakah Image Portrait telah diisi?
-    if (data["image-portrait"].type === "application/octet-stream")
-      return { status: false, msg: "Image Portrait belum diisi" };
+      // Apakah Image Portrait telah diisi?
+      if (data["image-portrait"].type === "application/octet-stream")
+        return { status: false, msg: "Image Portrait belum diisi" };
 
-    // Validasi Image Portrait
-    const portraitValidation = file.validationImage(data["image-portrait"], {
-      validateName: "exactly the same",
-      validationName: `${data.name} - Portrait.png`,
-    });
-    if (!portraitValidation.status)
-      return { msg: portraitValidation.msg, status: false };
+      // Validasi Image Portrait
+      const portraitValidation = file.validationImage(data["image-portrait"], {
+        validateName: "exactly the same",
+        validationName: `${data.name} - Portrait.png`,
+      });
+      if (!portraitValidation.status)
+        return { msg: portraitValidation.msg, status: false };
 
-    const coverFile = new File(
-      [data["image-cover"]],
-      `${data.name} - Cover.${data["image-cover"].type.split("/")[1]}`,
-      {
-        type: data["image-cover"].type,
+      const coverFile = new File(
+        [data["image-cover"]],
+        `${data.name} - Cover.${data["image-cover"].type.split("/")[1]}`,
+        {
+          type: data["image-cover"].type,
+        }
+      );
+
+      const portraitFile = new File(
+        [data["image-portrait"]],
+        `${data.name} - Portrait.${data["image-portrait"].type.split("/")[1]}`,
+        {
+          type: data["image-portrait"].type,
+        }
+      );
+
+      data["image-cover"] = coverFile;
+      data["image-portrait"] = portraitFile;
+    } else if (action === "edit") {
+      // Apakah dari database sudah ada gambar?
+      // Jika ada, lewatkan validasi. Jika belum, lakukan validasi
+      if (data["image-cover"].type !== "application/octet-stream") {
+        const coverValidation = file.validationImage(data["image-cover"], {
+          validateName: "exactly the same",
+          validationName: `${data.name} - Cover`,
+        });
+        if (!coverValidation.status)
+          return { msg: coverValidation.msg, status: false };
+
+        const coverFile = new File(
+          [data["image-cover"]],
+          `${data.name} - Cover.${data["image-cover"].type.split("/")[1]}`,
+          {
+            type: data["image-cover"].type,
+          }
+        );
+
+        data["image-cover"] = coverFile;
       }
-    );
+      if (data["image-portrait"].type !== "application/octet-stream") {
+        const portraitValidation = file.validationImage(
+          data["image-portrait"],
+          {
+            validateName: "exactly the same",
+            validationName: `${data.name} - Portrait`,
+          }
+        );
+        if (!portraitValidation.status)
+          return { msg: portraitValidation.msg, status: false };
 
-    const portraitFile = new File(
-      [data["image-portrait"]],
-      `${data.name} - Portrait.${data["image-portrait"].type.split("/")[1]}`,
-      {
-        type: data["image-portrait"].type,
+        const portraitFile = new File(
+          [data["image-portrait"]],
+          `${data.name} - Portrait.${
+            data["image-portrait"].type.split("/")[1]
+          }`,
+          {
+            type: data["image-portrait"].type,
+          }
+        );
+
+        data["image-portrait"] = portraitFile;
       }
-    );
-
-    data["image-cover"] = coverFile;
-    data["image-portrait"] = portraitFile;
+    }
 
     return { status: true, data };
   },

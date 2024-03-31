@@ -13,20 +13,107 @@ import { Pagination } from "swiper/modules";
 import Image from "next/image";
 import SwiperSlideData from "@/components/Content/Write/Genshin/Components/SwiperSlideData";
 import ImageInput from "@/components/general/ImageInput";
-
+import { useState } from "react";
+import {
+  SubmitConfig_GI,
+  submitFormHandler,
+} from "@/components/Content/Write/Genshin/genshinUtils";
+import axios, { isAxiosError } from "axios";
+import { notif } from "@/utils/fe";
+import Button, { VariantClass } from "@/components/Input/Button";
 
 interface FormProps {
-  data:GenshinImpact.Character
+  data: GenshinImpact.Character;
 }
 export default function Form({ data }: FormProps) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  return <form action="" className="my-4">
-    <h3 className="font-bold text-white text-xl font-poppins text-center underline">Edit {data.name} data</h3>
-    <TextField variant="default-variant-1" defaultValue={data.name} label="Character Name" forId="charName" name="name" />
+  async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
 
-    <TextField variant="default-variant-1" defaultValue={data.lang + " (Can't edit this data)"} label="Language" forId="lang" name="lang" disabled />
+    const _id = formData.get("id") as string;
+    const lang = formData.get("lang") as string;
 
-    <div className="grid grid-cols-2 gap-4 my-4">
+    try {
+      setIsLoading(true);
+      const res = await axios.putForm(
+        "/api/gamelingo/genshin-impact" as Route,
+        formData,
+        {
+          headers: {
+            "Data-Category": "Character",
+            "Old-Id": _id,
+            "Content-Lang": lang,
+          },
+        }
+      );
+
+      notif(res.data.msg, {
+        color: "green",
+        refElement: "buttons",
+        location: "before",
+      });
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 422) {
+          notif(error.response.data.msg, {
+            color: "red",
+            refElement: "buttons",
+            location: "before",
+          });
+        }
+        if (error.response?.status === 400) {
+          notif(error.response.data.msg, {
+            color: "red",
+            refElement: "buttons",
+            location: "before",
+          });
+        }
+        if (error.response?.status === 401) {
+          notif(error.response.data.msg, {
+            color: "red",
+            refElement: "buttons",
+            location: "before",
+          });
+        }
+      }
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return (
+    <form onSubmit={submitHandler} className="my-4">
+      <h3 className="font-bold text-white text-xl font-poppins text-center underline">
+        Edit {data.name} data
+      </h3>
+
+      <input type="hidden" name="id" value={data._id} />
+
+      <input type="hidden" name="lang" value={data.lang} />
+
+      <TextField
+        variant="default-variant-1"
+        defaultValue={data.name}
+        label="Character Name"
+        forId="charName"
+        disabled={isLoading}
+        name="name"
+      />
+
+      <TextField
+        variant="default-variant-1"
+        defaultValue={data.lang + " (Can't edit this data)"}
+        label="Language"
+        forId="lang"
+        disabled
+        name="lang"
+      />
+
+      <div className="grid grid-cols-2 gap-4 my-4">
         <div className="p-4 border-2 border-white rounded-xl">
           <h4 className="font-bold text-white font-merriweather text-center underline">
             Cover Image
@@ -46,7 +133,12 @@ export default function Form({ data }: FormProps) {
               </li>
             </ul>
           </div>
-          <ImageInput template="Character" id="image-cover" dataImage={data.image.cover} imageName={`${data.name} - Cover.png`}/>
+          <ImageInput
+            template="Character"
+            id="image-cover"
+            dataImage={data.image.cover}
+            imageName={`${data.name} - Cover.png`}
+          />
         </div>
 
         <div className="p-4 border-2 border-white rounded-xl">
@@ -68,82 +160,192 @@ export default function Form({ data }: FormProps) {
               </li>
             </ul>
           </div>
-          <ImageInput template="Character" id="image-portrait" />
+          <ImageInput
+            template="Character"
+            id="image-portrait"
+            dataImage={data.image.portrait}
+            imageName={`${data.name} - Portrait.png`}
+          />
         </div>
       </div>
 
-    <Textarea className={TextareaStyle.variant_1} defaultValue={data.description} label="Character Description" name="description" forId="char-description" />
+      <Textarea
+        className={TextareaStyle.variant_1}
+        defaultValue={data.description}
+        label="Character Description"
+        name="description"
+        forId="char-description"
+        disabled={isLoading}
+      />
 
-    <TextField variant="default-variant-1" defaultValue={data.ascendStatus} label="Character Ascend Status" forId="character-ascend-status" name="ascendStatus"/>
+      <TextField
+        variant="default-variant-1"
+        defaultValue={data.ascendStatus}
+        label="Character Ascend Status"
+        forId="character-ascend-status"
+        disabled={isLoading}
+        name="ascendStatus"
+      />
 
-    <div className="border-2 border-white rounded-lg p-4 my-4">
+      <div className="border-2 border-white rounded-lg p-4 my-4">
         <h1 className="text-white font-semibold font-poppins text-center">
           Material Ascend
         </h1>
 
         <div className="my-2">
-            <Swiper
-              slidesPerView={1}
-              modules={[Pagination]}
-              pagination={{ clickable: true }}
-            >
-              <SwiperSlide>
-                <SwiperSlideData
-                  category="Character"
-                  template="Edit"
-                  passData={data}
-                  keyValue="ascend1"
-                />
-              </SwiperSlide>
+          <Swiper
+            slidesPerView={1}
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+          >
+            <SwiperSlide>
+              <SwiperSlideData
+                category="Character"
+                template="Edit"
+                passData={data}
+                keyValue="ascend1"
+              />
+            </SwiperSlide>
 
-              <SwiperSlide>
-                <SwiperSlideData
-                  category="Character"
-                  template="Edit"
-                  passData={data}
-                  keyValue="ascend2"
-                />
-              </SwiperSlide>
+            <SwiperSlide>
+              <SwiperSlideData
+                category="Character"
+                template="Edit"
+                passData={data}
+                keyValue="ascend2"
+              />
+            </SwiperSlide>
 
-              <SwiperSlide>
-                <SwiperSlideData
-                  category="Character"
-                  template="Edit"
-                  passData={data}
-                  keyValue="ascend3"
-                />
-              </SwiperSlide>
+            <SwiperSlide>
+              <SwiperSlideData
+                category="Character"
+                template="Edit"
+                passData={data}
+                keyValue="ascend3"
+              />
+            </SwiperSlide>
 
-              <SwiperSlide>
-                <SwiperSlideData
-                  category="Character"
-                  template="Edit"
-                  passData={data}
-                  keyValue="ascend4"
-                />
-              </SwiperSlide>
+            <SwiperSlide>
+              <SwiperSlideData
+                category="Character"
+                template="Edit"
+                passData={data}
+                keyValue="ascend4"
+              />
+            </SwiperSlide>
 
-              <SwiperSlide>
-                <SwiperSlideData
-                  category="Character"
-                  template="Edit"
-                  passData={data}
-                  keyValue="ascend5"
-                />
-              </SwiperSlide>
+            <SwiperSlide>
+              <SwiperSlideData
+                category="Character"
+                template="Edit"
+                passData={data}
+                keyValue="ascend5"
+              />
+            </SwiperSlide>
 
-              <SwiperSlide>
-                <SwiperSlideData
-                  category="Character"
-                  template="Edit"
-                  passData={data}
-                  keyValue="ascend6"
-                />
-              </SwiperSlide>
-            </Swiper>
+            <SwiperSlide>
+              <SwiperSlideData
+                category="Character"
+                template="Edit"
+                passData={data}
+                keyValue="ascend6"
+              />
+            </SwiperSlide>
+          </Swiper>
         </div>
       </div>
 
+      <div className="border-2 border-white rounded-lg p-4 my-4">
+        <h1 className="text-white font-semibold font-poppins text-center">
+          Character Voice
+        </h1>
+        <TextField
+          forId="character-voice-chinese"
+          disabled={isLoading}
+          name="character-voice-chinese"
+          defaultValue={data.cv.chinese}
+          variant="default-variant-1"
+          label="Chinese"
+        />
 
-  </form>;
+        <TextField
+          forId="character-voice-english"
+          disabled={isLoading}
+          name="character-voice-english"
+          defaultValue={data.cv.english}
+          variant="default-variant-1"
+          label="English"
+        />
+
+        <TextField
+          forId="character-voice-japanese"
+          disabled={isLoading}
+          defaultValue={data.cv.japanese}
+          name="character-voice-japanese"
+          variant="default-variant-1"
+          label="Japanese"
+        />
+
+        <TextField
+          forId="character-voice-korean"
+          disabled={isLoading}
+          defaultValue={data.cv.korean}
+          name="character-voice-korean"
+          variant="default-variant-1"
+          label="Korean"
+        />
+      </div>
+
+      <TextField
+        forId="character-rarity"
+        disabled={isLoading}
+        name="rarity"
+        defaultValue={data.rarity}
+        variant="default-variant-1"
+        label="Character Rarity"
+      />
+
+      <TextField
+        forId="character-element"
+        disabled={isLoading}
+        name="element"
+        defaultValue={data.element}
+        variant="default-variant-1"
+        label="Character Element"
+      />
+
+      <TextField
+        forId="character-character-type"
+        disabled={isLoading}
+        name="weapon"
+        defaultValue={data.weapon}
+        variant="default-variant-1"
+        label="Character Weapon"
+      />
+
+      <TextField
+        forId="character-gender"
+        disabled={isLoading}
+        name="gender"
+        value={data.gender}
+        variant="default-variant-1"
+        label="Character Gender"
+      />
+
+      <TextField
+        forId="character-region"
+        disabled={isLoading}
+        name="region"
+        value={data.region}
+        variant="default-variant-1"
+        label="Character Region"
+      />
+
+      <div id="buttons">
+        <Button className={VariantClass.submit} disabled={isLoading}>
+          {isLoading ? "Mengubah data..." : "Ubah Data"}
+        </Button>
+      </div>
+    </form>
+  );
 }

@@ -189,6 +189,7 @@ namespace FormUtils {
 
     export interface FormDataCharacter {
       "result-lang": Language;
+      "lang": Language;
       name: string;
       description: string;
       ascendStatus: string;
