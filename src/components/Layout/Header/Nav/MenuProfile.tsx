@@ -1,6 +1,6 @@
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { Pen, PersonCircle } from "react-bootstrap-icons";
+import { Pen, PencilSquare, PersonCircle } from "react-bootstrap-icons";
 
 const NONACTIVE = "hidden";
 const ACTIVE = "block absolute text-center min-w-[220px] top-14 right-0 bg-zinc-800 min-h-screen py-8 px-4";
@@ -21,6 +21,11 @@ export default function MenuProfile({ isActive, menu, user }: { isActive: boolea
         {user.role !== "User" && (
           <Link href={"/write"}>
             <Pen className="bg-amber-700 hover:bg-amber-600 text-white text-4xl p-1 rounded" />
+          </Link>
+        )}
+        {user.role !== "User" && (
+          <Link href={"/edit"}>
+            <PencilSquare className="bg-blue-700 hover:bg-blue-600 text-white text-4xl p-1 rounded" />
           </Link>
         )}
       </div>
