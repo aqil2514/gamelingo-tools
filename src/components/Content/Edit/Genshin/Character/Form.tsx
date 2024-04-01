@@ -1,23 +1,15 @@
 import TextField from "@/components/Input/TextField";
 import Textarea, { TextareaStyle } from "@/components/Input/Textarea";
-import Loading from "@/components/general/Loading";
-import { fetcherWithParams } from "@/lib/Data";
 import { Route } from "next";
-import useSWR from "swr";
 
 // <<<<< Swiperjs Library >>>>>
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
-import Image from "next/image";
 import SwiperSlideData from "@/components/Content/Write/Genshin/Components/SwiperSlideData";
 import ImageInput from "@/components/general/ImageInput";
 import { useState } from "react";
-import {
-  SubmitConfig_GI,
-  submitFormHandler,
-} from "@/components/Content/Write/Genshin/genshinUtils";
 import axios, { isAxiosError } from "axios";
 import { notif } from "@/utils/fe";
 import Button, { VariantClass } from "@/components/Input/Button";

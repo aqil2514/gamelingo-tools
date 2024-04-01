@@ -217,6 +217,20 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         cover: coverImageUrl,
         portrait: portraitImageUrl,
       };
+
+      // Jika data lama ada dan tidak ada data baru, 
+      if(oldData.image[field].toLowerCase().includes(data.name.toLowerCase()) && !coverMap[field]){
+        // Gunakan data lama
+        return oldData.image[field];
+      } 
+      
+      // Jika data lama ada dan ada data baru, 
+      else if(oldData.image[field].toLowerCase().includes(data.name.toLowerCase()) && coverMap[field]){
+        // Gunakan data baru
+        return coverMap[field]
+      }
+      
+      // Apakah ada data lama? Jika ada, gunakan data lama. Jika tidak, gunakan data baru
       return oldData.image[field].toLowerCase().includes(data.name.toLowerCase())
       ? oldData.image[field]
       : coverMap[field];

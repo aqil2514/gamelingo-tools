@@ -396,7 +396,6 @@ export const genshin: FormUtils.Genshin.Genshin = {
 
     // <<<<< Edit data dari Database >>>>>
     else if (action === "edit") {
-      console.log(organizedData)
       if (!oldId) throw new Error("Old ID diperlukan");
       if (lang === "Indonesian") {
         const character = await CharacterID.findByIdAndUpdate(
