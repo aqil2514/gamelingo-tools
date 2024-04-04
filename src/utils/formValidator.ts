@@ -251,6 +251,7 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
       "Liyue",
       "Mondstadt",
       "Sumeru",
+      'Snezhnaya'
     ];
 
     let character: GenshinImpact.Character = {} as GenshinImpact.Character;
