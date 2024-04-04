@@ -77,6 +77,21 @@ export default function Form({ data }: FormProps) {
     }
   }
 
+  if (!data)
+    return (
+      <div>
+        <p className="text-red-500 font-bold font-nova-square text-center">
+          Tidak ada Karakter yang dimaksud
+        </p>
+        <p className="text-red-500 font-bold font-nova-square text-center">
+          Pastikan nama karakter sesuai dengan yang ada di list
+        </p>
+        <p className="text-red-500 font-bold font-nova-square text-center">
+          Perhatikan pula kapital hurufnya. &ldquo;nama character&rdquo; berbeda dengan &ldquo;Nama Character&rdquo;
+        </p>
+      </div>
+    );
+
   return (
     <form onSubmit={submitHandler} className="my-4">
       <h3 className="font-bold text-white text-xl font-poppins text-center underline">
