@@ -251,7 +251,8 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
       "Liyue",
       "Mondstadt",
       "Sumeru",
-      'Snezhnaya'
+      'Snezhnaya',
+      "Another World" 
     ];
 
     let character: GenshinImpact.Character = {} as GenshinImpact.Character;
@@ -363,7 +364,7 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
       // Validasi Image Cover
       const coverValidation = file.validationImage(data["image-cover"], {
         validateName: "exactly the same",
-        validationName: `${data.name} - Cover.png`,
+        validationName: `${data.name} - Cover`,
       });
       if (!coverValidation.status)
         return { msg: coverValidation.msg, status: false };
@@ -375,7 +376,7 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
       // Validasi Image Portrait
       const portraitValidation = file.validationImage(data["image-portrait"], {
         validateName: "exactly the same",
-        validationName: `${data.name} - Portrait.png`,
+        validationName: `${data.name} - Portrait`,
       });
       if (!portraitValidation.status)
         return { msg: portraitValidation.msg, status: false };

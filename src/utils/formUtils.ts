@@ -334,7 +334,6 @@ export const genshin: FormUtils.Genshin.Genshin = {
       );
       coverImageUrl = coverUploadFile.secure_url;
 
-      let portraitImageUrl = "";
       const portraitUploadFile = await file.uploadSingleImage(
         validationData["image-portrait"],
         game,

@@ -218,15 +218,19 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         portrait: portraitImageUrl,
       };
 
+      console.log(oldData.image)
+
       // Jika data lama ada dan tidak ada data baru, 
       if(oldData.image[field].toLowerCase().includes(data.name.toLowerCase()) && !coverMap[field]){
         // Gunakan data lama
+        console.log("Jika data lama ada dan tidak ada data baru, Gunakan data lama")
         return oldData.image[field];
       } 
       
       // Jika data lama ada dan ada data baru, 
       else if(oldData.image[field].toLowerCase().includes(data.name.toLowerCase()) && coverMap[field]){
         // Gunakan data baru
+        console.log("Jika data lama ada dan tidak ada data baru, Gunakan data baru")
         return coverMap[field]
       }
       
@@ -392,6 +396,7 @@ export const genshinOrganizing: OrganizeData.Genshin = {
     return finalData;
   },
   talent(data, imageUrl) {
+    // TODO : Perbaikin ini dulu
     const finalData: GenshinImpact.Talent = {
       charName: data["character-name"],
       combats: {
@@ -586,7 +591,6 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       },
     };
 
-    console.log(finalData.costs.lvl10[1].count);
 
     return finalData;
   },
