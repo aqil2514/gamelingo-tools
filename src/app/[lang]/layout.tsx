@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
-import { Poppins, Nova_Square, Merriweather, Merienda, McLaren } from "next/font/google";
-import "./globals.css";
+import {
+  Poppins,
+  Nova_Square,
+  Merriweather,
+  Merienda,
+  McLaren,
+} from "next/font/google";
+import "../globals.css";
 
 import { getServerSession } from "next-auth";
 
@@ -8,6 +14,8 @@ import SessionProvider from "@/components/Authentication/SessionProvider";
 import Headers from "@/components/Layout/Header";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "@/components/Layout/Footer";
+import { unstable_setRequestLocale } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 
 export const metadata: Metadata = {
   title: {
@@ -51,16 +59,36 @@ const merienda = Merienda({
   variable: "--font-merienda",
 });
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+// Internationalization
+const locales = ["id", "en"];
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export default async function RootLayout({
+  children,
+  params: { locale },
+}: {
+  children: React.ReactNode;
+  params: { locale: string };
+}) {
   const session = await getServerSession();
+  unstable_setRequestLocale(locale);
+
   return (
-    <html lang="en" className={`${novaSquare.variable} ${poppins.variable} ${merriweather.variable} ${merienda.variable} ${mclaren.variable}`}>
+    <html
+      lang={locale}
+      className={`${novaSquare.variable} ${poppins.variable} ${merriweather.variable} ${merienda.variable} ${mclaren.variable}`}
+    >
       <body>
         <SessionProvider session={session}>
-          <Headers />
-          <main>{children}</main>
-          <Analytics />
-          <Footer />
+          <NextIntlClientProvider>
+            <Headers />
+            <main>{children}</main>
+            <Analytics />
+            <Footer />
+          </NextIntlClientProvider>
         </SessionProvider>
       </body>
     </html>

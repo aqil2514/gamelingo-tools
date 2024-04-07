@@ -3,14 +3,11 @@
 import { Route } from "next";
 import useSWR from "swr";
 import { fetcher } from "@/lib/Data";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from "@/components/Input/TextField";
-import { element, weapon } from "@/lib/Data/gi";
-import Button, { VariantClass } from "@/components/Input/Button";
 import FilterCharacter from "./Filtering";
 import CharacterList from "./CharacterList";
+import { Link } from "@/navigation";
 
 export interface FilterState {
   element: string;
@@ -18,22 +15,30 @@ export interface FilterState {
   rarity: string;
 }
 
-export default function Character({
-  template,
-}: {
+interface CharacterProps {
   template: "welcome page" | "character page";
-}) {
+  message:
+    | Internationalization.GenshinHomeInterface
+    | Internationalization.GenshinCharacterPage;
+}
+
+export default function Character({ template, message }: CharacterProps) {
   const category: General.GameGenshinImpact["category"] = "Character";
   const url: Route = `/api/gamelingo/genshin-impact/slide?category=${category}`;
   const { data, isLoading, error } = useSWR(url, fetcher);
 
   if (!data || isLoading) return <SkeletonDefault />;
-  if (template === "character page") return <ListDefault data={data.data} />;
+  if (template === "character page") return <ListDefault data={data.data} message={message as Internationalization.GenshinCharacterPage} />;
 
-  return <HomePage data={data.data} />;
+  return (
+    <HomePage
+      data={data.data}
+      message={message as Internationalization.GenshinHomeInterface}
+    />
+  );
 }
 
-function ListDefault({ data }: { data: GenshinImpact.CharacterInfo[] }) {
+function ListDefault({ data, message }: { data: GenshinImpact.CharacterInfo[], message:Internationalization.GenshinCharacterPage }) {
   const [chars, setChars] = useState<GenshinImpact.CharacterInfo[]>([]);
   const [initChars, setInitChars] = useState<GenshinImpact.CharacterInfo[]>([]);
   const [charNameInput, setCharNameInput] = useState<string>("");
@@ -76,13 +81,13 @@ function ListDefault({ data }: { data: GenshinImpact.CharacterInfo[] }) {
   return (
     <div className="p-4">
       <h2 className="text-center text-3xl font-bold font-nova-square text-white">
-        Character
+        {message.titleText}
       </h2>
       <TextField
         forId="character-name"
         variant="outline-variant-1"
         label="Search"
-        placeholder="Cari karakter berdasarkan nama"
+        placeholder={message.placeHolderText}
         value={charNameInput}
         onChange={(e) => setCharNameInput(e.target.value)}
       />
@@ -94,14 +99,22 @@ function ListDefault({ data }: { data: GenshinImpact.CharacterInfo[] }) {
         </p>
       ) : (
         <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md">
-          {chars.map((d) => <CharacterList d={d} key={d.id}/>)}
+          {chars.map((d) => (
+            <CharacterList d={d} key={d.id} />
+          ))}
         </div>
       )}
     </div>
   );
 }
 
-function HomePage({ data }: { data: GenshinImpact.CharacterInfo[] }) {
+function HomePage({
+  data,
+  message,
+}: {
+  data: GenshinImpact.CharacterInfo[];
+  message: Internationalization.GenshinHomeInterface;
+}) {
   const [chars, setChars] = useState<GenshinImpact.CharacterInfo[]>([]);
 
   useEffect(() => {
@@ -111,7 +124,7 @@ function HomePage({ data }: { data: GenshinImpact.CharacterInfo[] }) {
   return (
     <div className="p-4">
       <h2 className="text-center text-2xl font-bold font-nova-square my-4 text-white">
-        Character
+        {message.characterTitle}
       </h2>
       <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md">
         {chars
@@ -126,7 +139,7 @@ function HomePage({ data }: { data: GenshinImpact.CharacterInfo[] }) {
           href={"/genshin-impact/character"}
           className="font-semibold font-nova-square text-white"
         >
-          Lihat Lebih Banyak &gt;&gt;
+          {message.characterSeeMore} &gt;&gt;
         </Link>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import Button, { VariantClass } from "@/components/Input/Button";
+import { Link } from "@/navigation";
 import Image from "next/image";
-import Link from "next/link";
 
 const rightAlignNameChar = ["Raiden Shogun"];
 

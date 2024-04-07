@@ -1,0 +1,18 @@
+{
+  "Home": {
+    "greetings": "Welcome to GameLingo Tools",
+    "sub": "A Tools for Gamers"
+  },
+  "Footer": {
+    "about": "About",
+    "news": "Update",
+    "lang": "Bahasa Indonesia"
+  },
+  "GenshinHomePage":{
+    "character": "Character",
+    "characterSeeMore" : "See more character"
+  },
+  "Metadata": {
+    "home": "Home | GameLingo Tools"
+  }
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { DIV_MAIN_STYLE } from "../components/Styles";
+import { DIV_MAIN_STYLE } from "../../components/Styles";
 
 export default function NotFound() {
   const router = useRouter();
