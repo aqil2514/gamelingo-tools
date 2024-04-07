@@ -601,7 +601,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
       }
     }
 
-    return { status: 200, data: organizedData };
+    return { status: 200, organizedData };
   },
 };
 

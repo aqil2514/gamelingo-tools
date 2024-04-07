@@ -140,12 +140,31 @@ namespace FormUtils {
     }
     /** API untuk process form */
     export interface ProcessForm {
-      processCharacter: (formData: FormData, user: Account.User, config: ProcessEvertaleConfig) => Promise<Result>;
+      processCharacter: (
+        formData: FormData,
+        user: Account.User,
+        config: ProcessEvertaleConfig
+      ) => Promise<Result>;
     }
 
     type StatusRank = "SSR" | "SR" | "R" | "N";
-    type StatusElement = "Dark" | "Light" | "Earth" | "Fire" | "Storm" | "Water";
-    type StatusWeapon = "Sword" | "Axe" | "Staff" | "Mace" | "GreatSword" | "GreatAxe" | "Spear" | "Hammer" | "Katana";
+    type StatusElement =
+      | "Dark"
+      | "Light"
+      | "Earth"
+      | "Fire"
+      | "Storm"
+      | "Water";
+    type StatusWeapon =
+      | "Sword"
+      | "Axe"
+      | "Staff"
+      | "Mace"
+      | "GreatSword"
+      | "GreatAxe"
+      | "Spear"
+      | "Hammer"
+      | "Katana";
   }
 
   /** Genshin Form Utils */
@@ -184,12 +203,21 @@ namespace FormUtils {
     }
 
     export interface FormDataArtifactKey {
-      key: "name" | "type" | "set" | "setName_1" | "setValue_1" | "setName_2" | "setValue_2" | "rarity" | "image";
+      key:
+        | "name"
+        | "type"
+        | "set"
+        | "setName_1"
+        | "setValue_1"
+        | "setName_2"
+        | "setValue_2"
+        | "rarity"
+        | "image";
     }
 
     export interface FormDataCharacter {
       "result-lang": Language;
-      "lang": Language;
+      lang: Language;
       name: string;
       description: string;
       ascendStatus: string;
@@ -260,7 +288,7 @@ namespace FormUtils {
       weapon: string;
       gender: string;
       region: string;
-      "image-portrait":File;
+      "image-portrait": File;
       "image-cover": File;
     }
 
@@ -385,6 +413,86 @@ namespace FormUtils {
       "talent-passive1-icon"?: File;
       "talent-passive2-icon"?: File;
       "talent-passive3-icon"?: File;
+      "combat1-attribute-label-1"?: string;
+      "combat1-attribute-label-2"?: string;
+      "combat1-attribute-label-3"?: string;
+      "combat1-attribute-label-4"?: string;
+      "combat1-attribute-label-5"?: string;
+      "combat1-attribute-label-6"?: string;
+      "combat1-attribute-label-7"?: string;
+      "combat1-attribute-label-8"?: string;
+      "combat1-attribute-label-9"?: string;
+      "combat1-attribute-param-1"?: string[];
+      "combat1-attribute-param-2"?: string[];
+      "combat1-attribute-param-3"?: string[];
+      "combat1-attribute-param-4"?: string[];
+      "combat1-attribute-param-5"?: string[];
+      "combat1-attribute-param-6"?: string[];
+      "combat1-attribute-param-7"?: string[];
+      "combat1-attribute-param-8"?: string[];
+      "combat1-attribute-param-9"?: string[];
+      "combat1-attribute-param-10"?: string[];
+      "combat1-attribute-param-11"?: string[];
+      "combat2-attribute-label-1"?: string;
+      "combat2-attribute-label-2"?: string;
+      "combat2-attribute-label-3"?: string;
+      "combat2-attribute-label-4"?: string;
+      "combat2-attribute-label-5"?: string;
+      "combat2-attribute-label-6"?: string;
+      "combat2-attribute-label-7"?: string;
+      "combat2-attribute-label-8"?: string;
+      "combat2-attribute-label-9"?: string;
+      "combat2-attribute-param-1"?: string[];
+      "combat2-attribute-param-2"?: string[];
+      "combat2-attribute-param-3"?: string[];
+      "combat2-attribute-param-4"?: string[];
+      "combat2-attribute-param-5"?: string[];
+      "combat2-attribute-param-6"?: string[];
+      "combat2-attribute-param-7"?: string[];
+      "combat2-attribute-param-8"?: string[];
+      "combat2-attribute-param-9"?: string[];
+      "combat2-attribute-param-10"?: string[];
+      "combat2-attribute-param-11"?: string[];
+      "combat3-attribute-label-1"?: string;
+      "combat3-attribute-label-2"?: string;
+      "combat3-attribute-label-3"?: string;
+      "combat3-attribute-label-4"?: string;
+      "combat3-attribute-label-5"?: string;
+      "combat3-attribute-label-6"?: string;
+      "combat3-attribute-label-7"?: string;
+      "combat3-attribute-label-8"?: string;
+      "combat3-attribute-label-9"?: string;
+      "combat3-attribute-param-1"?: string[];
+      "combat3-attribute-param-2"?: string[];
+      "combat3-attribute-param-3"?: string[];
+      "combat3-attribute-param-4"?: string[];
+      "combat3-attribute-param-5"?: string[];
+      "combat3-attribute-param-6"?: string[];
+      "combat3-attribute-param-7"?: string[];
+      "combat3-attribute-param-8"?: string[];
+      "combat3-attribute-param-9"?: string[];
+      "combat3-attribute-param-10"?: string[];
+      "combat3-attribute-param-11"?: string[];
+      "combatsp-attribute-label-1"?: string;
+      "combatsp-attribute-label-2"?: string;
+      "combatsp-attribute-label-3"?: string;
+      "combatsp-attribute-label-4"?: string;
+      "combatsp-attribute-label-5"?: string;
+      "combatsp-attribute-label-6"?: string;
+      "combatsp-attribute-label-7"?: string;
+      "combatsp-attribute-label-8"?: string;
+      "combatsp-attribute-label-9"?: string;
+      "combatsp-attribute-param-1"?: string[];
+      "combatsp-attribute-param-2"?: string[];
+      "combatsp-attribute-param-3"?: string[];
+      "combatsp-attribute-param-4"?: string[];
+      "combatsp-attribute-param-5"?: string[];
+      "combatsp-attribute-param-6"?: string[];
+      "combatsp-attribute-param-7"?: string[];
+      "combatsp-attribute-param-8"?: string[];
+      "combatsp-attribute-param-9"?: string[];
+      "combatsp-attribute-param-10"?: string[];
+      "combatsp-attribute-param-11"?: string[];
     }
 
     export interface FormDataWeapon {
@@ -461,7 +569,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Material
        * @returns Berhasil atau gagal
        */
-      processMaterial: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      processMaterial: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
 
       /**
        * Proses Artifact Genshin Impact
@@ -470,7 +582,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Artifact
        * @returns Berhasil atau gagal
        */
-      proccessArtifact: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      proccessArtifact: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
 
       /**
        * Proses Weapon Genshin Impact
@@ -479,7 +595,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Weapon
        * @returns Berhasil atau gagal
        */
-      processWeapon: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      processWeapon: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
 
       /**
        * Proses Character Genshin Impact
@@ -488,7 +608,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Character
        * @returns Berhasil atau gagal
        */
-      proccessCharacter: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      proccessCharacter: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
 
       /**
        * Proses Constellations Genshin Impact
@@ -497,7 +621,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Constellations
        * @returns Berhasil atau gagal
        */
-      processConstellation: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      processConstellation: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
 
       /**
        * Proses Talent Genshin Impact
@@ -506,7 +634,11 @@ namespace FormUtils {
        * @param config - Konfigurasi Talent
        * @returns Berhasil atau gagal
        */
-      processTalent: (formData: FormData, user: Account.User, config?: ProcessGenshinConfig) => Promise<Result>;
+      processTalent: (
+        formData: FormData,
+        user: Account.User,
+        config?: ProcessGenshinConfig
+      ) => Promise<Result>;
     }
 
     type Language = "Indonesian" | "English";
@@ -546,7 +678,11 @@ namespace FormUtils {
        * @param oldId Id lama
        * @param config Konfigurasi
        */
-      editPost: (data: any, oldId: string, config: ProcessPostConfig) => Promise<Void>;
+      editPost: (
+        data: any,
+        oldId: string,
+        config: ProcessPostConfig
+      ) => Promise<Void>;
     }
 
     /** Konfigurasi untuk Post API */
