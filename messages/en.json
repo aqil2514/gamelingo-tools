@@ -12,6 +12,14 @@
     "character": "Character",
     "characterSeeMore" : "See more character"
   },
+  "GenshinCharacterPage":{
+     "titleText": "Character",
+    "searchText": "Search Character",
+    "placeHolderText": "Search character by name",
+    "sortText": "Sort Character by",
+    "seeText": "See",
+    "noMatch": "Nothing related Character"
+  },
   "Metadata": {
     "home": "Home | GameLingo Tools"
   }

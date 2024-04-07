@@ -9,5 +9,6 @@ namespace Internationalization {
     placeHolderText: string;
     sortText: string;
     seeText: string;
+    noMatch: string;
   }
 }

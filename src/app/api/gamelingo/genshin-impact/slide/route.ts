@@ -1,4 +1,4 @@
-import { CharacterEN } from "@/models/GenshinImpact/Character";
+import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -6,25 +6,16 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get("category") as
     | General.GameGenshinImpact["category"]
     | null;
+  const lang = searchParams.get("lang");
 
+  if (!lang) throw new Error("Pengaturan bahasa belum ditentukan");
   if (!category) throw new Error("Category belum ditentukan");
   if (category === "Character") {
-    const res =
-      (await CharacterEN.find()) as unknown as GenshinImpact.Character[];
-      // MSG : Nanti pakek yang dikomen ajah 
-    // const data: Record<keyof GenshinImpact.CharacterInfo, string>[] = res
-    //   .sort()
-    //   .slice(0, 15)
-    //   .map((d) => {
-    //     return {
-    //       name: d.name,
-    //       id: d._id as string,
-    //       image: d.image as string,
-    //       rarity: d.rarity,
-    //       desc: d.description,
-    //       element: d.element
-    //     };
-    //   });
+    const res = lang === "en" ?
+      (await CharacterEN.find()) as unknown as GenshinImpact.Character[]
+      :
+      (await CharacterID.find()) as unknown as GenshinImpact.Character[]
+      ;
 
     const data: Record<keyof GenshinImpact.CharacterInfo, string>[] = res
       .sort()
@@ -36,7 +27,7 @@ export async function GET(req: NextRequest) {
           rarity: d.rarity,
           desc: d.description,
           element: d.element,
-          weapon: d.weapon
+          weapon: d.weapon,
         };
       });
 

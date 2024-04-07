@@ -14,7 +14,7 @@ import SessionProvider from "@/components/Authentication/SessionProvider";
 import Headers from "@/components/Layout/Header";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "@/components/Layout/Footer";
-import { unstable_setRequestLocale } from "next-intl/server";
+import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 
 export const metadata: Metadata = {
@@ -75,6 +75,7 @@ export default async function RootLayout({
 }) {
   const session = await getServerSession();
   unstable_setRequestLocale(locale);
+  const messages = await getMessages({locale})
 
   return (
     <html
@@ -83,7 +84,7 @@ export default async function RootLayout({
     >
       <body>
         <SessionProvider session={session}>
-          <NextIntlClientProvider>
+          <NextIntlClientProvider messages={messages}>
             <Headers />
             <main>{children}</main>
             <Analytics />

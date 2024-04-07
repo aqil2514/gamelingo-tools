@@ -1,23 +1,8 @@
 "use client";
-import { fetcher } from "@/lib/Data";
-import { Route } from "next";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import useSWR from "swr";
 
-export default function Constellations() {
-  const category: General.AdminQueryGameGenshin["subfield"] = "Constellations";
-  const lang: General.PostDocument["lang"] = "English";
-  const { id } = useParams();
-  const url: Route = `/api/gamelingo/genshin-impact/character?category=${category}&lang=${lang}&id=${id}`;
-  const { data, isLoading, error } = useSWR(url, fetcher);
 
-  if (!data || isLoading) return <Skeleton />;
-
-  return <Default data={data.data.constellation} />;
-}
-
-function Skeleton() {
+export function SkeletonConstellations() {
   return (
     <div className="w-3/4 bg-slate-900 min-h-100px  rounded-xl p-4 mx-auto my-2">
       <h3 className="text-white font-nova-square font-bold text-xl">
@@ -44,7 +29,7 @@ type CombatKey = keyof GenshinImpact.Constellation["constellation"];
 
 const constName: CombatKey[] = ["c1", "c2", "c3", "c4", "c5", "c6"];
 
-function Default({ data }: { data: GenshinImpact.Constellation }) {
+export function ConstellationsDefault({ data }: { data: GenshinImpact.Constellation }) {
   return (
     <div className="w-3/4 bg-slate-900 min-h-100px  rounded-xl p-4 mx-auto my-2">
       <h3 className="text-white font-merriweather underline font-bold text-xl">

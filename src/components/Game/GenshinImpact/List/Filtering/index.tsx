@@ -4,6 +4,7 @@ import React, { SetStateAction, useState } from "react";
 import ElementFilter from "./ElementFiltering";
 import WeaponFilter from "./WeaponFilter";
 import RarityFilter from "./RarityFilter";
+import { useMessages } from "next-intl";
 
 interface Props {
   filter: FilterState;
@@ -12,11 +13,14 @@ interface Props {
 
 export default function FilterCharacter({ filter, setFilter }: Props) {
   const [filterPopup, setFilterPopUp] = useState<boolean>(false);
+  const messages = useMessages();
+  const message = messages.GenshinCharacterPage as unknown as Internationalization.GenshinCharacterPage;  
+  
   return (
     <>
       <div className="py-4 hidden lg:block">
         <h3 className="text-center text-xl font-bold font-nova-square text-white">
-          Urutkan Berdasarkan:
+          {message.sortText}
         </h3>
         <div className="p-4 my-4 border-4 border-double border-white rounded-xl grid gap-4 grid-cols-3">
           <ElementFilter filter={filter} setFilter={setFilter} />

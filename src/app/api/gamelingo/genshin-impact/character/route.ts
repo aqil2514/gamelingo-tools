@@ -14,6 +14,8 @@ export async function GET(req: NextRequest) {
   const lang = searchParams.get("lang") as General.PostDocument["lang"] | null;
   const id = searchParams.get("id");
 
+  console.log(lang)
+
   if (!category)
     return NextResponse.json({ msg: "Category belum diisi" }, { status: 400 });
   if (!lang)

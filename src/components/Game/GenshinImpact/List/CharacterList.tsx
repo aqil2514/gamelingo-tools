@@ -1,5 +1,6 @@
 import Button, { VariantClass } from "@/components/Input/Button";
 import { Link } from "@/navigation";
+import { useMessages } from "next-intl";
 import Image from "next/image";
 
 const rightAlignNameChar = ["Raiden Shogun"];
@@ -9,6 +10,9 @@ export default function CharacterList({
 }: {
   d: GenshinImpact.CharacterInfo;
 }) {
+  const messages = useMessages();
+  const message = messages.GenshinCharacterPage as unknown as Internationalization.GenshinCharacterPage;  
+
   return (
     <div className="relative flex flex-col justify-center items-center my-4 bg-slate-900 rounded-lg p-4">
       <div className="absolute -top-7 left-0 w-full flex justify-center gap-1 z-10">
@@ -42,7 +46,7 @@ export default function CharacterList({
         />
       </div>
       <Link href={`/genshin-impact/character/${d.id}`}>
-        <Button className={VariantClass.submit}>Lihat</Button>
+        <Button className={VariantClass.submit}>{message.seeText}</Button>
       </Link>
     </div>
   );

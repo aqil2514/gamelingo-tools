@@ -60,7 +60,6 @@ export async function generateMetadata({
 
 export default async function DetailCharacter({ params }: ParamsProps) {
   const data = await getPost(params.id);
-  console.log(data)
 
   return <PostGenshinImpact data={data.content} category="Character" />;
 }

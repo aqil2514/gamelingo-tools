@@ -5,19 +5,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 
-export default function Talent() {
-  const category: General.AdminQueryGameGenshin["subfield"] = "Talent";
-  const lang: General.PostDocument["lang"] = "English";
-  const { id } = useParams();
-  const url: Route = `/api/gamelingo/genshin-impact/character?category=${category}&lang=${lang}&id=${id}`;
-  const { data, isLoading, error } = useSWR(url, fetcher);
-
-  if (!data || isLoading) return <Skeleton />;
-
-  return <Default data={data.data.talent} />;
-}
-
-function Skeleton() {
+export function TalentSkeleton() {
   return (
     <div className="w-3/4 bg-slate-900 min-h-100px  rounded-xl p-4 mx-auto my-2">
       <h3 className="text-white font-nova-square font-bold text-xl">Talent</h3>
@@ -44,7 +32,7 @@ type PassiveKey = keyof GenshinImpact.Talent["passives"];
 const combatNames: CombatKey[] = ["combat1", "combat2", "combat3", "combatsp"];
 const passiveNames: PassiveKey[] = ["passive1", "passive2", "passive3"]
 
-function Default({ data }: { data: GenshinImpact.Talent }) {
+export function TalentDefault({ data }: { data: GenshinImpact.Talent }) {
   return (
     <div className="w-3/4 bg-slate-900 min-h-100px  rounded-xl p-4 mx-auto my-2">
       <h3 className="text-white font-merriweather underline font-bold text-xl">Talents</h3>

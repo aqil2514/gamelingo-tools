@@ -2,22 +2,13 @@ import Character from "@/components/Game/GenshinImpact/List";
 import DownloadButton from "@/components/general/Download";
 import GameDescription from "@/components/general/GameDescription";
 import { Metadata } from "next";
-import { useTranslations } from "next-intl";
 
 export const metadata: Metadata = {
   title: "Genshin Impact",
   description: "Step Into a Vast Magical World of Adventure",
 };
 
-// TODO : TERJEMAHIN BAGIAN INI 
-
 export default function GenshinImpact() {
-  const t = useTranslations("GenshinHomePage");
-
-  const message: Internationalization.GenshinHomeInterface = {
-    characterSeeMore: t("characterSeeMore"),
-    characterTitle: t("character"),
-  };
 
   return (
     <div className={"main-wrapper pb-10"}>
@@ -38,7 +29,7 @@ export default function GenshinImpact() {
       </div>
       <div className="lg:px-20 md:px-10 px-4 py-10">
         <div className="bg-slate-800 min-h-[100px] w-full">
-          <Character template="welcome page" message={message} />
+          <Character template="welcome page" />
         </div>
       </div>
     </div>

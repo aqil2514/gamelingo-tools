@@ -8,6 +8,8 @@ import TextField from "@/components/Input/TextField";
 import FilterCharacter from "./Filtering";
 import CharacterList from "./CharacterList";
 import { Link } from "@/navigation";
+import { useMessages } from "next-intl";
+import { useParams } from "next/navigation";
 
 export interface FilterState {
   element: string;
@@ -17,32 +19,34 @@ export interface FilterState {
 
 interface CharacterProps {
   template: "welcome page" | "character page";
-  message:
-    | Internationalization.GenshinHomeInterface
-    | Internationalization.GenshinCharacterPage;
+  // message:
+  //   | Internationalization.GenshinHomeInterface
+  //   | Internationalization.GenshinCharacterPage;
 }
 
-export default function Character({ template, message }: CharacterProps) {
+export default function Character({ template }: CharacterProps) {
+  const param = useParams();
   const category: General.GameGenshinImpact["category"] = "Character";
-  const url: Route = `/api/gamelingo/genshin-impact/slide?category=${category}`;
+  const url: Route = `/api/gamelingo/genshin-impact/slide?category=${category}&lang=${param.lang}`;
   const { data, isLoading, error } = useSWR(url, fetcher);
 
   if (!data || isLoading) return <SkeletonDefault />;
-  if (template === "character page") return <ListDefault data={data.data} message={message as Internationalization.GenshinCharacterPage} />;
+  if (template === "character page") return <ListDefault data={data.data} />;
 
   return (
     <HomePage
       data={data.data}
-      message={message as Internationalization.GenshinHomeInterface}
     />
   );
 }
 
-function ListDefault({ data, message }: { data: GenshinImpact.CharacterInfo[], message:Internationalization.GenshinCharacterPage }) {
+function ListDefault({ data }: { data: GenshinImpact.CharacterInfo[]}) {
   const [chars, setChars] = useState<GenshinImpact.CharacterInfo[]>([]);
   const [initChars, setInitChars] = useState<GenshinImpact.CharacterInfo[]>([]);
   const [charNameInput, setCharNameInput] = useState<string>("");
   const [filter, setFilter] = useState<FilterState>({} as FilterState);
+  const messages = useMessages();
+  const message = messages.GenshinCharacterPage as unknown as Internationalization.GenshinCharacterPage
 
   useEffect(() => {
     setChars(data);
@@ -86,7 +90,7 @@ function ListDefault({ data, message }: { data: GenshinImpact.CharacterInfo[], m
       <TextField
         forId="character-name"
         variant="outline-variant-1"
-        label="Search"
+        label={message.searchText}
         placeholder={message.placeHolderText}
         value={charNameInput}
         onChange={(e) => setCharNameInput(e.target.value)}
@@ -95,7 +99,7 @@ function ListDefault({ data, message }: { data: GenshinImpact.CharacterInfo[], m
 
       {chars.length === 0 ? (
         <p className="text-white text-2xl text-center font-bold font-nova-square">
-          Tidak ada data character terkait
+          {message.noMatch}
         </p>
       ) : (
         <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md">
@@ -110,10 +114,8 @@ function ListDefault({ data, message }: { data: GenshinImpact.CharacterInfo[], m
 
 function HomePage({
   data,
-  message,
 }: {
   data: GenshinImpact.CharacterInfo[];
-  message: Internationalization.GenshinHomeInterface;
 }) {
   const [chars, setChars] = useState<GenshinImpact.CharacterInfo[]>([]);
 
@@ -124,7 +126,7 @@ function HomePage({
   return (
     <div className="p-4">
       <h2 className="text-center text-2xl font-bold font-nova-square my-4 text-white">
-        {message.characterTitle}
+        {/* {messages} */}
       </h2>
       <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md">
         {chars
@@ -139,7 +141,7 @@ function HomePage({
           href={"/genshin-impact/character"}
           className="font-semibold font-nova-square text-white"
         >
-          {message.characterSeeMore} &gt;&gt;
+          {/* {message.characterSeeMore} &gt;&gt; */}
         </Link>
       </div>
     </div>

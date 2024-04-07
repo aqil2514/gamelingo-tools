@@ -12,6 +12,14 @@
     "character": "Karakter",
     "characterSeeMore" : "Lihat lebih banyak"
   },
+  "GenshinCharacterPage":{
+    "titleText": "Karakter",
+   "searchText": "Cari Karakter",
+   "placeHolderText": "Cari Karakter berdasarkan nama",
+   "sortText": "Filter karakter berdasarkan:",
+   "seeText": "Lihat",
+   "noMatch" : "Tidak ada karakter yang dimaksud"
+ },
   "Metadata": {
     "home": "Beranda | GameLingo Tools"
   }
