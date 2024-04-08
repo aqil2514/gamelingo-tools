@@ -17,6 +17,8 @@ import Footer from "@/components/Layout/Footer";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 
+export const dynamic = "force-dynamic"
+
 export const metadata: Metadata = {
   title: {
     template: "%s | GameLingo Tools",
