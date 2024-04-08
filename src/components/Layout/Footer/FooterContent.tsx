@@ -18,12 +18,12 @@ export default function FooterContent({ about, news, lang }: any) {
       <Link
         href={targetPathName + searchParamsPath}
         locale={currentLang === "id" ? "en" : "id"}
-        className="my-auto max-w-[200px]"
+        className="my-auto max-w-[200px] w-[120px] md:w-auto"
         replace
       >
         <div className="flex gap-2 p-2 border rounded-lg border-white h-[45px]  ">
           <Globe className="text-center my-auto text-white font-poppins font-semibold" />
-          <p className="text-center my-auto text-white font-poppins font-semibold">
+          <p className="text-center my-auto text-xs md:text-base text-white font-poppins font-semibold">
             {lang}
           </p>
         </div>
