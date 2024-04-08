@@ -33,20 +33,17 @@ export default function Character({ template }: CharacterProps) {
   if (!data || isLoading) return <SkeletonDefault />;
   if (template === "character page") return <ListDefault data={data.data} />;
 
-  return (
-    <HomePage
-      data={data.data}
-    />
-  );
+  return <HomePage data={data.data} />;
 }
 
-function ListDefault({ data }: { data: GenshinImpact.CharacterInfo[]}) {
+function ListDefault({ data }: { data: GenshinImpact.CharacterInfo[] }) {
   const [chars, setChars] = useState<GenshinImpact.CharacterInfo[]>([]);
   const [initChars, setInitChars] = useState<GenshinImpact.CharacterInfo[]>([]);
   const [charNameInput, setCharNameInput] = useState<string>("");
   const [filter, setFilter] = useState<FilterState>({} as FilterState);
   const messages = useMessages();
-  const message = messages.GenshinCharacterPage as unknown as Internationalization.GenshinCharacterPage
+  const message =
+    messages.GenshinCharacterPage as unknown as Internationalization.GenshinCharacterPage;
 
   useEffect(() => {
     setChars(data);
@@ -112,14 +109,11 @@ function ListDefault({ data }: { data: GenshinImpact.CharacterInfo[]}) {
   );
 }
 
-function HomePage({
-  data,
-}: {
-  data: GenshinImpact.CharacterInfo[];
-}) {
+function HomePage({ data }: { data: GenshinImpact.CharacterInfo[] }) {
   const [chars, setChars] = useState<GenshinImpact.CharacterInfo[]>([]);
   const messages = useMessages();
-  const message = messages.GenshinHomePage as unknown as Internationalization.GenshinHomeInterface
+  const message =
+    messages.GenshinHomePage as unknown as Internationalization.GenshinHomeInterface;
 
   useEffect(() => {
     setChars(data);
