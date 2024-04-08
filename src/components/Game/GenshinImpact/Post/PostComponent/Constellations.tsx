@@ -31,7 +31,7 @@ const constName: CombatKey[] = ["c1", "c2", "c3", "c4", "c5", "c6"];
 
 export function ConstellationsDefault({ data }: { data: GenshinImpact.Constellation }) {
   return (
-    <div className="w-3/4 bg-slate-900 min-h-100px  rounded-xl p-4 mx-auto my-2">
+    <div className="w-[95%] md:w-3/4 bg-slate-900 min-h-100px  rounded-xl p-4 mx-auto my-2">
       <h3 className="text-white font-merriweather underline font-bold text-xl">
         Constellationss
       </h3>
@@ -41,9 +41,9 @@ export function ConstellationsDefault({ data }: { data: GenshinImpact.Constellat
           return (
             <div
               key={c}
-              className="text-zinc-800 rounded-xl p-4 my-2 grid grid-cols-[100px_auto] gap-4"
+              className="text-zinc-800 rounded-xl my-2 md:grid md:grid-cols-[100px_auto] md:gap-4"
             >
-              <div className="relative w-[64px] h-[64px] ">
+              <div className="relative w-[64px] h-[64px] block m-auto">
                 <Image
                   src={"https://placehold.jp/64x64.png"}
                   alt={c}
@@ -53,11 +53,11 @@ export function ConstellationsDefault({ data }: { data: GenshinImpact.Constellat
                 />
               </div>
 
-              <div>
-                <p className="text-white font-nova-square font-bold underline">
+              <div className="mt-4">
+                <p className="text-white font-nova-square font-bold underline text-sm md:text-xl lg:text-2xl">
                   {dataConst.name}
                 </p>
-                <p className="text-white font-poppins">
+                <p className="text-white font-poppins text-xs md:text-lg lg:text-xl">
                   {dataConst.description}
                 </p>
               </div>

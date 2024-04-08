@@ -70,6 +70,8 @@ function WriteTableMapping({ data, setData, index }: Omit<TableMappingProps, "te
     }
   }
 
+  const attribute = data[index]?.attributes
+
   return (
     <>
       <h2 className="text-white font-semibold font-poppins">{title[index]}</h2>
@@ -122,7 +124,13 @@ function WriteTableMapping({ data, setData, index }: Omit<TableMappingProps, "te
         name={`${index}-description`}
       />
 
-      <p className="font-bold text-white my-4">Tabel Scalling damage masih belum sepenuhnya selesai</p>
+      {attribute?.labels.map((v, i) => (
+        <input type="hidden" name={`${index}-attribute-label-${i + 1}`} id={`${index}-attribute-label-${i + 1}`} key={`${index}-attribute-label-${i + 1}`} value={v} />
+      ))}
+
+      {Object.keys(attribute!.parameters).map((v, i) => (
+        <input type="hidden" name={`${index}-attribute-param-${i + 1}`} id={`${index}-attribute-param-${i + 1}`} value={attribute?.parameters[v].join(", ")} key={i + 1} />
+      ))}
       {/* {label && label?.length !== 0 && <CombatMapping talent={talent} config={config} index={index} />} */}
     </>
   );

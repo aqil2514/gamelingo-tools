@@ -461,7 +461,7 @@ namespace GenshinImpact {
     element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro";
     weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";
     gender: "Female" | "Male" | "Perempuan" | "Pria";
-    region: "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontain";
+    region: "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontain" | "Snezhnaya" | "Another World";
     cv: {
       english: string;
       chinese: string;

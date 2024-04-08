@@ -218,22 +218,38 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         portrait: portraitImageUrl,
       };
 
-      // Jika data lama ada dan tidak ada data baru, 
-      if(oldData.image[field].toLowerCase().includes(data.name.toLowerCase()) && !coverMap[field]){
+      console.log(oldData.image);
+
+      // Jika data lama ada dan tidak ada data baru,
+      if (
+        oldData.image[field].toLowerCase().includes(data.name.toLowerCase()) &&
+        !coverMap[field]
+      ) {
         // Gunakan data lama
+        console.log(
+          "Jika data lama ada dan tidak ada data baru, Gunakan data lama"
+        );
         return oldData.image[field];
-      } 
-      
-      // Jika data lama ada dan ada data baru, 
-      else if(oldData.image[field].toLowerCase().includes(data.name.toLowerCase()) && coverMap[field]){
-        // Gunakan data baru
-        return coverMap[field]
       }
-      
+
+      // Jika data lama ada dan ada data baru,
+      else if (
+        oldData.image[field].toLowerCase().includes(data.name.toLowerCase()) &&
+        coverMap[field]
+      ) {
+        // Gunakan data baru
+        console.log(
+          "Jika data lama ada dan tidak ada data baru, Gunakan data baru"
+        );
+        return coverMap[field];
+      }
+
       // Apakah ada data lama? Jika ada, gunakan data lama. Jika tidak, gunakan data baru
-      return oldData.image[field].toLowerCase().includes(data.name.toLowerCase())
-      ? oldData.image[field]
-      : coverMap[field];
+      return oldData.image[field]
+        .toLowerCase()
+        .includes(data.name.toLowerCase())
+        ? oldData.image[field]
+        : coverMap[field];
     };
 
     const finalData: GenshinImpact.Character = {
@@ -371,7 +387,7 @@ export const genshinOrganizing: OrganizeData.Genshin = {
           },
         ],
       },
-      cv: { 
+      cv: {
         english: data["character-voice-english"],
         japanese: data["character-voice-japanese"],
         korean: data["character-voice-korean"],
@@ -392,6 +408,39 @@ export const genshinOrganizing: OrganizeData.Genshin = {
     return finalData;
   },
   talent(data, imageUrl) {
+
+    const combatLabels = (
+      field: "combat1" | "combat2" | "combat3" | "combatsp"
+    ) => {
+      const result: string[] = [];
+      for (const key in data) {
+        if (key.includes(`${field}-attribute-label`))
+          result.push((data as any)[key]);
+      }
+
+      return result;
+    };
+
+    const combatParameters = (
+      field: "combat1" | "combat2" | "combat3" | "combatsp"
+    ) => {
+      const result:
+        | {
+            [key: string]: number[];
+          }
+        | undefined = {};
+
+      for (const key in data) {
+        if (key.includes(`${field}-attribute-param`)) {
+          const keySplit = key.split("-");
+          const newKey = keySplit[2] + keySplit[3];
+
+          result[newKey] = (data as any)[key];
+        }
+      }
+      return result;
+    };
+
     const finalData: GenshinImpact.Talent = {
       charName: data["character-name"],
       combats: {
@@ -399,23 +448,39 @@ export const genshinOrganizing: OrganizeData.Genshin = {
           name: data["combat1-name"],
           description: data["combat1-description"],
           icon: imageUrl.find((img) => img.includes("Combat1")),
+          attributes: {
+            labels: combatLabels("combat1"),
+            parameters: combatParameters("combat1"),
+          },
         },
         combat2: {
           name: data["combat2-name"],
           description: data["combat2-description"],
           icon: imageUrl.find((img) => img.includes("Combat2")),
+          attributes: {
+            labels: combatLabels("combat2"),
+            parameters: combatParameters("combat2"),
+          },
         },
         combat3: {
           name: data["combat3-name"],
           description: data["combat3-description"],
           icon: imageUrl.find((img) => img.includes("Combat3")),
+          attributes: {
+            labels: combatLabels("combat3"),
+            parameters: combatParameters("combat3"),
+          },
         },
         combatsp:
-          data["combatsp-name"] && data["combatsp-description"]
-            ? {
-                name: data["combatsp-name"],
-                description: data["combatsp-description"],
-                icon: imageUrl.find((img) => img.includes("Combatsp")),
+        data["combatsp-name"] && data["combatsp-description"]
+        ? {
+          name: data["combatsp-name"],
+          description: data["combatsp-description"],
+          icon: imageUrl.find((img) => img.includes("Combatsp")),
+          attributes: {
+            labels: combatLabels("combatsp"),
+            parameters: combatParameters("combatsp"),
+          },
               }
             : undefined,
       },
@@ -585,8 +650,6 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         ],
       },
     };
-
-    console.log(finalData.costs.lvl10[1].count);
 
     return finalData;
   },

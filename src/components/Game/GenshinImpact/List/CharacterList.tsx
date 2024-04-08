@@ -25,13 +25,9 @@ export default function CharacterList({
         />
       </div>
       <div
-        className={`relative w-[115px] h-[100px] max-w-[115px] max-h-[130px] rounded-lg overflow-hidden`}
+        className={`relative md:w-[115px] w-[80px] h-[100px] rounded-lg overflow-hidden`}
         style={{
-          background: `${
-            d.rarity === "4"
-              ? "url('/Genshin-Impact/assets/bg-4-star.png')"
-              : "url('/Genshin-Impact/assets/bg-5-star.png')"
-          }`,
+          background: `url('/Genshin-Impact/assets/bg-${d.rarity}-star.png')`,
         }}
       >
         <Image
@@ -45,6 +41,7 @@ export default function CharacterList({
           }`}
         />
       </div>
+      <p className="font-bold text-center text-sm font-poppins mt-2 text-white line-clamp-1">{d.name}</p>
       <Link href={`/genshin-impact/character/${d.id}`}>
         <Button className={VariantClass.submit}>{message.seeText}</Button>
       </Link>

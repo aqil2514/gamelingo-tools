@@ -51,6 +51,7 @@ export async function submitFormHandler(e: React.FormEvent<HTMLFormElement>, con
   e.preventDefault();
 
   const formData = new FormData(e.target as HTMLFormElement);
+
   try {
     setIsLoading(true);
     const res = await axios.post(url, formData, {

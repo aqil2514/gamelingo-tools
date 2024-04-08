@@ -19,7 +19,7 @@ function CharacterPost({ data }: { data: GenshinImpact.Character }) {
       <h1 className="text-white font-nova-square text-center font-bold text-3xl my-8">
         {data.name}
       </h1>
-      <div className="bg-slate-900 p-4 mx-auto w-3/5 rounded-xl md:grid md:grid-cols-2 gap-4">
+      <div className="bg-slate-900 p-4 mx-auto w-[95%] md:w-3/5 rounded-xl md:grid md:grid-cols-2 gap-4">
         <div className="relative w-full min-h-[200px] max-h[392px]">
           <Image
             src={data.image.cover}
@@ -71,7 +71,7 @@ function CharacterPost({ data }: { data: GenshinImpact.Character }) {
           </fieldset>
         </div>
       </div>
-      <div className="bg-slate-900 p-4 mx-auto w-4/5 rounded-xl my-4">
+      <div className="bg-slate-900 p-4 mx-auto w-[95%] md:w-4/5 rounded-xl my-4 ">
         <h2 className="text-white text-center font-nova-square font-bold text-3xl underline">Ascend Material</h2>
         <AscendComponent template="Character" ascend="ascend1" data={data} />
         <AscendComponent template="Character" ascend="ascend2" data={data} />

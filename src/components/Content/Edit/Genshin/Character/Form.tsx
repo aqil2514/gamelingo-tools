@@ -343,7 +343,7 @@ export default function Form({ data }: FormProps) {
         forId="character-region"
         disabled={isLoading}
         name="region"
-        value={data.region}
+        defaultValue={data.region}
         variant="default-variant-1"
         label="Character Region"
       />
