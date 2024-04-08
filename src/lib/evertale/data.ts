@@ -5,19 +5,19 @@ interface CharRankTypes {
 export const charRank: CharRankTypes[] = [
   {
     rank: "SSR",
-    image: "/Evertale/Rank/SSR.png",
+    image: "/evertale-asset/Rank/SSR.png",
   },
   {
     rank: "SR",
-    image: "/Evertale/Rank/SR.png",
+    image: "/evertale-asset/Rank/SR.png",
   },
   {
     rank: "R",
-    image: "/Evertale/Rank/R.png",
+    image: "/evertale-asset/Rank/R.png",
   },
   {
     rank: "N",
-    image: "/Evertale/Rank/N.png",
+    image: "/evertale-asset/Rank/N.png",
   },
 ];
 
@@ -29,27 +29,27 @@ interface CharElementTypes {
 export const charElement: CharElementTypes[] = [
   {
     element: "Earth",
-    image: "/Evertale/Element/Earth.png",
+    image: "/evertale-asset/Element/Earth.png",
   },
   {
     element: "Fire",
-    image: "/Evertale/Element/Fire.png",
+    image: "/evertale-asset/Element/Fire.png",
   },
   {
     element: "Dark",
-    image: "/Evertale/Element/Dark.png",
+    image: "/evertale-asset/Element/Dark.png",
   },
   {
     element: "Light",
-    image: "/Evertale/Element/Light.png",
+    image: "/evertale-asset/Element/Light.png",
   },
   {
     element: "Water",
-    image: "/Evertale/Element/Water.png",
+    image: "/evertale-asset/Element/Water.png",
   },
   {
     element: "Storm",
-    image: "/Evertale/Element/Storm.png",
+    image: "/evertale-asset/Element/Storm.png",
   },
 ];
 
@@ -61,39 +61,39 @@ interface CharWeaponTypes {
 export const charWeapon: CharWeaponTypes[] = [
   {
     name: "GreatSword",
-    image: "/Evertale/Weapon/GreatSword.png",
+    image: "/evertale-asset/Weapon/GreatSword.png",
   },
   {
     name: "Staff",
-    image: "/Evertale/Weapon/Staff.png",
+    image: "/evertale-asset/Weapon/Staff.png",
   },
   {
     name: "Axe",
-    image: "/Evertale/Weapon/Axe.png",
+    image: "/evertale-asset/Weapon/Axe.png",
   },
   {
     name: "Hammer",
-    image: "/Evertale/Weapon/Hammer.png",
+    image: "/evertale-asset/Weapon/Hammer.png",
   },
   {
     name: "GreatAxe",
-    image: "/Evertale/Weapon/GreatAxe.png",
+    image: "/evertale-asset/Weapon/GreatAxe.png",
   },
   {
     name: "Sword",
-    image: "/Evertale/Weapon/Sword.png",
+    image: "/evertale-asset/Weapon/Sword.png",
   },
   {
     name: "Mace",
-    image: "/Evertale/Weapon/Mace.png",
+    image: "/evertale-asset/Weapon/Mace.png",
   },
   {
     name: "Spear",
-    image: "/Evertale/Weapon/Spear.png",
+    image: "/evertale-asset/Weapon/Spear.png",
   },
   {
     name: "Katana",
-    image: "/Evertale/Weapon/Katana.png",
+    image: "/evertale-asset/Weapon/Katana.png",
   },
 ];
 
