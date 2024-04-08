@@ -39,6 +39,7 @@ const nextConfig = {
       { protocol: "https", hostname: "fastcdn.hoyoverse.com", port: "" },
     ],
   },
+  
 };
 
 module.exports = withNextIntl(nextConfig);
