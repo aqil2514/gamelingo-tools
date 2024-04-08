@@ -9,5 +9,5 @@ export default createMiddleware({
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ["/", "/(id|en)/:path*", "/evertale/:path*"],
+  matcher: ["/", "/(id|en)/:path*"],
 };
