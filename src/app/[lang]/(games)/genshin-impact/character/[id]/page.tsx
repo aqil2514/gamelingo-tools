@@ -1,18 +1,15 @@
 import PostGenshinImpact from "@/components/Game/GenshinImpact/Post";
 import { baseUrl } from "@/lib/Data";
 import { Post } from "@/models/General/Post";
+import { redirect } from "@/navigation";
+import { Route } from "next";
 import { Metadata } from "next";
 
 interface ParamsProps {
-  params: { id: string };
-}
-
-async function getPost(param: string): Promise<General.PostDocument> {
-  const data = (await Post.findOne({ content: param }).populate(
-    "content"
-  )) as General.PostDocument;
-
-  return data;
+  params: {
+    id: string;
+    lang: "en" | "id";
+  };
 }
 
 export async function generateMetadata({
@@ -57,8 +54,33 @@ export async function generateMetadata({
   };
 }
 
+async function getPost(param: string): Promise<General.PostDocument> {
+  const data = (await Post.findOne({ content: param }).populate(
+    "content"
+  )) as General.PostDocument;
+
+  return data;
+}
+
+async function getIdCharacter({ params }: ParamsProps) {
+  const proc = (await Post.findOne({
+    content: params.id,
+  })) as unknown as General.PostDocument;
+  const newChar = (await Post.findOne({
+    title: proc.title,
+    lang: params.lang === "en" ? "English" : "Indonesian",
+  })) as unknown as General.PostDocument;
+  const id = newChar.content;
+
+  return id.toString();
+}
+
 export default async function DetailCharacter({ params }: ParamsProps) {
-  const data = await getPost(params.id);
+  const currId = params.id;
+  const id = await getIdCharacter({ params });
+  const data = await getPost(currId);
+
+  if (currId !== id) redirect("/genshin-impact/character/" + id);
 
   return <PostGenshinImpact data={data.content} category="Character" />;
 }

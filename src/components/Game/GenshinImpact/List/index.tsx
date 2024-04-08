@@ -118,6 +118,8 @@ function HomePage({
   data: GenshinImpact.CharacterInfo[];
 }) {
   const [chars, setChars] = useState<GenshinImpact.CharacterInfo[]>([]);
+  const messages = useMessages();
+  const message = messages.GenshinHomePage as unknown as Internationalization.GenshinHomeInterface
 
   useEffect(() => {
     setChars(data);
@@ -126,7 +128,7 @@ function HomePage({
   return (
     <div className="p-4">
       <h2 className="text-center text-2xl font-bold font-nova-square my-4 text-white">
-        {/* {messages} */}
+        {message.characterTitle}
       </h2>
       <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md">
         {chars
@@ -141,7 +143,7 @@ function HomePage({
           href={"/genshin-impact/character"}
           className="font-semibold font-nova-square text-white"
         >
-          {/* {message.characterSeeMore} &gt;&gt; */}
+          {message.characterSeeMore} &gt;&gt;
         </Link>
       </div>
     </div>

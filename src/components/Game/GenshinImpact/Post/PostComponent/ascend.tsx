@@ -31,7 +31,7 @@ function Character({ ascend, data }: Omit<AscendComponentProps, "template">) {
       <h3 className="text-white font-nova-square font-bold text-xl">
         {title[ascend]}
       </h3>
-      <div className="my-4 gap-4 overflow-x-scroll">
+      <div className="my-4 gap-4">
         {data.ascendMaterial[`${ascend}`].map((asc, i: number) => (
           <div key={`asc-${i}`} className="grid grid-cols-[100px_auto] ">
             <Image

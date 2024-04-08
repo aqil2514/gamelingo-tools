@@ -10,21 +10,27 @@
     "loginLoading": "Please Wait...",
     "alertMessage": "Login and Register feature currently just for site Contributors.\nDon`t worry, we'll make it available for visitors."
   },
-  "Home": {
-    "greetings": "Welcome to GameLingo Tools",
-    "sub": "A Tools for Gamers"
-  },
   "Footer": {
     "about": "About",
     "news": "Update",
     "lang": "Bahasa Indonesia"
   },
   "GenshinHomePage": {
-    "character": "Character",
+    "characterTitle": "Character",
     "characterSeeMore": "See more character"
   },
   "GenshinBasicAdminData": {
     "addData": "Add Data"
+  },
+  "GenshinCharacterDetail": {
+    "characterName": "Character Name",
+    "gender": "Gender",
+    "region": "Region",
+    "element": "Element",
+    "rarity": "Rarity",
+    "weapon": "Weapon Type",
+    "description": "Description",
+    "va": "Voice Actor"
   },
   "GenshinCharacterPage": {
     "titleText": "Character",
@@ -33,6 +39,10 @@
     "sortText": "Sort Character by",
     "seeText": "See",
     "noMatch": "Nothing related Character"
+  },
+  "Home": {
+    "greetings": "Welcome to GameLingo Tools",
+    "sub": "A Tools for Gamers"
   },
   "Metadata": {
     "home": "Home | GameLingo Tools"

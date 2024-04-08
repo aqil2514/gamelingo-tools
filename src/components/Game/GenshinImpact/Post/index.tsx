@@ -1,6 +1,7 @@
 import Image from "next/image";
 import AscendComponent from "./PostComponent/ascend";
 import PostComponent from "./PostComponent";
+import { useTranslations } from "next-intl";
 
 interface GenshinPostProps {
   category: "Character" | "Weapon";
@@ -14,6 +15,7 @@ export default function PostGenshinImpact({
 }
 
 function CharacterPost({ data }: { data: GenshinImpact.Character }) {
+  const t = useTranslations("GenshinCharacterDetail");
   return (
     <div className="main-wrapper py-20">
       <h1 className="text-white font-nova-square text-center font-bold text-3xl my-8">
@@ -31,31 +33,31 @@ function CharacterPost({ data }: { data: GenshinImpact.Character }) {
         </div>
         <div className="text-white font-poppins flex flex-col justify-center">
           <p className="mb-4">
-            <strong>Nama Karakter</ strong> : {data.name}
+            <strong>{t("characterName")}</ strong> : {data.name}
           </p>
           <p className="mb-4">
-            <strong>Jenis Kelamin</strong> : {data.gender}
+            <strong>{t("gender")}</strong> : {data.gender}
           </p>
           <p className="mb-4">
-            <strong>Region</strong> : {data.region}
+            <strong>{t("region")}</strong> : {data.region}
           </p>
           <p className="mb-4">
-            <strong>Element</strong> : {data.element}
+            <strong>{t("element")}</strong> : {data.element}
           </p>
           <p className="mb-4">
-            <strong>Rarity</strong> : {data.rarity}
+            <strong>{t("rarity")}</strong> : {data.rarity}
           </p>
           <p className="mb-4">
-            <strong>Senjata</strong> : Pengguna {data.weapon}
+            <strong>{t("weapon")}</strong> : {data.weapon}
           </p>
           <p className="mb-4">
             <strong>Ascend Status</strong> : {data.ascendStatus}
           </p>
           <article className="mb-4">
-            <strong>Deskripsi Singkat</strong> :<p>{data.description}</p>
+            <strong>{t("description")}</strong> :<p>{data.description}</p>
           </article>
           <fieldset className="mb-4 border border-white rounded-lg p-2">
-            <legend className="text-center">Aktor Suara</legend>
+            <legend className="text-center">{t("va")}</legend>
             <p>
               <strong>English</strong> : {data.cv.english}
             </p>
