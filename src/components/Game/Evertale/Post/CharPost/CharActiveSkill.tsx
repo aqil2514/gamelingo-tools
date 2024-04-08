@@ -36,13 +36,13 @@ export default function CharActiveSkill({ charActiveSkill }: { charActiveSkill: 
             <p className="text-base md:text-lg font-bold my-auto">{nas.skillName}</p>
             <div className="flex flex-row justify-start content-center">
               <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
-                <Image src="/Evertale/Icon/Spirit.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
+                <Image src="/evertale-asset/Icon/Spirit.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
                 {Number(nas.skillSpirit) > 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-green-700">+{Number(nas.skillSpirit)}</span>}
                 {Number(nas.skillSpirit) < 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-red-700">{Number(nas.skillSpirit)}</span>}
                 {Number(nas.skillSpirit) === 0 && <span className="my-auto bg-white px-2 rounded-full font-bold text-slate-800">{Number(nas.skillSpirit)}</span>}
               </div>
               <div className="flex flex-row justify-start content-center px-1 ">
-                <Image src="/Evertale/Icon/TU.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
+                <Image src="/evertale-asset/Icon/TU.png" width={32} height={32} alt="Spirit-Icon" className="my-auto" />
                 <span className="my-auto ml-1 font-bold">{Number(nas.skillTu)}</span>
               </div>
               <div className="flex flex-row justify-start content-center mx-2 px-1 rounded-xl">
