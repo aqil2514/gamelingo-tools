@@ -1,7 +1,7 @@
 import { imageLoader } from "@/lib/utils";
 import { Route } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/navigation";
 
 interface ResultState {
   data: General.Post[];

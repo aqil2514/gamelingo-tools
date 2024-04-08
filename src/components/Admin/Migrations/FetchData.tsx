@@ -4,7 +4,7 @@ import { Route } from "next";
 import { useMigrationContext } from ".";
 import axios from "axios";
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "@/navigation";
 
 // TODO: Akalin ini. Harus bisa download file json nanti 
 

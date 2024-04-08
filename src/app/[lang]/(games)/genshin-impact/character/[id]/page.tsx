@@ -1,7 +1,6 @@
 import PostGenshinImpact from "@/components/Game/GenshinImpact/Post";
 import { baseUrl } from "@/lib/Data";
 import { Post } from "@/models/General/Post";
-import { CharacterID } from "@/models/GenshinImpact/Character";
 import { Metadata } from "next";
 
 interface ParamsProps {
