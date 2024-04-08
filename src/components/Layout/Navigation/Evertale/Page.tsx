@@ -2,8 +2,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ACTIVE_NAV_LIST, NONACTIVE_NAV_LIST } from "..";
 import { ChevronDoubleLeft, ChevronDoubleRight } from "react-bootstrap-icons";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import SearchInput from "@/components/general/Search/Input";
+import { useRouter } from "@/navigation";
 
 export default function EvertalePage() {
   const navRef = useRef<HTMLDivElement | null>(null);

@@ -7,8 +7,8 @@ import { baseUrl } from "@/lib/Data";
 import CharSlider from "@/components/Game/Evertale/Slider/CharSlider";
 import { Weapon } from "@/models/Evertale/Weapons";
 import WeaponSlider from "@/components/Game/Evertale/Slider/WeaponSlider";
-import Link from "next/link";
 import Button, { VariantClass } from "@/components/Input/Button";
+import { Link } from "@/navigation";
 
 export const metadata: Metadata = {
   title: "Evertale",

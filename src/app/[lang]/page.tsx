@@ -4,11 +4,11 @@ import {useTranslations} from 'next-intl';
 import { getTranslations } from "next-intl/server";
 
 interface Lang {
-  params: {lang:"en" | "id"}
+  params: {lang:"en" | "id"}  
 }
 
 export async function generateMetadata({params: {lang}} : Lang):Promise<Metadata> {
-  const t = await getTranslations({lang, namespace: 'Metadata'});
+  const t = await getTranslations('Metadata');
 
   return {
     title: t('home')

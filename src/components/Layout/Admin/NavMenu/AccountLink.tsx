@@ -1,7 +1,7 @@
 "use client";
 import { subField_AL } from "@/lib/Data";
 import { LINKSTYLE } from ".";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/navigation";
 
 export default function AccountLink({ field, subfield }: { field: string; subfield: string }) {
   const router = useRouter();

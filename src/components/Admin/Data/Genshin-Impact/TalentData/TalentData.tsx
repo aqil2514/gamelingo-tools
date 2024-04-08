@@ -7,9 +7,12 @@ import { TD_Style, TH_Style, Table_Style } from "@/components/Admin/Resources";
 import Button, { VariantClass } from "@/components/Input/Button";
 import { LangSelection } from "../LocalComponents";
 import { TalentDataProps } from ".";
+import { useMessages } from "next-intl";
 
 export default function TalentDataTable({ data, lang, setLang }: TalentDataProps) {
   const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu, router } = useMenuContextData();
+  const messages = useMessages();
+  const {addData}:Record<string, string> = messages.GenshinBasicAdminData as Record<string, string>;
 
   useEffect(() => {
     const clickFunction = (e: MouseEvent) => {
@@ -32,7 +35,7 @@ export default function TalentDataTable({ data, lang, setLang }: TalentDataProps
     <div className="px-4">
       <div className="flex gap-4">
         <Button className={VariantClass.submit} onClick={() => router.push("/write?game=genshin-impact&category=Talent")}>
-          Tambah Data
+          {addData}
         </Button>
         <LangSelection lang={lang} setLang={setLang} />
       </div>

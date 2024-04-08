@@ -1,8 +1,8 @@
 import { imageLoader } from "@/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
 import "./scrollbar.css";
 import { ChevronDoubleRight } from "react-bootstrap-icons";
+import { Link } from "@/navigation";
 
 type CharState = {
   id: string;

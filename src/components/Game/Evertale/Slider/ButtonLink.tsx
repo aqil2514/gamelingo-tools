@@ -1,7 +1,6 @@
-import { Route } from "next";
-import Link from "next/link";
+import { Link } from "@/navigation";
 
-const ButtonLink = ({ linkHref }: { linkHref: Route }) => {
+const ButtonLink = ({ linkHref }: { linkHref: string }) => {
   return (
     <Link href={linkHref}>
       <button className="block mx-auto text-center font-mclaren text-slate-200 bg-yellow-600 px-4 py-2">Lihat lebih banyak &rarr;</button>

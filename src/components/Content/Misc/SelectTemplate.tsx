@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "@/navigation";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 
 interface SelectTemplateProps{

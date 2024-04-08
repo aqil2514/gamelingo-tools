@@ -1,4 +1,15 @@
 {
+  "AccountLogin":{
+    "googleSignIn" : "Masuk dengan Google",
+    "haveAccount" : "Punya Akun?",
+    "usernamePlaceholder" : "Masukkan username...",
+    "passwordPlaceholder" : "Masukkan password...",
+    "forgotPassword" : "Lupa Password?",
+    "dontHaveAccount" : "Tidak punya akun?",
+    "loginText": "Masuk",
+    "loginLoading": "Mohon tunggu...",
+    "alertMessage": "Fitur login dan register baru bisa dirasakan oleh kontributor situs.\nNantinya akan ada fitur untuk para pengunjung situs"
+  },
   "Home": {
     "greetings": "Selamat Datang di GameLingo Tools",
     "sub": "Situsnya para Gamers"
@@ -11,6 +22,9 @@
   "GenshinHomePage":{
     "character": "Karakter",
     "characterSeeMore" : "Lihat lebih banyak"
+  },
+  "GenshinBasicAdminData": {
+    "addData": "Tambah Data"
   },
   "GenshinCharacterPage":{
     "titleText": "Karakter",

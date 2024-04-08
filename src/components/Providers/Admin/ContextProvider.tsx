@@ -1,7 +1,8 @@
 "use client";
 
+import { useRouter } from "@/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { ReadonlyURLSearchParams, useRouter, useSearchParams } from "next/navigation";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import React, { createContext, useContext, useState } from "react";
 
 interface ContextMenuState {

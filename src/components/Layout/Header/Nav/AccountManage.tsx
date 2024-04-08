@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/navigation";
 import { usePathname } from "next/navigation";
 
 export default function AccountManage() {

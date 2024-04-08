@@ -1,7 +1,7 @@
 "use client";
 import { subfield_GIL } from "@/lib/Data";
 import { LINKSTYLE } from ".";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/navigation";
 
 export default function GenshinImpactLink({ field, subfield }: { field: string; subfield: string }) {
   const router = useRouter();

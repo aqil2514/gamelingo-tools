@@ -1,4 +1,15 @@
 {
+  "AccountLogin": {
+    "googleSignIn": "Login with Google",
+    "haveAccount": "Have Account?",
+    "usernamePlaceholder": "Enter your username...",
+    "passwordPlaceholder": "Enter your password...",
+    "forgotPassword": "Forgot Password?",
+    "dontHaveAccount": "Don't have account?",
+    "loginText": "Login",
+    "loginLoading": "Please Wait...",
+    "alertMessage": "Login and Register feature currently just for site Contributors.\nDon`t worry, we'll make it available for visitors."
+  },
   "Home": {
     "greetings": "Welcome to GameLingo Tools",
     "sub": "A Tools for Gamers"
@@ -8,12 +19,15 @@
     "news": "Update",
     "lang": "Bahasa Indonesia"
   },
-  "GenshinHomePage":{
+  "GenshinHomePage": {
     "character": "Character",
-    "characterSeeMore" : "See more character"
+    "characterSeeMore": "See more character"
   },
-  "GenshinCharacterPage":{
-     "titleText": "Character",
+  "GenshinBasicAdminData": {
+    "addData": "Add Data"
+  },
+  "GenshinCharacterPage": {
+    "titleText": "Character",
     "searchText": "Search Character",
     "placeHolderText": "Search character by name",
     "sortText": "Sort Character by",

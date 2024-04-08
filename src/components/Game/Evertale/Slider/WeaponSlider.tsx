@@ -2,13 +2,13 @@
 import { Navigation, Autoplay, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
-import Link from "next/link";
 import { imageLoader } from "@/lib/utils";
 
 import "./scrollbar.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
+import { Link } from "@/navigation";
 
 interface WeaponSliderProps{
   weapons: Evertale.QuickInfo[];

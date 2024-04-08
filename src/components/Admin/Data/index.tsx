@@ -20,4 +20,8 @@ export default function AdminData({ field, subfield, user }: { field: string; su
 
     return <GenshinImpactData field={field} subfield={subfield as General.GameGenshinImpact["category"]} />;
   }
+
+  return (
+    <h1 className="text-white font-bold font-poppins text-center">Nanti di sini dibuat shortcut ajah</h1>
+  )
 }

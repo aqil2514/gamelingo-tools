@@ -1,6 +1,6 @@
 import { charElement, charRank, charWeapon } from "@/lib/evertale/data";
+import { Link } from "@/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import useSWR from "swr";
 
 const Icon = ({ charStatus }: { charStatus: Evertale.Character.Status }) => {

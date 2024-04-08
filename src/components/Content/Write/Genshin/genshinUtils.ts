@@ -16,7 +16,7 @@ export interface SubmitConfig_GI {
   /** Ini bertujuan untuk penampilan pesan */
   ref: string;
   /** Ganti halaman setelah input data berhasil */
-  callbackUrl?: Route;
+  callbackUrl?: string;
   /** Ganti halaman setelah input data berhasil */
   moveLocation?: boolean;
 }
@@ -65,7 +65,7 @@ export async function submitFormHandler(e: React.FormEvent<HTMLFormElement>, con
 
     notif(res.data.msg, { color: "green", refElement: ref, location: "before" });
 
-    if (callbackUrl && moveLocation) location.href = callbackUrl;
+    if (callbackUrl && moveLocation) location.href = `${callbackUrl}`;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 422) {

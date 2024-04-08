@@ -1,9 +1,7 @@
 "use client";
-import Loading from "@/components/general/Loading";
 import ButtonLink from "./ButtonLink";
 import CharSlider from "./CharSlider";
 import useSWR from "swr";
-import Error from "@/components/general/Error";
 import WeaponSlider from "./WeaponSlider";
 
 interface SliderState {

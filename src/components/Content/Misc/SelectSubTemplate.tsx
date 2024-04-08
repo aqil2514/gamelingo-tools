@@ -1,7 +1,8 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { SubTemplateDataState, subTemplateData } from "./Data";
+import { useRouter } from "@/navigation";
 
 interface SelectSubTemplateProps{
   template: "write" | "edit";

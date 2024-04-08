@@ -1,6 +1,6 @@
 "use client";
 import { Link } from "@/navigation";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Globe } from "react-bootstrap-icons";
 
 export default function FooterContent({ about, news, lang }: any) {
@@ -8,12 +8,15 @@ export default function FooterContent({ about, news, lang }: any) {
   const pathName = usePathname();
   const currentLang = pathName.split("/")[1];
 
-  const targetPathName = pathName.endsWith(currentLang) ? pathName.replace(`${currentLang}`, "") : pathName.replace(`/${currentLang}`, "");
+  const targetPathName = pathName.endsWith(currentLang)
+    ? pathName.replace(`${currentLang}`, "")
+    : pathName.replace(`/${currentLang}`, "");
+  const searchParamsPath = pathName.includes("?") ? targetPathName : "";
 
   return (
     <footer className="w-full grid grid-cols-2 md:grid-cols-3 relative px-4 z-[999] h-[60px] bg-amber-600 ">
       <Link
-        href={targetPathName}
+        href={targetPathName + searchParamsPath}
         locale={currentLang === "id" ? "en" : "id"}
         className="my-auto max-w-[200px]"
         replace

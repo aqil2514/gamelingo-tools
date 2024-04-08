@@ -18,6 +18,7 @@ import axios, { isAxiosError } from "axios";
 import { Route } from "next";
 import { notif } from "@/utils/fe";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
+import { useParams } from "next/navigation";
 
 interface ArtifactContentFormProps {
   template: "Write" | "Edit";
@@ -30,7 +31,8 @@ export default function GIArtifactContentForm({ template }: ArtifactContentFormP
 
 function WriteContent() {
   const { isLoading, setIsLoading, moveLocation, setMoveLocation, artifact, setArtifact } = useArtifactContext();
-
+  const {lang} = useParams(); 
+  
   const dataExist = artifact.rarityList;
 
   const submitConfig: SubmitConfig_GI = {
@@ -39,7 +41,7 @@ function WriteContent() {
     game: "Genshin Impact",
     category: "Artifact",
     ref: "artifact-button-submit",
-    callbackUrl: "/admin/data?field=genshin-impact&subfield=Artifact&lang=English",
+    callbackUrl: `${lang}/admin/data?field=genshin-impact&subfield=Artifact&lang=English`,
     moveLocation,
   };
 

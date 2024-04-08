@@ -38,7 +38,7 @@ interface homeIconsType {
   id: string;
   name: string;
   imgLoc: string;
-  url: Route;
+  url: string;
 }
 
 export const homeIcon: homeIconsType[] = [

@@ -1,5 +1,5 @@
+import { Link } from "@/navigation";
 import { signOut } from "next-auth/react";
-import Link from "next/link";
 import { Pen, PencilSquare, PersonCircle } from "react-bootstrap-icons";
 
 const NONACTIVE = "hidden";
