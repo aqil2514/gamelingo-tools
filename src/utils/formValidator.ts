@@ -544,7 +544,7 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
         ) {
           const validation = file.validationImage(
             data[key as keyof IconImage] as File,
-            { validateName: true, validationName: data["character-name"] }
+            { validateName: "including", validationName: data["character-name"] }
           );
           if (!validation.status) return { status: false, msg: validation.msg };
 

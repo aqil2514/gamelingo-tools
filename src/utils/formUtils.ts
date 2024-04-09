@@ -545,7 +545,9 @@ export const genshin: FormUtils.Genshin.Genshin = {
         game,
         category
       );
-      images.push(uploadImage.map((img) => img.secure_url)[0]);
+      uploadImage.forEach((image) => {
+        images.push(image.secure_url);
+      })
     }
 
     const organizedData = genshinOrganizing.talent(data, images);

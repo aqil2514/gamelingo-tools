@@ -23,7 +23,6 @@ export default function GenshinCharacterEdit({
   const endPoint: Route = "/api/post/edit";
   const { game, category } = searchParams;
   const [lang, setLang] = useState<General.PostDocument["lang"]>("English");
-  const [charName, setCharName] = useState<string>("");
   const [showData, setShowData] = useState<boolean>(false);
   const [charData, setCharData] = useState<GenshinImpact.Character>(
     {} as GenshinImpact.Character

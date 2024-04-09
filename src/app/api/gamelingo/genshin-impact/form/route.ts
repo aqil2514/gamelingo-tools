@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCharacter } from "./formUtils";
+import { getCharacter, getTalent } from "./formUtils";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
 
   let formData;
   if (category === "Character") formData = await getCharacter(charName, lang);
+  else if (category === "Talent") formData = await getTalent(charName, lang)
 
   return NextResponse.json({ formData }, { status: 200 });
 }

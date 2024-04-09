@@ -46,7 +46,7 @@ export function TalentDefault({ data }: { data: GenshinImpact.Talent }) {
             >
               <div className="relative w-[64px] h-[64px] block m-auto">
                 <Image
-                  src={"https://placehold.jp/64x64.png"}
+                  src={dataCombat.icon ? dataCombat.icon : "https://placehold.jp/64x64.png"}
                   alt={c}
                   fill
                   sizes="auto"
@@ -74,7 +74,7 @@ export function TalentDefault({ data }: { data: GenshinImpact.Talent }) {
             >
               <div className="relative w-[64px] h-[64px] block m-auto">
                 <Image
-                  src={"https://placehold.jp/64x64.png"}
+                  src={dataCombat.icon ? dataCombat.icon : "https://placehold.jp/64x64.png"}
                   alt={c}
                   fill
                   sizes="auto"

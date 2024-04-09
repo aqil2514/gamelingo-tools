@@ -50,12 +50,15 @@ function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProp
     const target = e.target as HTMLParagraphElement;
     const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
     const input = target.nextSibling?.nextSibling as HTMLInputElement;
-
+    
     if (input.files?.length !== 0) {
       input.value = "";
+      e.stopPropagation()
       setPreviewLinks({ ...previewLinks, [previewLink]: "" });
     }
   }
+
+  const imageLink = previewLinks[`link${index}` as keyof PreviewLinksState];
 
   return (
     <>
@@ -64,14 +67,14 @@ function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProp
       <div className="grid grid-cols-[200px_auto] gap-4 my-4">
         <label
           htmlFor={`talent-${index}-icon`}
-          className="relative m-auto border border-dashed group border-white rounded-md w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden"
+          className={`relative m-auto ${!imageLink ? "border border-dashed group border-white rounded-md" : ""} w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden`}
         >
-          {previewLinks[`link${index}` as keyof PreviewLinksState] ? (
+          {imageLink ? (
             <>
               <span className="font-bold text-red-600 top-2 group: right-2 cursor-pointer z-20 absolute" onClick={deleteHandler} data-previewLink={`link${index}`}>
                 X
               </span>
-              <Image src={previewLinks[`link${index}` as keyof PreviewLinksState]} fill sizes="auto" alt={`${index}-icon`} className="w-auto group-hover:scale-125 transition duration-500" />
+              <Image src={imageLink} fill sizes="auto" alt={`${index}-icon`} className="w-auto group-hover:scale-125 transition duration-500" />
             </>
           ) : (
             <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
