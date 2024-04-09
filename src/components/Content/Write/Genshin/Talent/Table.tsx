@@ -4,6 +4,7 @@ import React from "react";
 import { CombatStatus, tableMappingConfig, useTableConfig } from "./config";
 import Image from "next/image";
 import DisplayImage from "@/components/DataDisplay/Image";
+import ImageInput from "@/components/general/ImageInput";
 
 interface PreviewLinksState {
   linkcombat1: string;
@@ -175,36 +176,33 @@ function EditTableMapping({ edit, index }: Omit<TableMappingProps, "template">) 
     }
   }
 
+  const attribute = edit.combats[index]?.attributes;
+  const imageUrl= edit.combats[index]?.icon;
+
   return (
     <>
       <h2 className="text-white font-semibold font-poppins">{title[index]}</h2>
 
-      <div className="grid grid-cols-[200px_auto] gap-4 my-4">
-        <label
-          htmlFor={`talent-${index}-icon`}
-          className="relative m-auto border border-dashed group border-white rounded-md w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden"
-        >
-          {/* TODO: BIKIN KOMPONEN KHUSUS UNTUK EDIT GAMBAR */}
-          {previewLinks[`link${index}` as keyof PreviewLinksState] ? (
-            <>
-              <span className="font-bold text-red-600 top-2 group: right-2 cursor-pointer z-20 absolute" onClick={deleteHandler} data-previewLink={`link${index}`}>
-                X
-              </span>
-              <Image src={previewLinks[`link${index}` as keyof PreviewLinksState]} fill sizes="auto" alt={`${index}-icon`} className="w-auto group-hover:scale-125 transition duration-500" />
-            </>
-          ) : (
-            <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
-          )}
+      <div className="gap-4 my-4">
 
-          <input type="file" name={`talent-${index}-icon`} data-previewLink={`link${index}`} id={`talent-${index}-icon`} className="hidden" onChange={changeHandler} />
-        </label>
+        <ImageInput template="Character" id={`talent-${index}-icon`} dataImage={imageUrl} imageName={edit.charName+ " Talent Icon"} />
 
         <Input forId={`talent-${index}-name`} label="Talent Name" name={`${index}-name`} variant={VariantClass.dashboard} defaultValue={combats[index]?.name} />
       </div>
 
       <Textarea forId={`talent-${index}-info`} label="Talent Info" className={TextareaStyle.variant_1} defaultValue={combats[index]?.description} name={`${index}-description`} />
 
-      <p className="font-bold text-white my-4">Tabel Scalling damage masih belum sepenuhnya selesai</p>
+      {attribute?.labels.map((v, i) => (
+        <input type="hidden" name={`${index}-attribute-label-${i + 1}`} id={`${index}-attribute-label-${i + 1}`} key={`${index}-attribute-label-${i + 1}`} value={v} />
+      ))}
+
+      {attribute?.parameters && Object.keys(attribute.parameters).map((v, i) => {
+        const value = attribute.parameters[v].toString();
+
+        return(
+        <input type="hidden" name={`${index}-attribute-param-${i + 1}`} id={`${index}-attribute-param-${i + 1}`} key={i + 1} value={value} />
+      )})}
+
       {/* {label && label?.length !== 0 && <CombatMapping talent={talent} config={config} index={index} />} */}
     </>
   );

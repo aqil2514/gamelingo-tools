@@ -1,9 +1,5 @@
 "use client";
-import { fetcher } from "@/lib/Data";
-import { Route } from "next";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import useSWR from "swr";
 
 export function TalentSkeleton() {
   return (
@@ -34,7 +30,7 @@ const passiveNames: PassiveKey[] = ["passive1", "passive2", "passive3"]
 
 export function TalentDefault({ data }: { data: GenshinImpact.Talent }) {
   return (
-    <div className="w-[95%] md:w-3/4 bg-slate-900 min-h-100px rounded-xl mx-auto my-2">
+    <div className="w-[95%] md:w-3/4 bg-slate-900 min-h-100px rounded-xl mx-auto my-2 p-4">
       <h3 className="text-white font-merriweather underline font-bold text-xl">Talents</h3>
       {combatNames.map((c) => {
         const dataCombat = data.combats[c];
