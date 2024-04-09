@@ -126,7 +126,7 @@ export default function GenshinTalentEdit({
           </datalist>
         </div>
         {isFetching && <Loading loading={1} textOn text="Mengambil data..." />}
-        {showData && <Form data={talentData} />}
+        {showData && <Form data={talentData} lang={lang} />}
       </div>
     );
   } 
