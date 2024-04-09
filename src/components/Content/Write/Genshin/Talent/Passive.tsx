@@ -67,7 +67,7 @@ function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProp
 
       <div className="grid grid-cols-[200px_auto] gap-4 my-4">
         <label
-          htmlFor={`talent-${index}-icon`}
+          htmlFor={`passive-${index}-icon`}
           className={`relative m-auto ${!imageLink ? "border border-dashed group border-white rounded-md" : ""} w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden`}
         >
           {imageLink ? (
@@ -81,11 +81,11 @@ function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProp
             <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
           )}
 
-          <input type="file" name={`talent-${index}-icon`} data-previewLink={`link${index}`} id={`talent-${index}-icon`} className="hidden" onChange={changeHandler} />
+          <input type="file" name={`passive-${index}-icon`} data-previewLink={`link${index}`} id={`passive-${index}-icon`} className="hidden" onChange={changeHandler} />
         </label>
 
         <Input
-          forId={`talent-${index}-name`}
+          forId={`passive-${index}-name`}
           label="Passive Name"
           name={`${index}-name`}
           variant={VariantClass.dashboard}
@@ -100,7 +100,7 @@ function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProp
       </div>
 
       <Textarea
-        forId={`talent-${index}-description`}
+        forId={`passive-${index}-description`}
         label="Passive Description"
         name={`${index}-description`}
         className={TextareaStyle.variant_1}
@@ -146,6 +146,7 @@ function EditPassiveTalent({ edit, index }: Omit<PassiveTalentProps, "template">
   }
 
   const imageUrl = edit.passives[index].icon;
+  const talentName = edit.passives[index].name
 
   return (
     <>
@@ -153,12 +154,12 @@ function EditPassiveTalent({ edit, index }: Omit<PassiveTalentProps, "template">
 
       <div className="gap-4 my-4">
 
-        <ImageInput template="Character" id={`talent-${index}-icon`} dataImage={imageUrl} imageName={edit.charName+ " Talent Icon"} />
-
-        {/* <Input forId={`talent-${index}-name`} label="Talent Name" name={`${index}-name`} variant={VariantClass.dashboard} defaultValue={combats[index]?.name} /> */}
+        <ImageInput template="Character" id={`passive-${index}-icon`} dataImage={imageUrl} imageName={edit.charName+ " Talent Icon"} />
+<br />
+        <Input forId={`passive-${index}-name`} label="Talent Name" name={`${index}-name`} variant={VariantClass.dashboard} defaultValue={talentName} />
       </div>
 
-      <Textarea forId={`talent-${index}-description`} label="Passive Description" name={`${index}-description`} className={TextareaStyle.variant_1} defaultValue={passives[index]?.description} />
+      <Textarea forId={`passive-${index}-description`} label="Passive Description" name={`${index}-description`} className={TextareaStyle.variant_1} defaultValue={passives[index]?.description} />
     </>
   );
 }
