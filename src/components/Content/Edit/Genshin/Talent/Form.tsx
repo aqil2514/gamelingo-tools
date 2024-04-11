@@ -12,12 +12,9 @@ import TableMapping from "@/components/Content/Write/Genshin/Talent/Table";
 import PassiveTalent from "@/components/Content/Write/Genshin/Talent/Passive";
 import SwiperSlideData from "@/components/Content/Write/Genshin/Components/SwiperSlideData";
 import Button, { VariantClass } from "@/components/Input/Button";
-<<<<<<< HEAD
 import axios, { isAxiosError } from "axios";
 import { Route } from "next";
 import { notif } from "@/utils/fe";
-=======
->>>>>>> 0c3c1829ebe9113d887150474487aa4ae0e04718
 
 const formNameMapping: Record<string, keyof FormUtils.Genshin.FormDataTalent> =
   {
@@ -98,7 +95,6 @@ export default function Form({
   }
 
   return (
-<<<<<<< HEAD
     <form onSubmit={submitHandler}>
       <h3 className="font-bold text-white text-xl font-poppins text-center underline">
         Edit {data.charName} Talent
@@ -107,18 +103,6 @@ export default function Form({
       <input type="hidden" name="id" value={data._id} readOnly />
 
       <input type="hidden" name="result-lang" value={lang} readOnly />
-=======
-    <form>
-      {/* Form Data  */}
-      <>
-        <h3 className="font-bold text-white text-xl font-poppins text-center underline">
-          Edit {data.charName} Talent
-        </h3>
-
-        <input type="hidden" name="id" value={data._id} />
-        
-        <input type="hidden" name="lang" value={lang} />
->>>>>>> 0c3c1829ebe9113d887150474487aa4ae0e04718
 
         <TextField
           variant="default-variant-1"
@@ -236,17 +220,13 @@ export default function Form({
             </SwiperSlide>
           </Swiper>
         </div>
-      </>
+        
       {/* Sending Button */}
       <div className="flex gap-4">
         <Button className={VariantClass.submit} type="button">Submit</Button>
         <Button className={VariantClass.danger} type="button" onClick={() => cancelData(false)}>Batal</Button>
       </div>
 
-      <div className="flex gap-4 my-4" id="buttons">
-        <Button className={VariantClass.submit} disabled={isLoading}>{isLoading ? "Mengubah Data..." : "Ubah Data"}</Button>
-        <Button className={VariantClass.danger} disabled={isLoading}>Batal Ubah</Button>
-      </div>
     </form>
   );
 }
