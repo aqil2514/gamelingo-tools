@@ -447,7 +447,7 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
 
     return { status: true, data };
   },
-  async talent(data) {
+  async talent(data, action) {
     // <<<<< Local Variabel >>>>>
     const images: File[] = [];
     // <<<<< Validation >>>>>
@@ -456,25 +456,29 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
     if (!data["character-name"])
       return { status: false, msg: "Nama karakter belum diisi" };
 
-    if (data["result-lang"] === "Indonesian") {
-      const isThere = await TalentID.findOne({
-        charName: data["character-name"],
-      });
-      if (isThere)
-        return {
-          status: false,
-          msg: `${data["character-name"]} sudah ada di Database`,
-        };
-    } else if (data["result-lang"] === "English") {
-      const isThere = await TalentEN.findOne({
-        charName: data["character-name"],
-      });
-      if (isThere)
-        return {
-          status: false,
-          msg: `${data["character-name"]} is there in Database`,
-        };
+    if(action === "add"){
+      if (data["result-lang"] === "Indonesian") {
+        const isThere = await TalentID.findOne({
+          charName: data["character-name"],
+        });
+        if (isThere)
+          return {
+            status: false,
+            msg: `${data["character-name"]} sudah ada di Database`,
+          };
+      } else if (data["result-lang"] === "English") {
+        const isThere = await TalentEN.findOne({
+          charName: data["character-name"],
+        });
+        if (isThere)
+          return {
+            status: false,
+            msg: `${data["character-name"]} is there in Database`,
+          };
+      }
     }
+
+    // TODO: Image validationnya belum
 
     /// ***** Periksa semua talent sekaligus *****
     for (let i = 1; i <= 3; i++) {

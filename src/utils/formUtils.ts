@@ -535,7 +535,7 @@ export const genshin: FormUtils.Genshin.Genshin = {
     ) as unknown as FormUtils.Genshin.FormDataTalent;
 
     // <<<<< Validasi >>>>>
-    const validation = await genshinValidator.talent(data);
+    const validation = await genshinValidator.talent(data, action);
     if (!validation.status) return { status: 422, msg: validation.msg };
 
     // <<<<< Upload Image >>>>>

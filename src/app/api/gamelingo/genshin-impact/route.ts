@@ -122,7 +122,7 @@ export async function PUT(req: NextRequest) {
   const dataId = req.headers.get("Old-Id");
   const lang = req.headers.get("Content-Lang") as General.PostDocument["lang"] | null;
   const user = await getUser();
-
+  
   if (!lang) return NextResponse.json({ msg: "Bahasa belum ditentukan" }, { status: 400 });
   if (!category) return NextResponse.json({ msg: "Category belum diisi" }, { status: 400 });
   if (!user) return NextResponse.json({ msg: "Anda belum login" }, { status: 401 });

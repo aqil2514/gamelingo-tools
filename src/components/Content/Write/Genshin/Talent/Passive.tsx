@@ -146,6 +146,7 @@ function EditPassiveTalent({ edit, index }: Omit<PassiveTalentProps, "template">
   }
 
   const imageUrl = edit.passives[index].icon;
+  const passiveName = edit.passives[index].name;
 
   return (
     <>
@@ -155,7 +156,7 @@ function EditPassiveTalent({ edit, index }: Omit<PassiveTalentProps, "template">
 
         <ImageInput template="Character" id={`talent-${index}-icon`} dataImage={imageUrl} imageName={edit.charName+ " Talent Icon"} />
 
-        {/* <Input forId={`talent-${index}-name`} label="Talent Name" name={`${index}-name`} variant={VariantClass.dashboard} defaultValue={combats[index]?.name} /> */}
+        <Input forId={`talent-${index}-name`} label="Talent Name" name={`${index}-name`} variant={VariantClass.dashboard} defaultValue={passiveName} />
       </div>
 
       <Textarea forId={`talent-${index}-description`} label="Passive Description" name={`${index}-description`} className={TextareaStyle.variant_1} defaultValue={passives[index]?.description} />

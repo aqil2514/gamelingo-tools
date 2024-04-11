@@ -11,6 +11,10 @@ import { Pagination } from "swiper/modules";
 import TableMapping from "@/components/Content/Write/Genshin/Talent/Table";
 import PassiveTalent from "@/components/Content/Write/Genshin/Talent/Passive";
 import SwiperSlideData from "@/components/Content/Write/Genshin/Components/SwiperSlideData";
+import Button, { VariantClass } from "@/components/Input/Button";
+import axios, { isAxiosError } from "axios";
+import { Route } from "next";
+import { notif } from "@/utils/fe";
 
 const formNameMapping: Record<string, keyof FormUtils.Genshin.FormDataTalent> =
   {
@@ -25,13 +29,72 @@ export default function Form({ data, lang }: { data: GenshinImpact.Talent, lang:
 
   if (!data) return <ErrorFeching template="Characer" />;
 
+  async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const _id = formData.get("id") as string;
+    const lang = formData.get("result-lang") as string;
+
+    try {
+      setIsLoading(true);
+      const res = await axios.putForm(
+        "/api/gamelingo/genshin-impact" as Route,
+        formData,
+        {
+          headers: {
+            "Data-Category": "Talent",
+            "Old-Id": _id,
+            "Content-Lang": lang,
+          },
+        }
+      );
+
+      notif(res.data.msg, {
+        color: "green",
+        refElement: "buttons",
+        location: "before",
+      });
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 422) {
+          notif(error.response.data.msg, {
+            color: "red",
+            refElement: "buttons",
+            location: "before",
+          });
+        }
+        if (error.response?.status === 400) {
+          notif(error.response.data.msg, {
+            color: "red",
+            refElement: "buttons",
+            location: "before",
+          });
+        }
+        if (error.response?.status === 401) {
+          notif(error.response.data.msg, {
+            color: "red",
+            refElement: "buttons",
+            location: "before",
+          });
+        }
+      }
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <h3 className="font-bold text-white text-xl font-poppins text-center underline">
         Edit {data.charName} Talent
       </h3>
 
-      <input type="hidden" name="id" value={data._id} />
+      <input type="hidden" name="id" value={data._id} readOnly />
+
+      <input type="hidden" name="result-lang" value={lang} readOnly />
 
       <TextField
         variant="default-variant-1"
@@ -148,6 +211,11 @@ export default function Form({ data, lang }: { data: GenshinImpact.Talent, lang:
             />
           </SwiperSlide>
         </Swiper>
+      </div>
+
+      <div className="flex gap-4 my-4" id="buttons">
+        <Button className={VariantClass.submit} disabled={isLoading}>{isLoading ? "Mengubah Data..." : "Ubah Data"}</Button>
+        <Button className={VariantClass.danger} disabled={isLoading}>Batal Ubah</Button>
       </div>
     </form>
   );

@@ -13,7 +13,7 @@ namespace FormValidator {
     artifact: (data: FormUtils.Genshin.FormDataArtifact) => Promise<ResultApiwithData>;
     weapon: (data: FormUtils.Genshin.FormDataWeapon) => Promise<ResultApiwithData>;
     character: (data: FormUtils.Genshin.FormDataCharacter, action:"edit" | "add") => Promise<ResultApiwithData>;
-    talent: (data: FormUtils.Genshin.FormDataTalent) => Promise<ResultApiwithData>;
+    talent: (data: FormUtils.Genshin.FormDataTalent, action: "edit" | "add") => Promise<ResultApiwithData>;
     constellation: (data: FormUtils.Genshin.FormDataConstellation) => Promise<ResultApiwithData>;
   }
 
