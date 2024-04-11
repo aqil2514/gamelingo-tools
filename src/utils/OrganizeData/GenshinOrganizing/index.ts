@@ -678,8 +678,6 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       },
     };
 
-    console.log(finalData);
-
     return finalData;
   },
   constellation(data, imageUrl) {
