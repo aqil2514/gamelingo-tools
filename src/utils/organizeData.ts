@@ -5,6 +5,7 @@
  */
 
 import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
+import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 
 export const genshinOrganizing: OrganizeData.Genshin = {
   material: (data, imageUrl) => {
@@ -207,9 +208,10 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         oldData = (await CharacterEN.findOne({
           name: data.name,
         })) as unknown as GenshinImpact.Character;
-      oldData = (await CharacterID.findOne({
-        name: data.name,
-      })) as unknown as GenshinImpact.Character;
+      else if (data.lang.includes("Indonesian"))
+        oldData = (await CharacterID.findOne({
+          name: data.name,
+        })) as unknown as GenshinImpact.Character;
     }
 
     const selectImage = (field: "cover" | "portrait"): string => {
@@ -218,38 +220,18 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         portrait: portraitImageUrl,
       };
 
-      console.log(oldData.image);
-
-      // Jika data lama ada dan tidak ada data baru,
-      if (
-        oldData.image[field].toLowerCase().includes(data.name.toLowerCase()) &&
-        !coverMap[field]
-      ) {
-        // Gunakan data lama
-        console.log(
-          "Jika data lama ada dan tidak ada data baru, Gunakan data lama"
-        );
-        return oldData.image[field];
-      }
-
-      // Jika data lama ada dan ada data baru,
-      else if (
-        oldData.image[field].toLowerCase().includes(data.name.toLowerCase()) &&
-        coverMap[field]
-      ) {
-        // Gunakan data baru
-        console.log(
-          "Jika data lama ada dan tidak ada data baru, Gunakan data baru"
-        );
-        return coverMap[field];
-      }
-
-      // Apakah ada data lama? Jika ada, gunakan data lama. Jika tidak, gunakan data baru
-      return oldData.image[field]
+      const oldDataImage = oldData.image[field]
         .toLowerCase()
-        .includes(data.name.toLowerCase())
-        ? oldData.image[field]
-        : coverMap[field];
+        .includes(data.name.toLowerCase());
+      const newDataImage = coverMap[field];
+
+      if (oldDataImage && !newDataImage) {
+        return oldData.image[field];
+      } else if (oldDataImage && newDataImage) {
+        return newDataImage;
+      }
+
+      return oldDataImage ? oldData.image[field] : coverMap[field];
     };
 
     const finalData: GenshinImpact.Character = {
@@ -407,7 +389,19 @@ export const genshinOrganizing: OrganizeData.Genshin = {
 
     return finalData;
   },
-  talent(data, imageUrl) {
+  async talent(data, imageUrl, action) {
+    let oldData: GenshinImpact.Talent = {} as GenshinImpact.Talent;
+
+    if (action === "edit") {
+      if (data["result-lang"] === "English")
+        oldData = (await TalentEN.findOne({
+          charName: data["character-name"],
+        })) as unknown as GenshinImpact.Talent;
+      else if (data["result-lang"] === "Indonesian")
+        oldData = (await TalentID.findOne({
+          charName: data["character-name"],
+        })) as unknown as GenshinImpact.Talent;
+    }
 
     const combatLabels = (
       field: "combat1" | "combat2" | "combat3" | "combatsp"
@@ -441,13 +435,46 @@ export const genshinOrganizing: OrganizeData.Genshin = {
       return result;
     };
 
+    const selectImage = (
+      field:
+        | keyof GenshinImpact.Talent["combats"]
+        | keyof GenshinImpact.Talent["passives"],
+      action: "edit" | "add"
+    ): string | undefined => {
+      if (action === "edit") {
+        let isCombatInstance = false;
+
+        if (field.includes("combat")) isCombatInstance = true;
+
+        const proc = isCombatInstance
+          ? oldData.combats[field as keyof GenshinImpact.Talent["combats"]]
+          : oldData.passives[field as keyof GenshinImpact.Talent["passives"]];
+
+        const oldDataImage = proc?.icon;
+        const newDataImage = imageUrl.find((img) =>
+          img.toLowerCase().includes(field)
+        );
+
+        if (oldDataImage && !newDataImage) {
+          return oldDataImage;
+        } else if (oldDataImage && newDataImage) {
+          return newDataImage;
+        }
+
+        return oldDataImage ? oldDataImage : newDataImage;
+      }
+      const result = imageUrl.find((img) => img.toLowerCase().includes(field));
+
+      return result;
+    };
+
     const finalData: GenshinImpact.Talent = {
       charName: data["character-name"],
       combats: {
         combat1: {
           name: data["combat1-name"],
           description: data["combat1-description"],
-          icon: imageUrl.find((img) => img.includes("Combat1")),
+          icon: selectImage("combat1", action),
           attributes: {
             labels: combatLabels("combat1"),
             parameters: combatParameters("combat1"),
@@ -456,7 +483,7 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         combat2: {
           name: data["combat2-name"],
           description: data["combat2-description"],
-          icon: imageUrl.find((img) => img.includes("Combat2")),
+          icon: selectImage("combat2", action),
           attributes: {
             labels: combatLabels("combat2"),
             parameters: combatParameters("combat2"),
@@ -465,22 +492,22 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         combat3: {
           name: data["combat3-name"],
           description: data["combat3-description"],
-          icon: imageUrl.find((img) => img.includes("Combat3")),
+          icon: selectImage("combat3", action),
           attributes: {
             labels: combatLabels("combat3"),
             parameters: combatParameters("combat3"),
           },
         },
         combatsp:
-        data["combatsp-name"] && data["combatsp-description"]
-        ? {
-          name: data["combatsp-name"],
-          description: data["combatsp-description"],
-          icon: imageUrl.find((img) => img.includes("Combatsp")),
-          attributes: {
-            labels: combatLabels("combatsp"),
-            parameters: combatParameters("combatsp"),
-          },
+          data["combatsp-name"] && data["combatsp-description"]
+            ? {
+                name: data["combatsp-name"],
+                description: data["combatsp-description"],
+                icon: selectImage("combatsp", action),
+                attributes: {
+                  labels: combatLabels("combatsp"),
+                  parameters: combatParameters("combatsp"),
+                },
               }
             : undefined,
       },
@@ -488,17 +515,17 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         passive1: {
           name: data["passive1-name"],
           description: data["passive1-description"],
-          icon: imageUrl.find((img) => img.includes("Passive1")),
+          icon: selectImage("passive1", action),
         },
         passive2: {
           name: data["passive2-name"],
           description: data["passive2-description"],
-          icon: imageUrl.find((img) => img.includes("Passive2")),
+          icon: selectImage("passive2", action),
         },
         passive3: {
           name: data["passive3-name"],
           description: data["passive3-description"],
-          icon: imageUrl.find((img) => img.includes("Passive3")),
+          icon: selectImage("passive3", action),
         },
       },
       costs: {
@@ -650,6 +677,8 @@ export const genshinOrganizing: OrganizeData.Genshin = {
         ],
       },
     };
+
+    console.log(finalData);
 
     return finalData;
   },

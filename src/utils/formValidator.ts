@@ -478,8 +478,6 @@ export const genshinValidator: FormValidator.GenshinValidatorApi = {
       }
     }
 
-    // TODO: Image validationnya belum
-
     /// ***** Periksa semua talent sekaligus *****
     for (let i = 1; i <= 3; i++) {
       /// Apakah nama talent sudah diisi?

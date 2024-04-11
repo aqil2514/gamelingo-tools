@@ -550,58 +550,58 @@ export const genshin: FormUtils.Genshin.Genshin = {
       })
     }
 
-    const organizedData = genshinOrganizing.talent(data, images);
+    const organizedData = genshinOrganizing.talent(data, images, action);
 
-    if (action === "add") {
-      if (data["result-lang"] === "Indonesian") {
-        const talent = await TalentID.create(organizedData);
+    // if (action === "add") {
+    //   if (data["result-lang"] === "Indonesian") {
+    //     const talent = await TalentID.create(organizedData);
 
-        await post.addPost(data, {
-          lang: data["result-lang"],
-          gameName: game,
-          gameTopic: category,
-          parent: talent,
-          user,
-          aliasName: data["character-name"],
-        });
-      } else if (data["result-lang"] === "English") {
-        const talent = await TalentEN.create(organizedData);
+    //     await post.addPost(data, {
+    //       lang: data["result-lang"],
+    //       gameName: game,
+    //       gameTopic: category,
+    //       parent: talent,
+    //       user,
+    //       aliasName: data["character-name"],
+    //     });
+    //   } else if (data["result-lang"] === "English") {
+    //     const talent = await TalentEN.create(organizedData);
 
-        await post.addPost(data, {
-          lang: data["result-lang"],
-          gameName: game,
-          gameTopic: category,
-          parent: talent,
-          user,
-          aliasName: data["character-name"],
-        });
-      }
-    }
-    // <<<<< Edit data dari Database >>>>>
-    else if (action === "edit") {
-      if (!oldId) throw new Error("Old ID diperlukan");
-      if (lang === "Indonesian") {
-        const talent = await TalentID.findByIdAndUpdate(oldId, organizedData);
+    //     await post.addPost(data, {
+    //       lang: data["result-lang"],
+    //       gameName: game,
+    //       gameTopic: category,
+    //       parent: talent,
+    //       user,
+    //       aliasName: data["character-name"],
+    //     });
+    //   }
+    // }
+    // // <<<<< Edit data dari Database >>>>>
+    // else if (action === "edit") {
+    //   if (!oldId) throw new Error("Old ID diperlukan");
+    //   if (lang === "Indonesian") {
+    //     const talent = await TalentID.findByIdAndUpdate(oldId, organizedData);
 
-        await post.editPost(data, oldId, {
-          lang: data["result-lang"],
-          gameName: game,
-          gameTopic: category,
-          parent: talent,
-          user,
-        });
-      } else if (lang === "English") {
-        const talent = await TalentEN.findByIdAndUpdate(oldId, organizedData);
+    //     await post.editPost(data, oldId, {
+    //       lang: data["result-lang"],
+    //       gameName: game,
+    //       gameTopic: category,
+    //       parent: talent,
+    //       user,
+    //     });
+    //   } else if (lang === "English") {
+    //     const talent = await TalentEN.findByIdAndUpdate(oldId, organizedData);
 
-        await post.editPost(data, oldId, {
-          lang: data["result-lang"],
-          gameName: game,
-          gameTopic: category,
-          parent: talent,
-          user,
-        });
-      }
-    }
+    //     await post.editPost(data, oldId, {
+    //       lang: data["result-lang"],
+    //       gameName: game,
+    //       gameTopic: category,
+    //       parent: talent,
+    //       user,
+    //     });
+    //   }
+    // }
 
     return { status: 200, organizedData };
   },

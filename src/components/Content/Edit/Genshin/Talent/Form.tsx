@@ -222,9 +222,9 @@ export default function Form({
         </div>
         
       {/* Sending Button */}
-      <div className="flex gap-4">
-        <Button className={VariantClass.submit} type="button">Submit</Button>
-        <Button className={VariantClass.danger} type="button" onClick={() => cancelData(false)}>Batal</Button>
+      <div className="flex gap-4" id="buttons">
+        <Button className={VariantClass.submit} disabled={isLoading}>{isLoading ? "Mengubah Data..." : "Ubah Data"}</Button>
+        <Button className={VariantClass.danger} type="button" disabled={isLoading} onClick={() => cancelData(false)}>Batal</Button>
       </div>
 
     </form>
