@@ -187,6 +187,8 @@ function EditTableMapping({ edit, index }: Omit<TableMappingProps, "template">) 
 
         <ImageInput template="Character" id={`talent-${index}-icon`} dataImage={imageUrl} imageName={edit.charName+ " Talent Icon"} />
 
+        <br />
+
         <Input forId={`talent-${index}-name`} label="Talent Name" name={`${index}-name`} variant={VariantClass.dashboard} defaultValue={combats[index]?.name} />
       </div>
 

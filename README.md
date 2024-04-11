@@ -14,6 +14,9 @@ Contains all directories, except app directories
 - [Models Directory](/src/models/README.md)
 - [Utils Directory](/src/utils/README.md)
 
+## Other 
+- [To Do List](./ToDoList.md)
+
 ## Maintaining Code
 
 Maintaining flow for:
