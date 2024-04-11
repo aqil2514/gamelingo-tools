@@ -5,11 +5,6 @@ import {
   evertaleValidator,
   genshinValidator,
 } from "./formValidator";
-import {
-  adminOrganizing,
-  evertaleOrganizing,
-  genshinOrganizing,
-} from "./organizeData";
 import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
 import {
   ConstellationEN,
@@ -23,6 +18,9 @@ import { DB, supabase } from "@/lib/supabase";
 import { User } from "@/models/General/User";
 import { NextResponse } from "next/server";
 import Character from "@/models/Evertale/Characters";
+import { adminOrganizing } from "./OrganizeData/AdminOrganizing";
+import { evertaleOrganizing } from "./OrganizeData/EvertaleOrganizing";
+import { genshinOrganizing } from "./OrganizeData/GenshinOrganizing";
 
 /**
  *
