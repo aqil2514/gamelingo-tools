@@ -67,33 +67,33 @@ function WriteContent() {
             <h1 className="text-white font-semibold font-poppins text-center">Talent</h1>
             <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
               <SwiperSlide>
-                <TableMapping template="Write" data={talent} setData={setTalent} index="combat1" />
+                <TableMapping isLoading={isLoading} template="Write" data={talent} setData={setTalent} index="combat1" />
               </SwiperSlide>
 
               <SwiperSlide>
-                <TableMapping template="Write" data={talent} setData={setTalent} index="combat2" />
+                <TableMapping isLoading={isLoading} template="Write" data={talent} setData={setTalent} index="combat2" />
               </SwiperSlide>
 
               <SwiperSlide>
-                <TableMapping template="Write" data={talent} setData={setTalent} index="combat3" />
+                <TableMapping isLoading={isLoading} template="Write" data={talent} setData={setTalent} index="combat3" />
               </SwiperSlide>
 
               {talent?.combatsp && (
                 <SwiperSlide>
-                  <TableMapping template="Write" data={talent} setData={setTalent} index="combatsp" />
+                  <TableMapping isLoading={isLoading} template="Write" data={talent} setData={setTalent} index="combatsp" />
                 </SwiperSlide>
               )}
 
               <SwiperSlide>
-                <PassiveTalent template="Write" talent={talent} setTalent={setTalent} index="passive1" />
+                <PassiveTalent isLoading={isLoading} template="Write" talent={talent} setTalent={setTalent} index="passive1" />
               </SwiperSlide>
 
               <SwiperSlide>
-                <PassiveTalent template="Write" talent={talent} setTalent={setTalent} index="passive2" />
+                <PassiveTalent isLoading={isLoading} template="Write" talent={talent} setTalent={setTalent} index="passive2" />
               </SwiperSlide>
 
               <SwiperSlide>
-                <PassiveTalent template="Write" talent={talent} setTalent={setTalent} index="passive3" />
+                <PassiveTalent isLoading={isLoading} template="Write" talent={talent} setTalent={setTalent} index="passive3" />
               </SwiperSlide>
             </Swiper>
           </>
@@ -284,33 +284,33 @@ function EditContent() {
             <h1 className="text-white font-semibold font-poppins text-center">Talent</h1>
             <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
               <SwiperSlide>
-                <TableMapping template="Edit" edit={data} index="combat1" />
+                <TableMapping isLoading={isLoading} template="Edit" edit={data} index="combat1" />
               </SwiperSlide>
 
               <SwiperSlide>
-                <TableMapping template="Edit" edit={data} index="combat2" />
+                <TableMapping isLoading={isLoading} template="Edit" edit={data} index="combat2" />
               </SwiperSlide>
 
               <SwiperSlide>
-                <TableMapping template="Edit" edit={data} index="combat3" />
+                <TableMapping isLoading={isLoading} template="Edit" edit={data} index="combat3" />
               </SwiperSlide>
 
               {data.combats.combatsp && (
                 <SwiperSlide>
-                  <TableMapping template="Edit" edit={data} index="combatsp" />
+                  <TableMapping isLoading={isLoading} template="Edit" edit={data} index="combatsp" />
                 </SwiperSlide>
               )}
 
               <SwiperSlide>
-                <PassiveTalent template="Edit" edit={data} index="passive1" />
+                <PassiveTalent isLoading={isLoading} template="Edit" edit={data} index="passive1" />
               </SwiperSlide>
 
               <SwiperSlide>
-                <PassiveTalent template="Edit" edit={data} index="passive2" />
+                <PassiveTalent isLoading={isLoading} template="Edit" edit={data} index="passive2" />
               </SwiperSlide>
 
               <SwiperSlide>
-                <PassiveTalent template="Edit" edit={data} index="passive3" />
+                <PassiveTalent isLoading={isLoading} template="Edit" edit={data} index="passive3" />
               </SwiperSlide>
             </Swiper>
           </div>

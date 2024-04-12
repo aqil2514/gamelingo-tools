@@ -319,8 +319,6 @@ export const genshin: FormUtils.Genshin.Genshin = {
     const validationData: FormUtils.Genshin.FormDataCharacter = validation.data;
 
 
-    // TODO: Fix bagian sini 
-
     // <<<<< Upload Image >>>>>
     let coverImageUrl = "";
     let portraitImageUrl = "";

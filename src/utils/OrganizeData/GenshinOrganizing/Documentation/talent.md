@@ -1,8 +1,8 @@
-# Genshin Impact Character Organizing
+# Genshin Impact Talent Organizing
 
 ## Deskripsi
 
-Modul ini berisi fungsi untuk mengorganisir data karakter dalam permainan Genshin Impact.
+Modul ini berisi fungsi untuk mengorganisir data talent karakter dalam permainan Genshin Impact.
 
 ### Langkah-langkah
 

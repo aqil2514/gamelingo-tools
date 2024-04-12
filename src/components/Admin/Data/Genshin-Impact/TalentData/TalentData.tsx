@@ -18,11 +18,23 @@ export default function TalentDataTable({ data, lang, setLang }: TalentDataProps
     const clickFunction = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (contextMenu.isActive) setContextMenu({ ...contextMenu, isActive: false, target: null });
-
+    
       if (target.tagName.toLowerCase() !== "td") return;
+    
+      // Mengambil elemen tbody
+      const tbody = document.getElementById("table-talent-data")?.getElementsByTagName("tbody")[0];
+    
+      if (!tbody) return;
+    
+      // Mendapatkan posisi relatif mouse terhadap tbody
+      const tbodyRect = tbody.getBoundingClientRect();
+      const relativeX = e.clientX;
+      const relativeY = e.clientY - tbodyRect.top + 200;
 
-      setContextMenu({ x: e.clientX, y: e.clientY, isActive: !contextMenu.isActive, target: e.target as HTMLElement });
+      // Menetapkan koordinat x dan y pada setContextMenu
+      setContextMenu({ x: relativeX, y: relativeY, isActive: !contextMenu.isActive, target: e.target as HTMLElement });
     };
+    
 
     window.addEventListener("click", clickFunction);
 

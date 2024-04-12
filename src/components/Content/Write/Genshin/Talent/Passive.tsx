@@ -7,10 +7,13 @@ import React from "react";
 
 interface PassiveTalentProps {
   talent?: GenshinImpact.ApiResponseTalent;
-  setTalent?: React.Dispatch<React.SetStateAction<GenshinImpact.ApiResponseTalent>>;
+  setTalent?: React.Dispatch<
+    React.SetStateAction<GenshinImpact.ApiResponseTalent>
+  >;
   edit?: GenshinImpact.Talent;
   index: "passive1" | "passive2" | "passive3";
   template: "Write" | "Edit" | "Detail";
+  isLoading: boolean;
 }
 
 interface PreviewLinksState {
@@ -25,19 +28,50 @@ const title = {
   passive3: "Passive 3",
 };
 
-export default function PassiveTalent({ talent, setTalent, index, template, edit }: PassiveTalentProps) {
-  if (template === "Write") return <WritePassiveTalent talent={talent} setTalent={setTalent} index={index} />;
-  else if (template === "Edit") return <EditPassiveTalent edit={edit} index={index} />;
-  else if (template === "Detail") return <DetailPassiveTalent edit={edit} index={index} />;
+export default function PassiveTalent({
+  talent,
+  setTalent,
+  index,
+  template,
+  edit,
+  isLoading,
+}: PassiveTalentProps) {
+  if (template === "Write")
+    return (
+      <WritePassiveTalent
+        isLoading={isLoading}
+        talent={talent}
+        setTalent={setTalent}
+        index={index}
+      />
+    );
+  else if (template === "Edit")
+    return (
+      <EditPassiveTalent isLoading={isLoading} edit={edit} index={index} />
+    );
+  else if (template === "Detail")
+    return (
+      <DetailPassiveTalent isLoading={isLoading} edit={edit} index={index} />
+    );
 }
 
-function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProps, "template">) {
-  if (!talent || !setTalent) throw new Error("Talent dan Set Talent belum ditentukan");
-  const [previewLinks, setPreviewLinks] = React.useState<PreviewLinksState>({} as PreviewLinksState);
+function WritePassiveTalent({
+  talent,
+  setTalent,
+  index,
+  isLoading
+}: Omit<PassiveTalentProps, "template">) {
+  if (!talent || !setTalent)
+    throw new Error("Talent dan Set Talent belum ditentukan");
+  const [previewLinks, setPreviewLinks] = React.useState<PreviewLinksState>(
+    {} as PreviewLinksState
+  );
 
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement;
-    const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
+    const previewLink = target.getAttribute(
+      "data-previewLink"
+    ) as keyof PreviewLinksState;
     const files = target.files;
 
     if (!files || files?.length === 0 || !files[0]) return;
@@ -49,12 +83,14 @@ function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProp
 
   function deleteHandler(e: React.MouseEvent<HTMLParagraphElement>) {
     const target = e.target as HTMLParagraphElement;
-    const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
+    const previewLink = target.getAttribute(
+      "data-previewLink"
+    ) as keyof PreviewLinksState;
     const input = target.nextSibling?.nextSibling as HTMLInputElement;
-    
+
     if (input.files?.length !== 0) {
       input.value = "";
-      e.stopPropagation()
+      e.stopPropagation();
       setPreviewLinks({ ...previewLinks, [previewLink]: "" });
     }
   }
@@ -68,20 +104,44 @@ function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProp
       <div className="grid grid-cols-[200px_auto] gap-4 my-4">
         <label
           htmlFor={`passive-${index}-icon`}
-          className={`relative m-auto ${!imageLink ? "border border-dashed group border-white rounded-md" : ""} w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden`}
+          className={`relative m-auto ${
+            !imageLink
+              ? "border border-dashed group border-white rounded-md"
+              : ""
+          } w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden`}
         >
           {imageLink ? (
             <>
-              <span className="font-bold text-red-600 top-2 group: right-2 cursor-pointer z-20 absolute" onClick={deleteHandler} data-previewLink={`link${index}`}>
+              <span
+                className="font-bold text-red-600 top-2 group: right-2 cursor-pointer z-20 absolute"
+                onClick={deleteHandler}
+                data-previewLink={`link${index}`}
+              >
                 X
               </span>
-              <Image src={imageLink} fill sizes="auto" alt={`${index}-icon`} className="w-auto group-hover:scale-125 transition duration-500" />
+              <Image
+                src={imageLink}
+                fill
+                sizes="auto"
+                alt={`${index}-icon`}
+                className="w-auto group-hover:scale-125 transition duration-500"
+              />
             </>
           ) : (
-            <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
+            <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold">
+              {" "}
+              No Image
+            </span>
           )}
 
-          <input type="file" name={`passive-${index}-icon`} data-previewLink={`link${index}`} id={`passive-${index}-icon`} className="hidden" onChange={changeHandler} />
+          <input
+            type="file"
+            name={`passive-${index}-icon`}
+            data-previewLink={`link${index}`}
+            id={`passive-${index}-icon`}
+            className="hidden"
+            onChange={changeHandler}
+          />
         </label>
 
         <Input
@@ -89,6 +149,7 @@ function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProp
           label="Passive Name"
           name={`${index}-name`}
           variant={VariantClass.dashboard}
+          disabled={isLoading}
           onChange={(e) =>
             setTalent({
               ...talent,
@@ -104,6 +165,7 @@ function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProp
         label="Passive Description"
         name={`${index}-description`}
         className={TextareaStyle.variant_1}
+        disabled={isLoading}
         onChange={(e) =>
           setTalent({
             ...talent,
@@ -116,55 +178,55 @@ function WritePassiveTalent({ talent, setTalent, index }: Omit<PassiveTalentProp
   );
 }
 
-function EditPassiveTalent({ edit, index }: Omit<PassiveTalentProps, "template">) {
+function EditPassiveTalent({
+  edit,
+  index,
+  isLoading,
+}: Omit<PassiveTalentProps, "template">) {
   if (!edit) throw new Error("data sebelumnya belum ditentukan");
   const passives = edit.passives;
 
-  const [previewLinks, setPreviewLinks] = React.useState<PreviewLinksState>({} as PreviewLinksState);
-
-  function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
-    const target = e.target as HTMLInputElement;
-    const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
-    const files = target.files;
-
-    if (!files || files?.length === 0 || !files[0]) return;
-
-    const imageLink = URL.createObjectURL(files[0]);
-
-    setPreviewLinks({ ...previewLinks, [previewLink]: imageLink });
-  }
-
-  function deleteHandler(e: React.MouseEvent<HTMLParagraphElement>) {
-    const target = e.target as HTMLParagraphElement;
-    const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
-    const input = target.nextSibling?.nextSibling as HTMLInputElement;
-
-    if (input.files?.length !== 0) {
-      input.value = "";
-      setPreviewLinks({ ...previewLinks, [previewLink]: "" });
-    }
-  }
-
   const imageUrl = edit.passives[index].icon;
-  const talentName = edit.passives[index].name
+  const talentName = edit.passives[index].name;
 
   return (
     <>
       <h2 className="text-white font-semibold font-poppins">{title[index]}</h2>
 
       <div className="gap-4 my-4">
-
-        <ImageInput template="Character" id={`passive-${index}-icon`} dataImage={imageUrl} imageName={edit.charName+ " Talent Icon"} />
-<br />
-        <Input forId={`passive-${index}-name`} label="Talent Name" name={`${index}-name`} variant={VariantClass.dashboard} defaultValue={talentName} />
+        <ImageInput
+          template="Character"
+          id={`passive-${index}-icon`}
+          dataImage={imageUrl}
+          imageName={edit.charName + " - " + title[index]}
+        />
+        <br />
+        <Input
+          forId={`passive-${index}-name`}
+          label="Talent Name"
+          name={`${index}-name`}
+          variant={VariantClass.dashboard}
+          defaultValue={talentName}
+          disabled={isLoading}
+        />
       </div>
 
-      <Textarea forId={`passive-${index}-description`} label="Passive Description" name={`${index}-description`} className={TextareaStyle.variant_1} defaultValue={passives[index]?.description} />
+      <Textarea
+        forId={`passive-${index}-description`}
+        label="Passive Description"
+        name={`${index}-description`}
+        className={TextareaStyle.variant_1}
+        disabled={isLoading}
+        defaultValue={passives[index]?.description}
+      />
     </>
   );
 }
 
-function DetailPassiveTalent({ edit, index }: Omit<PassiveTalentProps, "template">) {
+function DetailPassiveTalent({
+  edit,
+  index,
+}: Omit<PassiveTalentProps, "template">) {
   if (!edit) throw new Error("data sebelumnya belum ditentukan");
   const passives = edit.passives;
 
@@ -172,7 +234,11 @@ function DetailPassiveTalent({ edit, index }: Omit<PassiveTalentProps, "template
     <>
       <h2 className="text-white font-semibold font-poppins">{title[index]}</h2>
 
-      <DisplayImage template="variant1" src={passives[index]!.icon} alt={passives[index]!.name} />
+      <DisplayImage
+        template="variant1"
+        src={passives[index]!.icon}
+        alt={passives[index]!.name}
+      />
 
       <p className="font-poppins text-white">
         <strong className="font-bold">Talent Name : </strong>
@@ -184,7 +250,9 @@ function DetailPassiveTalent({ edit, index }: Omit<PassiveTalentProps, "template
         {passives[index]!.description}
       </p>
 
-      <p className="font-bold text-white my-4">Tabel Scalling damage masih belum sepenuhnya selesai</p>
+      <p className="font-bold text-white my-4">
+        Tabel Scalling damage masih belum sepenuhnya selesai
+      </p>
       {/* {label && label?.length !== 0 && <CombatMapping talent={talent} config={config} index={index} />} */}
     </>
   );

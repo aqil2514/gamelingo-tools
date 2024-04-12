@@ -15,23 +15,51 @@ interface PreviewLinksState {
 
 interface TableMappingProps {
   data?: GenshinImpact.ApiResponseTalent;
-  setData?: React.Dispatch<React.SetStateAction<GenshinImpact.ApiResponseTalent>>;
+  setData?: React.Dispatch<
+    React.SetStateAction<GenshinImpact.ApiResponseTalent>
+  >;
   edit?: GenshinImpact.Talent;
   index: "combat1" | "combat2" | "combat3" | "combatsp";
   template: "Write" | "Edit" | "Detail";
+  isLoading: boolean;
 }
 
-// TODO: Add some typeguard and fix this
-
-export default function TableMapping({ data, setData, index, edit, template }: TableMappingProps) {
-  if (template === "Write") return <WriteTableMapping data={data} setData={setData} index={index} />;
-  if (template === "Edit") return <EditTableMapping edit={edit} index={index} />;
-  if (template === "Detail") return <DetailTableMapping edit={edit} index={index} />;
+export default function TableMapping({
+  data,
+  setData,
+  index,
+  edit,
+  template,
+  isLoading,
+}: TableMappingProps) {
+  if (template === "Write")
+    return (
+      <WriteTableMapping
+        data={data}
+        setData={setData}
+        isLoading={isLoading}
+        index={index}
+      />
+    );
+  if (template === "Edit")
+    return <EditTableMapping edit={edit} index={index} isLoading={isLoading} />;
+  if (template === "Detail")
+    return (
+      <DetailTableMapping edit={edit} index={index} isLoading={isLoading} />
+    );
 }
 
-function WriteTableMapping({ data, setData, index }: Omit<TableMappingProps, "template">) {
-  if (!data || !setData) throw new Error("Terjadi kesalahan: Data dan Setdata tidak boleh kosong");
-  const [previewLinks, setPreviewLinks] = React.useState<PreviewLinksState>({} as PreviewLinksState);
+function WriteTableMapping({
+  data,
+  setData,
+  index,
+  isLoading
+}: Omit<TableMappingProps, "template">) {
+  if (!data || !setData)
+    throw new Error("Terjadi kesalahan: Data dan Setdata tidak boleh kosong");
+  const [previewLinks, setPreviewLinks] = React.useState<PreviewLinksState>(
+    {} as PreviewLinksState
+  );
   const label = React.useMemo(() => {
     const labels = data[index]?.attributes?.labels;
     const mapLabels = labels?.map((label) => label.split("|"));
@@ -50,7 +78,9 @@ function WriteTableMapping({ data, setData, index }: Omit<TableMappingProps, "te
 
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement;
-    const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
+    const previewLink = target.getAttribute(
+      "data-previewLink"
+    ) as keyof PreviewLinksState;
     const files = target.files;
 
     if (!files || files?.length === 0 || !files[0]) return;
@@ -62,17 +92,19 @@ function WriteTableMapping({ data, setData, index }: Omit<TableMappingProps, "te
 
   function deleteHandler(e: React.MouseEvent<HTMLParagraphElement>) {
     const target = e.target as HTMLParagraphElement;
-    const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
+    const previewLink = target.getAttribute(
+      "data-previewLink"
+    ) as keyof PreviewLinksState;
     const input = target.nextSibling?.nextSibling as HTMLInputElement;
-    
+
     if (input.files?.length !== 0) {
       input.value = "";
-      e.stopPropagation()
+      e.stopPropagation();
       setPreviewLinks({ ...previewLinks, [previewLink]: "" });
     }
   }
 
-  const attribute = data[index]?.attributes
+  const attribute = data[index]?.attributes;
   const imageLink = previewLinks[`link${index}` as keyof PreviewLinksState];
 
   return (
@@ -82,20 +114,44 @@ function WriteTableMapping({ data, setData, index }: Omit<TableMappingProps, "te
       <div className="grid grid-cols-[200px_auto] gap-4 my-4">
         <label
           htmlFor={`talent-${index}-icon`}
-          className={`relative m-auto ${!imageLink ? "border border-dashed group border-white rounded-md" : ""} w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden`}
+          className={`relative m-auto ${
+            !imageLink
+              ? "border border-dashed group border-white rounded-md"
+              : ""
+          } w-full h-full flex justify-center items-center transition duration-200 cursor-pointer hover:border-zinc-500 overflow-hidden`}
         >
           {imageLink ? (
             <>
-              <span className="font-bold text-red-600 top-2 group: right-2 cursor-pointer z-20 absolute" onClick={deleteHandler} data-previewLink={`link${index}`}>
+              <span
+                className="font-bold text-red-600 top-2 group: right-2 cursor-pointer z-20 absolute"
+                onClick={deleteHandler}
+                data-previewLink={`link${index}`}
+              >
                 X
               </span>
-              <Image src={imageLink} fill sizes="auto" alt={`${index}-icon`} className="w-auto group-hover:scale-125 transition duration-500" />
+              <Image
+                src={imageLink}
+                fill
+                sizes="auto"
+                alt={`${index}-icon`}
+                className="w-auto group-hover:scale-125 transition duration-500"
+              />
             </>
           ) : (
-            <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold"> No Image</span>
+            <span className="transition duration-200 group-hover:text-zinc-500 text-white font-bold">
+              {" "}
+              No Image
+            </span>
           )}
 
-          <input type="file" name={`talent-${index}-icon`} data-previewLink={`link${index}`} id={`talent-${index}-icon`} className="hidden" onChange={changeHandler} />
+          <input
+            type="file"
+            name={`talent-${index}-icon`}
+            data-previewLink={`link${index}`}
+            id={`talent-${index}-icon`}
+            className="hidden"
+            onChange={changeHandler}
+          />
         </label>
 
         <Input
@@ -103,6 +159,7 @@ function WriteTableMapping({ data, setData, index }: Omit<TableMappingProps, "te
           label="Talent Name"
           name={`${index}-name`}
           variant={VariantClass.dashboard}
+          disabled={isLoading}
           onChange={(e) =>
             setData({
               ...data,
@@ -117,6 +174,7 @@ function WriteTableMapping({ data, setData, index }: Omit<TableMappingProps, "te
         forId={`talent-${index}-info`}
         label="Talent Info"
         className={TextareaStyle.variant_1}
+        disabled={isLoading}
         onChange={(e) =>
           setData({
             ...data,
@@ -128,23 +186,40 @@ function WriteTableMapping({ data, setData, index }: Omit<TableMappingProps, "te
       />
 
       {attribute?.labels.map((v, i) => (
-        <input type="hidden" name={`${index}-attribute-label-${i + 1}`} id={`${index}-attribute-label-${i + 1}`} key={`${index}-attribute-label-${i + 1}`} value={v} />
+        <input
+          type="hidden"
+          name={`${index}-attribute-label-${i + 1}`}
+          id={`${index}-attribute-label-${i + 1}`}
+          key={`${index}-attribute-label-${i + 1}`}
+          value={v}
+        />
       ))}
 
       {Object.keys(attribute!.parameters).map((v, i) => (
-        <input type="hidden" name={`${index}-attribute-param-${i + 1}`} id={`${index}-attribute-param-${i + 1}`} value={attribute?.parameters[v].join(", ")} key={i + 1} />
+        <input
+          type="hidden"
+          name={`${index}-attribute-param-${i + 1}`}
+          id={`${index}-attribute-param-${i + 1}`}
+          value={attribute?.parameters[v].join(", ")}
+          key={i + 1}
+        />
       ))}
       {/* {label && label?.length !== 0 && <CombatMapping talent={talent} config={config} index={index} />} */}
     </>
   );
 }
 
-function EditTableMapping({ edit, index }: Omit<TableMappingProps, "template">) {
+function EditTableMapping({
+  edit,
+  index,
+  isLoading,
+}: Omit<TableMappingProps, "template">) {
   if (!edit) throw new Error("Data sebelumnya belum ditentukan");
-  const [previewLinks, setPreviewLinks] = React.useState<PreviewLinksState>({} as PreviewLinksState);
+  const [previewLinks, setPreviewLinks] = React.useState<PreviewLinksState>(
+    {} as PreviewLinksState
+  );
   const combats = edit.combats;
 
-  // const config = useTableConfig(label);
 
   const title = {
     combat1: "Combat 1 (Normal Attack)",
@@ -153,64 +228,76 @@ function EditTableMapping({ edit, index }: Omit<TableMappingProps, "template">) 
     combatsp: "Sprint",
   };
 
-  function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
-    const target = e.target as HTMLInputElement;
-    const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
-    const files = target.files;
-
-    if (!files || files?.length === 0 || !files[0]) return;
-
-    const imageLink = URL.createObjectURL(files[0]);
-
-    setPreviewLinks({ ...previewLinks, [previewLink]: imageLink });
-  }
-
-  function deleteHandler(e: React.MouseEvent<HTMLParagraphElement>) {
-    const target = e.target as HTMLParagraphElement;
-    const previewLink = target.getAttribute("data-previewLink") as keyof PreviewLinksState;
-    const input = target.nextSibling?.nextSibling as HTMLInputElement;
-
-    if (input.files?.length !== 0) {
-      input.value = "";
-      setPreviewLinks({ ...previewLinks, [previewLink]: "" });
-    }
-  }
-
   const attribute = edit.combats[index]?.attributes;
-  const imageUrl= edit.combats[index]?.icon;
+  const imageUrl = edit.combats[index]?.icon;
 
   return (
     <>
       <h2 className="text-white font-semibold font-poppins">{title[index]}</h2>
 
       <div className="gap-4 my-4">
-
-        <ImageInput template="Character" id={`talent-${index}-icon`} dataImage={imageUrl} imageName={edit.charName+ " Talent Icon"} />
+        <ImageInput
+          template="Character"
+          id={`talent-${index}-icon`}
+          dataImage={imageUrl}
+          imageName={edit.charName + " - " + title[index]}
+        />
 
         <br />
 
-        <Input forId={`talent-${index}-name`} label="Talent Name" name={`${index}-name`} variant={VariantClass.dashboard} defaultValue={combats[index]?.name} />
+        <Input
+          disabled={isLoading}
+          forId={`talent-${index}-name`}
+          label="Talent Name"
+          name={`${index}-name`}
+          variant={VariantClass.dashboard}
+          defaultValue={combats[index]?.name}
+        />
       </div>
 
-      <Textarea forId={`talent-${index}-info`} label="Talent Info" className={TextareaStyle.variant_1} defaultValue={combats[index]?.description} name={`${index}-description`} />
+      <Textarea
+        disabled={isLoading}
+        forId={`talent-${index}-info`}
+        label="Talent Info"
+        className={TextareaStyle.variant_1}
+        defaultValue={combats[index]?.description}
+        name={`${index}-description`}
+      />
 
       {attribute?.labels.map((v, i) => (
-        <input type="hidden" name={`${index}-attribute-label-${i + 1}`} id={`${index}-attribute-label-${i + 1}`} key={`${index}-attribute-label-${i + 1}`} value={v} />
+        <input
+          type="hidden"
+          name={`${index}-attribute-label-${i + 1}`}
+          id={`${index}-attribute-label-${i + 1}`}
+          key={`${index}-attribute-label-${i + 1}`}
+          value={v}
+        />
       ))}
 
-      {attribute?.parameters && Object.keys(attribute.parameters).map((v, i) => {
-        const value = attribute.parameters[v].toString();
+      {attribute?.parameters &&
+        Object.keys(attribute.parameters).map((v, i) => {
+          const value = attribute.parameters[v].toString();
 
-        return(
-        <input type="hidden" name={`${index}-attribute-param-${i + 1}`} id={`${index}-attribute-param-${i + 1}`} key={i + 1} value={value} />
-      )})}
+          return (
+            <input
+              type="hidden"
+              name={`${index}-attribute-param-${i + 1}`}
+              id={`${index}-attribute-param-${i + 1}`}
+              key={i + 1}
+              value={value}
+            />
+          );
+        })}
 
       {/* {label && label?.length !== 0 && <CombatMapping talent={talent} config={config} index={index} />} */}
     </>
   );
 }
 
-function DetailTableMapping({ edit, index }: Omit<TableMappingProps, "template">) {
+function DetailTableMapping({
+  edit,
+  index,
+}: Omit<TableMappingProps, "template">) {
   if (!edit) throw new Error("Data sebelumnya belum ditentukan");
   const combats = edit.combats;
 
@@ -227,7 +314,11 @@ function DetailTableMapping({ edit, index }: Omit<TableMappingProps, "template">
     <>
       <h2 className="text-white font-semibold font-poppins">{title[index]}</h2>
 
-      <DisplayImage template="variant1" src={combats[index]!.icon} alt={combats[index]!.name} />
+      <DisplayImage
+        template="variant1"
+        src={combats[index]!.icon}
+        alt={combats[index]!.name}
+      />
 
       <p className="font-poppins text-white">
         <strong className="font-bold">Talent Name : </strong>
@@ -239,7 +330,9 @@ function DetailTableMapping({ edit, index }: Omit<TableMappingProps, "template">
         {combats[index]!.description}
       </p>
 
-      <p className="font-bold text-white my-4">Tabel Scalling damage masih belum sepenuhnya selesai</p>
+      <p className="font-bold text-white my-4">
+        Tabel Scalling damage masih belum sepenuhnya selesai
+      </p>
       {/* {label && label?.length !== 0 && <CombatMapping talent={talent} config={config} index={index} />} */}
     </>
   );

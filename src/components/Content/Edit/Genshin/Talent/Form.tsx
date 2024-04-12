@@ -14,7 +14,7 @@ import SwiperSlideData from "@/components/Content/Write/Genshin/Components/Swipe
 import Button, { VariantClass } from "@/components/Input/Button";
 import axios, { isAxiosError } from "axios";
 import { Route } from "next";
-import { notif } from "@/utils/fe";
+import { alertMessage, notif } from "@/utils/fe";
 
 const formNameMapping: Record<string, keyof FormUtils.Genshin.FormDataTalent> =
   {
@@ -27,11 +27,11 @@ const formNameMapping: Record<string, keyof FormUtils.Genshin.FormDataTalent> =
 export default function Form({
   data,
   lang,
-  cancelData
+  cancelData,
 }: {
   data: GenshinImpact.Talent;
   lang: General.PostDocument["lang"];
-  cancelData: React.Dispatch<SetStateAction<boolean>>
+  cancelData: React.Dispatch<SetStateAction<boolean>>;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -59,11 +59,12 @@ export default function Form({
         }
       );
 
-      notif(res.data.msg, {
-        color: "green",
-        refElement: "buttons",
-        location: "before",
-      });
+      // notif(res.data.msg, {
+      //   color: "green",
+      //   refElement: "buttons",
+      //   location: "before",
+      // });
+      alertMessage(res.data.msg, { color: "green" });
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 422) {
@@ -104,129 +105,172 @@ export default function Form({
 
       <input type="hidden" name="result-lang" value={lang} readOnly />
 
-        <TextField
-          variant="default-variant-1"
-          defaultValue={data.charName}
-          label="Character Name"
-          forId="charName"
-          disabled={isLoading}
-          name={formNameMapping.charName}
+      <TextField
+        variant="default-variant-1"
+        defaultValue={data.charName}
+        label="Character Name"
+        forId="charName"
+        disabled={isLoading}
+        name={formNameMapping.charName}
+      />
+
+      <TableMapping
+        isLoading={isLoading}
+        template="Edit"
+        index="combat1"
+        edit={data}
+      />
+
+      <TableMapping
+        isLoading={isLoading}
+        template="Edit"
+        index="combat2"
+        edit={data}
+      />
+
+      <TableMapping
+        isLoading={isLoading}
+        template="Edit"
+        index="combat3"
+        edit={data}
+      />
+
+      {data.combats.combatsp && (
+        <TableMapping
+          isLoading={isLoading}
+          template="Edit"
+          index="combatsp"
+          edit={data}
         />
+      )}
 
-        <TableMapping template="Edit" index="combat1" edit={data} />
+      <PassiveTalent
+        isLoading={isLoading}
+        template="Edit"
+        edit={data}
+        index="passive1"
+      />
 
-        <TableMapping template="Edit" index="combat2" edit={data} />
+      <PassiveTalent
+        isLoading={isLoading}
+        template="Edit"
+        edit={data}
+        index="passive2"
+      />
 
-        <TableMapping template="Edit" index="combat3" edit={data} />
+      <PassiveTalent
+        isLoading={isLoading}
+        template="Edit"
+        edit={data}
+        index="passive3"
+      />
 
-        {data.combats.combatsp && (
-          <TableMapping template="Edit" index="combatsp" edit={data} />
-        )}
+      <div className="border-2 border-white rounded-lg p-4 my-4">
+        <h2 className="text-white font-semibold font-poppins text-center">
+          Upgrade Cost
+        </h2>
+        <Swiper
+          slidesPerView={1}
+          modules={[Pagination]}
+          pagination={{ clickable: true }}
+        >
+          <SwiperSlide>
+            <SwiperSlideData
+              category="Talent"
+              passData={data}
+              template="Edit"
+              keyValue="lvl2"
+            />
+          </SwiperSlide>
 
-        <PassiveTalent template="Edit" edit={data} index="passive1" />
+          <SwiperSlide>
+            <SwiperSlideData
+              category="Talent"
+              passData={data}
+              template="Edit"
+              keyValue="lvl3"
+            />
+          </SwiperSlide>
 
-        <PassiveTalent template="Edit" edit={data} index="passive2" />
+          <SwiperSlide>
+            <SwiperSlideData
+              category="Talent"
+              passData={data}
+              template="Edit"
+              keyValue="lvl4"
+            />
+          </SwiperSlide>
 
-        <PassiveTalent template="Edit" edit={data} index="passive3" />
+          <SwiperSlide>
+            <SwiperSlideData
+              category="Talent"
+              passData={data}
+              template="Edit"
+              keyValue="lvl5"
+            />
+          </SwiperSlide>
 
-        <div className="border-2 border-white rounded-lg p-4 my-4">
-          <h2 className="text-white font-semibold font-poppins text-center">
-            Upgrade Cost
-          </h2>
-          <Swiper
-            slidesPerView={1}
-            modules={[Pagination]}
-            pagination={{ clickable: true }}
-          >
-            <SwiperSlide>
-              <SwiperSlideData
-                category="Talent"
-                passData={data}
-                template="Edit"
-                keyValue="lvl2"
-              />
-            </SwiperSlide>
+          <SwiperSlide>
+            <SwiperSlideData
+              category="Talent"
+              passData={data}
+              template="Edit"
+              keyValue="lvl6"
+            />
+          </SwiperSlide>
 
-            <SwiperSlide>
-              <SwiperSlideData
-                category="Talent"
-                passData={data}
-                template="Edit"
-                keyValue="lvl3"
-              />
-            </SwiperSlide>
+          <SwiperSlide>
+            <SwiperSlideData
+              category="Talent"
+              passData={data}
+              template="Edit"
+              keyValue="lvl7"
+            />
+          </SwiperSlide>
 
-            <SwiperSlide>
-              <SwiperSlideData
-                category="Talent"
-                passData={data}
-                template="Edit"
-                keyValue="lvl4"
-              />
-            </SwiperSlide>
+          <SwiperSlide>
+            <SwiperSlideData
+              category="Talent"
+              passData={data}
+              template="Edit"
+              keyValue="lvl8"
+            />
+          </SwiperSlide>
 
-            <SwiperSlide>
-              <SwiperSlideData
-                category="Talent"
-                passData={data}
-                template="Edit"
-                keyValue="lvl5"
-              />
-            </SwiperSlide>
+          <SwiperSlide>
+            <SwiperSlideData
+              category="Talent"
+              passData={data}
+              template="Edit"
+              keyValue="lvl9"
+            />
+          </SwiperSlide>
 
-            <SwiperSlide>
-              <SwiperSlideData
-                category="Talent"
-                passData={data}
-                template="Edit"
-                keyValue="lvl6"
-              />
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <SwiperSlideData
-                category="Talent"
-                passData={data}
-                template="Edit"
-                keyValue="lvl7"
-              />
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <SwiperSlideData
-                category="Talent"
-                passData={data}
-                template="Edit"
-                keyValue="lvl8"
-              />
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <SwiperSlideData
-                category="Talent"
-                passData={data}
-                template="Edit"
-                keyValue="lvl9"
-              />
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <SwiperSlideData
-                category="Talent"
-                passData={data}
-                template="Edit"
-                keyValue="lvl10"
-              />
-            </SwiperSlide>
-          </Swiper>
-        </div>
-        
-      {/* Sending Button */}
-      <div className="flex gap-4" id="buttons">
-        <Button className={VariantClass.submit} disabled={isLoading}>{isLoading ? "Mengubah Data..." : "Ubah Data"}</Button>
-        <Button className={VariantClass.danger} type="button" disabled={isLoading} onClick={() => cancelData(false)}>Batal</Button>
+          <SwiperSlide>
+            <SwiperSlideData
+              category="Talent"
+              passData={data}
+              template="Edit"
+              keyValue="lvl10"
+            />
+          </SwiperSlide>
+        </Swiper>
       </div>
 
+      {/* Sending Button */}
+      <div className="flex gap-4" id="buttons">
+        <Button className={VariantClass.submit} disabled={isLoading}>
+          {isLoading ? "Mengubah Data..." : "Ubah Data"}
+        </Button>
+        <Button
+          className={VariantClass.danger}
+          type="button"
+          disabled={isLoading}
+          onClick={() => cancelData(false)}
+        >
+          Batal
+        </Button>
+      </div>
     </form>
   );
 }

@@ -24,6 +24,20 @@ export interface NotifConfig {
   time?: number;
 }
 
+/** Konfigurasi function alertMessage */
+export interface AlertMessageConfig{
+   /**
+   * Warna yang akan digunakan untuk menampilkan pesan. Gunakan warna yang valid ada di Tailwaind
+   */
+   color: string;
+   /**
+   * Lama waktu munculnya pesan.
+   *
+   * Default: 3000 (3 Detik)
+   */
+  time?: number;
+}
+
 /**
  * Menampilkan pesan
  * @param msg - Pesan yang akan ditampilkan
@@ -47,6 +61,41 @@ export function notif(msg: string, config: NotifConfig) {
   setTimeout(() => {
     pElement.remove();
   }, time);
+}
+
+/**
+ * Menampilkan pesan
+ * @param msg - Pesan yang akan ditampilkan
+ * @param config - Konfigurasi penampilan pesan
+ */
+
+// TODO : Kembangin ini nanti
+export function alertMessage(msg:string, config:AlertMessageConfig){
+  const container = document.createElement("div");
+  container.classList.add("fixed");
+  container.classList.add("right-4");
+  container.classList.add("bottom-20");
+  container.classList.add("bg-green-400");
+  container.classList.add("min-w-[300px]");
+  container.classList.add("min-h-[50px]");
+  container.classList.add("rounded-lg");
+  container.classList.add("p-4");
+  container.classList.add("flex");
+  container.classList.add("items-center");
+  container.classList.add("justify-center");
+  container.classList.add("z-50");
+  document.body.append(container);
+
+  const message = document.createElement("p");
+  message.innerText = msg;
+  message.classList.add("font-bold")
+  message.classList.add("font-poppins")
+  message.classList.add("text-green-600")
+  container.append(message);
+
+  setTimeout(() => {
+    container.remove();
+  }, config.time ? config.time : 3000);
 }
 
 /**
