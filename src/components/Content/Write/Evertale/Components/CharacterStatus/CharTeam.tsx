@@ -76,7 +76,6 @@ function WriteContent() {
     <div className="my-4">
       <TextField forId="charTeam" name="status-charTeam" label="Character Team" readOnly variant={!data || isLoading ? "skeleton-variant-1" : "default-variant-1"} value={teams.join(", ")} onFocus={() => {
         const select = document.getElementById("team-select") as HTMLInputElement | null;
-        console.log(select);
         setChoiceMode(true);
         if(select){
           select.focus()

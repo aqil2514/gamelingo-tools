@@ -75,8 +75,6 @@ async function getIdCharacter({ params }: ParamsProps) {
   return id.toString();
 }
 
-// BUG: Akalin ini nanti
-
 export default async function DetailCharacter({ params }: ParamsProps) {
   const currId = params.id;
   const id = await getIdCharacter({ params });

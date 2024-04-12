@@ -28,7 +28,10 @@ export default function Character({ template }: CharacterProps) {
   const param = useParams();
   const category: General.GameGenshinImpact["category"] = "Character";
   const url: Route = `/api/gamelingo/genshin-impact/slide?category=${category}&lang=${param.lang}`;
-  const { data, isLoading, error } = useSWR(url, fetcher);
+  const { data, isLoading, error } = useSWR(url, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+  });
 
   if (!data || isLoading) return <SkeletonDefault />;
   if (template === "character page") return <ListDefault data={data.data} />;

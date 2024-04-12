@@ -57,8 +57,6 @@ export default function Form({ children, ...props }: FormProps) {
 
       notif(res.data.msg, { color: "green", refElement, location: "before" });
 
-      console.log(res.data);
-
       // <<<<< digunakan untuk pindah ke halaman yang ditentukan >>>>>
       if (callbackUrl && moveLocation) location.href = callbackUrl;
 

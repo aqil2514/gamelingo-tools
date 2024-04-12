@@ -21,7 +21,7 @@ interface TableMappingProps {
   edit?: GenshinImpact.Talent;
   index: "combat1" | "combat2" | "combat3" | "combatsp";
   template: "Write" | "Edit" | "Detail";
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export default function TableMapping({

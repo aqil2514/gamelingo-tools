@@ -43,7 +43,6 @@ export default function TypeSkill({ index, passiveTypes, setPassiveTypes }: Type
     const target = e.target as HTMLInputElement;
     if (e.key === "Enter") {
       e.preventDefault();
-      console.log(target.value)
 
       if(!passiveTypes[`passive${index}` as keyof PassiveTypeState]){
         setPassiveTypes({...passiveTypes, [`passive${index}`]:[target.value]});

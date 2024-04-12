@@ -55,8 +55,6 @@ export default function SkillName({
       descEn.value = selected.skillDescEn;
       descId.value = selected.skillDescId;
 
-      console.log(selected)
-
       setInstantAdd(false);
       setIsDone(true);
     }
