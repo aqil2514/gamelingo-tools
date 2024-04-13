@@ -130,7 +130,6 @@ function HomePage({ data }: { data: GenshinImpact.CharacterInfo[] }) {
       <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md">
         {chars
           .slice(0, 14)
-          .sort(() => Math.random() - 0.5)
           .map((d) => (
             <CharacterList d={d} key={d.id} />
           ))}
