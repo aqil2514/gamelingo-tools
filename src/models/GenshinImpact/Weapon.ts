@@ -1,7 +1,7 @@
 import { genshinConnection } from "@/lib/mongoose";
 import { Schema } from "mongoose";
 
-const PassiveSchema = new Schema<GenshinImpact.Weapon["passive"]>(
+const PassiveSchema = new Schema<GenshinImpact.WeaponSub["passive"]>(
   {
     passiveName: { type: String, required: true },
     r1: { type: String, required: true },
@@ -21,9 +21,8 @@ const AscendSchema = new Schema<GenshinImpact.UpgradeMaterialItem>(
   { _id: false }
 );
 
-const WeaponSchema = new Schema<GenshinImpact.Weapon>(
+const WeaponSubSchema = new Schema<GenshinImpact.WeaponSub>(
   {
-    name: { type: String, required: true, unique: true },
     type: { type: String, required: true },
     baseAtk: { type: String, required: true },
     baseStat: { type: String, required: true },
@@ -37,10 +36,22 @@ const WeaponSchema = new Schema<GenshinImpact.Weapon>(
     ascend5: [AscendSchema],
     ascend6: [AscendSchema],
     rarity: { type: String, required: true },
+  },
+  { _id: false }
+);
+
+const WeaponSchema = new Schema<GenshinImpact.Weapon>(
+  {
+    name: { type: String, required: true, unique: true },
+    en: WeaponSubSchema,
+    id: WeaponSubSchema,
     image: { type: String, required: false },
   },
   { timestamps: true, strict: false }
 );
 
-export const IDWeapon = genshinConnection.models.id_weapon || genshinConnection.model("id_weapon", WeaponSchema);
-export const ENWeapon = genshinConnection.models.en_weapon || genshinConnection.model("en_weapon", WeaponSchema);
+export const GenshinWeapon =
+  genshinConnection.models.weapon_v1 ||
+  genshinConnection.model("weapon_v1", WeaponSchema);
+
+export default GenshinWeapon;

@@ -4,6 +4,12 @@
 namespace GenshinImpact {
   export interface Artifact extends General.MongoDBDocument {
     name: string;
+    en?: ArtifactSubField,
+    id?: ArtifactSubField
+    image?: ArtifactImageName[];
+  }
+  
+  export interface ArtifactSubField{
     rarityList: string[];
     effect2pc: string;
     effect4pc: string;
@@ -13,16 +19,18 @@ namespace GenshinImpact {
     sands: ArtifactSub;
     goblet: ArtifactSub;
     circlet: ArtifactSub;
+
   }
 
   export type ArtifactDoc = Pick<Artifact, "_id" | "name" | "rarityList" | "effect2pc" | "effect4pc" | "effectOther">;
+
+  export type ArtifactImageName = "Flower" | "Plume" | "Sands" | "Goblet" | "Circlet"
 
   export interface ArtifactSub {
     name: string;
     description: string;
     lore: string;
     type: string;
-    image?: string;
   }
 
   export type ArtifactSubDoc = Pick<Artifact, "flowe" | "plume" | "sands" | "goblet" | "circlet">;
@@ -452,8 +460,16 @@ namespace GenshinImpact {
   }
 
   export interface Character extends General.MongoDBDocument {
-    lang: "Indonesian" | "English";
     name: string;
+    en?: SubCharacter;
+    id?: SubCharacter;
+    image: {
+      cover: string,
+      portrait: string,
+    };
+  }
+  
+  export interface SubCharacter{
     description: string;
     ascendStatus: string;
     ascendMaterial?: UpgradeMaterial;
@@ -467,10 +483,6 @@ namespace GenshinImpact {
       chinese: string;
       japanese: string;
       korean: string;
-    };
-    image: {
-      cover: string,
-      portrait: string,
     };
     build?: BuildCharacter;
     talent?: Talent[];
@@ -575,6 +587,12 @@ namespace GenshinImpact {
 
   export interface Weapon extends General.MongoDBDocument {
     name: string;
+    en?: WeaponSub,
+    id?: WeaponSub,
+    image?: string;
+  }
+  
+  export interface WeaponSub{
     type: string;
     baseAtk: string;
     baseStat: string;
@@ -595,7 +613,7 @@ namespace GenshinImpact {
     ascend5: UpgradeMaterialItem[];
     ascend6: UpgradeMaterialItem[];
     rarity: string;
-    image?: string;
+
   }
 
   type WeaponTable = Pick<Weapon, "_id" | "name" | "type" | "rarity">;

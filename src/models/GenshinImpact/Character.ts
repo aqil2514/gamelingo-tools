@@ -2,13 +2,10 @@ import mongoose, { Schema } from "mongoose";
 import { genshinConnection } from "@/lib/mongoose";
 import { TalentEN, TalentID } from "./Talent";
 import { ConstellationEN, ConstellationID } from "./Constellation";
-import { ENWeapon, IDWeapon } from "./Weapon";
-import { ENArtifact, IDArtifact } from "./Artifact";
+import GenshinWeapon from "./Weapon";
 
-const CharacterSchema = new Schema<GenshinImpact.Character>(
+const SubSchema = new Schema<GenshinImpact.SubCharacter>(
   {
-    lang: { type: String, enum: ["Indonesian", "English"], required: true },
-    name: { type: String, required: true, unique: true },
     description: { type: String, required: true },
     ascendStatus: { type: String, required: true },
     ascendMaterial: { type: Object, required: false },
@@ -31,33 +28,21 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
       japanese: String,
       korean: String,
     },
-    image: {
-      cover: { type: String, required: true },
-      portrait: { type: String, required: true },
-    },
     build: {
       weapon: {
         type: mongoose.Schema.ObjectId,
         required: false,
-        ref: function (this: GenshinImpact.Character) {
-          if (this.lang === "Indonesian") return IDWeapon;
-          return ENWeapon;
-        },
+        ref: GenshinWeapon,
       },
       substitude: {
         type: [mongoose.Schema.ObjectId],
         required: false,
-        ref: function (this: GenshinImpact.Character) {
-          if (this.lang === "Indonesian") return IDWeapon;
-          return ENWeapon;
-        },
+        ref: GenshinWeapon,
       },
       bestArtifact: {
         type: mongoose.Schema.ObjectId,
         required: false,
-        ref: function (this: GenshinImpact.Character) {
-          if (this.lang === "Indonesian") return IDArtifact;
-          return ENArtifact;
+        ref: GenshinArtifact
         },
       },
       artifactStatus: { type: [mongoose.Schema.ObjectId], required: false },
@@ -88,12 +73,24 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
       },
     },
   },
+  { _id: false }
+);
+
+const CharacterSchema = new Schema<GenshinImpact.Character>(
+  {
+    name: { type: String, required: true, unique: true },
+    en: SubSchema,
+    id: SubSchema,
+    image: {
+      cover: { type: String, required: true },
+      portrait: { type: String, required: true },
+    },
+  },
   { timestamps: true, strict: false }
 );
 
-export const CharacterID =
-  genshinConnection.models.id_character ||
-  genshinConnection.model("id_character", CharacterSchema);
-export const CharacterEN =
-  genshinConnection.models.en_character ||
-  genshinConnection.model("en_character", CharacterSchema);
+const GenshinCharacter =
+  genshinConnection.models.character_v1 ||
+  genshinConnection.model("character_v1", CharacterSchema);
+
+export default GenshinCharacter;

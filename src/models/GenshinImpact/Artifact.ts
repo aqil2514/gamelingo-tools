@@ -7,16 +7,14 @@ const SubArtifactSchema = new Schema<GenshinImpact.ArtifactSub>(
     description: { type: String, required: true },
     lore: { type: String, required: true },
     type: { type: String, required: true },
-    image: { type: String, required: false },
   },
   {
     _id: false,
   }
 );
 
-const ArtifactSchema = new Schema<GenshinImpact.Artifact>(
+const ArtifactSubField = new Schema<GenshinImpact.ArtifactSubField>(
   {
-    name: { type: String, required: true },
     rarityList: { type: [String], required: true },
     effect2pc: { type: String, required: true },
     effect4pc: { type: String, required: true },
@@ -27,12 +25,25 @@ const ArtifactSchema = new Schema<GenshinImpact.Artifact>(
     goblet: SubArtifactSchema,
     circlet: SubArtifactSchema,
   },
+  { _id: false }
+);
+
+const ArtifactSchema = new Schema<GenshinImpact.Artifact>(
+  {
+    name: { type: String, required: true },
+    image: { type: String, required: false },
+  },
   {
     timestamps: true,
     strict: false,
   }
 );
 
-export const IDArtifact = genshinConnection.models.id_artifact || genshinConnection.model<GenshinImpact.Artifact>("id_artifact", ArtifactSchema);
+const GenshinArtifact =
+  genshinConnection.models.gensihartaifact ||
+  genshinConnection.model<GenshinImpact.Artifact>(
+    "genshinartifacts"  ,
+    ArtifactSchema
+  );
 
-export const ENArtifact = genshinConnection.models.en_artifact || genshinConnection.model<GenshinImpact.Artifact>("en_artifact", ArtifactSchema);
+export default GenshinArtifact;

@@ -11,7 +11,7 @@
 
 # testing
 /coverage
-/app/api/testing/
+/src/app/api/testing/
 postgres.session.sql
 
 #debug
