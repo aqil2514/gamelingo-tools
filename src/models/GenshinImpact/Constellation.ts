@@ -10,9 +10,8 @@ const BasicInfo = new Schema<GenshinImpact.BasicInfo>(
   { _id: false }
 );
 
-const ConstellationSchema = new Schema<GenshinImpact.Constellation>(
+const SubLangSchema = new Schema<GenshinImpact.ConstellationSubLang>(
   {
-    charName: { type: String, required: false, unique: true, trim: true },
     constellation: {
       c1: BasicInfo,
       c2: BasicInfo,
@@ -22,8 +21,28 @@ const ConstellationSchema = new Schema<GenshinImpact.Constellation>(
       c6: BasicInfo,
     },
   },
+  { _id: false }
+);
+
+const ConstellationSchema = new Schema<GenshinImpact.Constellation>(
+  {
+    charName: { type: String, required: false, unique: true, trim: true },
+    en: { type: SubLangSchema, required: false },
+    id: { type: SubLangSchema, required: false },
+    icon: {
+      c1Icon: String,
+      c2Icon: String,
+      c3Icon: String,
+      c4Icon: String,
+      c5Icon: String,
+      c6Icon: String,
+    },
+  },
   { timestamps: true, strict: false }
 );
 
-export const ConstellationID = genshinConnection.models.id_constellation || genshinConnection.model("id_constellation", ConstellationSchema);
-export const ConstellationEN = genshinConnection.models.en_constellation || genshinConnection.model("en_constellation", ConstellationSchema);
+const GenshinConstellation =
+  genshinConnection.models.constellation_v1 ||
+  genshinConnection.model("constellation_v1", ConstellationSchema);
+
+export default GenshinConstellation

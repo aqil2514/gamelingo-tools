@@ -1,10 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 import { genshinConnection } from "@/lib/mongoose";
-import { TalentEN, TalentID } from "./Talent";
-import { ConstellationEN, ConstellationID } from "./Constellation";
+import Talentfrom from "./Talent";
 import GenshinWeapon from "./Weapon";
+import GenshinArtifact from "./Artifact";
+import GenshinTalent from "./Talent";
+import GenshinConstellation from "./Constellation";
 
-const SubSchema = new Schema<GenshinImpact.SubCharacter>(
+const SubSchema = new Schema(
   {
     description: { type: String, required: true },
     ascendStatus: { type: String, required: true },
@@ -30,47 +32,35 @@ const SubSchema = new Schema<GenshinImpact.SubCharacter>(
     },
     build: {
       weapon: {
-        type: mongoose.Schema.ObjectId,
+        type: String,
         required: false,
         ref: GenshinWeapon,
       },
       substitude: {
-        type: [mongoose.Schema.ObjectId],
+        type: [String],
         required: false,
         ref: GenshinWeapon,
       },
       bestArtifact: {
-        type: mongoose.Schema.ObjectId,
+        type: String,
         required: false,
-        ref: GenshinArtifact
-        },
+        ref: GenshinArtifact,
       },
-      artifactStatus: { type: [mongoose.Schema.ObjectId], required: false },
-      prioritySubStat: { type: [mongoose.Schema.ObjectId], required: false },
-      team: {
-        type: [mongoose.Schema.ObjectId],
-        required: false,
-      },
+    },
+    artifactStatus: { type: [String], required: false },
+    prioritySubStat: { type: [String], required: false },
+    team: {
+      type: [String],
+      required: false,
     },
     talent: {
-      type: mongoose.Schema.ObjectId,
-      required: false,
-      ref: function () {
-        if (this.lang === "Indonesian") return TalentID;
-        else if (this.lang === "English") return TalentEN;
-
-        return TalentEN;
-      },
+      type: String,
+      ref: GenshinTalent,
     },
     constellation: {
-      type: mongoose.Schema.ObjectId,
+      type: String,
       required: false,
-      ref: function () {
-        if (this.lang === "Indonesian") return ConstellationID;
-        else if (this.lang === "English") return ConstellationEN;
-
-        return ConstellationEN;
-      },
+      ref: GenshinConstellation,
     },
   },
   { _id: false }
@@ -79,8 +69,8 @@ const SubSchema = new Schema<GenshinImpact.SubCharacter>(
 const CharacterSchema = new Schema<GenshinImpact.Character>(
   {
     name: { type: String, required: true, unique: true },
-    en: SubSchema,
-    id: SubSchema,
+    en: {type: SubSchema, required:false},
+    id: {type: SubSchema, required:false},
     image: {
       cover: { type: String, required: true },
       portrait: { type: String, required: true },

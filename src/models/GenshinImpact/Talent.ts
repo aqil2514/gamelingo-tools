@@ -1,8 +1,8 @@
 import { genshinConnection } from "@/lib/mongoose";
 import { Schema } from "mongoose";
 
-interface SubSchema extends GenshinImpact.ApiTalentCombatData{
-  icon:string;
+interface SubSchema extends GenshinImpact.ApiTalentCombatData {
+  icon: string;
 }
 
 const CombatSubSchema: Schema<SubSchema> = new Schema(
@@ -13,7 +13,6 @@ const CombatSubSchema: Schema<SubSchema> = new Schema(
       labels: { type: [String], required: true },
       parameters: { type: Schema.Types.Mixed, required: true },
     },
-    icon: { type: String, required: false },
   },
   { _id: false }
 );
@@ -35,9 +34,8 @@ const LvlSchema = new Schema<GenshinImpact.UpgradeMaterialItem>(
   { _id: false }
 );
 
-const TalentSchema = new Schema<GenshinImpact.Talent>(
+const SubLangSchema = new Schema<GenshinImpact.TalentSubLang>(
   {
-    charName: { type: String, required: true },
     combats: {
       combat1: { type: CombatSubSchema, required: true },
       combat2: { type: CombatSubSchema, required: true },
@@ -49,6 +47,15 @@ const TalentSchema = new Schema<GenshinImpact.Talent>(
       passive2: { type: PassiveSubSchema, required: true },
       passive3: { type: PassiveSubSchema, required: true },
     },
+  },
+  { _id: false }
+);
+
+const TalentSchema = new Schema<GenshinImpact.Talent>(
+  {
+    charName: { type: String, required: true },
+    en: SubLangSchema,
+    id: SubLangSchema,
     costs: {
       lvl2: { type: [LvlSchema], required: true },
       lvl3: { type: [LvlSchema], required: true },
@@ -60,9 +67,19 @@ const TalentSchema = new Schema<GenshinImpact.Talent>(
       lvl9: { type: [LvlSchema], required: true },
       lvl10: { type: [LvlSchema], required: true },
     },
+    icon: {
+      combat1Icon: { type: String, required: true },
+      combat2Icon: { type: String, required: true },
+      combat3Icon: { type: String, required: true },
+      combatspIcon: { type: String, required: false },
+      passive1Icon: { type: String, required: true },
+      passive2Icon: { type: String, required: true },
+      passive3Icon: { type: String, required: true },
+    },
   },
   { timestamps: true }
 );
 
-export const TalentID = genshinConnection.models.id_talent || genshinConnection.model("id_talent", TalentSchema);
-export const TalentEN = genshinConnection.models.en_talent || genshinConnection.model("en_talent", TalentSchema);
+const GenshinTalent = genshinConnection.models.talent_v1 || genshinConnection.model("talent_v1", TalentSchema);
+
+export default GenshinTalent;

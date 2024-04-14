@@ -4,12 +4,12 @@
 namespace GenshinImpact {
   export interface Artifact extends General.MongoDBDocument {
     name: string;
-    en?: ArtifactSubField,
-    id?: ArtifactSubField
+    en?: ArtifactSubField;
+    id?: ArtifactSubField;
     image?: ArtifactImageName[];
   }
-  
-  export interface ArtifactSubField{
+
+  export interface ArtifactSubField {
     rarityList: string[];
     effect2pc: string;
     effect4pc: string;
@@ -19,12 +19,19 @@ namespace GenshinImpact {
     sands: ArtifactSub;
     goblet: ArtifactSub;
     circlet: ArtifactSub;
-
   }
 
-  export type ArtifactDoc = Pick<Artifact, "_id" | "name" | "rarityList" | "effect2pc" | "effect4pc" | "effectOther">;
+  export type ArtifactDoc = Pick<
+    Artifact,
+    "_id" | "name" | "rarityList" | "effect2pc" | "effect4pc" | "effectOther"
+  >;
 
-  export type ArtifactImageName = "Flower" | "Plume" | "Sands" | "Goblet" | "Circlet"
+  export type ArtifactImageName =
+    | "Flower"
+    | "Plume"
+    | "Sands"
+    | "Goblet"
+    | "Circlet";
 
   export interface ArtifactSub {
     name: string;
@@ -33,7 +40,10 @@ namespace GenshinImpact {
     type: string;
   }
 
-  export type ArtifactSubDoc = Pick<Artifact, "flowe" | "plume" | "sands" | "goblet" | "circlet">;
+  export type ArtifactSubDoc = Pick<
+    Artifact,
+    "flowe" | "plume" | "sands" | "goblet" | "circlet"
+  >;
 
   export type ArtifactTable = Pick<Artifact, "_id" | "name" | "rarityList">;
 
@@ -421,10 +431,6 @@ namespace GenshinImpact {
     };
   }
 
-  export interface ApiTalentCombatDataIcon extends ApiTalentCombatData{
-    icon?: string;
-  }
-
   export interface ApiTalentCostData {
     id: number;
     name: string;
@@ -464,12 +470,12 @@ namespace GenshinImpact {
     en?: SubCharacter;
     id?: SubCharacter;
     image: {
-      cover: string,
-      portrait: string,
+      cover: string;
+      portrait: string;
     };
   }
-  
-  export interface SubCharacter{
+
+  export interface SubCharacter {
     description: string;
     ascendStatus: string;
     ascendMaterial?: UpgradeMaterial;
@@ -477,7 +483,14 @@ namespace GenshinImpact {
     element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro";
     weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";
     gender: "Female" | "Male" | "Perempuan" | "Pria";
-    region: "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontain" | "Snezhnaya" | "Another World";
+    region:
+      | "Mondstadt"
+      | "Liyue"
+      | "Inazuma"
+      | "Sumeru"
+      | "Fontain"
+      | "Snezhnaya"
+      | "Another World";
     cv: {
       english: string;
       chinese: string;
@@ -489,17 +502,33 @@ namespace GenshinImpact {
     constellation?: Constellation[];
   }
 
-  export interface CharacterInfo extends GeneralInfo{
+  export interface CharacterInfo extends GeneralInfo {
     rarity: string;
     desc: string;
     element: Character["element"];
     weapon: Character["weapon"];
   }
 
-  export type CharacterTable = Pick<Character, "_id" | "name" | "element" | "rarity" | "region" | "weapon">;
+  export type CharacterTable = Pick<
+    Character,
+    "_id" | "name" | "element" | "rarity" | "region" | "weapon"
+  >;
 
   export interface Constellation extends General.MongoDBDocument {
     charName: string;
+    en?: ConstellationSubLang;
+    id?: ConstellationSubLang;
+    icon: {
+      c1Icon: string;
+      c2Icon: string;
+      c3Icon: string;
+      c4Icon: string;
+      c5Icon: string;
+      c6Icon: string;
+    };
+  }
+
+  export interface ConstellationSubLang {
     constellation: {
       c1: BasicInfo;
       c2: BasicInfo;
@@ -512,7 +541,7 @@ namespace GenshinImpact {
 
   export type ConstellationTable = Omit<Constellation, "constellation">;
 
-  export interface GeneralInfo{
+  export interface GeneralInfo {
     name: string;
     id: string;
     image: string;
@@ -520,14 +549,22 @@ namespace GenshinImpact {
 
   export interface Material extends General.MongoDBDocument {
     name: string;
+    en?: MaterialSubLang;
+    id?: MaterialSubLang;
+    image?: string;
+  }
+
+  export interface MaterialSubLang {
     typeMaterial: string;
     rarity?: string;
     lore: string;
     gainedFrom: string[] | string;
-    image?: string;
   }
 
-  export type MaterialTable = Pick<Material, "name" | "typeMaterial" | "rarity" | "_id">;
+  export type MaterialTable = Pick<
+    Material,
+    "name" | "typeMaterial" | "rarity" | "_id"
+  >;
 
   export interface Misc {
     ascendStatus: string[];
@@ -537,17 +574,8 @@ namespace GenshinImpact {
 
   export interface Talent extends General.MongoDBDocument {
     charName: string;
-    combats: {
-      combat1: ApiTalentCombatDataIcon;
-      combat2: ApiTalentCombatDataIcon;
-      combat3: ApiTalentCombatDataIcon;
-      combatsp?: ApiTalentCombatDataIcon;
-    };
-    passives: {
-      passive1: BasicInfo;
-      passive2: BasicInfo;
-      passive3: BasicInfo;
-    };
+    en?: TalentSubLang;
+    id?: TalentSubLang;
     costs: {
       lvl2: UpgradeMaterialItem[];
       lvl3: UpgradeMaterialItem[];
@@ -558,6 +586,29 @@ namespace GenshinImpact {
       lvl8: UpgradeMaterialItem[];
       lvl9: UpgradeMaterialItem[];
       lvl10: UpgradeMaterialItem[];
+    };
+    icon: {
+      combat1Icon: string;
+      combat2Icon: string;
+      combat3Icon: string;
+      combatspIcon?: string;
+      passive1Icon: string;
+      passive2Icon: string;
+      passive3Icon: string;
+    };
+  }
+
+  export interface TalentSubLang {
+    combats: {
+      combat1: ApiTalentCombatData;
+      combat2: ApiTalentCombatData;
+      combat3: ApiTalentCombatData;
+      combatsp?: ApiTalentCombatData;
+    };
+    passives: {
+      passive1: BasicInfo;
+      passive2: BasicInfo;
+      passive3: BasicInfo;
     };
   }
 
@@ -587,12 +638,12 @@ namespace GenshinImpact {
 
   export interface Weapon extends General.MongoDBDocument {
     name: string;
-    en?: WeaponSub,
-    id?: WeaponSub,
+    en?: WeaponSub;
+    id?: WeaponSub;
     image?: string;
   }
-  
-  export interface WeaponSub{
+
+  export interface WeaponSub {
     type: string;
     baseAtk: string;
     baseStat: string;
@@ -613,7 +664,6 @@ namespace GenshinImpact {
     ascend5: UpgradeMaterialItem[];
     ascend6: UpgradeMaterialItem[];
     rarity: string;
-
   }
 
   type WeaponTable = Pick<Weapon, "_id" | "name" | "type" | "rarity">;

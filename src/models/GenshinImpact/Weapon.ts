@@ -43,8 +43,8 @@ const WeaponSubSchema = new Schema<GenshinImpact.WeaponSub>(
 const WeaponSchema = new Schema<GenshinImpact.Weapon>(
   {
     name: { type: String, required: true, unique: true },
-    en: WeaponSubSchema,
-    id: WeaponSubSchema,
+    en: {type: WeaponSubSchema, required:false},
+    id: {type: WeaponSubSchema, required:false},
     image: { type: String, required: false },
   },
   { timestamps: true, strict: false }

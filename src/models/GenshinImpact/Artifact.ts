@@ -31,7 +31,9 @@ const ArtifactSubField = new Schema<GenshinImpact.ArtifactSubField>(
 const ArtifactSchema = new Schema<GenshinImpact.Artifact>(
   {
     name: { type: String, required: true },
-    image: { type: String, required: false },
+    image: { type: [String], required: false },
+    en: { type: ArtifactSubField, required: false },
+    id: { type: ArtifactSubField, required: false },
   },
   {
     timestamps: true,
@@ -42,7 +44,7 @@ const ArtifactSchema = new Schema<GenshinImpact.Artifact>(
 const GenshinArtifact =
   genshinConnection.models.gensihartaifact ||
   genshinConnection.model<GenshinImpact.Artifact>(
-    "genshinartifacts"  ,
+    "genshinartifacts",
     ArtifactSchema
   );
 
