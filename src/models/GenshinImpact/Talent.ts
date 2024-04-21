@@ -80,6 +80,118 @@ const TalentSchema = new Schema<GenshinImpact.Talent>(
   { timestamps: true }
 );
 
+const FischlTalentSchema = new Schema({
+  charName: String,
+  combats: {
+    combat1: {
+      name: String,
+      description: String,
+      attributes: {
+        labels: [String],
+        parameters: {
+          param1: [Number],
+          param2: [Number],
+          param3: [Number],
+          param4: [Number],
+          param5: [Number],
+          param6: [Number],
+          param7: [Number],
+          param8: [Number],
+          param9: [Number],
+          param10: [Number]
+        }
+      },
+      icon: String
+    },
+    combat2: {
+      name: String,
+      description: String,
+      attributes: {
+        labels: [String],
+        parameters: {
+          param1: [Number],
+          param2: [Number],
+          param3: [Number],
+          param4: [Number],
+          param5: [Number]
+        }
+      },
+      icon: String
+    },
+    combat3: {
+      name: String,
+      description: String,
+      attributes: {
+        labels: [String],
+        parameters: {
+          param1: [Number],
+          param2: [Number],
+          param3: [Number]
+        }
+      },
+      icon: String
+    }
+  },
+  passives: {
+    passive1: {
+      name: String,
+      description: String,
+      icon: String
+    },
+    passive2: {
+      name: String,
+      description: String,
+      icon: String
+    },
+    passive3: {
+      name: String,
+      description: String,
+      icon: String
+    }
+  },
+  costs: {
+    lvl2: [{
+      name: String,
+      count: Number
+    }],
+    lvl3: [{
+      name: String,
+      count: Number
+    }],
+    lvl4: [{
+      name: String,
+      count: Number
+    }],
+    lvl5: [{
+      name: String,
+      count: Number
+    }],
+    lvl6: [{
+      name: String,
+      count: Number
+    }],
+    lvl7: [{
+      name: String,
+      count: Number
+    }],
+    lvl8: [{
+      name: String,
+      count: Number
+    }],
+    lvl9: [{
+      name: String,
+      count: Number
+    }],
+    lvl10: [{
+      name: String,
+      count: Number
+    }]
+  },
+  createdAt: Date,
+  updatedAt: Date
+});
+
+
 const GenshinTalent = genshinConnection.models.talent_v1 || genshinConnection.model("talent_v1", TalentSchema);
 
 export default GenshinTalent;

@@ -529,14 +529,12 @@ namespace GenshinImpact {
   }
 
   export interface ConstellationSubLang {
-    constellation: {
       c1: BasicInfo;
       c2: BasicInfo;
       c3: BasicInfo;
       c4: BasicInfo;
       c5: BasicInfo;
       c6: BasicInfo;
-    };
   }
 
   export type ConstellationTable = Omit<Constellation, "constellation">;

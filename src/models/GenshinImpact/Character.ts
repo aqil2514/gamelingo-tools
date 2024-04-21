@@ -69,8 +69,8 @@ const SubSchema = new Schema(
 const CharacterSchema = new Schema<GenshinImpact.Character>(
   {
     name: { type: String, required: true, unique: true },
-    en: {type: SubSchema, required:false},
-    id: {type: SubSchema, required:false},
+    en: { type: SubSchema, required: false },
+    id: { type: SubSchema, required: false },
     image: {
       cover: { type: String, required: true },
       portrait: { type: String, required: true },
@@ -82,5 +82,13 @@ const CharacterSchema = new Schema<GenshinImpact.Character>(
 const GenshinCharacter =
   genshinConnection.models.character_v1 ||
   genshinConnection.model("character_v1", CharacterSchema);
+
+export const ENCharacter =
+  genshinConnection.models.en_characters ||
+  genshinConnection.model("en_characters", CharacterSchema);
+
+export const IDCharacter =
+  genshinConnection.models.id_characters ||
+  genshinConnection.model("id_characters", CharacterSchema);
 
 export default GenshinCharacter;

@@ -12,14 +12,12 @@ const BasicInfo = new Schema<GenshinImpact.BasicInfo>(
 
 const SubLangSchema = new Schema<GenshinImpact.ConstellationSubLang>(
   {
-    constellation: {
       c1: BasicInfo,
       c2: BasicInfo,
       c3: BasicInfo,
       c4: BasicInfo,
       c5: BasicInfo,
       c6: BasicInfo,
-    },
   },
   { _id: false }
 );

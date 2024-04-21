@@ -42,9 +42,9 @@ const ArtifactSchema = new Schema<GenshinImpact.Artifact>(
 );
 
 const GenshinArtifact =
-  genshinConnection.models.gensihartaifact ||
+  genshinConnection.models.artifact_v1 ||
   genshinConnection.model<GenshinImpact.Artifact>(
-    "genshinartifacts",
+    "artifact_v1",
     ArtifactSchema
   );
 
