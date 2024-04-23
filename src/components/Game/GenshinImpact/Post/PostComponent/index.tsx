@@ -4,6 +4,7 @@ import { Route } from "next";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { TalentDefault, TalentSkeleton } from "./Talent";
+import { ConstellationsDefault, SkeletonConstellations } from "./Constellations";
 
 interface PostComponentProps{
     components: General.GameGenshinImpact["category"],
@@ -28,6 +29,8 @@ export default function PostComponent({components}: PostComponentProps){
         return <TalentDefault data={data.data.talent} />        
     }
     if(components === "Constellations"){
-        
+        if(!data || isLoading) return <SkeletonConstellations />
+
+        return <ConstellationsDefault data={data.data.constellation}/>
     }
 }

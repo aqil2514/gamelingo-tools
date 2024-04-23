@@ -1,6 +1,7 @@
 import PostGenshinImpact from "@/components/Game/GenshinImpact/Post";
 import { baseUrl } from "@/lib/Data";
-import { Post } from "@/models/General/Post";
+import GeneralPost, { Post } from "@/models/General/Post";
+import GenshinCharacter from "@/models/GenshinImpact/Character";
 import { redirect } from "@/navigation";
 import { Route } from "next";
 import { Metadata } from "next";
@@ -12,19 +13,33 @@ interface ParamsProps {
   };
 }
 
+type Language= ParamsProps["params"]["lang"]; 
+
+interface PostResult{
+  data: General.PostDocument,
+  post: GenshinImpact.Character
+}
+
 export async function generateMetadata({
   params,
 }: ParamsProps): Promise<Metadata> {
-  const post = await getPost(params.id);
+  const postData = await getPost(params.id);
+  const {data, post} = postData;
+
+
+  const langData = post[params.lang as Language];
+
+  if(!langData) throw new Error("Terjadi kesalahan saat penentuan bahasa");
+  if(!data._id) throw new Error("ID tidak ditemukan");
 
   const character: GenshinImpact.CharacterInfo = {
-    name: post.content.name,
-    desc: post.content.description,
-    element: post.content.element,
-    rarity: post.content.rarity,
-    weapon: post.content.weapon,
-    id: post.content._id,
-    image: post.content.image.cover,
+    name: data.title,
+    desc: langData.description,
+    element: langData.element,
+    rarity: langData.rarity,
+    weapon: langData.weapon,
+    id: data._id,
+    image: post.image.cover,
   };
 
   return {
@@ -43,7 +58,7 @@ export async function generateMetadata({
       type: "website",
     },
     robots: { index: true },
-    authors: { name: post.author, url: baseUrl },
+    authors: { name: data.author, url: baseUrl },
     keywords: [
       character.name,
       character.element,
@@ -54,33 +69,28 @@ export async function generateMetadata({
   };
 }
 
-async function getPost(param: string): Promise<General.PostDocument> {
-  const data = (await Post.findOne({ content: param }).populate(
-    "content"
-  )) as General.PostDocument;
+async function getPost(param: string): Promise<PostResult> {
+  const data = await GeneralPost.findOne({ content: param }) as unknown as General.PostDocument;
 
-  return data;
-}
+  if (!data) {
+    throw new Error("Postingan tidak ditemukan.");
+  }
 
-async function getIdCharacter({ params }: ParamsProps) {
-  const proc = (await Post.findOne({
-    content: params.id,
-  })) as unknown as General.PostDocument;
-  const newChar = (await Post.findOne({
-    title: proc.title,
-    lang: params.lang === "en" ? "English" : "Indonesian",
-  })) as unknown as General.PostDocument;
-  const id = newChar.content;
+  const post = await GenshinCharacter.findOne({name:data.title}) as unknown as GenshinImpact.Character;
 
-  return id.toString();
+  const result:PostResult = {
+    data,
+    post
+  }
+
+  return result;
 }
 
 export default async function DetailCharacter({ params }: ParamsProps) {
-  const currId = params.id;
-  const id = await getIdCharacter({ params });
-  const data = await getPost(currId);
+  const {post, data:metadata} = await getPost(params.id)
+  const data = post[params.lang];
 
-  if (currId !== id) redirect("/genshin-impact/character/" + id);
+  if(!data) throw new Error("Data tidak ditemukan");
 
-  return <PostGenshinImpact data={data.content} category="Character" />;
+  return <PostGenshinImpact data={data} generalInfo={post} category="Character" />;
 }

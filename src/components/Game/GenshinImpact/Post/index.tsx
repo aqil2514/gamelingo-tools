@@ -6,34 +6,36 @@ import { useTranslations } from "next-intl";
 interface GenshinPostProps {
   category: "Character" | "Weapon";
   data: any;
+  generalInfo:any
 }
 export default function PostGenshinImpact({
   category,
   data,
+  generalInfo
 }: GenshinPostProps) {
-  if (category === "Character") return <CharacterPost data={data} />;
+  if (category === "Character") return <CharacterPost data={data} generalInfo={generalInfo} />;
 }
 
-function CharacterPost({ data }: { data: GenshinImpact.Character }) {
+function CharacterPost({ data, generalInfo }: { data: GenshinImpact.SubCharacter; generalInfo:GenshinImpact.Character }) {
   const t = useTranslations("GenshinCharacterDetail");
   return (
     <div className="main-wrapper py-20">
       <h1 className="text-white font-nova-square text-center font-bold text-3xl my-8">
-        {data.name}
+        {generalInfo.name}
       </h1>
       <div className="bg-slate-900 p-4 mx-auto w-[95%] md:w-3/5 rounded-xl md:grid md:grid-cols-2 gap-4">
         <div className="relative w-full min-h-[200px] max-h[392px]">
           <Image
-            src={data.image.cover}
+            src={generalInfo.image.cover}
             fill
             sizes="auto"
-            alt={data.name}
+            alt={generalInfo.name}
             className="w-auto h-auto max-w-[640px] max-h-[392px] object-cover"
           />
         </div>
         <div className="text-white font-poppins flex flex-col justify-center">
           <p className="mb-4">
-            <strong>{t("characterName")}</ strong> : {data.name}
+            <strong>{t("characterName")}</ strong> : {generalInfo.name}
           </p>
           <p className="mb-4">
             <strong>{t("gender")}</strong> : {data.gender}

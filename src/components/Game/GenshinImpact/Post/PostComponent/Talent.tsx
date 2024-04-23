@@ -22,18 +22,28 @@ export function TalentSkeleton() {
   );
 }
 
-type CombatKey = keyof GenshinImpact.Talent["combats"];
-type PassiveKey = keyof GenshinImpact.Talent["passives"];
+type CombatKey = keyof GenshinImpact.TalentSubLang["combats"];
+type PassiveKey = keyof GenshinImpact.TalentSubLang["passives"];
+type TalentTypes = ServerGameLingo.GenshinPage.CharacterPage["talent"];
 
 const combatNames: CombatKey[] = ["combat1", "combat2", "combat3", "combatsp"];
-const passiveNames: PassiveKey[] = ["passive1", "passive2", "passive3"]
+const passiveNames: PassiveKey[] = ["passive1", "passive2", "passive3"];
 
-export function TalentDefault({ data }: { data: GenshinImpact.Talent }) {
+export function TalentDefault({ data }: { data: TalentTypes }) {
+  console.log(data);
   return (
     <div className="w-[95%] md:w-3/4 bg-slate-900 min-h-100px rounded-xl mx-auto my-2 p-4">
-      <h3 className="text-white font-merriweather underline font-bold text-xl">Talents</h3>
+      <h3 className="text-white font-merriweather underline font-bold text-xl">
+        Talents
+      </h3>
       {combatNames.map((c) => {
-        const dataCombat = data.combats[c];
+        const dataCombat = data.data.combats[c];
+        const icon: Record<CombatKey, string> = {
+          combat1: data.icon.combat1Icon,
+          combat2: data.icon.combat2Icon,
+          combat3: data.icon.combat3Icon,
+          combatsp: data.icon.combatspIcon ? data.icon.combatspIcon : "null",
+        };
         if (dataCombat?.description && dataCombat.name)
           return (
             <div
@@ -42,7 +52,9 @@ export function TalentDefault({ data }: { data: GenshinImpact.Talent }) {
             >
               <div className="relative w-[64px] h-[64px] block m-auto">
                 <Image
-                  src={dataCombat.icon ? dataCombat.icon : "https://placehold.jp/64x64.png"}
+                  src={
+                    icon[c] !== "null" ? icon[c] : "https://placehold.jp/64x64.png"
+                  }
                   alt={c}
                   fill
                   sizes="auto"
@@ -51,7 +63,9 @@ export function TalentDefault({ data }: { data: GenshinImpact.Talent }) {
               </div>
 
               <div className="my-6">
-                <p className="text-white font-nova-square font-bold underline text-sm md:text-xl lg:text-2xl">{dataCombat.name}</p>
+                <p className="text-white font-nova-square font-bold underline text-sm md:text-xl lg:text-2xl">
+                  {dataCombat.name}
+                </p>
                 <p className="text-white font-poppins text-xs md:text-lg lg:text-xl">
                   {dataCombat.description}
                 </p>
@@ -59,9 +73,18 @@ export function TalentDefault({ data }: { data: GenshinImpact.Talent }) {
             </div>
           );
       })}
-      <h3 className="text-white font-merriweather underline font-bold text-xl">Passives</h3>
+
+      <h3 className="text-white font-merriweather underline font-bold text-xl">
+        Passives
+      </h3>
       {passiveNames.map((c) => {
-        const dataCombat = data.passives[c];
+        const dataCombat = data.data.passives[c];
+        const icon:Record<PassiveKey, string> = {
+          "passive1" : data.icon.passive1Icon,
+          "passive2" : data.icon.passive2Icon,
+          "passive3" : data.icon.passive3Icon,
+        }
+
         if (dataCombat?.description && dataCombat.name)
           return (
             <div
@@ -70,7 +93,11 @@ export function TalentDefault({ data }: { data: GenshinImpact.Talent }) {
             >
               <div className="relative w-[64px] h-[64px] block m-auto">
                 <Image
-                  src={dataCombat.icon ? dataCombat.icon : "https://placehold.jp/64x64.png"}
+                  src={
+                    icon[c] !=="null"
+                      ? icon[c]
+                      : "https://placehold.jp/64x64.png"
+                  }
                   alt={c}
                   fill
                   sizes="auto"
@@ -79,7 +106,9 @@ export function TalentDefault({ data }: { data: GenshinImpact.Talent }) {
               </div>
 
               <div>
-                <p className="text-white font-nova-square font-bold underline my-2 text-sm md:text-xl lg:text-2xl">{dataCombat.name}</p>
+                <p className="text-white font-nova-square font-bold underline my-2 text-sm md:text-xl lg:text-2xl">
+                  {dataCombat.name}
+                </p>
                 <p className="text-white font-poppins text-xs md:text-lg lg:text-xl">
                   {dataCombat.description}
                 </p>

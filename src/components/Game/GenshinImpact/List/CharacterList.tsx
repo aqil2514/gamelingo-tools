@@ -42,7 +42,7 @@ export default function CharacterList({
         />
       </div>
       <p className="font-bold text-center text-sm font-poppins mt-2 text-white line-clamp-1">{d.name}</p>
-      <Link href={`/genshin-impact/character/${d.id}`}>
+      <Link href={`/genshin-impact/character/${d.name}`}>
         <Button className={VariantClass.submit}>{message.seeText}</Button>
       </Link>
     </div>

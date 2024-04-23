@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 
-
 export function SkeletonConstellations() {
   return (
     <div className="w-3/4 bg-slate-900 min-h-100px  rounded-xl p-4 mx-auto my-2">
@@ -25,18 +24,28 @@ export function SkeletonConstellations() {
   );
 }
 
-type CombatKey = keyof GenshinImpact.Constellation["constellation"];
+type CombatKey = keyof GenshinImpact.ConstellationSubLang;
+type ConstellationTypes =
+  ServerGameLingo.GenshinPage.CharacterPage["constellation"];
 
 const constName: CombatKey[] = ["c1", "c2", "c3", "c4", "c5", "c6"];
 
-export function ConstellationsDefault({ data }: { data: GenshinImpact.Constellation }) {
+export function ConstellationsDefault({ data }: { data: ConstellationTypes }) {
   return (
     <div className="w-[95%] md:w-3/4 bg-slate-900 min-h-100px  rounded-xl p-4 mx-auto my-2">
       <h3 className="text-white font-merriweather underline font-bold text-xl">
         Constellationss
       </h3>
       {constName.map((c) => {
-        const dataConst = data.constellation[c];
+        const dataConst = data.data[c];
+        const icon: Record<CombatKey, string> = {
+          c1: data.icon.c1Icon ? data.icon.c1Icon : "null",
+          c2: data.icon.c2Icon ? data.icon.c2Icon : "null",
+          c3: data.icon.c3Icon ? data.icon.c3Icon : "null",
+          c4: data.icon.c4Icon ? data.icon.c4Icon : "null",
+          c5: data.icon.c5Icon ? data.icon.c5Icon : "null",
+          c6: data.icon.c6Icon ? data.icon.c6Icon : "null",
+        };
         if (dataConst?.description && dataConst.name)
           return (
             <div
@@ -45,7 +54,7 @@ export function ConstellationsDefault({ data }: { data: GenshinImpact.Constellat
             >
               <div className="relative w-[64px] h-[64px] block m-auto">
                 <Image
-                  src={"https://placehold.jp/64x64.png"}
+                  src={icon[c] !=="null" ? icon[c]: "https://placehold.jp/64x64.png"}
                   alt={c}
                   fill
                   sizes="auto"

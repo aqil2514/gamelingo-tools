@@ -61,7 +61,7 @@ namespace General {
       name: "Evertale" | "Genshin Impact" | "Mobile Legends";
       topic: "Character" | "Weapon" | "Accessory" | "Artifact" | "Material" | "Constellations" | "Talent";
     };
-    content: ObjectId;
+    content: string;
     author: string;
     tags: string[];
     comment?: Comment[];

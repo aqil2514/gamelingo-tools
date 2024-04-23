@@ -3,7 +3,7 @@ import Image from "next/image";
 interface AscendComponentProps {
   template: "Character" | "Weapon";
   ascend: keyof GenshinImpact.UpgradeMaterial;
-  data: GenshinImpact.Character;
+  data: GenshinImpact.SubCharacter;
 }
 
 const title: Record<keyof GenshinImpact.UpgradeMaterial, string> = {

@@ -3,12 +3,12 @@ import Character from "../Evertale/Characters";
 import { Weapon } from "../Evertale/Weapons";
 import { Accessory } from "../Evertale/Accessories";
 import { generalConnection } from "@/lib/mongoose";
-import { CharacterEN, CharacterID } from "../GenshinImpact/Character";
-import { ENWeapon, IDWeapon } from "../GenshinImpact/Weapon";
-import { ENArtifact, IDArtifact } from "../GenshinImpact/Artifact";
-import { ENMaterial, IDMaterial } from "../GenshinImpact/Material";
 import { CommentSchema } from "./Comment";
 import { User } from "./User";
+import GenshinCharacter from "../GenshinImpact/Character";
+import GenshinWeapon from "../GenshinImpact/Weapon";
+import GenshinArtifact from "../GenshinImpact/Artifact";
+import GenshinMaterial from "../GenshinImpact/Material";
 
 const PostSchema = new Schema<General.PostDocument>(
   {
@@ -16,13 +16,21 @@ const PostSchema = new Schema<General.PostDocument>(
       type: String,
       required: true,
     },
-    lang: { type: String, enum: ["Indonesian", "English", "English & Indonesian"], required: true },
+    lang: {
+      type: String,
+      enum: ["Indonesian", "English", "English & Indonesian"],
+      required: true,
+    },
     game: {
-      name: { type: String, enum: ["Evertale", "Genshin Impact", "Mobile Legends"], required: true },
+      name: {
+        type: String,
+        enum: ["Evertale", "Genshin Impact", "Mobile Legends"],
+        required: true,
+      },
       topic: { type: String, required: true },
     },
     content: {
-      type: mongoose.Schema.ObjectId,
+      type: Schema.Types.Mixed,
       required: true,
       ref: function (this: General.PostDocument) {
         if (this.game.name === "Evertale") {
@@ -30,19 +38,13 @@ const PostSchema = new Schema<General.PostDocument>(
           else if (this.game.topic === "Weapon") return Weapon;
           else if (this.game.topic === "Accessory") return Accessory;
         } else if (this.game.name === "Genshin Impact") {
-          if (this.lang === "Indonesian") {
-            if (this.game.topic === "Character") return CharacterID;
-            else if (this.game.topic === "Weapon") return IDWeapon;
-            else if (this.game.topic === "Artifact") return IDArtifact;
-            else if (this.game.topic === "Material") return IDMaterial;
-          } else if (this.lang === "English") {
-            if (this.game.topic === "Character") return CharacterEN;
-            else if (this.game.topic === "Weapon") return ENWeapon;
-            else if (this.game.topic === "Artifact") return ENArtifact;
-            else if (this.game.topic === "Material") return ENMaterial;
-          }
+          if (this.game.topic === "Character") return GenshinCharacter;
+          else if (this.game.topic === "Weapon") return GenshinWeapon;
+          else if (this.game.topic === "Artifact") return GenshinArtifact;
+          else if (this.game.topic === "Material") return GenshinMaterial;
         }
-        return null;
+
+        return "Belum disetting";
       },
     },
     author: {
@@ -60,4 +62,10 @@ const PostSchema = new Schema<General.PostDocument>(
 
 interface PostModel extends Model<General.PostDocument> {}
 
-export const Post = generalConnection.models.post || generalConnection.model("post", PostSchema);
+export const Post =
+  generalConnection.models.post || generalConnection.model("post", PostSchema);
+
+const GeneralPost =
+  generalConnection.models.post_v1 ||
+  generalConnection.model("post_v1", PostSchema);
+export default GeneralPost;
