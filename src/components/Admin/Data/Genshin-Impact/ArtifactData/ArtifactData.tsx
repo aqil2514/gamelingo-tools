@@ -28,6 +28,8 @@ export default function ArtifactDataTable({ data, lang, setLang }: ArtifactDataP
     };
   }, [contextMenu, setContextMenu]);
 
+  if(data.length === 0) return <p className="font-bold text-white font-merriweather my-4 text-center">Upss... Data masih kosong</p>
+
   return (
     <div className="px-4">
       <div className="flex gap-4">

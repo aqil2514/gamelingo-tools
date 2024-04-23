@@ -42,10 +42,14 @@ namespace GenshinImpact {
 
   export type ArtifactSubDoc = Pick<
     Artifact,
-    "flowe" | "plume" | "sands" | "goblet" | "circlet"
+    "flower" | "plume" | "sands" | "goblet" | "circlet"
   >;
 
-  export type ArtifactTable = Pick<Artifact, "_id" | "name" | "rarityList">;
+  export interface ArtifactTable {
+    _id: Artifact["_id"];
+    name: Artifact["name"];
+    rarityList: ArtifactSubField["rarityList"];
+  }
 
   export interface ApiResponseArtifacts {
     id: number;
@@ -509,10 +513,14 @@ namespace GenshinImpact {
     weapon: Character["weapon"];
   }
 
-  export type CharacterTable = Pick<
-    Character,
-    "_id" | "name" | "element" | "rarity" | "region" | "weapon"
-  >;
+  export interface CharacterTable {
+    _id: GenshinImpact.Character["_id"];
+    name: GenshinImpact.Character["name"];
+    element: GenshinImpact.SubCharacter["element"];
+    rarity: GenshinImpact.SubCharacter["rarity"];
+    region: GenshinImpact.SubCharacter["region"];
+    weapon: GenshinImpact.SubCharacter["weapon"];
+  }
 
   export interface Constellation extends General.MongoDBDocument {
     charName: string;
@@ -529,15 +537,18 @@ namespace GenshinImpact {
   }
 
   export interface ConstellationSubLang {
-      c1: BasicInfo;
-      c2: BasicInfo;
-      c3: BasicInfo;
-      c4: BasicInfo;
-      c5: BasicInfo;
-      c6: BasicInfo;
+    c1: BasicInfo;
+    c2: BasicInfo;
+    c3: BasicInfo;
+    c4: BasicInfo;
+    c5: BasicInfo;
+    c6: BasicInfo;
   }
 
-  export type ConstellationTable = Omit<Constellation, "constellation">;
+  export interface ConstellationTable {
+    name: string;
+    _id: string;
+  };
 
   export interface GeneralInfo {
     name: string;

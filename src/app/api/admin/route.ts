@@ -7,35 +7,100 @@ import LeaderSkill from "@/models/Evertale/LeaderSkill";
 import PassiveSkill from "@/models/Evertale/PassiveSkill";
 import { TypeSkill } from "@/models/Evertale/TypeSkills";
 import { Weapon } from "@/models/Evertale/Weapons";
-import { ENArtifact, IDArtifact } from "@/models/GenshinImpact/Artifact";
-import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
-import { ENMaterial, IDMaterial } from "@/models/GenshinImpact/Material";
-import { ENWeapon, IDWeapon } from "@/models/GenshinImpact/Weapon";
-import { ConstellationEN, ConstellationID } from "@/models/GenshinImpact/Constellation";
 
 // <<<<< Utils Import >>>>>
 import { admin, isSubfieldData } from "@/utils/Api/api";
-import { TalentEN, TalentID } from "@/models/GenshinImpact/Talent";
+import GenshinTalent from "@/models/GenshinImpact/Talent";
+import GenshinArtifact from "@/models/GenshinImpact/Artifact";
+import GenshinCharacter from "@/models/GenshinImpact/Character";
+import GenshinConstellation from "@/models/GenshinImpact/Constellation";
 
-/** Type Guard Function */
+const getGenshinData = async (
+  lang: General.PostDocument["lang"],
+  subfield: General.AdminQueryGameGenshin["subfield"]
+) => {
+  const langMapping = lang === "English" ? "en" : "id";
+  if (subfield === "Artifact") {
+    const res =
+      (await GenshinArtifact.find()) as unknown as GenshinImpact.Artifact[];
+    const data = res.map((d) => {
+      const result = d[langMapping];
+
+      if (!result) throw new Error("Data tidak ditemukan");
+
+      const data: GenshinImpact.ArtifactTable = {
+        _id: d._id,
+        name: d.name,
+        rarityList: result.rarityList,
+      };
+
+      return data;
+    });
+
+    return data;
+  } else if (subfield === "Character") {
+    const res =
+      (await GenshinCharacter.find()) as unknown as GenshinImpact.Character[];
+    const data = res.map((d) => {
+      const result = d[langMapping];
+
+      if (!result) throw new Error("Data tidak ditemukan");
+
+      const data: GenshinImpact.CharacterTable = {
+        _id: d?._id,
+        element: result.element,
+        rarity: result.rarity,
+        name: d.name,
+        region: result.region,
+        weapon: result.weapon,
+      };
+
+      return data;
+    });
+
+    return data;
+  } else if (subfield === "Constellations") {
+    const res =
+      (await GenshinConstellation.find()) as unknown as GenshinImpact.Constellation[];
+    const data: GenshinImpact.ConstellationTable[] = res.map((d) => {
+      const data: GenshinImpact.ConstellationTable = {
+        name: d.charName,
+        _id: d._id as string,
+      };
+
+      return data;
+    });
+  }
+};
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const field = searchParams.get("field") as General.AdminQuery["field"] | null;
   const subfield = searchParams.get("subfield");
   const lang = searchParams.get("lang") as General.PostDocument["lang"];
-  const authorization = req.headers.get("Authorization")?.replace("Bearer ", "");
+  const authorization = req.headers
+    .get("Authorization")
+    ?.replace("Bearer ", "");
 
   if (!subfield) throw new Error("Subfield belum diisi");
 
-  if (!authorization && authorization !== process.env.AUTHORIZATIONTOKEN) return NextResponse.json({ msg: "Aksi dibatasi" }, { status: 401 });
-  if (!field || !subfield) return NextResponse.json({ msg: "Ooppss... Something error" }, { status: 400 });
+  if (!authorization && authorization !== process.env.AUTHORIZATIONTOKEN)
+    return NextResponse.json({ msg: "Aksi dibatasi" }, { status: 401 });
+  if (!field || !subfield)
+    return NextResponse.json(
+      { msg: "Ooppss... Something error" },
+      { status: 400 }
+    );
 
   if (field === "account" && isSubfieldData.account(subfield)) {
     if (subfield === "userslogin") {
       const data = await admin.getUser();
 
-      if (!data) return NextResponse.json({ msg: "OOpppss.... Something error" }, { status: 403 });
+      if (!data)
+        return NextResponse.json(
+          { msg: "OOpppss.... Something error" },
+          { status: 403 }
+        );
 
       return NextResponse.json({ data }, { status: 200 });
     }
@@ -54,27 +119,13 @@ export async function GET(req: NextRequest) {
     else if (subfield === "passives") data = await PassiveSkill.find();
 
     return NextResponse.json({ data }, { status: 200 });
-  } else if (field === "genshin-impact" && isSubfieldData.genshinImpact(subfield)) {
-    let data;
-    if (subfield === "Material") {
-      if (lang === "English") data = await ENMaterial.find();
-      if (lang === "Indonesian") data = await IDMaterial.find();
-    } else if (subfield === "Artifact") {
-      if (lang === "English") data = await ENArtifact.find();
-      if (lang === "Indonesian") data = await IDArtifact.find();
-    } else if (subfield === "Weapon") {
-      if (lang === "English") data = await ENWeapon.find();
-      if (lang === "Indonesian") data = await IDWeapon.find();
-    } else if (subfield === "Character") {
-      if (lang === "English") data = await CharacterEN.find();
-      if (lang === "Indonesian") data = await CharacterID.find();
-    } else if (subfield === "Constellations") {
-      if (lang === "English") data = await ConstellationEN.find();
-      if (lang === "Indonesian") data = await ConstellationID.find();
-    } else if (subfield === "Talent") {
-      if (lang === "English") data = await TalentEN.find();
-      if (lang === "Indonesian") data = await TalentID.find();
-    }
+  } else if (
+    field === "genshin-impact" &&
+    isSubfieldData.genshinImpact(subfield)
+  ) {
+    const data = await getGenshinData(lang, subfield);
+
+    if (!data) throw new Error("Data tidak ada atau belum disetting");
 
     return NextResponse.json({ data }, { status: 200 });
   }
