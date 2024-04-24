@@ -14,6 +14,8 @@ import GenshinTalent from "@/models/GenshinImpact/Talent";
 import GenshinArtifact from "@/models/GenshinImpact/Artifact";
 import GenshinCharacter from "@/models/GenshinImpact/Character";
 import GenshinConstellation from "@/models/GenshinImpact/Constellation";
+import GenshinMaterial from "@/models/GenshinImpact/Material";
+import GenshinWeapon from "@/models/GenshinImpact/Weapon";
 
 const getGenshinData = async (
   lang: General.PostDocument["lang"],
@@ -70,6 +72,53 @@ const getGenshinData = async (
 
       return data;
     });
+
+    return data;
+  } else if (subfield === "Talent") {
+    const res =
+      (await GenshinTalent.find()) as unknown as GenshinImpact.Constellation[];
+    const data: GenshinImpact.TalentTable[] = res.map((d) => {
+      const data: GenshinImpact.TalentTable = {
+        charName: d.charName,
+        _id: d._id as string,
+      };
+
+      return data;
+    });
+
+    return data;
+  } else if (subfield === "Material") {
+    const res =
+      (await GenshinMaterial.find()) as unknown as GenshinImpact.Material[];
+    const data: GenshinImpact.MaterialTable[] = res.map((d) => {
+      const langData = d[langMapping];
+      const data: GenshinImpact.MaterialTable = {
+        name: d.name,
+        _id: d._id as string,
+        rarity: langData?.rarity,
+        typeMaterial: langData?.typeMaterial,
+      };
+
+      return data;
+    });
+
+    return data;
+  } else if (subfield === "Weapon") {
+    const res =
+      (await GenshinWeapon.find()) as unknown as GenshinImpact.Weapon[];
+    const data: GenshinImpact.WeaponTable[] = res.map((d) => {
+      const langData = d[langMapping];
+      const data: GenshinImpact.WeaponTable = {
+        name: d.name,
+        _id: d._id as string,
+        rarity: langData?.rarity,
+        type: langData?.type,
+      };
+
+      return data;
+    });
+
+    return data;
   }
 };
 

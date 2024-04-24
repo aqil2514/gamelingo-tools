@@ -21,8 +21,10 @@ import Loading from "@/components/general/Loading";
 import SwiperSlideData from "@/components/Content/Write/Genshin/Components/SwiperSlideData";
 import DisplayImage from "@/components/DataDisplay/Image";
 
+type CharacterType = ServerGameLingo.GenshinAdmin.CharacterShortDetail;
+
 export default function GICharacterDetail() {
-  const [data, setData] = useState<GenshinImpact.Character>({} as GenshinImpact.Character);
+  const [data, setData] = useState<CharacterType>({} as CharacterType);
   const { contextMenu, setDetailMenu } = useMenuContextData();
 
   const id = contextMenu.target?.getAttribute("data-id");
@@ -58,12 +60,12 @@ export default function GICharacterDetail() {
           <p className="font-poppins text-white">
             <strong className="font-bold">Description : </strong>
             <br />
-            {data.description}
+            {data.detail.description}
           </p>
 
           <p className="font-poppins text-white">
             <strong className="font-bold">Ascend Status : </strong>
-            {data.ascendStatus}
+            {data.detail.ascendStatus}
           </p>
           <br />
 
@@ -94,52 +96,52 @@ export default function GICharacterDetail() {
             <h3 className="text-white font-semibold font-poppins text-center">Character Voice</h3>
             <p className="font-poppins text-white">
               <strong className="font-bold">Chinese : </strong>
-              {data.cv.chinese}
+              {data.detail.cv.chinese}
             </p>
 
             <p className="font-poppins text-white">
               <strong className="font-bold">English : </strong>
-              {data.cv.english}
+              {data.detail.cv.english}
             </p>
 
             <p className="font-poppins text-white">
               <strong className="font-bold">Japanese : </strong>
-              {data.cv.japanese}
+              {data.detail.cv.japanese}
             </p>
 
             <p className="font-poppins text-white">
               <strong className="font-bold">Korean : </strong>
-              {data.cv.korean}
+              {data.detail.cv.korean}
             </p>
           </div>
 
           <p className="font-poppins text-white">
             <strong className="font-bold">Rarity : </strong>
-            {data.rarity}
+            {data.detail.rarity}
           </p>
 
           <p className="font-poppins text-white">
             <br />
             <strong className="font-bold">Element : </strong>
-            {data.element}
+            {data.detail.element}
           </p>
 
           <p className="font-poppins text-white">
             <br />
             <strong className="font-bold">Weapon Type : </strong>
-            {data.weapon}
+            {data.detail.weapon}
           </p>
 
           <p className="font-poppins text-white">
             <br />
             <strong className="font-bold">Gender : </strong>
-            {data.gender}
+            {data.detail.gender}
           </p>
 
           <p className="font-poppins text-white">
             <br />
             <strong className="font-bold">Region : </strong>
-            {data.region}
+            {data.detail.region}
           </p>
 
           <Button template="detail-menu" withTemplate />
@@ -147,4 +149,5 @@ export default function GICharacterDetail() {
       )}
     </div>
   );
+
 }

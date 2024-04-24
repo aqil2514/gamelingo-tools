@@ -57,7 +57,7 @@ export default function ConstellationsDataTable({ data, lang, setLang }: Constel
               <tr key={`${d._id}`} className="py-2">
                 <td className={TD_Style.style1}>{i + 1}</td>
                 <td className={TD_Style.style1} data-id={d._id} data-lang={lang}>
-                  {d.charName}
+                  {d.name}
                 </td>
               </tr>
             ))

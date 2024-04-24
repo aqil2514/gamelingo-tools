@@ -16,5 +16,12 @@ namespace ServerGameLingo {
       name: GenshinImpact.Character["name"];
       data: GenshinImpact.CharacterTable;
     }
+    export interface CharacterShortDetail{
+      name: GenshinImpact.Character["name"],
+      _id: GenshinImpact.Character["_id"],
+      image: GenshinImpact.Character["image"],
+      detail: GenshinImpact.SubCharacter,
+      createdAt: GenshinImpact.Character["createdAt"]
+    }
   }
 }
