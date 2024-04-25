@@ -21,7 +21,7 @@ export default function PostComponent({components}: PostComponentProps){
     const lang = langMap[params.lang as string];
     const id= params.id as string;
     const url: Route = `/api/gamelingo/genshin-impact/character`;
-    const {data, isLoading} = useSWR(url, url => fetcherWithParams(url, {category, lang, id}));
+    const {data, isLoading} = useSWR(url, url => fetcherWithParams(url, {category, lang, id: id.replaceAll("%20", " ")}));
 
     if(components === "Talent"){
         if(!data || isLoading) return <TalentSkeleton />

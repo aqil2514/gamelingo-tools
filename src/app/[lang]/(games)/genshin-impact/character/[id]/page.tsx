@@ -70,7 +70,8 @@ export async function generateMetadata({
 }
 
 async function getPost(param: string): Promise<PostResult> {
-  const data = await GeneralPost.findOne({ content: param }) as unknown as General.PostDocument;
+  const data = await GeneralPost.findOne({ content: param.replaceAll("%20", " ") }) as unknown as General.PostDocument;
+
 
   if (!data) {
     throw new Error("Postingan tidak ditemukan.");
