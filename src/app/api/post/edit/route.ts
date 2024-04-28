@@ -1,5 +1,5 @@
-import { CharacterEN } from "@/models/GenshinImpact/Character";
-import { TalentEN } from "@/models/GenshinImpact/Talent";
+import GenshinCharacter from "@/models/GenshinImpact/Character";
+import GenshinTalent from "@/models/GenshinImpact/Talent";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req:NextRequest){
@@ -9,13 +9,13 @@ export async function GET(req:NextRequest){
 
     if(game === "genshin-impact"){
         if(category === "Character"){
-            const characters = await CharacterEN.find() as GenshinImpact.Character[];
-            const data = characters.map((c) => c.name);
+            const characters = await GenshinCharacter.find() as GenshinImpact.Character[];
+            const data = characters.map((c) => c.name).sort();
 
             return NextResponse.json({data}, {status:200})
         }
         else if(category === "Talent"){
-            const talents = await TalentEN.find() as GenshinImpact.Talent[];
+            const talents = await GenshinTalent.find() as GenshinImpact.Talent[];
             const data = talents.map((d) => d.charName).sort();
 
             return NextResponse.json({data}, {status:200})

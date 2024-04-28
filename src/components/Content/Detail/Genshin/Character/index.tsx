@@ -16,15 +16,17 @@ import { Pagination } from "swiper/modules";
 // << Components Import >>>>>
 import { dateOptions } from "@/components/Admin/ContextMenu/config";
 import { useMenuContextData } from "@/components/Providers/Admin/ContextProvider";
-import Button from "@/components/Input/Button";
+import Button, { VariantClass } from "@/components/Input/Button";
 import Loading from "@/components/general/Loading";
 import SwiperSlideData from "@/components/Content/Write/Genshin/Components/SwiperSlideData";
 import DisplayImage from "@/components/DataDisplay/Image";
+import { Link } from "@/navigation";
 
 type CharacterType = ServerGameLingo.GenshinAdmin.CharacterShortDetail;
 
 export default function GICharacterDetail() {
   const [data, setData] = useState<CharacterType>({} as CharacterType);
+  const [contentMessage, setContentMessage] = useState<boolean>(false);
   const { contextMenu, setDetailMenu } = useMenuContextData();
 
   const id = contextMenu.target?.getAttribute("data-id");
@@ -38,62 +40,105 @@ export default function GICharacterDetail() {
   }, [contextMenu, id, lang]);
 
   return (
-    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
+    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style fixed top-24 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
       {Object.keys(data).length === 0 ? (
         <Loading loading={1} textOn text="Mengambil data Character..." />
       ) : (
         <>
           <div>
-            <h1 className="font-mclaren text-white text-center font-bold ">{data.name}</h1>
-            <p className="font-mclaren text-white text-sm text-center font-bold mb-4">{typeof data.createdAt === "string" ? new Date(data.createdAt).toLocaleDateString("id-ID", dateOptions) : ""}</p>
+            <h1 className="font-mclaren text-white text-center font-bold ">
+              {data.name}
+            </h1>
+            <p className="font-mclaren text-white text-sm text-center font-bold mb-4">
+              {typeof data.createdAt === "string"
+                ? new Date(data.createdAt).toLocaleDateString(
+                    "id-ID",
+                    dateOptions
+                  )
+                : ""}
+            </p>
           </div>
-
           <div className="w-full p-4 my-4 flex justify-center">
-            <DisplayImage template="variant1" src={data.image.cover} alt={data.name} />
+            <DisplayImage
+              template="variant1"
+              src={data.image.cover}
+              alt={data.name}
+            />
           </div>
-
           <p className="font-poppins text-white">
             <strong className="font-bold">Name : </strong>
             {data.name}
           </p>
-
           <p className="font-poppins text-white">
             <strong className="font-bold">Description : </strong>
             <br />
             {data.detail.description}
           </p>
-
           <p className="font-poppins text-white">
             <strong className="font-bold">Ascend Status : </strong>
             {data.detail.ascendStatus}
           </p>
           <br />
-
           <div className="p-8 border border-white rounded-lg">
-            <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
+            <Swiper
+              slidesPerView={1}
+              modules={[Pagination]}
+              pagination={{ clickable: true }}
+            >
               <SwiperSlide>
-                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend1" />
+                <SwiperSlideData
+                  category="Character"
+                  template="Detail"
+                  passData={data}
+                  keyValue="ascend1"
+                />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend2" />
+                <SwiperSlideData
+                  category="Character"
+                  template="Detail"
+                  passData={data}
+                  keyValue="ascend2"
+                />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend3" />
+                <SwiperSlideData
+                  category="Character"
+                  template="Detail"
+                  passData={data}
+                  keyValue="ascend3"
+                />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend4" />
+                <SwiperSlideData
+                  category="Character"
+                  template="Detail"
+                  passData={data}
+                  keyValue="ascend4"
+                />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend5" />
+                <SwiperSlideData
+                  category="Character"
+                  template="Detail"
+                  passData={data}
+                  keyValue="ascend5"
+                />
               </SwiperSlide>
               <SwiperSlide>
-                <SwiperSlideData category="Character" template="Detail" passData={data} keyValue="ascend6" />
+                <SwiperSlideData
+                  category="Character"
+                  template="Detail"
+                  passData={data}
+                  keyValue="ascend6"
+                />
               </SwiperSlide>
             </Swiper>
           </div>
-
           <div className="border-2 border-white rounded-lg p-4 my-4">
-            <h3 className="text-white font-semibold font-poppins text-center">Character Voice</h3>
+            <h3 className="text-white font-semibold font-poppins text-center">
+              Character Voice
+            </h3>
             <p className="font-poppins text-white">
               <strong className="font-bold">Chinese : </strong>
               {data.detail.cv.chinese}
@@ -114,40 +159,60 @@ export default function GICharacterDetail() {
               {data.detail.cv.korean}
             </p>
           </div>
-
           <p className="font-poppins text-white">
             <strong className="font-bold">Rarity : </strong>
             {data.detail.rarity}
           </p>
-
           <p className="font-poppins text-white">
             <br />
             <strong className="font-bold">Element : </strong>
             {data.detail.element}
           </p>
-
           <p className="font-poppins text-white">
             <br />
             <strong className="font-bold">Weapon Type : </strong>
             {data.detail.weapon}
           </p>
-
           <p className="font-poppins text-white">
             <br />
             <strong className="font-bold">Gender : </strong>
             {data.detail.gender}
           </p>
-
           <p className="font-poppins text-white">
             <br />
             <strong className="font-bold">Region : </strong>
             {data.detail.region}
           </p>
 
-          <Button template="detail-menu" withTemplate />
+          {contentMessage && (
+            <p className="bg-amber-300 text-amber-700 font-bold my-2 px-2 rounded-md">
+              CTRL + Click untuk lihat di tab baru
+            </p>
+          )}
+          <div id="buttons" className="flex justify-center gap-4">
+            <Button
+              type="button"
+              className={VariantClass.danger}
+              onClick={() => setDetailMenu(false)}
+            >
+              Kembali
+            </Button>
+            <Link
+              href={`/genshin-impact/character/${data.name}`}
+              onMouseEnter={() => {
+                setContentMessage(true);
+                setTimeout(() => {
+                  setContentMessage(false);
+                  }, 2000);
+              }}
+            >
+              <Button type="button" className={VariantClass.fetch}>
+                Lihat Konten
+              </Button>
+            </Link>
+          </div>
         </>
       )}
     </div>
   );
-
 }

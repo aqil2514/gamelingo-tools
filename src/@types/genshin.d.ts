@@ -570,10 +570,13 @@ namespace GenshinImpact {
     gainedFrom: string[] | string;
   }
 
-  export type MaterialTable = Pick<
-    Material,
-    "name" | "typeMaterial" | "rarity" | "_id"
-  >;
+  export interface MaterialTable{
+    name: Material["name"],
+    rarity: Material["en"]["rarity"],
+    _id: Material["_id"],
+    enType: Material["en"]["typeMaterial"],
+    idType: Material["id"]["typeMaterial"],
+  }
 
   export interface Misc {
     ascendStatus: string[];
@@ -675,5 +678,11 @@ namespace GenshinImpact {
     rarity: string;
   }
 
-  type WeaponTable = Pick<Weapon, "_id" | "name" | "type" | "rarity">;
+  export interface WeaponTable{
+    _id: Weapon["_id"],
+    name: Weapon["name"],
+    type: WeaponSub["type"],
+    rarity: WeaponSub["rarity"],
+  }
+
 }

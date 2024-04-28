@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 import { genshinConnection } from "@/lib/mongoose";
-import Talentfrom from "./Talent";
 import GenshinWeapon from "./Weapon";
 import GenshinArtifact from "./Artifact";
 import GenshinTalent from "./Talent";
@@ -88,7 +87,7 @@ export const ENCharacter =
   genshinConnection.model("en_characters", CharacterSchema);
 
 export const IDCharacter =
-  genshinConnection.models.id_characters ||
-  genshinConnection.model("id_characters", CharacterSchema);
+  genshinConnection.models.test ||
+  genshinConnection.model("test", CharacterSchema);
 
 export default GenshinCharacter;

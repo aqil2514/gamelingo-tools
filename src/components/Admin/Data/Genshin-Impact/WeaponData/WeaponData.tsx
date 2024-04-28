@@ -55,7 +55,8 @@ export default function WeaponDataTable({ data, lang, setLang }: WeaponDataProps
               </td>
             </tr>
           ) : (
-            data.map((d, i: number) => (
+            data.map((d, i: number) => {
+              return(
               <tr key={`${d._id}`} className="py-2">
                 <td className={TD_Style.style1}>{i + 1}</td>
                 <td className={TD_Style.style1} data-id={d._id} data-lang={lang}>
@@ -68,7 +69,7 @@ export default function WeaponDataTable({ data, lang, setLang }: WeaponDataProps
                   {d.type}
                 </td>
               </tr>
-            ))
+            )})
           )}
         </tbody>
       </table>

@@ -16,7 +16,7 @@ import Button, { VariantClass } from "@/components/Input/Button";
 import ErrorFeching from "../Component/Error";
 
 interface FormProps {
-  data: GenshinImpact.Character;
+  data: ServerGameLingo.GenshinAdmin.CharacterShortDetail
 }
 export default function Form({ data }: FormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -78,7 +78,9 @@ export default function Form({ data }: FormProps) {
     }
   }
 
-  if (!data) return <ErrorFeching template="Characer" />
+  if (!data) return <ErrorFeching template="Characer" />;
+
+  const detail = data.detail;
 
   return (
     <form onSubmit={submitHandler} className="my-4">
@@ -87,8 +89,6 @@ export default function Form({ data }: FormProps) {
       </h3>
 
       <input type="hidden" name="id" value={data._id} />
-
-      <input type="hidden" name="lang" value={data.lang} />
 
       <TextField
         variant="default-variant-1"
@@ -99,14 +99,14 @@ export default function Form({ data }: FormProps) {
         name="name"
       />
 
-      <TextField
+      {/* <TextField
         variant="default-variant-1"
         defaultValue={data.lang + " (Can't edit this data)"}
         label="Language"
         forId="lang"
         disabled
         name="lang"
-      />
+      /> */}
 
       <div className="grid grid-cols-2 gap-4 my-4">
         <div className="p-4 border-2 border-white rounded-xl">
@@ -166,7 +166,7 @@ export default function Form({ data }: FormProps) {
 
       <Textarea
         className={TextareaStyle.variant_1}
-        defaultValue={data.description}
+        defaultValue={detail.description}
         label="Character Description"
         name="description"
         forId="char-description"
@@ -175,7 +175,7 @@ export default function Form({ data }: FormProps) {
 
       <TextField
         variant="default-variant-1"
-        defaultValue={data.ascendStatus}
+        defaultValue={detail.ascendStatus}
         label="Character Ascend Status"
         forId="character-ascend-status"
         disabled={isLoading}
@@ -258,7 +258,7 @@ export default function Form({ data }: FormProps) {
           forId="character-voice-chinese"
           disabled={isLoading}
           name="character-voice-chinese"
-          defaultValue={data.cv.chinese}
+          defaultValue={detail.cv.chinese}
           variant="default-variant-1"
           label="Chinese"
         />
@@ -267,7 +267,7 @@ export default function Form({ data }: FormProps) {
           forId="character-voice-english"
           disabled={isLoading}
           name="character-voice-english"
-          defaultValue={data.cv.english}
+          defaultValue={detail.cv.english}
           variant="default-variant-1"
           label="English"
         />
@@ -275,7 +275,7 @@ export default function Form({ data }: FormProps) {
         <TextField
           forId="character-voice-japanese"
           disabled={isLoading}
-          defaultValue={data.cv.japanese}
+          defaultValue={detail.cv.japanese}
           name="character-voice-japanese"
           variant="default-variant-1"
           label="Japanese"
@@ -284,7 +284,7 @@ export default function Form({ data }: FormProps) {
         <TextField
           forId="character-voice-korean"
           disabled={isLoading}
-          defaultValue={data.cv.korean}
+          defaultValue={detail.cv.korean}
           name="character-voice-korean"
           variant="default-variant-1"
           label="Korean"
@@ -295,7 +295,7 @@ export default function Form({ data }: FormProps) {
         forId="character-rarity"
         disabled={isLoading}
         name="rarity"
-        defaultValue={data.rarity}
+        defaultValue={detail.rarity}
         variant="default-variant-1"
         label="Character Rarity"
       />
@@ -304,7 +304,7 @@ export default function Form({ data }: FormProps) {
         forId="character-element"
         disabled={isLoading}
         name="element"
-        defaultValue={data.element}
+        defaultValue={detail.element}
         variant="default-variant-1"
         label="Character Element"
       />
@@ -313,7 +313,7 @@ export default function Form({ data }: FormProps) {
         forId="character-character-type"
         disabled={isLoading}
         name="weapon"
-        defaultValue={data.weapon}
+        defaultValue={detail.weapon}
         variant="default-variant-1"
         label="Character Weapon"
       />
@@ -322,7 +322,7 @@ export default function Form({ data }: FormProps) {
         forId="character-gender"
         disabled={isLoading}
         name="gender"
-        value={data.gender}
+        value={detail.gender}
         variant="default-variant-1"
         label="Character Gender"
       />
@@ -331,7 +331,7 @@ export default function Form({ data }: FormProps) {
         forId="character-region"
         disabled={isLoading}
         name="region"
-        defaultValue={data.region}
+        defaultValue={detail.region}
         variant="default-variant-1"
         label="Character Region"
       />

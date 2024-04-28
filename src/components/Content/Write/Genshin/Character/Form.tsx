@@ -20,12 +20,13 @@ import axios, { isAxiosError } from "axios";
 import { notif } from "@/utils/fe";
 import Loading from "@/components/general/Loading";
 import Textarea, { TextareaStyle } from "@/components/Input/Textarea";
-import { EditContextButton } from "@/components/Admin/ContextMenu/EditMenu";
 import ImageInput from "@/components/general/ImageInput";
 
 interface CharacterContentFormProps {
   template: "Write" | "Edit";
 }
+
+type CharType = ServerGameLingo.GenshinAdmin.CharacterShortDetail;
 
 export default function GICharacterContentForm({
   template,
@@ -349,7 +350,7 @@ function WriteContent() {
               </li>
             </ul>
           </div>
-          <ImageInput template="Character" id="image-cover"/>
+          <ImageInput template="Character" id="image-cover" />
         </div>
 
         <div className="p-4 border-2 border-white rounded-xl">
@@ -406,15 +407,15 @@ function WriteContent() {
 }
 
 function EditContent() {
-  const [data, setData] = useState<GenshinImpact.Character>(
-    {} as GenshinImpact.Character
-  );
+  const [data, setData] = useState<CharType>({} as CharType);
 
   const { contextMenu, isLoading } = useMenuContextData();
   const lang = contextMenu.target?.getAttribute("data-lang");
   const id = contextMenu.target?.getAttribute("data-id");
   const [previewLink, setPreviewLink] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
+
+  // TODO: Fix this
 
   useEffect(() => {
     if (contextMenu.target) {
@@ -508,8 +509,10 @@ function EditContent() {
 
   const isDisabled = isLoading;
 
+  const detail = data.detail;
+
   return (
-    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
+    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style fixed top-24 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
       <h1 id="test" className="text-white text-center font-bold font-poppins">
         Edit Character
       </h1>
@@ -580,7 +583,7 @@ function EditContent() {
               forId="character-description"
               name="description"
               label="Description"
-              defaultValue={data.description}
+              defaultValue={detail.description}
               className={TextareaStyle.variant_1}
             />
 
@@ -589,7 +592,7 @@ function EditContent() {
               forId="character-ascend-status"
               name="ascendStatus"
               label="Ascend Status"
-              defaultValue={data.ascendStatus}
+              defaultValue={detail.ascendStatus}
               variant={VariantClass.dashboard}
             />
 
@@ -660,7 +663,7 @@ function EditContent() {
               <Input
                 forId="character-voice-chinese"
                 name="character-voice-chinese"
-                defaultValue={data.cv.chinese}
+                defaultValue={detail.cv.chinese}
                 variant={VariantClass.dashboard}
                 disabled={isLoading}
                 label="Chinese"
@@ -669,7 +672,7 @@ function EditContent() {
               <Input
                 forId="character-voice-english"
                 name="character-voice-english"
-                defaultValue={data.cv.english}
+                defaultValue={detail.cv.english}
                 variant={VariantClass.dashboard}
                 disabled={isLoading}
                 label="English"
@@ -678,7 +681,7 @@ function EditContent() {
               <Input
                 forId="character-voice-japanese"
                 name="character-voice-japanese"
-                defaultValue={data.cv.japanese}
+                defaultValue={detail.cv.japanese}
                 variant={VariantClass.dashboard}
                 disabled={isLoading}
                 label="Japanese"
@@ -687,7 +690,7 @@ function EditContent() {
               <Input
                 forId="character-voice-korean"
                 name="character-voice-korean"
-                defaultValue={data.cv.korean}
+                defaultValue={detail.cv.korean}
                 variant={VariantClass.dashboard}
                 disabled={isLoading}
                 label="Korean"
@@ -698,7 +701,7 @@ function EditContent() {
               forId="character-rarity"
               name="rarity"
               type="number"
-              defaultValue={data.rarity}
+              defaultValue={detail.rarity}
               variant={VariantClass.dashboard}
               disabled={isLoading}
               label="Character Rarity"
@@ -708,7 +711,7 @@ function EditContent() {
               forId="character-element"
               name="element"
               type="text"
-              defaultValue={data.element}
+              defaultValue={detail.element}
               variant={VariantClass.dashboard}
               disabled={isLoading}
               label="Character Element"
@@ -718,7 +721,7 @@ function EditContent() {
               forId="character-character-type"
               name="weapon"
               type="text"
-              defaultValue={data.weapon}
+              defaultValue={detail.weapon}
               variant={VariantClass.dashboard}
               disabled={isLoading}
               label="Character Weapon"
@@ -728,7 +731,7 @@ function EditContent() {
               forId="character-gender"
               name="gender"
               type="text"
-              value={data.gender}
+              value={detail.gender}
               variant={VariantClass.dashboard}
               disabled={isLoading}
               label="Character Gender"
@@ -738,14 +741,26 @@ function EditContent() {
               forId="character-region"
               name="region"
               type="text"
-              value={data.region}
+              value={detail.region}
               variant={VariantClass.dashboard}
               disabled={isLoading}
               label="Character Region"
             />
 
             {data.image ? <></> : <ImageInput template="Character" />}
-            <EditContextButton />
+            <div id="buttons" className="flex justify-center gap-4">
+              <Button
+                type="button"
+                disabled={isLoading}
+                className={ButtonClass.danger}
+                onClick={() => setEditMenu(false)}
+              >
+                Batal
+              </Button>
+              <Button className={ButtonClass.submit} disabled={isLoading}>
+                {isLoading ? "Submitting..." : "Submit"}
+              </Button>
+            </div>
           </>
         )}
       </form>

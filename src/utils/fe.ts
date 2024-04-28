@@ -53,7 +53,8 @@ export function notif(msg: string, config: NotifConfig) {
 
   if(typeof refElement === "string"){
     const ref = document.getElementById(refElement);
-    ref![location](pElement);
+    if(!ref) throw new Error("Terjadi kesalahan : Element tidak tersedia atau belum ditentukan")
+    ref[location](pElement);
   } else {
     refElement[location](pElement)
   }

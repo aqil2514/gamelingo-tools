@@ -393,7 +393,7 @@ const GICharacterContextMenu = ({ data }: { data: GenshinImpact.Character[] }) =
   async function copyHandler() {
     if (contextMenu.target) {
       await navigator.clipboard.writeText(contextMenu.target?.innerText);
-      notif("Berhasil copy data", { color: "green", refElement: "table-user-data", location: "before" });
+      notif("Berhasil copy data", { color: "green", refElement: "table-character-data", location: "before" });
     }
   }
 

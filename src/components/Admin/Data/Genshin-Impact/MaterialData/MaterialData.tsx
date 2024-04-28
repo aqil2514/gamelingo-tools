@@ -11,6 +11,7 @@ import { LangSelection } from "../LocalComponents";
 export default function MaterialDataTable({ data, lang, setLang }: MaterialDataProps) {
   const { contextMenu, setContextMenu, detailMenu, isDeleting, editMenu, router } = useMenuContextData();
 
+
   useEffect(() => {
     const clickFunction = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -55,7 +56,9 @@ export default function MaterialDataTable({ data, lang, setLang }: MaterialDataP
               </td>
             </tr>
           ) : (
-            data.map((d, i: number) => (
+            data.map((d, i: number) => {
+              const typeMaterial = lang === "English" ? d.enType : d.idType
+              return(
               <tr key={`${d._id}`} className="py-2">
                 <td className={TD_Style.style1}>{i + 1}</td>
                 <td className={TD_Style.style1} data-id={d._id} data-lang={lang}>
@@ -65,10 +68,10 @@ export default function MaterialDataTable({ data, lang, setLang }: MaterialDataP
                   {d.rarity}
                 </td>
                 <td className={TD_Style.style1} data-id={d._id} data-lang={lang}>
-                  {d.typeMaterial}
+                  {typeMaterial}
                 </td>
               </tr>
-            ))
+            )})
           )}
         </tbody>
       </table>

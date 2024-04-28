@@ -46,13 +46,17 @@ export default function GenshinCharacterEdit({
     const fieldCharacterName = document.getElementById(
       "character-search-name"
     ) as HTMLInputElement;
+    const charName = fieldCharacterName.value;
     const category: General.GameGenshinImpact["category"] = "Character";
     const endPoint: Route = "/api/gamelingo/genshin-impact/form";
+
+    const params = new URLSearchParams();
+    params.append("name", charName);
 
     try {
       setIsFetching(true);
       const res = await axios.get(endPoint, {
-        params: { category, charName: fieldCharacterName.value, lang },
+        params: { category, charName, lang },
       });
       setCharData(res.data.formData);
       setShowData(true);
@@ -96,13 +100,15 @@ export default function GenshinCharacterEdit({
           label="Select Character"
         />
         <div className="flex gap-4 items-end my-auto">
-          {!showData && <Button
-            className={`${VariantClass.fetch} mb-auto`}
-            disabled={isFetching}
-            onClick={fetchHandler}
-          >
-            Tampilkan Data
-          </Button>}
+          {!showData && (
+            <Button
+              className={`${VariantClass.fetch} mb-auto`}
+              disabled={isFetching}
+              onClick={fetchHandler}
+            >
+              Tampilkan Data
+            </Button>
+          )}
           {showData && (
             <Button
               className={`${VariantClass.danger} mb-auto`}
@@ -111,7 +117,7 @@ export default function GenshinCharacterEdit({
                 const fieldCharacterName = document.getElementById(
                   "character-search-name"
                 ) as HTMLInputElement;
-                fieldCharacterName.value = ""
+                fieldCharacterName.value = "";
                 setShowData(false);
               }}
             >
@@ -126,7 +132,7 @@ export default function GenshinCharacterEdit({
         </datalist>
       </div>
       {isFetching && <Loading loading={1} textOn text="Mengambil data..." />}
-      {showData && <Form data={charData} />}
+      {showData && <Form data={data.data} />}
     </div>
   );
 }
