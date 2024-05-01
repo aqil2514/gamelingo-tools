@@ -28,6 +28,8 @@ export const fetcherWithAuth = async (url: string, token: string) => {
   return res.json();
 };
 
+export const nullImageUrl = "https://placehold.jp/150x150.png";
+
 /**
  *
  * Home Section Data

@@ -10,6 +10,8 @@ import { getUser } from "@/utils/Api/api";
 import { genshin } from "@/utils/formUtils";
 import GenshinCharacter from "@/models/GenshinImpact/Character";
 import GenshinConstellation from "@/models/GenshinImpact/Constellation";
+import GenshinArtifact from "@/models/GenshinImpact/Artifact";
+import GenshinTalent from "@/models/GenshinImpact/Talent";
 
 const getGenshinData = async (
   category: General.AdminQueryGameGenshin["subfield"],
@@ -30,6 +32,51 @@ const getGenshinData = async (
       name: res.name,
       detail: res[langMapping] as GenshinImpact.SubCharacter,
       createdAt: res.createdAt,
+    };
+
+    return data;
+  } else if (category === "Artifact") {
+    type ArtifactType = ServerGameLingo.GenshinAdmin.ArtifactShortDetail;
+    const res = (await GenshinArtifact.findById(
+      id
+    )) as unknown as GenshinImpact.Artifact;
+
+    const data: ArtifactType = {
+      name: res.name,
+      rarityList: res[langMapping]?.rarityList as string[],
+      effect2pc: res[langMapping]?.effect2pc as string,
+      effect4pc: res[langMapping]?.effect4pc as string,
+      effectOther: res[langMapping]?.effectOther as string,
+      createdAt: res.createdAt as string,
+    };
+  } else if (category === "Constellations") {
+    type ConstellationType =
+      ServerGameLingo.GenshinAdmin.ConstellationShortDetail;
+
+    const res = (await GenshinConstellation.findById(
+      id
+    )) as unknown as GenshinImpact.Constellation;
+
+    const data: ConstellationType = {
+      charName: res.charName,
+      createdAt: res.createdAt as string,
+      data: res[langMapping] as GenshinImpact.ConstellationSubLang,
+    };
+
+    return data;
+  } else if (category === "Talent") {
+    type TalentType = ServerGameLingo.GenshinAdmin.TalentShortDetail;
+
+    const res = (await GenshinTalent.findById(
+      id
+    )) as unknown as GenshinImpact.Talent;
+
+    const data: TalentType = {
+      charName: res.charName,
+      combats: res[langMapping]?.combats as GenshinImpact.TalentSubLang["combats"],
+      createdAt: res.createdAt as string,
+      data: res[langMapping] as GenshinImpact.TalentSubLang,
+      icons: res.icon
     };
 
     return data;
@@ -61,7 +108,7 @@ const deleteData = async (
     }
 
     return { msg: `Data berhasil dihapus`, status: 200 };
-  } else if (dataType === "Constellations"){
+  } else if (dataType === "Constellations") {
     const dataSelected = (await GenshinConstellation.findById(
       id
     )) as unknown as GenshinImpact.Constellation;
@@ -78,7 +125,7 @@ const deleteData = async (
     }
 
     return { msg: `Data berhasil dihapus`, status: 200 };
-  } else if (dataType === "Talent"){
+  } else if (dataType === "Talent") {
     const dataSelected = (await GenshinConstellation.findById(
       id
     )) as unknown as GenshinImpact.Talent;
@@ -95,10 +142,10 @@ const deleteData = async (
     }
 
     return { msg: `Data berhasil dihapus`, status: 200 };
-  } 
+  }
 };
 
-// TODO: Fix ini juga 
+// TODO: Fix ini juga
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -150,8 +197,10 @@ export async function DELETE(req: NextRequest) {
     );
   const resDelete = await deleteData(dataType, lang, id);
 
-  return NextResponse.json({msg: resDelete?.msg}, {status: resDelete?.status})
-
+  return NextResponse.json(
+    { msg: resDelete?.msg },
+    { status: resDelete?.status }
+  );
 }
 
 export async function PUT(req: NextRequest) {

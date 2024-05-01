@@ -96,7 +96,8 @@ const getGenshinData = async (
         name: d.name,
         _id: d._id as string,
         rarity: langData?.rarity,
-        typeMaterial: langData?.typeMaterial,
+        enType: d.en?.typeMaterial,
+        idType: d.id?.typeMaterial,
       };
 
       return data;
@@ -108,6 +109,8 @@ const getGenshinData = async (
       (await GenshinWeapon.find()) as unknown as GenshinImpact.Weapon[];
     const data: GenshinImpact.WeaponTable[] = res.map((d) => {
       const langData = d[langMapping];
+      if (!langData)
+        throw new Error("Terjadi kesalahan dalam penentuan bahasa Data");
       const data: GenshinImpact.WeaponTable = {
         name: d.name,
         _id: d._id as string,

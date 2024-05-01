@@ -14,8 +14,10 @@ import Button, { VariantClass } from "@/components/Input/Button";
 import Loading from "@/components/general/Loading";
 import DisplayImage from "@/components/DataDisplay/Image";
 
+type ConstellationType = ServerGameLingo.GenshinAdmin.ConstellationShortDetail
+
 export default function GIConstellationsDetail() {
-  const [data, setData] = useState<GenshinImpact.Constellation>({} as GenshinImpact.Constellation);
+  const [data, setData] = useState<ConstellationType>({} as ConstellationType);
   const { contextMenu, setDetailMenu } = useMenuContextData();
 
   const id = contextMenu.target?.getAttribute("data-id");
@@ -29,7 +31,7 @@ export default function GIConstellationsDetail() {
   }, [contextMenu, id, lang]);
 
   return (
-    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style absolute top-36 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
+    <div className="w-1/2 max-h-[450px] overflow-y-scroll scrollbar-style fixed top-24 left-[35%] bg-zinc-700 rounded-xl border-2 border-white p-4">
       {Object.keys(data).length === 0 ? (
         <Loading loading={1} textOn text="Mengambil data Constellations..." />
       ) : (
@@ -38,10 +40,10 @@ export default function GIConstellationsDetail() {
             <h1 className="font-mclaren text-white text-center font-bold ">{data.charName}</h1>
             <p className="font-mclaren text-white text-sm text-center font-bold mb-4">{typeof data.createdAt === "string" ? new Date(data.createdAt).toLocaleDateString("id-ID", dateOptions) : ""}</p>
           </div>
-          {Object.keys(data.constellation)
+          {Object.keys(data.data)
             .filter((key) => key.startsWith("c"))
             .map((el) => {
-              const obj = data.constellation[el as keyof GenshinImpact.Constellation["constellation"]];
+              const obj = data.data[el as keyof ConstellationType["data"]];
 
               return (
                 <div key={`el-${obj.name}`} className="my-4">

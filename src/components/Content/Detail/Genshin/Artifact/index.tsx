@@ -13,8 +13,10 @@ import SubArtifact from "./SubArtifact";
 
 import { useEffect, useState } from "react";
 
+type ArtifactType = ServerGameLingo.GenshinAdmin.ArtifactShortDetail;
+
 export default function GIArtifactDetail() {
-  const [data, setData] = useState<GenshinImpact.Artifact>({} as GenshinImpact.Artifact);
+  const [data, setData] = useState<ArtifactType>({} as ArtifactType);
   const { contextMenu, setDetailMenu } = useMenuContextData();
 
   const id = contextMenu.target?.getAttribute("data-id");
@@ -34,8 +36,17 @@ export default function GIArtifactDetail() {
       ) : (
         <>
           <div>
-            <h1 className="font-mclaren text-white text-center font-bold ">{data.name}</h1>
-            <p className="font-mclaren text-white text-sm text-center font-bold mb-4">{typeof data.createdAt === "string" ? new Date(data.createdAt).toLocaleDateString("id-ID", dateOptions) : ""}</p>
+            <h1 className="font-mclaren text-white text-center font-bold ">
+              {data.name}
+            </h1>
+            <p className="font-mclaren text-white text-sm text-center font-bold mb-4">
+              {typeof data.createdAt === "string"
+                ? new Date(data.createdAt).toLocaleDateString(
+                    "id-ID",
+                    dateOptions
+                  )
+                : ""}
+            </p>
           </div>
 
           <p className="font-poppins text-white">
@@ -72,7 +83,11 @@ export default function GIArtifactDetail() {
           </div>
 
           <div className="p-8 border border-white rounded-lg">
-            <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
+            <Swiper
+              slidesPerView={1}
+              modules={[Pagination]}
+              pagination={{ clickable: true }}
+            >
               <SwiperSlide>
                 <SubArtifact data={data} keyValue="flower" />
               </SwiperSlide>

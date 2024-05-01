@@ -5,6 +5,7 @@ import { CombatStatus, tableMappingConfig, useTableConfig } from "./config";
 import Image from "next/image";
 import DisplayImage from "@/components/DataDisplay/Image";
 import ImageInput from "@/components/general/ImageInput";
+import { nullImageUrl } from "@/lib/Data";
 
 interface PreviewLinksState {
   linkcombat1: string;
@@ -18,9 +19,10 @@ interface TableMappingProps {
   setData?: React.Dispatch<
     React.SetStateAction<GenshinImpact.ApiResponseTalent>
   >;
-  edit?: GenshinImpact.Talent;
+  edit?: GenshinImpact.TalentSubLang;
   index: "combat1" | "combat2" | "combat3" | "combatsp";
   template: "Write" | "Edit" | "Detail";
+  icon: GenshinImpact.Talent["icon"];
   isLoading?: boolean;
 }
 
@@ -30,6 +32,7 @@ export default function TableMapping({
   index,
   edit,
   template,
+  icon,
   isLoading,
 }: TableMappingProps) {
   if (template === "Write")
@@ -39,13 +42,26 @@ export default function TableMapping({
         setData={setData}
         isLoading={isLoading}
         index={index}
+        icon={icon}
       />
     );
   if (template === "Edit")
-    return <EditTableMapping edit={edit} index={index} isLoading={isLoading} />;
+    return (
+      <EditTableMapping
+        icon={icon}
+        edit={edit}
+        index={index}
+        isLoading={isLoading}
+      />
+    );
   if (template === "Detail")
     return (
-      <DetailTableMapping edit={edit} index={index} isLoading={isLoading} />
+      <DetailTableMapping
+        icon={icon}
+        edit={edit}
+        index={index}
+        isLoading={isLoading}
+      />
     );
 }
 
@@ -53,7 +69,7 @@ function WriteTableMapping({
   data,
   setData,
   index,
-  isLoading
+  isLoading,
 }: Omit<TableMappingProps, "template">) {
   if (!data || !setData)
     throw new Error("Terjadi kesalahan: Data dan Setdata tidak boleh kosong");
@@ -212,6 +228,7 @@ function WriteTableMapping({
 function EditTableMapping({
   edit,
   index,
+  icon,
   isLoading,
 }: Omit<TableMappingProps, "template">) {
   if (!edit) throw new Error("Data sebelumnya belum ditentukan");
@@ -220,7 +237,6 @@ function EditTableMapping({
   );
   const combats = edit.combats;
 
-
   const title = {
     combat1: "Combat 1 (Normal Attack)",
     combat2: "Combat 2 (Elemental Skill)",
@@ -228,8 +244,19 @@ function EditTableMapping({
     combatsp: "Sprint",
   };
 
+  const iconMapping: Record<
+    TableMappingProps["index"],
+    keyof GenshinImpact.Talent["icon"]
+  > = {
+    combat1: "combat1Icon",
+    combat2: "combat2Icon",
+    combat3: "combat3Icon",
+    combatsp: "combatspIcon",
+  };
+
   const attribute = edit.combats[index]?.attributes;
-  const imageUrl = edit.combats[index]?.icon;
+  const iconKey = iconMapping[index];
+  const imageUrl = icon[iconKey] ? icon[iconKey] : nullImageUrl;
 
   return (
     <>

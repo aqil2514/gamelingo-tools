@@ -15,8 +15,10 @@ import { Pagination } from "swiper/modules";
 import TableMapping from "@/components/Content/Write/Genshin/Talent/Table";
 import SwiperSlideData from "@/components/Content/Write/Genshin/Components/SwiperSlideData";
 
+type TalentType = ServerGameLingo.GenshinAdmin.TalentShortDetail;
+
 export default function GITalentDetail() {
-  const [data, setData] = useState<GenshinImpact.Talent>({} as GenshinImpact.Talent);
+  const [data, setData] = useState<TalentType>({} as TalentType);
   const { contextMenu } = useMenuContextData();
 
   const id = contextMenu.target?.getAttribute("data-id");
@@ -42,17 +44,17 @@ export default function GITalentDetail() {
 
           <Swiper slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
             <SwiperSlide>
-              <TableMapping edit={data} template="Detail" index="combat1" />
+              <TableMapping icon={data.icons} edit={data.data} template="Detail" index="combat1" />
             </SwiperSlide>
             <SwiperSlide>
-              <TableMapping edit={data} template="Detail" index="combat2" />
+              <TableMapping icon={data.icons} edit={data.data} template="Detail" index="combat2" />
             </SwiperSlide>
             <SwiperSlide>
-              <TableMapping edit={data} template="Detail" index="combat3" />
+              <TableMapping icon={data.icons} edit={data.data} template="Detail" index="combat3" />
             </SwiperSlide>
             {data.combats.combatsp && (
               <SwiperSlide>
-                <TableMapping edit={data} template="Detail" index="combatsp" />
+                <TableMapping icon={data.icons} edit={data.data} template="Detail" index="combatsp" />
               </SwiperSlide>
             )}
           </Swiper>

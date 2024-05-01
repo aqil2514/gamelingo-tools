@@ -18,7 +18,7 @@ export default function ConstellationsDataTable({ data, lang, setLang }: Constel
 
       if (target.tagName.toLowerCase() !== "td") return;
 
-      setContextMenu({ x: e.clientX, y: e.clientY, isActive: !contextMenu.isActive, target: e.target as HTMLElement });
+      setContextMenu({ x: e.clientX, y: e.pageY, isActive: !contextMenu.isActive, target: e.target as HTMLElement });
     };
 
     window.addEventListener("click", clickFunction);
