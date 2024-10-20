@@ -2,29 +2,46 @@
 
 import { SetStateAction, useState } from "react";
 import { Characters_List } from "../_components";
-import { convertToTable } from "../_utils";
 import { useMessages } from "next-intl";
 import Button, { VariantClass } from "@/components/Input/Button";
 import { CharacterFilterProps, FilterState } from "../_interface";
 import { element, weapon } from "../_data";
 import Image from "next/image";
+import { getCharacterTable } from "../_utils";
+import { useCharacters } from "./_logic";
+import TextField from "@/components/Input/TextField";
 
 export function Characters({
   characters,
 }: {
-  characters: GenshinImpact.Character[];
+  characters: GenshinImpact.CharacterTable[];
 }) {
-  const data = convertToTable(characters);
+  const { setFilter, filter, chars, setCharNameInput } =
+    useCharacters(characters);
   return (
-    <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md p-4">
-      {data.map((d) => (
-        <Characters_List key={d.name} character={d} />
-      ))}
+    <div className="p-4">
+      <h3 className="font-nova-square text-3xl text-center text-white font-bold">
+        Karakter
+      </h3>
+      <Characters_Filter
+        filter={filter}
+        setFilter={setFilter}
+        setCharName={setCharNameInput}
+      />
+      <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md p-4">
+        {chars.map((d) => (
+          <Characters_List key={d.characterName} character={d} />
+        ))}
+      </div>
     </div>
   );
 }
 
-const Characters_Filter = ({ filter, setFilter }: CharacterFilterProps) => {
+const Characters_Filter = ({
+  filter,
+  setFilter,
+  setCharName,
+}: CharacterFilterProps) => {
   const [filterPopup, setFilterPopUp] = useState<boolean>(false);
   const messages = useMessages();
   const message =
@@ -36,6 +53,15 @@ const Characters_Filter = ({ filter, setFilter }: CharacterFilterProps) => {
         <h3 className="text-center text-xl font-bold font-nova-square text-white">
           {message.sortText}
         </h3>
+        <div>
+          <TextField
+            variant="outline-variant-1"
+            placeholder="Cari karakter berdasarkan nama"
+            forId="character-name"
+            label="Cari Karakter"
+            onChange={(e) => setCharName && setCharName(e.target.value)}
+          />
+        </div>
         <div className="p-4 my-4 border-4 border-double border-white rounded-xl grid gap-4 grid-cols-3">
           <Characters_Filter_Element filter={filter} setFilter={setFilter} />
           <Characters_Filter_Weapon filter={filter} setFilter={setFilter} />
@@ -147,125 +173,126 @@ const Characters_Filter_Element = ({
   );
 };
 
-const Character_Filter_Rarity = ({ filter, setFilter }: CharacterFilterProps) => {
-    return(
-        <div className="text-center white font-merienda text-lg font-semibold text-white">
-            Rarity
-            <div className="flex gap-4 justify-center py-2">
-              <label
-                htmlFor={"rarity-4"}
-                onClick={() => setFilter({ ...filter, rarity: "4" })}
-              >
-                <input
-                  type="radio"
-                  name="rarity-filter"
-                  id={"rarity-4"}
-                  className="hidden"
-                />
-                <div className="flex">
-                  <p
-                    className={`font-bold text-red-600 font-merriweather my-auto ${
-                      filter.rarity === "4"
-                        ? "opacity-100 cursor-default"
-                        : "opacity-50 cursor-pointer"
-                    }`}
-                  >
-                    4
-                  </p>
-                  <Image
-                    src={"/Genshin-Impact/assets/General_Star.webp"}
-                    alt={"Rarity 4"}
-                    width={32}
-                    height={32}
-                    className={`h-auto hover:opacity-100 transition-all duration-200 ${
-                      filter.rarity === "4"
-                        ? "opacity-100 cursor-default"
-                        : "opacity-50 cursor-pointer"
-                    }`}
-                  />
-                </div>
-              </label>
-
-              <label
-                htmlFor={"rarity-5"}
-                onClick={() => setFilter({ ...filter, rarity: "5" })}
-              >
-                <input
-                  type="radio"
-                  name="rarity-filter"
-                  id={"rarity-5"}
-                  className="hidden"
-                />
-                <div className="flex">
-                  <p
-                    className={`font-bold text-red-600 font-merriweather my-auto ${
-                      filter.rarity === "5"
-                        ? "opacity-100 cursor-default"
-                        : "opacity-50 cursor-pointer"
-                    }`}
-                  >
-                    5
-                  </p>
-                  <Image
-                    src={"/Genshin-Impact/assets/General_Star.webp"}
-                    alt={"Rarity 5"}
-                    width={32}
-                    height={32}
-                    className={`h-auto hover:opacity-100 transition-all duration-200 ${
-                      filter.rarity === "5"
-                        ? "opacity-100 cursor-default"
-                        : "opacity-50 cursor-pointer"
-                    }`}
-                  />
-                </div>
-              </label>
-            </div>
-            {filter.rarity && (
-              <h4 className="text-center text-xl font-bold font-nova-square text-white">
-                {filter.rarity} Stars
-              </h4>
-            )}
+const Character_Filter_Rarity = ({
+  filter,
+  setFilter,
+}: CharacterFilterProps) => {
+  return (
+    <div className="text-center white font-merienda text-lg font-semibold text-white">
+      Rarity
+      <div className="flex gap-4 justify-center py-2">
+        <label
+          htmlFor={"rarity-4"}
+          onClick={() => setFilter({ ...filter, rarity: "4" })}
+        >
+          <input
+            type="radio"
+            name="rarity-filter"
+            id={"rarity-4"}
+            className="hidden"
+          />
+          <div className="flex">
+            <p
+              className={`font-bold text-red-600 font-merriweather my-auto ${
+                filter.rarity === "4"
+                  ? "opacity-100 cursor-default"
+                  : "opacity-50 cursor-pointer"
+              }`}
+            >
+              4
+            </p>
+            <Image
+              src={"/Genshin-Impact/assets/General_Star.webp"}
+              alt={"Rarity 4"}
+              width={32}
+              height={32}
+              className={`h-auto hover:opacity-100 transition-all duration-200 ${
+                filter.rarity === "4"
+                  ? "opacity-100 cursor-default"
+                  : "opacity-50 cursor-pointer"
+              }`}
+            />
           </div>
-    )
-}
+        </label>
+
+        <label
+          htmlFor={"rarity-5"}
+          onClick={() => setFilter({ ...filter, rarity: "5" })}
+        >
+          <input
+            type="radio"
+            name="rarity-filter"
+            id={"rarity-5"}
+            className="hidden"
+          />
+          <div className="flex">
+            <p
+              className={`font-bold text-red-600 font-merriweather my-auto ${
+                filter.rarity === "5"
+                  ? "opacity-100 cursor-default"
+                  : "opacity-50 cursor-pointer"
+              }`}
+            >
+              5
+            </p>
+            <Image
+              src={"/Genshin-Impact/assets/General_Star.webp"}
+              alt={"Rarity 5"}
+              width={32}
+              height={32}
+              className={`h-auto hover:opacity-100 transition-all duration-200 ${
+                filter.rarity === "5"
+                  ? "opacity-100 cursor-default"
+                  : "opacity-50 cursor-pointer"
+              }`}
+            />
+          </div>
+        </label>
+      </div>
+      {filter.rarity && (
+        <h4 className="text-center text-xl font-bold font-nova-square text-white">
+          {filter.rarity} Stars
+        </h4>
+      )}
+    </div>
+  );
+};
 
 const Characters_Filter_Weapon = ({
   filter,
   setFilter,
 }: CharacterFilterProps) => {
-    return(
-        <div className="text-center white font-merienda text-lg font-semibold text-white">
-            Weapon
-            <div className="flex gap-4 justify-center py-2">
-              {weapon.map((el) => (
-                <label htmlFor={el.id} key={el.id}>
-                  <input
-                    type="radio"
-                    name="element-filter"
-                    value={el.name}
-                    id={el.id}
-                    className="hidden"
-                    onChange={(e) =>
-                      setFilter({ ...filter, weapon: e.target.value })
-                    }
-                  />
-                  <Image
-                    src={el.img}
-                    alt={el.name}
-                    width={32}
-                    height={32}
-                    className={`h-auto hover:opacity-100 transition-all duration-200 ${
-                      filter.weapon === el.name
-                        ? "opacity-100 cursor-default"
-                        : "opacity-50 cursor-pointer"
-                    }`}
-                  />
-                </label>
-              ))}
-            </div>
-            <h4 className="text-center text-xl font-bold font-nova-square text-white">
-              {filter.weapon}
-            </h4>
-          </div>
-    )
+  return (
+    <div className="text-center white font-merienda text-lg font-semibold text-white">
+      Weapon
+      <div className="flex gap-4 justify-center py-2">
+        {weapon.map((el) => (
+          <label htmlFor={el.id} key={el.id}>
+            <input
+              type="radio"
+              name="element-filter"
+              value={el.name}
+              id={el.id}
+              className="hidden"
+              onChange={(e) => setFilter({ ...filter, weapon: e.target.value })}
+            />
+            <Image
+              src={el.img}
+              alt={el.name}
+              width={32}
+              height={32}
+              className={`h-auto hover:opacity-100 transition-all duration-200 ${
+                filter.weapon === el.name
+                  ? "opacity-100 cursor-default"
+                  : "opacity-50 cursor-pointer"
+              }`}
+            />
+          </label>
+        ))}
+      </div>
+      <h4 className="text-center text-xl font-bold font-nova-square text-white">
+        {filter.weapon}
+      </h4>
+    </div>
+  );
 };

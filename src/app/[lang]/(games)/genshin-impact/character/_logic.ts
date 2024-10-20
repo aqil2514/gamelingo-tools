@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { FilterState } from "../_interface";
 import { useMessages } from "next-intl";
 
-export const useCharacters = ({
-  data,
-}: {
-  data: GenshinImpact.CharacterTable[];
-}) => {
+export const useCharacters = (data: GenshinImpact.CharacterTable[]) => {
   const [chars, setChars] = useState<GenshinImpact.CharacterTable[]>([]);
   const [initChars, setInitChars] = useState<GenshinImpact.CharacterTable[]>(
     []
@@ -17,21 +13,23 @@ export const useCharacters = ({
   const message =
     messages.GenshinCharacterPage as unknown as Internationalization.GenshinCharacterPage;
 
-
+    // Data diinisialisasi
   useEffect(() => {
     setChars(data);
     setInitChars(data);
   }, [data]);
 
+  // Fungsi pencarian nama karakter
   useEffect(() => {
     if (!charNameInput) return setChars(initChars);
 
     const charName = initChars.filter((c) =>
-      c.name.toLowerCase().includes(charNameInput.toLowerCase())
+      c.characterName.toLowerCase().includes(charNameInput.toLowerCase())
     );
     setChars(charName);
   }, [charNameInput, initChars]);
 
+  // Fungsi filter advance
   useEffect(() => {
     if (Object.keys(filter).length === 0) {
       setChars(initChars);
@@ -52,5 +50,5 @@ export const useCharacters = ({
     setChars(filteredChars);
   }, [initChars, filter]);
 
-  return {chars, message, setCharNameInput, setFilter}
+  return { chars, message, setCharNameInput, setFilter, filter };
 };

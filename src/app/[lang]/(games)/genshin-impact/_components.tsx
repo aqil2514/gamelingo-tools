@@ -71,25 +71,25 @@ export function Body({ characters }: BodyProps) {
 }
 
 const Characters = ({ characters }: Pick<BodyProps, "characters">) => {
-  const data = characters.slice(0,14);
+  const data = characters.slice(0, 14);
 
   return (
-    <div className="flex flex-col content-center flex-wrap justify-center bg-slate-800">
-      <h3 className="text-white font-merriweather underline">
-        Karakter
-      </h3>
-      <div className="min-h-[100px] w-full grid grid-cols-7 p-4 gap-4">
-        {data.map((d) => (
-          <Characters_List key={d.characterName} character={d} />
-        ))}
-      </div>
-      <div className="block text-center my-4 border-t-4 border-double border-t-white pt-4">
-        <Link
-          href={"/genshin-impact/character"}
-          className="font-semibold font-nova-square text-white"
-        >
-          More Character &gt;&gt;
-        </Link>
+    <div>
+      <h3 className="text-white font-nova-square font-bold underline text-2xl mb-4 text-center">Karakter</h3>
+      <div className="flex flex-col content-center flex-wrap justify-center bg-slate-800">
+        <div className="min-h-[100px] w-full grid grid-cols-7 p-4 gap-4">
+          {data.map((d) => (
+            <Characters_List key={d.characterName} character={d} />
+          ))}
+        </div>
+        <div className="block text-center my-4 border-t-4 border-double border-t-white pt-4">
+          <Link
+            href={"/genshin-impact/character"}
+            className="font-semibold font-nova-square text-white"
+          >
+            Lebih Banyak &gt;&gt;
+          </Link>
+        </div>
       </div>
     </div>
   );

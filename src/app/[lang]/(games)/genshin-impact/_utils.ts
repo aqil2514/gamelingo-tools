@@ -1,7 +1,5 @@
-import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { getSanityImage, sanityClient } from "@/sanity/client";
 import { characterTableQuery } from "@/sanity/queries-genshin";
-import { Model } from "mongoose";
 
 export const getCharacterTable = async () => {
   const characters = await sanityClient.fetch<GenshinImpact.CharacterTable[]>(characterTableQuery);

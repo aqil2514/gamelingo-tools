@@ -7,6 +7,7 @@ export interface BodyProps{
 export interface CharacterFilterProps {
     filter: FilterState;
     setFilter: React.Dispatch<SetStateAction<FilterState>>;
+    setCharName?: React.Dispatch<SetStateAction<string>>;
   }
 
 export interface FilterState {
