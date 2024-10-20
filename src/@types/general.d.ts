@@ -2,19 +2,26 @@ namespace General {
   // FIXED
 
   // Interfaces
-  interface ParamsBasic {
-    lang: Languages;
-  }
 
   interface DataGame {
     gameName: string;
     gameSub: string;
   }
 
+  interface DataState {
+    id: string;
+    name: string;
+    img: string;
+  }
+
   interface DownloadLink {
     link: string;
     imageAlt: string;
     imageSrc: string;
+  }
+
+  interface ParamsBasic {
+    lang: Languages;
   }
 
   // types

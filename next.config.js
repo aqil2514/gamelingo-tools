@@ -37,6 +37,7 @@ const nextConfig = {
       { protocol: "https", hostname: "webstatic.hoyoverse.com", port: "" },
       { protocol: "https", hostname: "upload-os-bbs.mihoyo.com", port: "" },
       { protocol: "https", hostname: "fastcdn.hoyoverse.com", port: "" },
+      { protocol: "https", hostname: "cdn.sanity.io", port: "" },
     ],
   },
   

@@ -3,36 +3,75 @@
 
 namespace GenshinImpact {
   // FIXED
-  export interface Character extends General.MongoDBDocument {
-    lang: "Indonesian" | "English";
-    name: string;
-    description: string;
-    ascendStatus: string;
-    ascendMaterial?: UpgradeMaterial;
-    rarity: string;
-    element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro";
-    weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";
-    gender: "Female" | "Male" | "Perempuan" | "Pria";
-    region: "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontain" | "Snezhnaya" | "Another World";
-    cv: {
-      english: string;
-      chinese: string;
-      japanese: string;
-      korean: string;
-    };
-    image: {
-      cover: string,
-      portrait: string,
-    };
-    build?: BuildCharacter;
-    talent?: Talent[];
-    constellation?: Constellation[];
+  // export interface Character extends General.MongoDBDocument {
+  //   lang: "Indonesian" | "English";
+  //   name: string;
+  //   description: string;
+  //   ascendStatus: string;
+  //   ascendMaterial?: UpgradeMaterial;
+  //   rarity: string;
+  //   element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro";
+  //   weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";
+  //   gender: "Female" | "Male" | "Perempuan" | "Pria";
+  //   region: "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontain" | "Snezhnaya" | "Another World";
+  //   cv: {
+  //     english: string;
+  //     chinese: string;
+  //     japanese: string;
+  //     korean: string;
+  //   };
+  //   image: {
+  //     cover: string,
+  //     portrait: string,
+  //   };
+  //   build?: BuildCharacter;
+  //   talent?: Talent[];
+  //   constellation?: Constellation[];
+  // }
+
+  // type CharacterInfo = Pick<Character, "rarity" | "description" | "element" | "weapon">;
+
+  interface Character {
+    _id: string; // ID dokumen
+    characterName: string; // Nama karakter
+    slug: string;
+    image: CharacterImage; // Gambar karakter
+    gender: "female" | "male"; // Jenis kelamin
+    region:
+      | "Mondstadt"
+      | "Liyue"
+      | "Inazuma"
+      | "Sumeru"
+      | "Fontain"
+      | "Natlan"
+      | "Snezhnaya"
+      | "Another World"; // Region
+    element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro"; // Elemen
+    rarity: "4" | "5"; // Rarity
+    weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst"; // Senjata
+    ascendStatus: string; // Status ascend
+    description: string; // Deskripsi karakter
+    cv: CharacterVoiceActor; // Voice actor
+    createdAt: string; // Tanggal dibuat
+    updatedAt: string; // Tanggal diupdate
   }
 
-  type CharacterInfo = Pick<Character, "rarity" | "description" | "element" | "weapon">;
+  interface CharacterImage {
+    cover: string;
+    portrait: string;
+  }
 
-  type CharacterTable = Pick<Character, "_id" | "name" | "element" | "rarity" | "region" | "weapon" | "image">;
+  type CharacterTable = Pick<
+    Character,
+    "_id" | "characterName" | "element" | "rarity" | "region" | "weapon" | "image" | "slug"
+  >;
 
+  interface CharacterVoiceActor {
+    english: string;
+    chinese: string;
+    japanese: string;
+    korean: string;
+  }
 
   // NON-FIXED
   export interface Artifact extends General.MongoDBDocument {
@@ -48,7 +87,10 @@ namespace GenshinImpact {
     circlet: ArtifactSub;
   }
 
-  export type ArtifactDoc = Pick<Artifact, "_id" | "name" | "rarityList" | "effect2pc" | "effect4pc" | "effectOther">;
+  export type ArtifactDoc = Pick<
+    Artifact,
+    "_id" | "name" | "rarityList" | "effect2pc" | "effect4pc" | "effectOther"
+  >;
 
   export interface ArtifactSub {
     name: string;
@@ -58,7 +100,10 @@ namespace GenshinImpact {
     image?: string;
   }
 
-  export type ArtifactSubDoc = Pick<Artifact, "flowe" | "plume" | "sands" | "goblet" | "circlet">;
+  export type ArtifactSubDoc = Pick<
+    Artifact,
+    "flowe" | "plume" | "sands" | "goblet" | "circlet"
+  >;
 
   export type ArtifactTable = Pick<Artifact, "_id" | "name" | "rarityList">;
 
@@ -309,7 +354,7 @@ namespace GenshinImpact {
           id: number;
           name: string;
           count: number;
-        }
+        },
       ];
       ascend2: [
         {
@@ -331,7 +376,7 @@ namespace GenshinImpact {
           id: number;
           name: string;
           count: number;
-        }
+        },
       ];
       ascend3: [
         {
@@ -353,7 +398,7 @@ namespace GenshinImpact {
           id: number;
           name: string;
           count: number;
-        }
+        },
       ];
       ascend4: [
         {
@@ -375,7 +420,7 @@ namespace GenshinImpact {
           id: number;
           name: string;
           count: number;
-        }
+        },
       ];
       ascend5: [
         {
@@ -397,7 +442,7 @@ namespace GenshinImpact {
           id: number;
           name: string;
           count: number;
-        }
+        },
       ];
       ascend6: [
         {
@@ -419,7 +464,7 @@ namespace GenshinImpact {
           id: number;
           name: string;
           count: number;
-        }
+        },
       ];
     };
     images: {
@@ -446,7 +491,7 @@ namespace GenshinImpact {
     };
   }
 
-  export interface ApiTalentCombatDataIcon extends ApiTalentCombatData{
+  export interface ApiTalentCombatDataIcon extends ApiTalentCombatData {
     icon?: string;
   }
 
@@ -484,7 +529,6 @@ namespace GenshinImpact {
     team: string[];
   }
 
-  
   export interface Constellation extends General.MongoDBDocument {
     charName: string;
     constellation: {
@@ -499,7 +543,7 @@ namespace GenshinImpact {
 
   export type ConstellationTable = Omit<Constellation, "constellation">;
 
-  export interface GeneralInfo{
+  export interface GeneralInfo {
     name: string;
     id: string;
     image: string;
@@ -514,7 +558,10 @@ namespace GenshinImpact {
     image?: string;
   }
 
-  export type MaterialTable = Pick<Material, "name" | "typeMaterial" | "rarity" | "_id">;
+  export type MaterialTable = Pick<
+    Material,
+    "name" | "typeMaterial" | "rarity" | "_id"
+  >;
 
   export interface Misc {
     ascendStatus: string[];

@@ -5,7 +5,6 @@ import { downloadLink } from "./_data";
 import { Link } from "@/navigation";
 import Image from "next/image";
 import { BodyProps } from "./_interface";
-import { getSlug } from "./_utils";
 
 /** Header Section */
 
@@ -72,20 +71,7 @@ export function Body({ characters }: BodyProps) {
 }
 
 const Characters = ({ characters }: Pick<BodyProps, "characters">) => {
-  const data: GenshinImpact.CharacterTable[] = characters
-    .slice(0, 14)
-    .sort()
-    .map((d) => {
-      return {
-        _id: d._id,
-        name: d.name,
-        element: d.element,
-        rarity: d.rarity,
-        region: d.region,
-        weapon: d.weapon,
-        image: d.image,
-      };
-    });
+  const data = characters.slice(0,14);
 
   return (
     <div className="flex flex-col content-center flex-wrap justify-center bg-slate-800">
@@ -94,7 +80,7 @@ const Characters = ({ characters }: Pick<BodyProps, "characters">) => {
       </h3>
       <div className="min-h-[100px] w-full grid grid-cols-7 p-4 gap-4">
         {data.map((d) => (
-          <Characters_List key={d.name} character={d} />
+          <Characters_List key={d.characterName} character={d} />
         ))}
       </div>
       <div className="block text-center my-4 border-t-4 border-double border-t-white pt-4">
@@ -109,12 +95,12 @@ const Characters = ({ characters }: Pick<BodyProps, "characters">) => {
   );
 };
 
-const Characters_List = ({
+export const Characters_List = ({
   character,
 }: {
   character: GenshinImpact.CharacterTable;
 }) => {
-  const slug = getSlug(character.name);
+  const slug = character.slug;
   return (
     <Link
       href={`/genshin-impact/${slug}`}
@@ -139,13 +125,13 @@ const Characters_List = ({
           src={character.image.portrait}
           fill
           sizes="auto"
-          alt={character.name}
-          title={character.name}
+          alt={character.characterName}
+          title={character.characterName}
           className={`w-auto h-auto object-cover object-bottom group-hover:scale-125 transition-all duration-200`}
         />
       </div>
       <p className="font-bold text-center text-sm font-poppins mt-2 text-white line-clamp-1">
-        {character.name}
+        {character.characterName}
       </p>
     </Link>
   );
