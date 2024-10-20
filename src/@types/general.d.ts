@@ -1,5 +1,26 @@
 namespace General {
-  export type AdminQuery = AdminQueryUser | AdminQueryGameEvertale | AdminQueryGameGenshin;
+  // FIXED
+
+  // Interfaces
+  interface DataGame {
+    gameName: string;
+    gameSub: string;
+  }
+
+  interface DownloadLink {
+    link: string;
+    imageAlt: string;
+    imageSrc: string;
+  }
+
+  // types
+  type DownloadProvider = "playstore" | "appstore" | "psp" | "epicstore";
+
+  // NON-FIXED
+  export type AdminQuery =
+    | AdminQueryUser
+    | AdminQueryGameEvertale
+    | AdminQueryGameGenshin;
 
   interface AdminQueryGameEvertale {
     field: "evertale";
@@ -37,7 +58,13 @@ namespace General {
 
   export interface GameGenshinImpact {
     game: "Genshin Impact";
-    category: "Artifact" | "Character" | "Material" | "Weapon" | "Talent" | "Constellations";
+    category:
+      | "Artifact"
+      | "Character"
+      | "Material"
+      | "Weapon"
+      | "Talent"
+      | "Constellations";
   }
 
   export interface MongoDBDocument {
@@ -59,7 +86,14 @@ namespace General {
     lang: "English" | "Indonesian" | "English & Indonesian";
     game: {
       name: "Evertale" | "Genshin Impact" | "Mobile Legends";
-      topic: "Character" | "Weapon" | "Accessory" | "Artifact" | "Material" | "Constellations" | "Talent";
+      topic:
+        | "Character"
+        | "Weapon"
+        | "Accessory"
+        | "Artifact"
+        | "Material"
+        | "Constellations"
+        | "Talent";
     };
     content: ObjectId;
     author: string;

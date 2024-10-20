@@ -72,3 +72,8 @@ export const weapon:WeaponState[]=[
         img: "/Genshin-Impact/assets/Weapon-class-sword-icon.webp"
     },
 ]
+
+export const decsription_GenshinImpact:General.DataGame = {
+    gameName:"Genshin Impact",
+    gameSub: "Explore sprawling landscapes, bustling cities, and mythical dungeons in this expansive open-world RPG!"
+}
