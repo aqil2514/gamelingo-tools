@@ -2,6 +2,39 @@
 // PLEASE SORT THE DATA BY ALPHABETICAL
 
 namespace GenshinImpact {
+  // FIXED
+  export interface Character extends General.MongoDBDocument {
+    lang: "Indonesian" | "English";
+    name: string;
+    description: string;
+    ascendStatus: string;
+    ascendMaterial?: UpgradeMaterial;
+    rarity: string;
+    element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro";
+    weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";
+    gender: "Female" | "Male" | "Perempuan" | "Pria";
+    region: "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontain" | "Snezhnaya" | "Another World";
+    cv: {
+      english: string;
+      chinese: string;
+      japanese: string;
+      korean: string;
+    };
+    image: {
+      cover: string,
+      portrait: string,
+    };
+    build?: BuildCharacter;
+    talent?: Talent[];
+    constellation?: Constellation[];
+  }
+
+  type CharacterInfo = Pick<Character, "rarity" | "description" | "element" | "weapon">;
+
+  type CharacterTable = Pick<Character, "_id" | "name" | "element" | "rarity" | "region" | "weapon" | "image">;
+
+
+  // NON-FIXED
   export interface Artifact extends General.MongoDBDocument {
     name: string;
     rarityList: string[];
@@ -451,41 +484,7 @@ namespace GenshinImpact {
     team: string[];
   }
 
-  export interface Character extends General.MongoDBDocument {
-    lang: "Indonesian" | "English";
-    name: string;
-    description: string;
-    ascendStatus: string;
-    ascendMaterial?: UpgradeMaterial;
-    rarity: string;
-    element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro";
-    weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";
-    gender: "Female" | "Male" | "Perempuan" | "Pria";
-    region: "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontain" | "Snezhnaya" | "Another World";
-    cv: {
-      english: string;
-      chinese: string;
-      japanese: string;
-      korean: string;
-    };
-    image: {
-      cover: string,
-      portrait: string,
-    };
-    build?: BuildCharacter;
-    talent?: Talent[];
-    constellation?: Constellation[];
-  }
-
-  export interface CharacterInfo extends GeneralInfo{
-    rarity: string;
-    desc: string;
-    element: Character["element"];
-    weapon: Character["weapon"];
-  }
-
-  export type CharacterTable = Pick<Character, "_id" | "name" | "element" | "rarity" | "region" | "weapon">;
-
+  
   export interface Constellation extends General.MongoDBDocument {
     charName: string;
     constellation: {

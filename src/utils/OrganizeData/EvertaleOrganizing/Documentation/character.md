@@ -41,4 +41,3 @@ const characterData = {
 };
 
 const organizedCharacterData = evertaleOrganizing.character(characterData, characterData.images);
-console.log(organizedCharacterData);

@@ -31,4 +31,3 @@ const userData = {
 };
 
 const organizedUserData = adminOrganizing.user(userData);
-console.log(organizedUserData);

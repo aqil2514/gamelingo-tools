@@ -30,8 +30,6 @@ export default function FetchData() {
       });
 
       setUri(res.data.data);
-      console.log(res.data.data)
-      console.log(uri)
     } catch (error) {
       console.error();
     } finally {

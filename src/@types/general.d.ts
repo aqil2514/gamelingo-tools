@@ -2,6 +2,10 @@ namespace General {
   // FIXED
 
   // Interfaces
+  interface ParamsBasic {
+    lang: Languages;
+  }
+
   interface DataGame {
     gameName: string;
     gameSub: string;
@@ -15,6 +19,8 @@ namespace General {
 
   // types
   type DownloadProvider = "playstore" | "appstore" | "psp" | "epicstore";
+
+  type Languages = "id" | "en";
 
   // NON-FIXED
   export type AdminQuery =
