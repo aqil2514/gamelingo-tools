@@ -1,5 +1,32 @@
 import { groq } from "next-sanity";
 
+export const characterPostQuery = groq`
+*[_type == 'genshinImpactCharacter' && slug.current == $slug] {
+  _id,
+  'slug': slug.current,
+  characterName,
+  image {
+    cover,
+    portrait
+  },
+  gender,
+  region,
+  element,
+  rarity,
+  weapon,
+  ascendStatus,
+  description,
+  cv {
+    english,
+    chinese,
+    japanese,
+    korean
+  },
+  createdAt,
+  updatedAt
+}
+`;
+
 export const characterQuery = groq`
 *[_type == 'genshinImpactCharacter'] {
   _id,

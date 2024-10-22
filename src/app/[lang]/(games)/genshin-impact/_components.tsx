@@ -103,7 +103,7 @@ export const Characters_List = ({
   const slug = character.slug;
   return (
     <Link
-      href={`/genshin-impact/${slug}`}
+      href={`/genshin-impact/character/${slug}`}
       className="relative flex flex-col justify-center items-center my-4 bg-slate-900 rounded-lg p-4 group"
     >
       <div className="absolute -top-7 left-0 w-full flex justify-center gap-1 z-10">
