@@ -1,5 +1,6 @@
 import { getSanityImage, sanityClient } from "@/sanity/client";
 import { characterTableQuery } from "@/sanity/queries-genshin";
+import next from "next";
 
 export const getCharacterTable = async () => {
   const characters = await sanityClient.fetch<GenshinImpact.CharacterTable[]>(characterTableQuery);

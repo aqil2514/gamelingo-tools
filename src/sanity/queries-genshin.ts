@@ -28,7 +28,7 @@ export const characterQuery = groq`
 `;
 
 export const characterTableQuery = groq`
-*[_type == "genshinImpactCharacter"] {
+*[_type == "genshinImpactCharacter" && defined(slug.current) && !(_id in path("drafts.**"))] {
       _id,
       'slug': slug.current,
       characterName,
