@@ -1,13 +1,21 @@
-"use client"
+"use client";
 
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
-export const PostContent = ({ data }: { data: GenshinImpact.Character }) => {
-    const t = useTranslations("GenshinCharacterDetail");
-
+export function PostContent({ data }: { data: GenshinImpact.Character }) {
+  console.log(data.talents)
   return (
     <div className="main-wrapper py-20">
+      <PostContentIntro data={data} />
+    </div>
+  );
+}
+
+const PostContentIntro = ({ data }: { data: GenshinImpact.Character }) => {
+  const t = useTranslations("GenshinCharacterDetail");
+  return (
+    <>
       <h1 className="text-white font-nova-square text-center font-bold text-3xl my-8">
         {data.characterName}
       </h1>
@@ -23,7 +31,7 @@ export const PostContent = ({ data }: { data: GenshinImpact.Character }) => {
         </div>
         <div className="text-white font-poppins flex flex-col justify-center">
           <p className="mb-4">
-            <strong>{t("characterName")}</ strong> : {data.characterName}
+            <strong>{t("characterName")}</strong> : {data.characterName}
           </p>
           <p className="mb-4">
             <strong>{t("gender")}</strong> : {data.gender}
@@ -63,6 +71,6 @@ export const PostContent = ({ data }: { data: GenshinImpact.Character }) => {
           </fieldset>
         </div>
       </div>
-    </div>
+    </>
   );
 };

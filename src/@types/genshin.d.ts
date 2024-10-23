@@ -31,12 +31,44 @@ namespace GenshinImpact {
 
   // type CharacterInfo = Pick<Character, "rarity" | "description" | "element" | "weapon">;
 
+  /**
+   * Mewakili karakter dalam Genshin Impact.
+   */
   interface Character {
-    _id: string; // ID dokumen
-    characterName: string; // Nama karakter
+    /**
+     * ID dokumen unik untuk karakter.
+     * @type {string}
+     */
+    _id: string;
+
+    /**
+     * Nama karakter.
+     * @type {string}
+     */
+    characterName: string;
+
+    /**
+     * Versi ramah URL dari nama karakter.
+     * @type {string}
+     */
     slug: string;
-    image: CharacterImage; // Gambar karakter
-    gender: "female" | "male"; // Jenis kelamin
+
+    /**
+     * Gambar yang terkait dengan karakter.
+     * @type {CharacterImage}
+     */
+    image: CharacterImage;
+
+    /**
+     * Jenis kelamin karakter.
+     * @type {"female" | "male"}
+     */
+    gender: "female" | "male";
+
+    /**
+     * Wilayah tempat karakter berasal.
+     * @type {"Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontain" | "Natlan" | "Snezhnaya" | "Another World"}
+     */
     region:
       | "Mondstadt"
       | "Liyue"
@@ -45,25 +77,122 @@ namespace GenshinImpact {
       | "Fontain"
       | "Natlan"
       | "Snezhnaya"
-      | "Another World"; // Region
-    element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro"; // Elemen
-    rarity: "4" | "5"; // Rarity
-    weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst"; // Senjata
-    ascendStatus: string; // Status ascend
-    description: string; // Deskripsi karakter
-    cv: CharacterVoiceActor; // Voice actor
-    createdAt: string; // Tanggal dibuat
-    updatedAt: string; // Tanggal diupdate
+      | "Another World";
+
+    /**
+     * Tipe elemen karakter.
+     * @type {"Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro"}
+     */
+    element: "Cryo" | "Pyro" | "Dendro" | "Geo" | "Hydro" | "Anemo" | "Electro";
+
+    /**
+     * Tingkat rarity karakter.
+     * @type {"4" | "5"}
+     */
+    rarity: "4" | "5";
+
+    /**
+     * Tipe senjata yang digunakan karakter.
+     * @type {"Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst"}
+     */
+    weapon: "Sword" | "Polearm" | "Claymore" | "Bow" | "Catalyst";
+
+    /**
+     * Status ascend karakter.
+     * @type {string}
+     */
+    ascendStatus: string;
+
+    /**
+     * Deskripsi singkat tentang karakter.
+     * @type {string}
+     */
+    description: string;
+
+    /**
+     * Informasi pengisi suara untuk karakter.
+     * @type {CharacterVoiceActor}
+     */
+    cv: CharacterVoiceActor;
+
+    /**
+     * Tanggal saat karakter dibuat.
+     * @type {string}
+     */
+    createdAt: string;
+
+    /**
+     * Tanggal saat karakter terakhir diperbarui.
+     * @type {string}
+     */
+    updatedAt: string;
+
+    /**
+     * Daftar talenta yang terkait dengan karakter.
+     * @type {Talent[]}
+     */
+    talents: Talent[];
+  }
+
+  /**
+   * Mewakili gambar yang terkait dengan karakter.
+   */
+
+  interface ChildText {
+    text: string; // Teks yang disimpan dalam children
+    marks: string[]; // Daftar marks yang diterapkan pada teks ini
+  }
+
+  interface MarkDef {
+    _key: string;
+    markType: string; // Misalnya "strong", "em", dll.
+    text: string; // Teks yang terkait dengan mark
   }
 
   interface CharacterImage {
+    /**
+     * URL gambar sampul karakter.
+     * @type {string}
+     */
     cover: string;
+
+    /**
+     * URL gambar potret karakter.
+     * @type {string}
+     */
     portrait: string;
+  }
+
+  interface Talent {
+    /** Nama Talent */
+    talentName: string;
+    /** Deskripsi Talent */
+    description: TalentDescription[];
+    /** Url gambar talent */
+    image: string; // URL untuk gambar talent
+  }
+
+  interface TalentDescription {
+    /** Kunci unik untuk blok deskripsi */
+    _key: string;
+    /** Array yang menyimpan teks dan marks */
+    text: ChildText[];
+    /** Arra definisi mark */
+    markDefs: MarkDef[];
+    /** menyimpan informasi jika ada list */
+    listItem: string | null;
   }
 
   type CharacterTable = Pick<
     Character,
-    "_id" | "characterName" | "element" | "rarity" | "region" | "weapon" | "image" | "slug"
+    | "_id"
+    | "characterName"
+    | "element"
+    | "rarity"
+    | "region"
+    | "weapon"
+    | "image"
+    | "slug"
   >;
 
   interface CharacterVoiceActor {
@@ -569,41 +698,41 @@ namespace GenshinImpact {
     artifactSubStatus: string[];
   }
 
-  export interface Talent extends General.MongoDBDocument {
-    charName: string;
-    combats: {
-      combat1: ApiTalentCombatDataIcon;
-      combat2: ApiTalentCombatDataIcon;
-      combat3: ApiTalentCombatDataIcon;
-      combatsp?: ApiTalentCombatDataIcon;
-    };
-    passives: {
-      passive1: BasicInfo;
-      passive2: BasicInfo;
-      passive3: BasicInfo;
-    };
-    costs: {
-      lvl2: UpgradeMaterialItem[];
-      lvl3: UpgradeMaterialItem[];
-      lvl4: UpgradeMaterialItem[];
-      lvl5: UpgradeMaterialItem[];
-      lvl6: UpgradeMaterialItem[];
-      lvl7: UpgradeMaterialItem[];
-      lvl8: UpgradeMaterialItem[];
-      lvl9: UpgradeMaterialItem[];
-      lvl10: UpgradeMaterialItem[];
-    };
-  }
+  // export interface Talent extends General.MongoDBDocument {
+  //   charName: string;
+  //   combats: {
+  //     combat1: ApiTalentCombatDataIcon;
+  //     combat2: ApiTalentCombatDataIcon;
+  //     combat3: ApiTalentCombatDataIcon;
+  //     combatsp?: ApiTalentCombatDataIcon;
+  //   };
+  //   passives: {
+  //     passive1: BasicInfo;
+  //     passive2: BasicInfo;
+  //     passive3: BasicInfo;
+  //   };
+  //   costs: {
+  //     lvl2: UpgradeMaterialItem[];
+  //     lvl3: UpgradeMaterialItem[];
+  //     lvl4: UpgradeMaterialItem[];
+  //     lvl5: UpgradeMaterialItem[];
+  //     lvl6: UpgradeMaterialItem[];
+  //     lvl7: UpgradeMaterialItem[];
+  //     lvl8: UpgradeMaterialItem[];
+  //     lvl9: UpgradeMaterialItem[];
+  //     lvl10: UpgradeMaterialItem[];
+  //   };
+  // }
 
-  export type TalentTable = Pick<Talent, "_id" | "charName">;
+  // export type TalentTable = Pick<Talent, "_id" | "charName">;
 
-  interface TalentStatus {
-    statName: string;
-    status: {
-      statLvl: string;
-      statValue: string;
-    }[];
-  }
+  // interface TalentStatus {
+  //   statName: string;
+  //   status: {
+  //     statLvl: string;
+  //     statValue: string;
+  //   }[];
+  // }
 
   export interface UpgradeMaterial {
     ascend1: UpgradeMaterialItem[];

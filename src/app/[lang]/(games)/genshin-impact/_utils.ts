@@ -19,14 +19,21 @@ export const getCharacterTable = async () => {
 
 export const getCharacter = async (slug:string) => {
   const character = await sanityClient.fetch<GenshinImpact.Character[]>(characterPostQuery, {slug});
+  const noImage = "/no-profile.png"
 
   const data:GenshinImpact.Character[] = character.map((character) => {
     return{
       ...character,
       image: {
-        cover: character.image.cover ? getSanityImage(character.image.cover).url() : "/no-profile.png",
-        portrait: character.image.portrait ? getSanityImage(character.image.portrait).url() : "/no-profile.png",
-      }
+        cover: character.image.cover ? getSanityImage(character.image.cover).url() : noImage,
+        portrait: character.image.portrait ? getSanityImage(character.image.portrait).url() : noImage,
+      },
+      talents: character.talents.map((talent) => {
+        return{
+          ...talent,
+          image: talent.image ? getSanityImage(talent.image).url() : noImage
+        }
+      })
     }
   })
 

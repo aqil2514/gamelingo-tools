@@ -1,9 +1,4 @@
-import PostGenshinImpact from "@/components/Game/GenshinImpact/Post";
 import { baseUrl } from "@/lib/Data";
-import { Post } from "@/models/General/Post";
-import { redirect } from "@/navigation";
-import { sanityClient } from "@/sanity/client";
-import { characterPostQuery } from "@/sanity/queries-genshin";
 import { Metadata } from "next";
 import { getCharacter } from "../../_utils";
 import { PostContent } from "./_components";

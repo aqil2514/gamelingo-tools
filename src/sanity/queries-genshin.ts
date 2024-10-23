@@ -13,6 +13,23 @@ export const characterPostQuery = groq`
   region,
   element,
   rarity,
+  "talents": talentsField[]{
+    talentName,
+    description[]{
+      _key,
+      "text": children[]{
+        "text": text,
+        "marks": marks[]
+      },
+      markDefs[]{
+        _key,
+        "markType": _type,
+        "text": text
+      },
+      listItem
+    },
+    image
+  },
   weapon,
   ascendStatus,
   description,
