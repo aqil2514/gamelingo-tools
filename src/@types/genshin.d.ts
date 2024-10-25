@@ -131,7 +131,7 @@ namespace GenshinImpact {
      * Daftar talenta yang terkait dengan karakter.
      * @type {Talent[]}
      */
-    talents: Talent[];
+    talents?: Talent[];
   }
 
   /**

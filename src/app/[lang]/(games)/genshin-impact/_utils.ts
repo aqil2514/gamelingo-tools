@@ -28,12 +28,12 @@ export const getCharacter = async (slug:string) => {
         cover: character.image.cover ? getSanityImage(character.image.cover).url() : noImage,
         portrait: character.image.portrait ? getSanityImage(character.image.portrait).url() : noImage,
       },
-      talents: character.talents.map((talent) => {
+      talents: character.talents ? character.talents.map((talent) => {
         return{
           ...talent,
           image: talent.image ? getSanityImage(talent.image).url() : noImage
         }
-      })
+      }) : undefined
     }
   })
 
