@@ -1,7 +1,7 @@
 import { groq } from "next-sanity";
 
 export const characterPostQuery = groq`
-*[_type == 'genshinImpactCharacter' && slug.current == $slug] {
+*[_type == 'genshinImpactCharacter' && slug.current == $slug && !(_id in path("drafts.**"))] {
   _id,
   'slug': slug.current,
   characterName,
@@ -15,6 +15,40 @@ export const characterPostQuery = groq`
   rarity,
   "talents": talentsField[]{
     talentName,
+    description[]{
+      _key,
+      "text": children[]{
+        "text": text,
+        "marks": marks[]
+      },
+      markDefs[]{
+        _key,
+        "markType": _type,
+        "text": text
+      },
+      listItem
+    },
+    image
+  },
+  "passives": passiveTalentsField[]{
+    talentName,
+    description[]{
+      _key,
+      "text": children[]{
+        "text": text,
+        "marks": marks[]
+      },
+      markDefs[]{
+        _key,
+        "markType": _type,
+        "text": text
+      },
+      listItem
+    },
+    image
+  },
+  "constellations": constellationsField[]{
+    "talentName": name,
     description[]{
       _key,
       "text": children[]{

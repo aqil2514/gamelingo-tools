@@ -131,7 +131,18 @@ namespace GenshinImpact {
      * Daftar talenta yang terkait dengan karakter.
      * @type {Talent[]}
      */
+
+    passives?: Talent[];
+    /**
+     * Daftar talenta passives yang terkait dengan karakter.
+     * @type {Talent[]}
+     */
     talents?: Talent[];
+    /**
+     * Daftar konstelasi yang terkait dengan karakter.
+     * @type {Talent[]}
+     */
+    constellations?: Talent[];
   }
 
   /**

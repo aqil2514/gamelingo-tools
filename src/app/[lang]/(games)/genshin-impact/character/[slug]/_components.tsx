@@ -108,86 +108,95 @@ const PostContentIntroVoiceActor = ({
 };
 
 const PostContentTalent = ({ data }: { data: GenshinImpact.Character }) => {
-  if (!data.talents)
+  return (
+    <div className="flex flex-col gap-4">
+      <PostContentSkillList skills={data.talents} title="Active Talents" />
+      <PostContentSkillList skills={data.passives} title="Passive Talents" />
+      <PostContentSkillList skills={data.constellations} title="Constellations" />
+    </div>
+  );
+};
+
+const PostContentSkillList = ({
+  skills,
+  title,
+}: {
+  skills?: GenshinImpact.Talent[];
+  title: string;
+}) => {
+  if (!skills || skills.length === 0)
     return (
       <div className="bg-slate-900 mx-auto my-4 p-4 w-[90%] rounded-xl">
         <p className="font-nova-square text-white text-center font-bold">
-          Data Talent belum tersedia
+          Data {title} belum tersedia
         </p>
       </div>
     );
 
   return (
     <div className="bg-slate-900 mx-auto my-4 p-4 w-[90%] rounded-xl">
-      {data.talents.map((talent) => {
-        return (
-          <div
-            key={talent.talentName}
-            className="border-b-4 border-white border-double rounded py-2"
-          >
-            <PostContentTalentItem talent={talent} />
-            <PostContentTalentDescription description={talent.description} />
-          </div>
-        );
-      })}
+      <h3 className="font-merienda text-white text-xl">{title}</h3>
+      {skills.map((skill) => (
+        <div
+          key={skill.talentName}
+          className="border-b-4 border-white border-double rounded py-2"
+        >
+          <PostContentSkillItem skill={skill} />
+          <PostContentSkillDescription description={skill.description} />
+        </div>
+      ))}
     </div>
   );
 };
 
-const PostContentTalentDescription = ({
+const PostContentSkillItem = ({
+  skill,
+}: {
+  skill: GenshinImpact.Talent;
+}) => (
+  <div className="flex gap-4">
+    <Image
+      src={skill.image}
+      width={64}
+      height={64}
+      alt={`image ${skill.talentName}`}
+    />
+    <p className="font-bold font-nova-square text-white my-auto">
+      {skill.talentName}
+    </p>
+  </div>
+);
+
+const PostContentSkillDescription = ({
   description,
 }: {
   description: GenshinImpact.TalentDescription[];
-}) => {
-  return (
-    <div className="text-white font-poppins">
-      <ul className="list-disc pl-5">
-        {description.map((desc) =>
-          desc.listItem ? (
-            // Jika deskripsi merupakan list item, render sebagai li di dalam ul
-            desc.text.map((text, i) => (
-              <li key={`${desc._key}-${i}`}>{text.text}</li>
-            ))
-          ) : (
-            // Jika bukan, render sebagai paragraf
-            <div key={desc._key} className="flex gap-2">
-              {desc.text.map((text, i) => {
-                if (text.marks.includes("strong"))
-                  return (
-                    <strong key={`${desc._key}-text-${i}`} className="mb-2">
-                      {text.text}
-                    </strong>
-                  );
+}) => (
+  <div className="text-white font-poppins">
+    <ul className="list-disc pl-5">
+      {description.map((desc) =>
+        desc.listItem ? (
+          desc.text.map((text, i) => (
+            <li key={`${desc._key}-${i}`}>{text.text}</li>
+          ))
+        ) : (
+          <div key={desc._key} className="flex gap-2">
+            {desc.text.map((text, i) => {
+              if (text.marks.includes("strong"))
                 return (
-                  <p key={`${desc._key}-text-${i}`} className="mb-2">
+                  <strong key={`${desc._key}-text-${i}`} className="mb-2">
                     {text.text}
-                  </p>
+                  </strong>
                 );
-              })}
-            </div>
-          )
-        )}
-      </ul>
-    </div>
-  );
-};
-
-const PostContentTalentItem = ({
-  talent,
-}: {
-  talent: GenshinImpact.Talent;
-}) => {
-  return (
-    <div className="flex gap-4">
-      <Image
-        src={talent.image}
-        width={64}
-        height={64}
-        alt={`image ${talent.talentName}`}
-      />
-      <p className="font-bold font-nova-square text-white my-auto">
-        {talent.talentName}
-      </p>
-    </div>
-  );
-};
+              return (
+                <p key={`${desc._key}-text-${i}`} className="mb-2">
+                  {text.text}
+                </p>
+              );
+            })}
+          </div>
+        )
+      )}
+    </ul>
+  </div>
+);

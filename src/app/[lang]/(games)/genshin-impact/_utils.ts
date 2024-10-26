@@ -33,46 +33,21 @@ export const getCharacter = async (slug:string) => {
           ...talent,
           image: talent.image ? getSanityImage(talent.image).url() : noImage
         }
-      }) : undefined
+      }) : undefined,
+      passives: character.passives ? character.passives.map((passive) => {
+        return{
+          ...passive,
+          image: passive.image ? getSanityImage(passive.image).url() : noImage
+        }
+      }) : undefined,
+      constellations: character.constellations ? character.constellations.map((constellation) => {
+        return{
+          ...constellation,
+          image: constellation.image ? getSanityImage(constellation.image).url() : noImage
+        }
+      }) : undefined,
     }
   })
 
   return data;
 }
-
-// export const getCharacters = async (lang: General.Languages) => {
-//   const docSelect: Record<typeof lang, Model<any>> = {
-//     en: CharacterEN,
-//     id: CharacterID,
-//   };
-
-//   const doc = docSelect[lang];
-
-//   const characters = (await doc.find()) as GenshinImpact.Character[];
-
-//   return characters;
-// };
-
-// export const getSlug = (value: string) => {
-//   const slug = `${value.toLowerCase()}`;
-//   return slug;
-// };
-
-// export const convertToTable = (characters: GenshinImpact.Character[], slice?: number) => {
-//     const data: GenshinImpact.CharacterTable[] = (slice ? characters.slice(0, slice) : characters)
-//       .sort()
-//       .map((d) => {
-//         return {
-//           _id: d._id,
-//           name: d.name,
-//           element: d.element,
-//           rarity: d.rarity,
-//           region: d.region,
-//           weapon: d.weapon,
-//           image: d.image,
-//         };
-//       });
-  
-//     return data;
-//   };
-  
