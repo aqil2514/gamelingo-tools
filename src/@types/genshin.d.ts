@@ -143,6 +143,11 @@ namespace GenshinImpact {
      * @type {Talent[]}
      */
     constellations?: Talent[];
+    /**
+     * Referensi URL.
+     * @type {General.URLReferences[]}
+     */
+    references?: General.URLReferences[];
   }
 
   /**

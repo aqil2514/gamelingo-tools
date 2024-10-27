@@ -24,6 +24,11 @@ namespace General {
     lang: Languages;
   }
 
+  interface URLReferences{
+    siteName:string,
+    src:string
+  }
+
   // types
   type DownloadProvider = "playstore" | "appstore" | "psp" | "epicstore";
 

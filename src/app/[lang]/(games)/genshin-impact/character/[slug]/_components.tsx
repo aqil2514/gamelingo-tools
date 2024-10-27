@@ -22,6 +22,7 @@ const PostContentIntro = ({ data }: { data: GenshinImpact.Character }) => {
         <PostContentIntroImage data={data} />
         <div className="text-white font-poppins flex flex-col justify-center">
           <PostContentIntroDetail data={data} />
+          <PostContentIntroReferences data={data} />
           <PostContentIntroVoiceActor data={data} />
         </div>
       </div>
@@ -81,6 +82,33 @@ const PostContentIntroImage = ({ data }: { data: GenshinImpact.Character }) => {
   );
 };
 
+const PostContentIntroReferences = ({
+  data,
+}: {
+  data: GenshinImpact.Character;
+}) => {
+  const references = data.references;
+  const isThere = references && references.length !== 0;
+
+  return (
+    <>
+    <strong>Referensi Lengkap : </strong>
+      {isThere && (
+        <ul>
+          {references.map((ref) => (
+            <li key={ref.siteName} className="list-disc">
+              {/* Digunakan tag <a> dikarenakan merujuk ke website lain */}
+              <a href={ref.src} target="_blank">
+                {ref.siteName}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+};
+
 const PostContentIntroVoiceActor = ({
   data,
 }: {
@@ -112,7 +140,10 @@ const PostContentTalent = ({ data }: { data: GenshinImpact.Character }) => {
     <div className="flex flex-col gap-4">
       <PostContentSkillList skills={data.talents} title="Active Talents" />
       <PostContentSkillList skills={data.passives} title="Passive Talents" />
-      <PostContentSkillList skills={data.constellations} title="Constellations" />
+      <PostContentSkillList
+        skills={data.constellations}
+        title="Constellations"
+      />
     </div>
   );
 };
@@ -149,11 +180,7 @@ const PostContentSkillList = ({
   );
 };
 
-const PostContentSkillItem = ({
-  skill,
-}: {
-  skill: GenshinImpact.Talent;
-}) => (
+const PostContentSkillItem = ({ skill }: { skill: GenshinImpact.Talent }) => (
   <div className="flex gap-4">
     <Image
       src={skill.image}

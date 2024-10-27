@@ -13,6 +13,10 @@ export const characterPostQuery = groq`
   region,
   element,
   rarity,
+  "references":urlReferences[]{
+  siteName, 
+  src,
+  },
   "talents": talentsField[]{
     talentName,
     description[]{
