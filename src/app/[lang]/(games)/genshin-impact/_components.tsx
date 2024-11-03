@@ -1,3 +1,5 @@
+"use client";
+
 /** HEADER SECTION */
 
 import { decsription_GenshinImpact } from "@/lib/Data/gi";
@@ -6,60 +8,6 @@ import { Link } from "@/navigation";
 import Image from "next/image";
 import { BodyProps } from "./_interface";
 
-/** Header Section */
-
-export function Header() {
-  return (
-    <div
-      style={{
-        background:
-          "linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('/Genshin-Impact/hero-section.webp')",
-      }}
-      className="mt-14 px-4 w-full h-[50vh] bg-no-repeat bg-cover bg-fixed bg-bottom sm:bg-top flex flex-col content-center justify-center"
-    >
-      <GameDescription />
-      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 p-4">
-        <DownloadButton />
-      </div>
-    </div>
-  );
-}
-
-const GameDescription = () => {
-  const gameName = decsription_GenshinImpact.gameName;
-  const gameSub = decsription_GenshinImpact.gameSub;
-  return (
-    <>
-      <h1 className="text-center text-white font-bold text-2xl md:text-5xl font-merienda mb-2">
-        {gameName}
-      </h1>
-      <p className="text-center text-white font-bold text-xs md:text-lg font-mclaren mb-2">
-        {gameSub}
-      </p>
-    </>
-  );
-};
-
-const DownloadButton = () => {
-  const providers = Object.keys(downloadLink) as General.DownloadProvider[];
-  return (
-    <>
-      {providers.map((provider) => {
-        const information = downloadLink[provider];
-        return (
-          <Link key={information.imageAlt} href={information.link}>
-            <Image
-              width={200}
-              height={100}
-              alt={information.imageAlt}
-              src={information.imageSrc}
-            />
-          </Link>
-        );
-      })}
-    </>
-  );
-};
 
 /** Body Section */
 export function Body({ characters }: BodyProps) {
@@ -75,7 +23,9 @@ const Characters = ({ characters }: Pick<BodyProps, "characters">) => {
 
   return (
     <div>
-      <h3 className="text-white font-nova-square font-bold underline text-2xl mb-4 text-center">Karakter</h3>
+      <h3 className="text-white font-nova-square font-bold underline text-2xl mb-4 text-center">
+        Karakter
+      </h3>
       <div className="flex flex-col content-center flex-wrap justify-center bg-slate-800">
         <div className="min-h-[100px] w-full grid grid-cols-7 p-4 gap-4">
           {data.map((d) => (
@@ -134,5 +84,60 @@ export const Characters_List = ({
         {character.characterName}
       </p>
     </Link>
+  );
+};
+
+/** Header Section */
+
+export function Header() {
+  return (
+    <div
+      style={{
+        background:
+          "linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('/Genshin-Impact/hero-section.webp')",
+      }}
+      className="mt-14 px-4 w-full h-[50vh] bg-no-repeat bg-cover bg-fixed bg-bottom sm:bg-top flex flex-col content-center justify-center"
+    >
+      <GameDescription />
+      <div className="grid md:grid-cols-4 grid-cols-2 gap-4 p-4">
+        <DownloadButton />
+      </div>
+    </div>
+  );
+}
+
+const GameDescription = () => {
+  const gameName = decsription_GenshinImpact.gameName;
+  const gameSub = decsription_GenshinImpact.gameSub;
+  return (
+    <>
+      <h1 className="text-center text-white font-bold text-2xl md:text-5xl font-merienda mb-2">
+        {gameName}
+      </h1>
+      <p className="text-center text-white font-bold text-xs md:text-lg font-mclaren mb-2">
+        {gameSub}
+      </p>
+    </>
+  );
+};
+
+const DownloadButton = () => {
+  const providers = Object.keys(downloadLink) as General.DownloadProvider[];
+  return (
+    <>
+      {providers.map((provider) => {
+        const information = downloadLink[provider];
+        return (
+          <Link key={information.imageAlt} href={information.link}>
+            <Image
+              width={200}
+              height={100}
+              alt={information.imageAlt}
+              src={information.imageSrc}
+            />
+          </Link>
+        );
+      })}
+    </>
   );
 };

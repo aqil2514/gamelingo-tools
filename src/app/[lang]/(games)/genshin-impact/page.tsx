@@ -1,7 +1,5 @@
 import { Metadata } from "next";
 import { Body, Header } from "./_components";
-import { Model } from "mongoose";
-import { CharacterEN, CharacterID } from "@/models/GenshinImpact/Character";
 import { getCharacterTable } from "./_utils";
 
 export const metadata: Metadata = {
@@ -9,11 +7,7 @@ export const metadata: Metadata = {
   description: "Step Into a Vast Magical World of Adventure",
 };
 
-export default async function GenshinImpact({
-  params,
-}: {
-  params: General.ParamsBasic;
-}) {
+export default async function GenshinImpact() {
   const characters = await getCharacterTable();
 
   return (

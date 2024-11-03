@@ -13,8 +13,6 @@ export default async function GenshinImpactCharacter({
 }) {
   const characters = await getCharacterTable();
 
-  // TODO : ADA BUG DI BENNET.SELALU NAMBAH SENDIRI
-
   return (
     <div className={"main-wrapper py-20"}>
       <div className="lg:px-20 md:px-10 px-4 py-10">

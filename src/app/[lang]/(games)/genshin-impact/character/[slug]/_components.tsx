@@ -2,6 +2,63 @@
 
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { elementColors } from "../../_data";
+import { usePathname } from "next/navigation";
+import { toSlugLowerCase, toSlugUpperCase } from "@/lib/utils";
+import { navigation } from "./_data";
+import Link from "next/link";
+
+export function Layout({ data }: { data: GenshinImpact.Character }) {
+  const element = data.element.toLowerCase();
+  const pathName = usePathname();
+  const characterName = toSlugUpperCase(pathName.split("/").pop() as string);
+
+  const backgroundColor = elementColors[element] || "#333";
+  return (
+    <div className="fixed min-h-screen flex flex-col items-center justify-center">
+      <Sheet>
+        <SheetTrigger
+          style={{ backgroundColor }}
+          className="text-white font-bold hover:scale-125 duration-200 p-4 rounded-[0_1rem_1rem_0]"
+        >
+          &gt;&gt;
+        </SheetTrigger>
+        <SheetContent
+          style={{ backgroundColor }}
+          side={"left"}
+          className="z-50 border-none pt-20"
+        >
+          <SheetHeader className="font-merienda font-bold">
+            <SheetTitle className="text-white font-merienda font-bold underline">
+              {characterName} Navigation
+            </SheetTitle>
+          </SheetHeader>
+          <div className="flex flex-col gap-2">
+            {navigation.map((nav) => (
+              <Link
+                replace
+                key={nav}
+                //@ts-ignore
+                href={`${pathName}#${toSlugLowerCase(nav)}`}
+                className="font-mclaren text-white"
+              >
+                {toSlugUpperCase(nav)}
+              </Link>
+            ))}
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+}
 
 export function PostContent({ data }: { data: GenshinImpact.Character }) {
   return (
@@ -15,12 +72,18 @@ export function PostContent({ data }: { data: GenshinImpact.Character }) {
 const PostContentIntro = ({ data }: { data: GenshinImpact.Character }) => {
   return (
     <>
-      <h1 className="text-white font-nova-square text-center font-bold text-3xl my-8">
+      <h1
+        className="text-white font-nova-square text-center font-bold text-3xl my-8"
+        id="intro"
+      >
         {data.characterName}
       </h1>
       <div className="bg-slate-900 p-4 mx-auto w-[95%] md:w-3/5 rounded-xl md:grid md:grid-cols-2 gap-4">
         <PostContentIntroImage data={data} />
         <div className="text-white font-poppins flex flex-col justify-center">
+          <h3 className="font-merienda text-white text-xl my-4 underline">
+            Intro
+          </h3>
           <PostContentIntroDetail data={data} />
           <PostContentIntroReferences data={data} />
           <PostContentIntroVoiceActor data={data} />
@@ -92,7 +155,7 @@ const PostContentIntroReferences = ({
 
   return (
     <>
-    <strong>Referensi Lengkap : </strong>
+      <strong>Referensi Lengkap : </strong>
       {isThere && (
         <ul>
           {references.map((ref) => (
@@ -166,7 +229,12 @@ const PostContentSkillList = ({
 
   return (
     <div className="bg-slate-900 mx-auto my-4 p-4 w-[90%] rounded-xl">
-      <h3 className="font-merienda text-white text-xl">{title}</h3>
+      <h3
+        className="font-merienda text-white text-xl"
+        id={toSlugLowerCase(title)}
+      >
+        {title}
+      </h3>
       {skills.map((skill) => (
         <div
           key={skill.talentName}

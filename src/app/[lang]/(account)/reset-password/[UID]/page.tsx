@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Verify from "./verify";
 import { DB, supabase } from "@/lib/supabase";
 
 export const metadata: Metadata = {
@@ -42,7 +41,7 @@ export default async function ResetPassword({ params }: { params: ParamsProps })
   return (
     <div className="bg-zinc-900 min-h-screen py-20 w-full">
       <h1 className="font-nova-square text-white font-bold text-center text-5xl">Ganti Password</h1>
-      <Verify email={email} />
+      {/* <Verify email={email} /> */}
     </div>
   );
 }

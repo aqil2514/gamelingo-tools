@@ -13,6 +13,7 @@
 /coverage
 /app/api/testing/
 postgres.session.sql
+tailwind.config copy.ts
 
 #debug
 /error.txt

@@ -1,22 +1,25 @@
 "use client";
 
-import { SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { Characters_List } from "../_components";
 import { useMessages } from "next-intl";
-import Button, { VariantClass } from "@/components/Input/Button";
-import { CharacterFilterProps, FilterState } from "../_interface";
+import {
+  CharacterFilterProps,
+  CharacterSortProps,
+  FilterState,
+  SortBy,
+} from "../_interface";
 import { element, weapon } from "../_data";
 import Image from "next/image";
-import { getCharacterTable } from "../_utils";
 import { useCharacters } from "./_logic";
-import TextField from "@/components/Input/TextField";
+import { Button } from "@/components/ui/button";
 
 export function Characters({
   characters,
 }: {
   characters: GenshinImpact.CharacterTable[];
 }) {
-  const { setFilter, filter, chars, setCharNameInput } =
+  const { setFilter, filter, chars, setCharNameInput, sort, setSort } =
     useCharacters(characters);
   return (
     <div className="p-4">
@@ -28,6 +31,7 @@ export function Characters({
         setFilter={setFilter}
         setCharName={setCharNameInput}
       />
+      <Characters_Sort sort={sort} setSort={setSort} />
       <div className="grid lg:grid-cols-7 md:grid-cols-6 grid-cols-3 gap-4 rounded-md p-4">
         {chars.map((d) => (
           <Characters_List key={d.characterName} character={d} />
@@ -54,11 +58,17 @@ const Characters_Filter = ({
           {message.sortText}
         </h3>
         <div>
-          <TextField
-            variant="outline-variant-1"
-            placeholder="Cari karakter berdasarkan nama"
-            forId="character-name"
-            label="Cari Karakter"
+          <label
+            htmlFor="character-name"
+            className="font-nova-square font-bold text-white text-xl"
+          >
+            Cari Karakter
+          </label>
+          <input
+            className="block bg-transparent text-lg text-white font-poppins border-b-2 px-2 border-b-white focus-within:outline-none"
+            type="text"
+            name="character-name"
+            id="character-name"
             onChange={(e) => setCharName && setCharName(e.target.value)}
           />
         </div>
@@ -68,24 +78,15 @@ const Characters_Filter = ({
           <Character_Filter_Rarity filter={filter} setFilter={setFilter} />
         </div>
         {Object.keys(filter).length !== 0 && (
-          <Button
-            className={VariantClass.danger}
-            onClick={() => setFilter({} as FilterState)}
-          >
+          <Button variant={"destructive"} onClick={() => setFilter({} as FilterState)}>
             Reset Filter
           </Button>
         )}
       </div>
       <div className="py-4 flex lg:hidden gap-4">
-        <Button
-          className={VariantClass.fetch}
-          onClick={() => setFilterPopUp(true)}
-        >
-          Filter
-        </Button>
+        <Button onClick={() => setFilterPopUp(true)}>Filter</Button>
         {Object.keys(filter).length !== 0 && (
           <Button
-            className={VariantClass.danger}
             onClick={() => {
               setFilter({} as FilterState);
               setFilterPopUp(false);
@@ -109,7 +110,6 @@ const Characters_Filter = ({
 
           <div className="flex justify-center gap-4">
             <Button
-              className={VariantClass.danger}
               onClick={() => {
                 setFilter({} as FilterState);
                 setFilterPopUp(false);
@@ -117,12 +117,7 @@ const Characters_Filter = ({
             >
               Batal Filter
             </Button>
-            <Button
-              className={VariantClass.submit}
-              onClick={() => setFilterPopUp(false)}
-            >
-              Terapkan
-            </Button>
+            <Button onClick={() => setFilterPopUp(false)}>Terapkan</Button>
           </div>
         </div>
       )}
@@ -293,6 +288,30 @@ const Characters_Filter_Weapon = ({
       <h4 className="text-center text-xl font-bold font-nova-square text-white">
         {filter.weapon}
       </h4>
+    </div>
+  );
+};
+
+const Characters_Sort = ({ sort, setSort }: CharacterSortProps) => {
+  const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.target as HTMLButtonElement;
+    setSort(target.value as SortBy);
+    return;
+  };
+  return (
+    <div>
+      <div>
+        <p className="font-poppins font-bold text-white my-2">
+          Urutkan Berdasar
+        </p>
+      </div>
+      <Button
+        value={"Name"}
+        onClick={clickHandler}
+        className={`${sort === "Name" ? "bg-slate-500 cursor-default" : "bg-slate-900"} text-white font-merienda font-bold px-8 py-2 rounded-xl hover:bg-slate-500 duration-50`}
+      >
+        Nama
+      </Button>
     </div>
   );
 };

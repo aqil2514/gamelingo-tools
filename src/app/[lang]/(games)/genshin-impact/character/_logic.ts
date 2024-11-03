@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FilterState } from "../_interface";
+import { FilterState, SortBy } from "../_interface";
 import { useMessages } from "next-intl";
 
 export const useCharacters = (data: GenshinImpact.CharacterTable[]) => {
@@ -9,11 +9,13 @@ export const useCharacters = (data: GenshinImpact.CharacterTable[]) => {
   );
   const [charNameInput, setCharNameInput] = useState<string>("");
   const [filter, setFilter] = useState<FilterState>({} as FilterState);
+  const [sort, setSort] = useState<SortBy>();
+
   const messages = useMessages();
   const message =
     messages.GenshinCharacterPage as unknown as Internationalization.GenshinCharacterPage;
 
-    // Data diinisialisasi
+  // Data diinisialisasi
   useEffect(() => {
     setChars(data);
     setInitChars(data);
@@ -50,5 +52,21 @@ export const useCharacters = (data: GenshinImpact.CharacterTable[]) => {
     setChars(filteredChars);
   }, [initChars, filter]);
 
-  return { chars, message, setCharNameInput, setFilter, filter };
+  // Fungsi untuk sort data
+  useEffect(() => {
+    if (!sort) return setChars(initChars);
+
+    // Membuat salinan dari initChars agar tidak mengubah data asli
+    const data = [...initChars].sort((a, b) => {
+      if (sort === "Name") {
+        return a.characterName.localeCompare(b.characterName);
+      }
+
+      return 0;
+    });
+
+    setChars(data);
+  }, [initChars, sort]);
+
+  return { chars, message, setCharNameInput, setFilter, filter, sort, setSort };
 };

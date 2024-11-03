@@ -1,8 +1,7 @@
-import { getUser } from "@/utils/Api/api";
 import Navbar from "./Nav";
 
 export default async function Headers() {
-  const user = await getUser();
+  const user = {} as Account.User;
 
   return <Navbar data={user} />;
 }

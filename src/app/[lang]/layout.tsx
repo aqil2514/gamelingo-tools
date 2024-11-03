@@ -10,12 +10,12 @@ import "../globals.css";
 
 import { getServerSession } from "next-auth";
 
-import SessionProvider from "@/components/Authentication/SessionProvider";
 import Headers from "@/components/Layout/Header";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "@/components/Layout/Footer";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
+import { SessionProvider } from "./_components";
 
 export const dynamic = "force-dynamic"
 

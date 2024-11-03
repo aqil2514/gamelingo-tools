@@ -1,7 +1,7 @@
 import { baseUrl } from "@/lib/Data";
 import { Metadata } from "next";
 import { getCharacter } from "../../_utils";
-import { PostContent } from "./_components";
+import { Layout, PostContent } from "./_components";
 
 interface ParamsProps {
   params: {
@@ -14,18 +14,21 @@ export async function generateMetadata({
   params,
 }: ParamsProps): Promise<Metadata> {
   const slug = params.slug;
-  const post = await getCharacter(slug)
+  const post = await getCharacter(slug);
 
-  type CharacterMetadata =  Pick<GenshinImpact.Character, "characterName" | "description" | "element" | "rarity" | "weapon" | "image">
+  type CharacterMetadata = Pick<
+    GenshinImpact.Character,
+    "characterName" | "description" | "element" | "rarity" | "weapon" | "image"
+  >;
 
   const character: CharacterMetadata = {
-      characterName: post[0].characterName,
-      description: post[0].description,
-      element: post[0].element,
-      rarity: post[0].rarity,
-      weapon: post[0].weapon,
-      image: post[0].image,
-    };
+    characterName: post[0].characterName,
+    description: post[0].description,
+    element: post[0].element,
+    rarity: post[0].rarity,
+    weapon: post[0].weapon,
+    image: post[0].image,
+  };
 
   return {
     title: character.characterName + " - Genshin Impact",
@@ -54,10 +57,15 @@ export async function generateMetadata({
   };
 }
 
-
 export default async function DetailCharacter({ params }: ParamsProps) {
   const slug = params.slug;
   const data = await getCharacter(slug);
+  const element = data[0].element.toLowerCase();
 
-  return <PostContent data={data[0]} />;
+  return (
+    <>
+      <Layout data={data[0]} />
+      <PostContent data={data[0]} />
+    </>
+  );
 }

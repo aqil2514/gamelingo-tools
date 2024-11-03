@@ -3,6 +3,7 @@ import { homeIcon } from "@/lib/Data";
 import { Link } from "@/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { SessionProvider } from "next-auth/react";
 
 export function HomeIcon() {
   return (
@@ -46,3 +47,5 @@ export function HomeIntro() {
     </div>
   );
 }
+
+export { SessionProvider };
